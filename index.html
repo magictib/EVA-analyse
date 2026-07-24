@@ -514,6 +514,16 @@
       <button data-act="import">Importer le code</button>
     </div>
   </div>
+  <div class="tools modes" id="tools">
+    <button data-md="sel"  aria-pressed="true">Sélection</button>
+    <button data-md="meas" aria-pressed="false">Mesure</button>
+    <button data-md="aim"  aria-pressed="false">Visée</button>
+    <button data-md="path" aria-pressed="false">Trajet</button>
+    <button data-md="draw" aria-pressed="false">Dessin</button>
+    <button data-md="obj"  aria-pressed="false">Objets</button>
+  </div>
+  <div class="tools ctx" id="ctx"></div>
+  <div class="equip" id="equip" hidden></div>
   <div class="mgrid">
     <div class="mleft">
       <div class="mapbox">
@@ -535,16 +545,6 @@
       <div class="items" id="itemlist"></div>
     </div>
   </div>
-  <div class="tools modes" id="tools">
-    <button data-md="sel"  aria-pressed="true">Sélection</button>
-    <button data-md="meas" aria-pressed="false">Mesure</button>
-    <button data-md="aim"  aria-pressed="false">Visée</button>
-    <button data-md="path" aria-pressed="false">Trajet</button>
-    <button data-md="draw" aria-pressed="false">Dessin</button>
-    <button data-md="obj"  aria-pressed="false">Objets</button>
-  </div>
-  <div class="tools ctx" id="ctx"></div>
-  <div class="equip" id="equip" hidden></div>
 </section>
 
 <section id="combo" hidden>
