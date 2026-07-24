@@ -47,7 +47,7 @@
   .nav button:focus-visible{outline:2px solid var(--cold);outline-offset:-2px}
   .nav .sep{flex:0 0 auto;width:1px;background:var(--rule);margin:7px 7px 9px}
 
-  /* ---------- hypotheses de calcul, repliables ---------- */
+  /* ---------- hypothèses de calcul, repliables ---------- */
   .hyp{border:1px solid var(--rule);background:var(--panel);margin:12px 0 0}
   .hyp>summary{
     cursor:pointer;list-style:none;padding:9px 11px;display:flex;gap:10px;justify-content:space-between;
@@ -59,6 +59,17 @@
   .hyp[open]>summary{border-bottom:1px solid var(--rule)}
   .hypbody{padding:0 11px 13px}
   .hyp .seg{margin-top:13px}
+  .hypnote{margin-top:11px;font-size:12.5px;line-height:1.5;color:var(--ink-dim)}
+  #foot{margin-top:28px;padding-top:12px;border-top:1px solid var(--rule);
+    font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+  .st{margin:14px 0;border:1px solid var(--rule);background:var(--panel)}
+  .st-head{padding:10px 12px;border-bottom:1px solid var(--rule);font-family:var(--mono);
+    font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink)}
+  .st-row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;padding:7px 12px;
+    border-top:1px solid var(--panel-2);font-size:13px;align-items:baseline}
+  .st-row b{font-family:var(--mono);font-size:11px}
+  .st-row.ko{color:var(--dead)} .st-row.ok b{color:var(--live)} .st-row.info b{color:var(--cold)}
+  .st-row s{font-family:var(--mono);font-size:11px;color:var(--ink-dim);text-decoration:none}
 
   /* ---------- barres de selection ---------- */
   .catbar{padding:10px 0 0}
@@ -391,6 +402,7 @@
     <button role="tab" aria-selected="false" data-v="curve">Courbes</button>
     <button role="tab" aria-selected="false" data-v="duel">Duel</button>
     <button role="tab" aria-selected="false" data-v="combo">Combo</button>
+    <button role="tab" aria-selected="false" data-v="cover">Couverture</button>
     <button role="tab" aria-selected="false" data-v="patch">Patch</button>
     <button role="tab" aria-selected="false" data-v="acc">Accessoires</button>
     <span class="sep" aria-hidden="true"></span>
@@ -427,7 +439,7 @@
 <details class="hyp" id="hyp">
   <summary>Hypothèses <b id="hypsum"></b></summary>
   <div class="hypbody">
-    <div class="seg" role="group" aria-label="Zone touchée">
+    <div class="seg" id="zseg" role="group" aria-label="Zone touchée">
       <button data-z="tete">Tête</button>
       <button data-z="torse" aria-pressed="true">Torse</button>
       <button data-z="extrem">Extrémités</button>
@@ -436,6 +448,14 @@
       <button data-tg="disp" aria-pressed="false">Compter les ratés</button>
       <button data-tg="mov" aria-pressed="false" disabled>En mouvement</button>
     </div>
+    <div class="seg" id="cone" role="group" aria-label="Lecture de l'angle de dispersion">
+      <button data-cone="half" aria-pressed="true">Angle = demi-cône</button>
+      <button data-cone="full" aria-pressed="false">Angle = cône total</button>
+    </div>
+    <p class="hypnote">EVA publie un angle de dispersion sans dire s'il désigne le demi-angle
+      du cône ou son ouverture totale. Lu comme cône total, les rayons sont divisés par deux
+      et les ratés commencent 4 à 5 m plus loin. Une rafale sur un mur à distance connue,
+      groupement mesuré, tranche la question.</p>
   </div>
 </details>
 
@@ -530,6 +550,17 @@
   <div id="clist"></div>
 </section>
 
+<section id="cover" hidden>
+  <div class="duel">
+    <select id="k1" aria-label="Arme principale"></select>
+    <span class="vs">AVEC</span>
+    <select id="k2" aria-label="Arme secondaire"></select>
+  </div>
+  <div class="chart-cap"><span>Qui tue le plus vite, mètre par mètre</span><span id="covcap"></span></div>
+  <svg id="covchart" viewBox="0 0 660 120" role="img" aria-label="Bandes de distance couvertes par le duo"></svg>
+  <div id="covdiff"></div>
+</section>
+
 <section id="patch" hidden>
   <select id="pw" aria-label="Arme modifiée"></select>
   <div class="chart-cap"><span id="pcap"></span><span id="pprev"></span></div>
@@ -539,27 +570,31 @@
 
 <section id="acc" hidden></section>
 
+<footer id="foot"></footer>
+
 </div>
 <script>
 "use strict";
 const PV = 100, REACT = 250;
+/* Med Pack de la 1.8.0 : 100 PV rendus, 1 s d'usage, 45 s de recharge. */
+const MED = {hp:100, dur:1, cd:45};
 
 /* Modèle S8, patchnote 1.8.0 du 23/07/2026. bands: d = borne basse en mètres, m = multiplicateur. cat = famille. */
 const W = [
  {n:"MX-42",     c:"Fusil d'assaut", cat:"ar",       f:"balle",  d:{tete:15, torse:13, extrem:10},  rpm:672,  eq:.6,  disp:.25,  b:[[0,1],[22,.85],[30,.75]]},
  {n:"AK-77",     c:"Fusil d'assaut", cat:"ar",       f:"balle",  d:{tete:17, torse:15, extrem:14},  rpm:570,  eq:.6,  disp:.3,   b:[[0,1],[25,.83],[35,.75]]},
  {n:"Vulcan",    c:"Rafale ×3",      cat:"ar",       f:"balle",  d:{tete:19, torse:17, extrem:15},  rpm:500,  eq:.4,  disp:.07,  dnote:"moyenne de la rafale : 0 / 0,1 / 0,1", b:[[0,1],[30,.75]]},
- {n:"MP-52",     c:"SMG",            cat:"smg",      f:"balle",  d:{tete:19, torse:16, extrem:14},  rpm:630,  eq:.4,  disp:1.431,b:[[0,1],[8,.70],[12,.55],[15,.45]]},
- {n:"Striker",   c:"SMG",            cat:"smg",      f:"balle",  d:{tete:19, torse:15, extrem:13},  rpm:780,  eq:.4,  disp:1.5,  b:[[0,1],[5,.65],[8,.55],[10,.30]]},
- {n:"Spectre",   c:"SMG",            cat:"smg",      f:"balle",  d:{tete:12, torse:10, extrem:9},   rpm:1020, eq:.4,  disp:1.35, b:[[0,1],[8,.65],[12,.50],[20,.10]]},
+ {n:"MP-52",     c:"SMG",            cat:"smg",      f:"balle",  d:{tete:19, torse:16, extrem:14},  rpm:630,  eq:.4,  disp:1.431,mag:35, rel:1,   b:[[0,1],[8,.70],[12,.55],[15,.45]]},
+ {n:"Striker",   c:"SMG",            cat:"smg",      f:"balle",  d:{tete:19, torse:15, extrem:13},  rpm:780,  eq:.4,  disp:1.5,  mag:30, rel:1,   b:[[0,1],[5,.65],[8,.55],[10,.30]]},
+ {n:"Spectre",   c:"SMG",            cat:"smg",      f:"balle",  d:{tete:12, torse:10, extrem:9},   rpm:1020, eq:.4,  disp:1.35, mag:45, rel:1,   b:[[0,1],[8,.65],[12,.50],[20,.10]]},
  {n:"Fury",      c:"LMG",            cat:"lmg",      f:"balle",  d:{tete:25, torse:20, extrem:18},  rpm:450,  eq:.9,  disp:.15, dmove:10, b:[[0,1],[50,.80],[70,.70]]},
  {n:"ERG-51",    c:"Laser continu",  cat:"laser",    f:"continu",d:{tete:162,torse:122,extrem:110}, rpm:60,   eq:.6,  disp:0,    b:[[0,1],[20,.80],[30,.70]]},
- {n:"T1 Gauss",  c:"Fusil à pompe",  cat:"shotgun",  f:"balle",  d:{tete:120,torse:110,extrem:80},  rpm:54,   eq:.5,  disp:2,    b:[[0,1],[3.5,.50],[6,.40],[10,.20],[15,0]]},
- {n:"M12",       c:"Fusil à pompe",  cat:"shotgun",  f:"balle",  d:{tete:80, torse:80, extrem:51},  rpm:150,  eq:.3,  disp:2,    mode:1, b:[[0,1],[5,.70],[15,.60]]},
- {n:"M12 chargé",c:"Fusil à pompe",  cat:"shotgun",  f:"balle",  d:{tete:150,torse:80, extrem:80},  rpm:1.2,  eq:.3,  disp:0,    mode:1, cd:50, b:[[0,1],[5,.70],[15,.60]]},
+ {n:"T1 Gauss",  c:"Fusil à pompe",  cat:"shotgun",  f:"balle",  d:{tete:120,torse:110,extrem:80},  rpm:54,   eq:.5,  disp:2,    mag:5,  rel:3,   b:[[0,1],[3.5,.50],[6,.40],[10,.20],[15,0]]},
+ {n:"M12",       c:"Fusil à pompe",  cat:"shotgun",  f:"balle",  d:{tete:80, torse:80, extrem:51},  rpm:150,  eq:.3,  disp:2,    mode:1, mag:8,  rel:2,   b:[[0,1],[5,.70],[15,.60]]},
+ {n:"M12 chargé",c:"Fusil à pompe",  cat:"shotgun",  f:"balle",  d:{tete:150,torse:80, extrem:80},  rpm:1.2,  eq:.3,  disp:0,    mode:1, cd:50, mag:8,  rel:2, cost:3, b:[[0,1],[5,.70],[15,.60]]},
  {n:"Warden",    c:"Pistolet",       cat:"pistol",   f:"balle",  d:{tete:49, torse:32, extrem:28},  rpm:270,  eq:.25, disp:0,    b:[[0,1]]},
- {n:"Socom",     c:"Pistolet",       cat:"pistol",   f:"balle",  d:{tete:20, torse:15, extrem:12},  rpm:360,  eq:.1,  disp:0,    b:[[0,1],[16,.75]]},
- {n:"Needle",    c:"Marksman",       cat:"marksman", f:"balle",  d:{tete:30, torse:24, extrem:20},  rpm:354,  eq:.6,  disp:0,    b:[[0,1]]},
+ {n:"Socom",     c:"Pistolet",       cat:"pistol",   f:"balle",  d:{tete:20, torse:15, extrem:12},  rpm:360,  eq:.1,  disp:0,    mag:12, rel:.5,  b:[[0,1],[16,.75]]},
+ {n:"Needle",    c:"Marksman",       cat:"marksman", f:"balle",  d:{tete:30, torse:24, extrem:20},  rpm:354,  eq:.6,  disp:0,    mag:20, rel:1.5, b:[[0,1]]},
  {n:"Westfire",  c:"Marksman",       cat:"marksman", f:"balle",  d:{tete:100,torse:60, extrem:45},  rpm:63,   eq:.8,  disp:0,    b:[[0,.70],[5,1],[25,.80]]},
  {n:"Atlas",     c:"Sniper",         cat:"sniper",   f:"balle",  d:{tete:150,torse:95,extrem:95},   rpm:60,   eq:.9,  disp:0, dmove:25, b:[[0,1]]},
 ];
@@ -575,11 +610,24 @@ const W = [
    favorable au centre. Un test en salle (rafale sur un mur à distance connue,
    mesure du groupement) tranche la question. */
 const TGT = {tete:.10, torse:.22, extrem:.28};
+/* Répartition des impacts dans le groupement. Une seule loi pour l'instant ;
+   quand EVA publiera les motifs de tir, il suffira d'ajouter une entrée ici
+   sans toucher au reste de la page. */
+const DISP_MODEL = {
+  uniform: (r,R)=> r<=R ? 1 : Math.min(1,(R/r)**2),
+};
+let DMODEL = "uniform";
+/* CONE : le chiffre publié est-il le demi-angle du cône, ou son ouverture totale ?
+   La question n'est pas tranchée et déplace le début des ratés de 4 à 5 m.
+   Un test en salle (rafale sur un mur à distance connue, mesure du groupement)
+   la tranche ; en attendant, elle est exposée comme une hypothèse réglable. */
+let CONE = "half";
 function hitRate(w,x,z,moving){
   const deg = (moving && w.dmove!==undefined) ? w.dmove : w.disp;
   if(!deg || x<=0) return 1;
-  const r = x*Math.tan(deg*Math.PI/180), R = TGT[z];
-  return r<=R ? 1 : Math.min(1,(R/r)**2);
+  const th = CONE==="full" ? deg/2 : deg;
+  const r = x*Math.tan(th*Math.PI/180), R = TGT[z];
+  return DISP_MODEL[DMODEL](r,R);
 }
 /* tir réel : nombre de balles à sortir du chargeur pour placer les impacts voulus */
 function real(w,x,z,moving){
@@ -587,11 +635,12 @@ function real(w,x,z,moving){
   const hr=hitRate(w,x,z,moving);
   if(w.f==="continu") return {t:t/hr, hits:shots(w,x,z), fired:null, hr};
   const hits=shots(w,x,z), fired=Math.ceil(hits/hr);
-  return {t:(fired-1)*60000/w.rpm, hits, fired, hr};
+  const rl=reloadsFor(w,fired);
+  return {t:(fired-1)*60000/w.rpm + rl*(w.rel||0)*1000, hits, fired, hr, rl};
 }
 /* TTK utilisé par l'onglet Armes : théorique, ou avec les ratés si la case est cochée */
 function TT(w,x,z){
-  if(!DISP) return ttk(w,x,z);
+  if(!DISP) return ttkR(w,x,z);
   const r=real(w,x,z,MOVING); return r && r.t;
 }
 
@@ -640,6 +689,20 @@ const shots= (w,x,z)=>{const e=dmg(w,x,z);if(e<=0)return null;return w.f==="cont
 const ttk  = (w,x,z)=>{const e=dmg(w,x,z);if(e<=0)return null;
   return w.f==="continu"?1000*PV/e:(Math.ceil(PV/e)-1)*60000/w.rpm;};
 
+/* ---------- pression sur le chargeur ----------
+   mag et rel ne sont renseignés que pour les armes dont la 1.8.0 publie la fiche.
+   Une arme sans mag est traitée comme si son chargeur était infini : le temps
+   affiché est alors optimiste, et la page le signale plutôt que d'inventer.
+   cost = balles consommées par tir (le tir chargé du M12 en prend 3). */
+const magOf = w => w.mag || null;
+const reloadsFor = (w,n)=>{
+  if(!w.mag || n===null || w.f==="continu") return 0;
+  return Math.floor((n*(w.cost||1) - 1) / w.mag);
+};
+const relMs = (w,n)=> reloadsFor(w,n) * (w.rel||0) * 1000;
+/* temps à tuer théorique, recharges comprises */
+const ttkR = (w,x,z)=>{ const t=ttk(w,x,z); if(t===null) return null; return t + relMs(w, shots(w,x,z)); };
+
 const fr  = (v,d=0)=>v.toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d});
 /* Coût d'un raté : délai avant que la balle suivante puisse partir.
    C'est le seul critère qui sépare deux armes qui tuent toutes les deux en un coup. */
@@ -648,7 +711,7 @@ const dur = ms => ms>=1000 ? fr(ms/1000, ms>=10000?0:1)+" s" : fr(ms)+" ms";
 const $   = s=>document.querySelector(s);
 const $$  = s=>[...document.querySelectorAll(s)];
 
-const TABS = ["rank","curve","duel","combo","patch"];
+const TABS = ["rank","curve","duel","combo","cover","patch"];
 let MODE = "armes";
 let D = 12, Z = "torse", TAB = "rank", HS = 0, CAT = "all";
 let DISP = false, MOVING = false;
@@ -656,7 +719,7 @@ const DEFAULT_PICK = ["Striker","MX-42","Fury","Westfire","T1 Gauss"];
 let PICK = [...DEFAULT_PICK];
 
 /* liste d'armes filtrée par la catégorie active (l'onglet Duel garde tout le roster) */
-const filteredW = ()=> (CAT==="all"||CAT==="acc") ? W : W.filter(w=>w.cat===CAT);
+const filteredW = ()=> CAT==="all" ? W : W.filter(w=>w.cat===CAT);
 
 /* graduations : les vraies ruptures du modèle, dédupliquées.
    Les traits sont tous tracés ; les étiquettes sont posées gloutonnement,
@@ -688,9 +751,16 @@ function drawRank(){
     const one  = !dead && r.w.f!=="continu" && r.s===1;
     const miss = DISP && r.r && r.r.fired && r.r.fired>r.s;
     const hopeless = DISP && r.r && r.r.hr<.05;
+    const used = dead||r.w.f==="continu" ? null
+               : (DISP&&r.r ? r.r.fired : r.s) * (r.w.cost||1);
+    const rl   = dead ? 0 : reloadsFor(r.w, DISP&&r.r ? r.r.fired : r.s);
+    const magNote = !r.w.mag||used===null ? ""
+                  : rl>0 ? `<em>+${fr(rl)} recharge${rl>1?"s":""}</em>`
+                  : used===r.w.mag ? `<em>chargeur entier</em>`
+                  : "";
     const sh = dead ? "" : (r.w.f==="continu" ? fr(r.s,2)+" s"
-             : miss ? `${fr(r.s)}/${fr(r.r.fired)} balles`
-             : fr(r.s)+(r.s>1?" balles":" balle"));
+             : miss ? `${fr(r.s)}/${fr(r.r.fired)} balles${magNote}`
+             : fr(r.s)+(r.s>1?" balles":" balle")+magNote);
     const tk = dead ? "hors de portée"
              : hopeless ? "injouable"
              : one  ? `instantané<em>raté → +${dur(gap(r.w))}</em>`
@@ -699,6 +769,7 @@ function drawRank(){
     return `<div class="row${dead||hopeless?" dead":""}${one?" one":""}${!dead&&key(r)===best?" best":""}">
       <div class="rk">${dead?"—":String(r.rk).padStart(2,"0")}${r.rk===1&&tied?'<em>ex æquo</em>':""}</div>
       <div class="nm">${r.w.n}<em>${r.w.c} · équip. ${fr(r.w.eq,1)} s${
+        r.w.mag?` · chargeur ${fr(r.w.mag)}`:" · chargeur non publié"}${
         DISP&&r.r?` · ${Math.round(r.r.hr*100)} % au but`:""}</em></div>
       <div class="sh">${hopeless?"":sh}</div>
       <div class="tk">${tk}</div>
@@ -748,6 +819,8 @@ function fillSelects(){
   const os = SRC.map(s=>`<option>${s.n}</option>`).join("");
   $("#ca").innerHTML=os; $("#cb").innerHTML=os;
   $("#ca").value="M12 chargé"; $("#cb").value="Striker";
+  $("#k1").innerHTML=o; $("#k2").innerHTML=o;
+  $("#k1").value="MX-42"; $("#k2").value="M12";
 }
 function initMap(){ PLAYERS=spawnPlayers(); fillStrats(); drawCtx(); }
 function drawDuel(){
@@ -765,8 +838,27 @@ function drawDuel(){
       ? `Écart inférieur au temps de réaction humain (${REACT} ms) : sur le terrain, ce duel se joue au hasard.`
       : (diff>0 ? `${b.n} aurait besoin de ${fr(diff+1)} ms d'avance pour renverser.` : "");
   }
+  /* Med Pack : 100 PV rendus en 1 s, interrompus par les dégâts. Une arme qui met
+     plus d'une seconde à tuer laisse donc à la cible de quoi annuler l'échange,
+     si elle parvient à rompre le contact. */
+  const heal=[];
+  for(const w of [a,b]){
+    const t=TT(w,D,Z);
+    if(t!==null && t>MED.dur*1000) heal.push(`${w.n} (${fr(t)} ms)`);
+  }
+  const rlNote=[];
+  for(const w of [a,b]){
+    const n = DISP ? (real(w,D,Z,MOVING)||{}).fired : shots(w,D,Z);
+    const k = reloadsFor(w,n);
+    if(k>0) rlNote.push(`${w.n} doit recharger ${fr(k)} fois`);
+  }
+  const extra = [
+    rlNote.length ? rlNote.join(" · ") : "",
+    heal.length ? `Au-delà de ${fr(MED.dur*1000)} ms, un Med Pack annule l'échange si la cible décroche : ${heal.join(", ")}.` : "",
+  ].filter(Boolean);
   $("#verdict").innerHTML = `<div class="verdict-who${/Égalité|Personne/.test(who)?" tie":""}">${who}</div>
-    <div class="verdict-mg">${mg}</div>${note?`<div class="verdict-note">${note}</div>`:""}`;
+    <div class="verdict-mg">${mg}</div>${note?`<div class="verdict-note">${note}</div>`:""}${
+    extra.map(t=>`<div class="verdict-note">${t}</div>`).join("")}`;
 }
 
 /* ---------- combo : finir un adversaire déjà touché ----------
@@ -883,9 +975,151 @@ function drawCombo(){
     de la même quantité pour tous.</div>`;
 }
 
+/* ---------- auto-test : ?test=1 ----------
+   Les données sont recopiées à la main depuis les patch notes, et c'est là que
+   vivent les erreurs. Ces contrôles ne vérifient pas que le modèle est juste,
+   ils vérifient qu'aucune valeur n'a été mal transcrite et que les structures
+   se tiennent. À relancer après chaque patch. */
+function selfTest(){
+  const R=[];
+  const T=(ok,label,detail="")=>R.push({ok, label, detail});
+  const I=(label,detail)=>R.push({info:true, label, detail});
+  const wOf=n=>W.find(w=>w.n===n);
+
+  T(PV===100, "Les points de vie de référence valent 100", `PV = ${PV}`);
+  T(REACT===250, "Le temps de réaction humain est posé à 250 ms", `REACT = ${REACT}`);
+
+  const atlas=wOf("Atlas");
+  T([0,20,40].every(x=>shots(atlas,x,"tete")===1),
+    "Atlas tue en une balle à la tête à toute distance",
+    `0 m : ${shots(atlas,0,"tete")} · 20 m : ${shots(atlas,20,"tete")} · 40 m : ${shots(atlas,40,"tete")}`);
+
+  const m12c=wOf("M12 chargé");
+  T(shots(m12c,5,"tete")===1 && shots(m12c,20,"tete")>1,
+    "Le tir chargé du M12 tue en un coup à 5 m, plus au-delà de 15 m",
+    `5 m : ${shots(m12c,5,"tete")} coup · 20 m : ${shots(m12c,20,"tete")} coups`);
+
+  const g=wOf("T1 Gauss");
+  T(dmg(g,16,"torse")===0 && dmg(g,14,"torse")>0,
+    "Le T1 Gauss ne fait plus aucun dégât au-delà de 15 m",
+    `14 m : ${fr(dmg(g,14,"torse"),1)} · 16 m : ${fr(dmg(g,16,"torse"),1)}`);
+
+  const badBands=W.filter(w=>w.b[0][0]!==0
+    || w.b.some(([d,m])=>m<0||m>1)
+    || w.b.some(([d],i)=>i>0 && d<=w.b[i-1][0]));
+  T(badBands.length===0, "Les paliers de dégâts commencent à 0 m, croissent et restent dans 0-100 %",
+    badBands.length?badBands.map(w=>w.n).join(", "):`${W.length} armes vérifiées`);
+
+  const badZone=W.filter(w=>!(w.d.tete>=w.d.torse && w.d.torse>=w.d.extrem));
+  T(badZone.length===0, "Tête ≥ torse ≥ extrémités pour chaque arme",
+    badZone.length?badZone.map(w=>w.n).join(", "):`${W.length} armes vérifiées`);
+
+  const orphan=Object.keys(PREV).filter(n=>!wOf(n));
+  T(orphan.length===0, "Chaque arme du comparatif de patch existe dans l'arsenal",
+    orphan.length?orphan.join(", "):`${Object.keys(PREV).length} entrées`);
+
+  T(W.every(w=>["tete","torse","extrem"].every(z=>hitRate(w,0,z)===1)),
+    "À bout portant, aucune balle n'est perdue");
+
+  T(reloadsFor(g,5)===0 && reloadsFor(g,6)===1,
+    "Le calcul des recharges bascule au bon coup",
+    `T1 Gauss, chargeur ${g.mag} : 5 touches → ${reloadsFor(g,5)} · 6 touches → ${reloadsFor(g,6)}`);
+
+  const nomag=W.filter(w=>!w.mag).map(w=>w.n);
+  if(nomag.length) I("Chargeur non publié par la 1.8.0, temps à tuer optimiste au-delà d'un chargeur",
+    nomag.join(", "));
+
+  const mapErr=[];
+  for(const [k,m] of Object.entries(MAPS)){
+    if(!(m.ppm>0)) mapErr.push(`${k} : échelle absente`);
+    if(Math.abs(m.w-2*m.losw)>2) mapErr.push(`${k} : masque désaligné (${m.w} vs 2x${m.losw})`);
+    for(const [id,pt] of Object.entries(m.pts||{}))
+      if(pt.x<0||pt.x>m.w||pt.y<0||pt.y>m.h) mapErr.push(`${k} : point ${id} hors carte`);
+    for(const l of m.lines||[])
+      if(!m.pts[l.a]||!m.pts[l.b]) mapErr.push(`${k} : ligne "${l.n}" pointe un repère inconnu`);
+  }
+  T(mapErr.length===0, "Cartes cohérentes : échelle, masque, repères et lignes de tir",
+    mapErr.length?mapErr.join(" · "):`${Object.keys(MAPS).length} cartes vérifiées`);
+
+  const eqErr=Object.entries(EQ).filter(([k,e])=>!e.n||!e.col).map(([k])=>k);
+  T(eqErr.length===0, "Chaque équipement posable a un nom et une couleur",
+    eqErr.length?eqErr.join(", "):`${Object.keys(EQ).length} équipements`);
+
+  const worse=W.filter(w=>{const a=ttk(w,12,"torse"), b=ttkR(w,12,"torse");
+    return a!==null && b<a;});
+  T(worse.length===0, "Les recharges ne peuvent qu'allonger le temps à tuer",
+    worse.length?worse.map(w=>w.n).join(", "):"vérifié à 12 m sur les trois zones");
+
+  return R;
+}
+function showSelfTest(){
+  const R=selfTest();
+  const ko=R.filter(r=>r.ok===false).length, ok=R.filter(r=>r.ok===true).length;
+  const box=document.createElement("div");
+  box.className="st";
+  box.innerHTML=`<div class="st-head">Auto-test · ${ok} contrôle${ok>1?"s":""} passé${ok>1?"s":""}${
+    ko?` · <span style="color:var(--dead)">${ko} en echec</span>`:""} · données ${VER}</div>`
+    + R.map(r=>`<div class="st-row ${r.info?"info":r.ok?"ok":"ko"}">
+        <b>${r.info?"i":r.ok?"✓":"✕"}</b><span>${r.label}</span><s>${r.detail||""}</s></div>`).join("");
+  $(".wrap").insertBefore(box, $("#stick"));
+}
+
+/* ---------- couverture d'un duo d'armes ----------
+   On joue avec deux armes, pas avec une seule : la question n'est pas laquelle
+   est la meilleure, c'est quelles bandes de distance le duo tient et laquelle
+   il laisse ouverte. Pour chaque mètre on prend l'arme qui tue le plus vite,
+   recharges comprises, et on agrège les tranches contiguës. */
+function coverBands(a,b){
+  const step=.25, out=[];
+  for(let x=0;x<=40+1e-9;x+=step){
+    const ta=TT(a,x,Z), tb=TT(b,x,Z);
+    let k=null, t=null;
+    if(ta!==null && (tb===null || ta<=tb)) { k="a"; t=ta; }
+    else if(tb!==null)                     { k="b"; t=tb; }
+    const last=out[out.length-1];
+    if(last && last.k===k) { last.x1=x; last.tmin=Math.min(last.tmin,t===null?Infinity:t); last.tmax=Math.max(last.tmax,t===null?-Infinity:t); }
+    else out.push({k, x0:x, x1:x, tmin:t===null?Infinity:t, tmax:t===null?-Infinity:t});
+  }
+  return out;
+}
+function drawCover(){
+  const a=W.find(w=>w.n===$("#k1").value), b=W.find(w=>w.n===$("#k2").value);
+  const bands=coverBands(a,b);
+  const VW=660, VH=120, L=6, R=6, T=14, H=34;
+  const px=x=>L+(x/40)*(VW-L-R);
+  const col={a:"#F5A524", b:"#4CC9F0", null:"#26313F"};
+  let g="";
+  for(const bd of bands){
+    const x0=px(bd.x0), x1=px(Math.min(bd.x1+.25,40));
+    g+=`<rect x="${x0.toFixed(1)}" y="${T}" width="${Math.max(1,x1-x0).toFixed(1)}" height="${H}"
+      fill="${col[bd.k]}" opacity="${bd.k?.85:.55}"/>`;
+  }
+  for(const d of [0,10,20,30,40])
+    g+=`<text x="${px(d)}" y="${T+H+18}" fill="#41505F" font-size="9.5" font-family="var(--mono)"
+      text-anchor="${d===0?"start":d===40?"end":"middle"}">${d} m</text>`;
+  g+=`<line x1="${px(D)}" y1="${T-6}" x2="${px(D)}" y2="${T+H+6}" stroke="#C9D4E0" stroke-width="1.5"/>`;
+  g+=`<text x="${px(D)}" y="${T-9}" fill="#C9D4E0" font-size="9.5" font-family="var(--mono)"
+      text-anchor="middle">${fr(D,D%1?1:0)} m</text>`;
+  $("#covchart").innerHTML=g;
+  $("#covcap").textContent = `${a.n} en orange · ${b.n} en bleu · gris = aucune des deux`;
+
+  const nm=k=>k==="a"?a.n:k==="b"?b.n:"aucune des deux";
+  const rows=bands.filter(bd=>bd.x1-bd.x0>.24 || bd.x0===0).map(bd=>{
+    const rng = `${fr(bd.x0,bd.x0%1?1:0)} → ${fr(Math.min(bd.x1+.25,40),1)} m`;
+    const val = bd.k===null ? "aucun dégât" : `${fr(bd.tmin)} à ${fr(bd.tmax)} ms`;
+    return `<div class="pr"><b>${rng}</b><u>${nm(bd.k)}</u><i></i><s>${val}</s></div>`;
+  }).join("");
+  const hole=bands.filter(bd=>bd.k===null).reduce((acc,bd)=>acc+(bd.x1-bd.x0+.25),0);
+  const verdict = hole<.3
+    ? `Le duo couvre les 40 m sans trou.`
+    : `Trou de couverture : ${fr(hole,1)} m sur 40 cumulés, là où aucune des deux ne tue.`;
+  $("#covdiff").innerHTML = rows + `<div class="verdict-note">${verdict}</div>`;
+}
+
 /* ---------- comparatif de patch ----------
    PREV ne contient que les champs modifiés par la 1.8.0 : une arme absente de
    cette table n'a pas bougé. */
+const VER = "1.8.0";
 const PREVN = "1.7.5";
 const PREV = {
   "T1 Gauss":  {d:{tete:110,torse:110,extrem:80}},
@@ -2060,29 +2294,32 @@ $("#mapsel").addEventListener("change",e=>{
 
 /* ---------- rendu ---------- */
 function render(){
-  if(MODE==="cartes"){ drawMap(); return; }
+  if(MODE==="cartes"){ drawMap(); syncURL(); return; }
   $("#dv").innerHTML = fr(D, D%1?1:0)+"<span>m</span>";
   drawTicks();
   if(TAB==="rank") drawRank();
   else if(TAB==="curve") drawCurve();
   else if(TAB==="duel") drawDuel();
   else if(TAB==="combo") drawCombo();
+  else if(TAB==="cover") drawCover();
   else drawPatch();
+  syncURL();
 }
 
 /* ---------- aiguillage de vue : une seule barre d'onglets ----------
    Les vues qui consomment la distance affichent la règle et les hypothèses ;
    les autres ne montrent aucun réglage qui ne les concerne pas. */
-const USES_D = ["rank","curve","duel","combo","patch"];
+const USES_D = ["rank","curve","duel","combo","cover","patch"];
 const FILTERED = ["rank","curve"];          /* seules vues où la catégorie filtre une liste */
 let VIEW = "rank";
 
 function hypSum(){
   const z = {tete:"tête", torse:"torse", extrem:"extrémités"}[Z];
   const d = !DISP ? "tous les tirs au but"
-          : MOVING ? "ratés comptés, cible en mouvement"
-                   : "ratés comptés, cible à l'arrêt";
-  $("#hypsum").textContent = `${z} · ${d}`;
+          : MOVING ? "ratés comptés, tireur en mouvement"
+                   : "ratés comptés, tireur à l'arrêt";
+  const c = DISP ? (CONE==="full" ? ", cône total" : ", demi-cône") : "";
+  $("#hypsum").textContent = `${z} · ${d}${c}`;
 }
 
 function go(v){
@@ -2102,6 +2339,63 @@ function go(v){
   render();
 }
 
+/* ---------- etat partageable dans l'URL ----------
+   Les strats de carte ont déjà leur code d'export ; ceci couvre les vues d'armes,
+   pour pouvoir coller une comparaison précise dans une discussion d'équipe. */
+function syncURL(){
+  const p=new URLSearchParams();
+  p.set("v",VIEW);
+  if(USES_D.includes(VIEW)){
+    p.set("d",String(D)); p.set("z",Z);
+    if(DISP) p.set("disp","1");
+    if(MOVING) p.set("mov","1");
+    if(CONE!=="half") p.set("cone",CONE);
+  }
+  if(FILTERED.includes(VIEW) && CAT!=="all") p.set("cat",CAT);
+  if(VIEW==="curve" && PICK.length) p.set("p",PICK.join("|"));
+  if(VIEW==="duel"){ p.set("a",$("#w1").value); p.set("b",$("#w2").value); if(HS) p.set("hs",String(HS)); }
+  if(VIEW==="combo"){ p.set("a",$("#ca").value); p.set("b",$("#cb").value); }
+  if(VIEW==="cover"){ p.set("a",$("#k1").value); p.set("b",$("#k2").value); }
+  if(VIEW==="patch") p.set("a",$("#pw").value);
+  if(VIEW==="map") p.set("mk",MK);
+  try{ history.replaceState(null,"","#"+p.toString()); }catch(e){}
+}
+function press(sel,attr,val){
+  $$(sel).forEach(x=>x.setAttribute("aria-pressed", x.dataset[attr]===val));
+}
+/* lit l'URL et renvoie la vue demandée, ou null */
+function readURL(){
+  if(!location.hash || location.hash.length<3) return null;
+  const p=new URLSearchParams(location.hash.slice(1));
+  const num=(k,f)=>{const v=parseFloat(p.get(k)); return isNaN(v)?f:v;};
+  if(p.has("d")){ D=Math.min(40,Math.max(0,num("d",D))); $("#dist").value=String(D); }
+  if(["tete","torse","extrem"].includes(p.get("z"))){ Z=p.get("z"); press("#zseg button","z",Z); }
+  DISP = p.get("disp")==="1";
+  MOVING = DISP && p.get("mov")==="1";
+  press("#tog button","tg",null);
+  $('#tog button[data-tg=disp]').setAttribute("aria-pressed",DISP);
+  const mv=$('#tog button[data-tg=mov]'); mv.disabled=!DISP; mv.setAttribute("aria-pressed",MOVING);
+  if(p.get("cone")==="full"){ CONE="full"; }
+  press("#cone button","cone",CONE);
+  if(p.has("cat")){ CAT=p.get("cat"); $("#cat").value=CAT; }
+  if(p.has("hs")){ HS=num("hs",0); $("#hs").value=String(HS); $("#hsv").textContent=HS+" ms"; }
+  if(p.has("p")){
+    const want=p.get("p").split("|").filter(n=>W.some(w=>w.n===n));
+    if(want.length) PICK=want.slice(0,5);
+  }
+  const v=p.get("v"), a=p.get("a"), b=p.get("b");
+  /* une valeur inconnue est ignorée : le select garde son choix par défaut */
+  const setSel=(sel,val)=>{ if(!val) return; const el=$(sel), keep=el.value;
+                            el.value=val; if(el.value!==val) el.value=keep; };
+  const setPair=(s1,s2)=>{ setSel(s1,a); setSel(s2,b); };
+  if(v==="duel")  setPair("#w1","#w2");
+  if(v==="combo") setPair("#ca","#cb");
+  if(v==="cover") setPair("#k1","#k2");
+  if(v==="patch" && a && Object.keys(PREV).includes(a)) $("#pw").value=a;
+  if(v==="map" && p.has("mk") && MAPS[p.get("mk")]){ MK=p.get("mk"); $("#mapsel").value=MK; }
+  return [...TABS,"acc","map"].includes(v) ? v : null;
+}
+
 $$("#nav button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.v)));
 $("#cat").addEventListener("change",e=>{
   CAT=e.target.value;
@@ -2110,8 +2404,8 @@ $("#cat").addEventListener("change",e=>{
   render();});
 $("#dist").addEventListener("input",e=>{D=+e.target.value;render();});
 $("#hs").addEventListener("input",e=>{HS=+e.target.value;$("#hsv").textContent=HS+" ms";drawDuel();});
-$$(".seg button").forEach(b=>b.addEventListener("click",()=>{
-  Z=b.dataset.z; $$(".seg button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+$$("#zseg button").forEach(b=>b.addEventListener("click",()=>{
+  Z=b.dataset.z; $$("#zseg button").forEach(x=>x.setAttribute("aria-pressed",x===b));
   hypSum(); render();}));
 $("#picks").addEventListener("click",e=>{
   const c=e.target.closest(".chip"); if(!c)return;
@@ -2120,6 +2414,8 @@ $("#picks").addEventListener("click",e=>{
   else { PICK=[...PICK,n].slice(-5); }
   drawCurve();});
 $("#pw").addEventListener("change",drawPatch);
+$("#k1").addEventListener("change",drawCover);
+$("#k2").addEventListener("change",drawCover);
 $("#w1").addEventListener("change",drawDuel);
 $("#w2").addEventListener("change",drawDuel);
 $("#ca").addEventListener("change",drawCombo);
@@ -2132,6 +2428,10 @@ $("#ccmp").addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
   if(b.dataset.clr) COMBOS=[]; else COMBOS.splice(+b.dataset.del,1);
   drawCmp();});
+$$("#cone button").forEach(b=>b.addEventListener("click",()=>{
+  CONE=b.dataset.cone;
+  $$("#cone button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  hypSum(); render();}));
 $$("#tog button").forEach(b=>b.addEventListener("click",()=>{
   if(b.dataset.tg==="disp"){
     DISP=!DISP; if(!DISP) MOVING=false;
@@ -2318,7 +2618,10 @@ svgEl.addEventListener("pointerup",function(){
   if(DRAG && DRAG.t==="new" && !DRAG.moved && MMODE==="sel") SEL=null;
 },true);
 
-fillSelects(); fillPatch(); fillMaps(); initMap(); drawEquip(); go("rank");
+fillSelects(); fillPatch(); fillMaps(); initMap(); drawEquip();
+$("#foot").textContent = `BVS · données EVA ${VER} · comparatif contre ${PREVN}`;
+go(readURL() || "rank");
+if(/[?&]test=1/.test(location.search)) showSelfTest();
 </script>
 </body>
 </html>
