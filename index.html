@@ -60,6 +60,12 @@
   .hypbody{padding:0 11px 13px}
   .hyp .seg{margin-top:13px}
   .hypnote{margin-top:11px;font-size:12.5px;line-height:1.5;color:var(--ink-dim)}
+  .lead{margin:2px 0 18px;font-size:13.5px;line-height:1.6;color:var(--ink-dim)}
+  .lead b{color:var(--ink);font-weight:600}
+  .covleg{display:flex;flex-wrap:wrap;gap:14px;margin:6px 0 16px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim)}
+  .covleg span{display:flex;align-items:center;gap:6px}
+  .covleg i{width:14px;height:9px;display:block}
   #foot{margin-top:28px;padding-top:12px;border-top:1px solid var(--rule);
     font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
   .st{margin:14px 0;border:1px solid var(--rule);background:var(--panel)}
@@ -332,6 +338,10 @@
   .up{color:var(--live)}
   .dn{color:var(--dead)}
   .sw{display:flex;gap:4px}
+  .shp{display:flex;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+  .shp button{background:var(--panel);border:0;color:var(--ink-dim);cursor:pointer;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:6px 10px}
+  .shp button[aria-pressed=true]{background:var(--signal);color:#0B0F14;font-weight:700}
   .sw i{width:20px;height:20px;display:block;cursor:pointer;border:2px solid transparent}
   .sw i[data-on=true]{border-color:var(--ink)}
   .spd{margin:10px 0 0}
@@ -526,7 +536,6 @@
     <button data-md="aim"  aria-pressed="false">Visée</button>
     <button data-md="path" aria-pressed="false">Trajet</button>
     <button data-md="draw" aria-pressed="false">Dessin</button>
-    <button data-md="zone" aria-pressed="false">Zone</button>
     <button data-md="obj"  aria-pressed="false">Objets</button>
     <button data-md="lift" aria-pressed="false">Ascenseurs</button>
   </div>
@@ -551,18 +560,24 @@
 </section>
 
 <section id="cover" hidden>
+  <p class="lead">Une compo, c'est deux armes. Cette vue prend ton duo et parcourt les
+    40 m mètre par mètre pour répondre à une seule question : <b>à cette distance, est-ce
+    que j'ai de quoi tuer ?</b> Elle repère les tranches où le duo tue franchement, celles
+    où il traîne, et celles où il ne tue pas du tout — les trous de ta compo.</p>
   <div class="duel">
     <select id="k1" aria-label="Arme principale"></select>
     <span class="vs">AVEC</span>
     <select id="k2" aria-label="Arme secondaire"></select>
   </div>
-  <div class="chart-cap"><span>Qui tue le plus vite, mètre par mètre</span><span id="covcap"></span></div>
-  <svg id="covchart" viewBox="0 0 660 120" role="img" aria-label="Bandes de distance couvertes par le duo"></svg>
+  <div class="chart-cap"><span>Bande du haut : l'arme la plus rapide · bande du bas : facilité à tuer</span></div>
+  <svg id="covchart" viewBox="0 0 660 170" role="img" aria-label="Couverture du duo d'armes en fonction de la distance"></svg>
+  <div class="covleg" id="covleg"></div>
   <div id="covdiff"></div>
 </section>
 
 <section id="patch" hidden>
   <select id="pw" aria-label="Arme modifiée"></select>
+  <div class="picks" id="pvers" role="group" aria-label="Versions à comparer"></div>
   <div class="chart-cap"><span id="pcap"></span><span id="pprev"></span></div>
   <svg id="pchart" viewBox="0 0 660 300" role="img" aria-label="TTK avant et après patch"></svg>
   <div id="pdiff"></div>
@@ -1014,9 +1029,16 @@ function selfTest(){
   T(badZone.length===0, "Tête ≥ torse ≥ extrémités pour chaque arme",
     badZone.length?badZone.map(w=>w.n).join(", "):`${W.length} armes vérifiées`);
 
-  const orphan=Object.keys(PREV).filter(n=>!wOf(n));
-  T(orphan.length===0, "Chaque arme du comparatif de patch existe dans l'arsenal",
-    orphan.length?orphan.join(", "):`${Object.keys(PREV).length} entrées`);
+  const orphan=PATCHES.flatMap(p=>Object.keys(p.w)).filter(n=>!wOf(n));
+  T(orphan.length===0, "Chaque arme de l'historique des patchs existe dans l'arsenal",
+    orphan.length?orphan.join(", "):`${VERS.length} versions, ${touched().length} armes suivies`);
+  T(PATCHES[PATCHES.length-1].v===VER && Object.keys(PATCHES[PATCHES.length-1].w).length===0,
+    "La dernière entrée de l'historique est la version courante, sans surcharge",
+    VERS.join(" → "));
+  const noCover=Object.entries(MAPS).filter(([k,m])=>!m.cover).map(([k])=>k);
+  if(noCover.length) I("Cartes sans calque de couverture basse", noCover.join(", "));
+  const noLift=Object.entries(MAPS).filter(([k,m])=>!(m.lifts||[]).length).map(([k])=>k);
+  if(noLift.length) I("Cartes sans ascenseur déclaré", noLift.join(", "));
 
   T(W.every(w=>["tete","torse","extrem"].every(z=>hitRate(w,0,z)===1)),
     "À bout portant, aucune balle n'est perdue");
@@ -1069,59 +1091,89 @@ function showSelfTest(){
    est la meilleure, c'est quelles bandes de distance le duo tient et laquelle
    il laisse ouverte. Pour chaque mètre on prend l'arme qui tue le plus vite,
    recharges comprises, et on agrège les tranches contiguës. */
-function coverBands(a,b){
-  const step=.25, out=[];
+function coverScan(a,b){
+  const step=.25, pts=[];
   for(let x=0;x<=40+1e-9;x+=step){
     const ta=TT(a,x,Z), tb=TT(b,x,Z);
     let k=null, t=null;
     if(ta!==null && (tb===null || ta<=tb)) { k="a"; t=ta; }
     else if(tb!==null)                     { k="b"; t=tb; }
-    const last=out[out.length-1];
-    if(last && last.k===k) { last.x1=x; last.tmin=Math.min(last.tmin,t===null?Infinity:t); last.tmax=Math.max(last.tmax,t===null?-Infinity:t); }
-    else out.push({k, x0:x, x1:x, tmin:t===null?Infinity:t, tmax:t===null?-Infinity:t});
+    /* Facilité à tuer, bornée par deux faits du jeu : en dessous du temps de
+       réaction humain l'échange est gagné d'office ; au-delà de la seconde,
+       la cible a de quoi sortir un Med Pack et annuler l'échange. */
+    const lvl = t===null ? "none" : t<=REACT*2 ? "franc" : t<=MED.dur*1000 ? "jouable" : "dur";
+    pts.push({x, k, t, lvl});
+  }
+  return pts;
+}
+function runs(pts,key){
+  const out=[];
+  for(const p of pts){
+    const v=p[key], last=out[out.length-1];
+    if(last && last.v===v){ last.x1=p.x; last.tmin=Math.min(last.tmin,p.t??Infinity); last.tmax=Math.max(last.tmax,p.t??-Infinity); }
+    else out.push({v, x0:p.x, x1:p.x, tmin:p.t??Infinity, tmax:p.t??-Infinity});
   }
   return out;
 }
 function drawCover(){
   const a=W.find(w=>w.n===$("#k1").value), b=W.find(w=>w.n===$("#k2").value);
-  const bands=coverBands(a,b);
-  const VW=660, VH=120, L=6, R=6, T=14, H=34;
+  const pts=coverScan(a,b);
+  const lead=runs(pts,"k"), diff=runs(pts,"lvl");
+  const VW=660, VH=170, L=6, R=6, H=30;
   const px=x=>L+(x/40)*(VW-L-R);
-  const col={a:"#F5A524", b:"#4CC9F0", null:"#26313F"};
-  let g="";
-  for(const bd of bands){
-    const x0=px(bd.x0), x1=px(Math.min(bd.x1+.25,40));
-    g+=`<rect x="${x0.toFixed(1)}" y="${T}" width="${Math.max(1,x1-x0).toFixed(1)}" height="${H}"
-      fill="${col[bd.k]}" opacity="${bd.k?.85:.55}"/>`;
-  }
-  for(const d of [0,10,20,30,40])
-    g+=`<text x="${px(d)}" y="${T+H+18}" fill="#41505F" font-size="9.5" font-family="var(--mono)"
-      text-anchor="${d===0?"start":d===40?"end":"middle"}">${d} m</text>`;
-  g+=`<line x1="${px(D)}" y1="${T-6}" x2="${px(D)}" y2="${T+H+6}" stroke="#C9D4E0" stroke-width="1.5"/>`;
-  g+=`<text x="${px(D)}" y="${T-9}" fill="#C9D4E0" font-size="9.5" font-family="var(--mono)"
-      text-anchor="middle">${fr(D,D%1?1:0)} m</text>`;
-  $("#covchart").innerHTML=g;
-  $("#covcap").textContent = `${a.n} en orange · ${b.n} en bleu · gris = aucune des deux`;
-
-  const nm=k=>k==="a"?a.n:k==="b"?b.n:"aucune des deux";
-  const rows=bands.filter(bd=>bd.x1-bd.x0>.24 || bd.x0===0).map(bd=>{
-    const rng = `${fr(bd.x0,bd.x0%1?1:0)} → ${fr(Math.min(bd.x1+.25,40),1)} m`;
-    const val = bd.k===null ? "aucun dégât" : `${fr(bd.tmin)} à ${fr(bd.tmax)} ms`;
-    return `<div class="pr"><b>${rng}</b><u>${nm(bd.k)}</u><i></i><s>${val}</s></div>`;
+  const colLead={a:"#F5A524", b:"#4CC9F0", null:"#26313F"};
+  const colLvl={franc:"#7BD389", jouable:"#4CC9F0", dur:"#F5A524", none:"#26313F"};
+  const band=(rows,y,cols)=>rows.map(r=>{
+    const x0=px(r.x0), x1=px(Math.min(r.x1+.25,40));
+    return `<rect x="${x0.toFixed(1)}" y="${y}" width="${Math.max(1,x1-x0).toFixed(1)}" height="${H}"
+      fill="${cols[r.v]}" opacity="${r.v===null||r.v==="none"?.5:.9}"/>`;
   }).join("");
-  const hole=bands.filter(bd=>bd.k===null).reduce((acc,bd)=>acc+(bd.x1-bd.x0+.25),0);
-  const verdict = hole<.3
-    ? `Le duo couvre les 40 m sans trou.`
-    : `Trou de couverture : ${fr(hole,1)} m sur 40 cumulés, là où aucune des deux ne tue.`;
+  let g="";
+  g+=`<text x="${L}" y="16" fill="#6B7C90" font-size="10.5" font-family="var(--mono)">ARME LA PLUS RAPIDE</text>`;
+  g+=band(lead,22,colLead);
+  g+=`<text x="${L}" y="76" fill="#6B7C90" font-size="10.5" font-family="var(--mono)">FACILITÉ À TUER</text>`;
+  g+=band(diff,82,colLvl);
+  for(const d of [0,10,20,30,40])
+    g+=`<text x="${px(d)}" y="${132}" fill="#41505F" font-size="9.5" font-family="var(--mono)"
+      text-anchor="${d===0?"start":d===40?"end":"middle"}">${d} m</text>`;
+  g+=`<line x1="${px(D)}" y1="18" x2="${px(D)}" y2="116" stroke="#C9D4E0" stroke-width="1.5"/>`;
+  g+=`<text x="${px(D)}" y="152" fill="#C9D4E0" font-size="10" font-family="var(--mono)"
+      text-anchor="middle">distance réglée : ${fr(D,D%1?1:0)} m</text>`;
+  $("#covchart").innerHTML=g;
+
+  $("#covleg").innerHTML = [
+    [colLead.a, a.n], [colLead.b, b.n],
+    [colLvl.franc, "tue avant réaction (≤ "+fr(REACT*2)+" ms)"],
+    [colLvl.jouable, "tue en moins d'une seconde"],
+    [colLvl.dur, "plus d'une seconde : la cible peut se soigner"],
+    [colLvl.none, "aucune des deux ne tue"],
+  ].map(([c,t])=>`<span><i style="background:${c}"></i>${t}</span>`).join("");
+
+  const rng=r=>`${fr(r.x0,r.x0%1?1:0)} → ${fr(Math.min(r.x1+.25,40),1)} m`;
+  const nm=v=>v==="a"?a.n:v==="b"?b.n:"aucune";
+  const rows=lead.filter(r=>r.x1-r.x0>.24||r.x0===0).map(r=>
+    `<div class="pr"><b>${rng(r)}</b><u>${nm(r.v)}</u><i></i><s>${
+      r.v===null?"aucun dégât":`${fr(r.tmin)} à ${fr(r.tmax)} ms`}</s></div>`).join("");
+  const hard=diff.filter(r=>r.v==="dur"&&r.x1-r.x0>.24).map(rng);
+  const dead=diff.filter(r=>r.v==="none"&&r.x1-r.x0>.24).map(rng);
+  const verdict = !hard.length && !dead.length
+    ? `Compo saine : sur les 40 m, le duo tue toujours en moins d'une seconde.`
+    : [ dead.length ? `<b>Trou de compo</b> — aucune des deux armes ne tue : ${dead.join(", ")}.` : "",
+        hard.length ? `<b>Zone compliquée</b> — il faut plus d'une seconde pour tuer, la cible a le temps de décrocher et de se soigner : ${hard.join(", ")}.` : ""
+      ].filter(Boolean).join(" ");
   $("#covdiff").innerHTML = rows + `<div class="verdict-note">${verdict}</div>`;
 }
 
-/* ---------- comparatif de patch ----------
-   PREV ne contient que les champs modifiés par la 1.8.0 : une arme absente de
-   cette table n'a pas bougé. */
+/* ---------- comparatif de patch ---------- */
 const VER = "1.8.0";
-const PREVN = "1.7.5";
-const PREV = {
+/* ---------- historique des patchs ----------
+   PATCHES va du plus ancien au plus recent. Pour chaque version anterieure on
+   stocke l'etat ABSOLU des champs qui differaient a cette date ; une arme
+   absente d'une entree avait deja ses valeurs actuelles. Ajouter une version
+   se resume donc a inserer une entree dans l'ordre chronologique : rien
+   d'autre a toucher, la vue Patch s'adapte. */
+const PATCHES = [
+  {v:"1.7.5", w:{
   "T1 Gauss":  {d:{tete:110,torse:110,extrem:80}},
   "M12":       {b:[[0,1],[5,.70],[10,.60]]},
   "M12 chargé":{d:{tete:100,torse:100,extrem:100}},
@@ -1130,68 +1182,108 @@ const PREV = {
   "Spectre":   {b:[[0,1],[8,.65],[12,.50],[20,.40]]},
   "Socom":     {d:{tete:25,torse:20,extrem:14}},
   "Needle":    {d:{tete:34,torse:30,extrem:30}, rpm:258},
+  }},
+  {v:"1.8.0", w:{}},          /* etat courant : les valeurs de W */
+];
+const VERS = PATCHES.map(p=>p.v);
+const PREVN = VERS[VERS.length-2] || VERS[0];
+/* etat d'une arme a une version donnee */
+const at = (w,v)=>{
+  const e=PATCHES.find(p=>p.v===v);
+  return e && e.w[w.n] ? Object.assign({}, w, e.w[w.n]) : w;
 };
-const oldOf = w => PREV[w.n] ? Object.assign({}, w, PREV[w.n]) : null;
-const bandTxt = w => w.b.map(([d,m])=>`${fr(d,d%1?1:0)} m : ${Math.round(m*100)} %`).join(" · ");
+/* armes touchees par au moins une version de l'historique */
+const touched = ()=> [...new Set(PATCHES.flatMap(p=>Object.keys(p.w)))].filter(n=>W.some(w=>w.n===n));
+/* versions retenues pour la comparaison, dans l'ordre chronologique */
+let PSEL = VERS.slice(-2);
+const pselSorted = ()=> VERS.filter(v=>PSEL.includes(v));
 function fillPatch(){
-  $("#pw").innerHTML = Object.keys(PREV).map(n=>`<option>${n}</option>`).join("");
-  $("#pprev").textContent = PREVN+" en pointillé";
+  $("#pw").innerHTML = touched().map(n=>`<option>${n}</option>`).join("");
+  drawVers();
 }
+function drawVers(){
+  $("#pvers").innerHTML = VERS.map(v=>
+    `<button class="chip" data-v2="${v}" aria-pressed="${PSEL.includes(v)}">${v}${
+      v===VER?" · actuelle":""}</button>`).join("");
+}
+$("#pvers").addEventListener("click",e=>{
+  const b=e.target.closest(".chip"); if(!b) return;
+  const v=b.dataset.v2;
+  if(PSEL.includes(v)){ if(PSEL.length>1) PSEL=PSEL.filter(x=>x!==v); }
+  else PSEL=[...PSEL,v];
+  drawVers(); drawPatch(); syncURL();
+});
 function drawPatch(){
-  const name=$("#pw").value, w=W.find(x=>x.n===name), o=oldOf(w);
-  if(!w||!o) return;
+  const name=$("#pw").value, w=W.find(x=>x.n===name);
+  if(!w) return;
+  const sel=pselSorted();
+  const states=sel.map(v=>({v, w:at(w,v)}));
   const VW=660, VH=300, L=46, R=8, T=12, B=30;
   const px=x=>L+(x/40)*(VW-L-R);
   let hi=0;
-  for(const s of [w,o]) for(let x=0;x<=40;x+=.5){const t=ttk(s,x,Z); if(t!==null&&t>hi)hi=t;}
+  for(const st of states) for(let x=0;x<=40;x+=.5){const t=ttkR(st.w,x,Z); if(t!==null&&t>hi)hi=t;}
   const cap=Math.min(Math.max(hi,600),2600), py=t=>VH-B-(Math.min(t,cap)/cap)*(VH-T-B);
   let g="";
   for(let i=0;i<=4;i++){const v=cap*i/4,y=py(v);
     g+=`<line x1="${L}" y1="${y}" x2="${VW-R}" y2="${y}" stroke="#1B2431"/>
         <text x="${L-7}" y="${y+3.5}" fill="#41505F" font-size="9.5" font-family="var(--mono)" text-anchor="end">${fr(v)}</text>`;}
-  for(const d of [0,10,20,30,40]) g+=`<text x="${px(d)}" y="${VH-9}" fill="#41505F" font-size="9.5" font-family="var(--mono)" text-anchor="middle">${d} m</text>`;
+  for(const d of [0,10,20,30,40])
+    g+=`<text x="${px(d)}" y="${VH-9}" fill="#41505F" font-size="9.5" font-family="var(--mono)" text-anchor="middle">${d} m</text>`;
   g+=`<line x1="${px(D)}" y1="${T}" x2="${px(D)}" y2="${VH-B}" stroke="#F5A524" stroke-width="1" stroke-dasharray="2 3" opacity=".55"/>`;
-  const line=(s,col,dash)=>{
+  /* La version courante est pleine et en couleur signal ; plus on remonte dans
+     le temps, plus le trait s'éclaircit et se pointille. */
+  const style=(k,n)=> k===n-1 ? {c:"#F5A524", dash:""}
+    : {c:["#6B7C90","#4CC9F0","#C084FC","#7BD389"][(n-2-k+4)%4], dash:`stroke-dasharray="${5+2*(n-2-k)} 4"`};
+  const line=(sw,col,dash)=>{
     const segs=[]; let cur=[];
-    for(let x=0;x<=40;x+=.25){const t=ttk(s,x,Z);
+    for(let x=0;x<=40;x+=.25){const t=ttkR(sw,x,Z);
       if(t===null){ if(cur.length)segs.push(cur); cur=[]; } else cur.push([px(x),py(t)]); }
     if(cur.length)segs.push(cur);
-    return segs.map(sg=>`<path d="M${sg.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join("L")}"
+    return segs.map(sg=>`<path d="M${sg.map(q=>q[0].toFixed(1)+","+q[1].toFixed(1)).join("L")}"
       fill="none" stroke="${col}" stroke-width="1.9" ${dash} stroke-linejoin="round"/>`).join("");
   };
-  g+=line(o,"#6B7C90",'stroke-dasharray="5 4"');
-  g+=line(w,"#F5A524","");
+  states.forEach((st,k)=>{ const sy=style(k,states.length); g+=line(st.w,sy.c,sy.dash); });
   $("#pchart").innerHTML=g;
-  $("#pcap").textContent=`TTK ${{tete:"tête",torse:"torse",extrem:"extrémités"}[Z]} · ${PREVN} contre 1.8.0`;
+  $("#pcap").textContent=`TTK ${{tete:"tête",torse:"torse",extrem:"extrémités"}[Z]} · ${sel.join(" → ")}`;
+  $("#pprev").innerHTML = states.map((st,k)=>
+    `<em style="color:${style(k,states.length).c}">${st.v}</em>`).join(" · ");
 
-  const rows=[];
-  const add=(lab,av,ap)=>rows.push(`<div class="pr"><b>${lab}</b><u>${av}</u><i>→</i><s>${ap}</s></div>`);
-  for(const z of ["tete","torse","extrem"]) if(o.d[z]!==w.d[z])
-    add({tete:"Dégâts tête",torse:"Dégâts torse",extrem:"Dégâts extrémités"}[z], fr(o.d[z]), fr(w.d[z]));
-  if(o.rpm!==w.rpm) add("Cadence", fr(o.rpm)+" RPM", fr(w.rpm)+" RPM");
-  if(o.eq!==w.eq) add("Temps d'équipement", fr(o.eq,1)+" s", fr(w.eq,1)+" s");
-  if(JSON.stringify(o.b)!==JSON.stringify(w.b)) add("Paliers de dégâts", bandTxt(o), bandTxt(w));
-  const ta=ttk(o,D,Z), tb=ttk(w,D,Z);
   const vt=t=>t===null?"aucun dégât":fr(t)+" ms";
-  const dd=(ta!==null&&tb!==null)?tb-ta:null;
-  add(`TTK à ${fr(D,D%1?1:0)} m`, vt(ta), vt(tb)+(dd!==null&&Math.abs(dd)>=1
-    ?` <em class="${dd<0?"up":"dn"}">${dd<0?"−":"+"}${fr(Math.abs(dd))} ms</em>`:""));
-  const sa=shots(o,D,Z), sb=shots(w,D,Z);
-  if(sa!==sb) add("Balles pour tuer", sa===null?"—":fr(sa), sb===null?"—":fr(sb));
+  const bt=sw=>sw.b.map(([d,m])=>`${fr(d,d%1?1:0)} m : ${Math.round(m*100)} %`).join(" · ");
+  let blocks="";
+  for(let k=1;k<states.length;k++){
+    const o=states[k-1].w, n=states[k].w, rows=[];
+    const add=(lab,av,ap)=>rows.push(`<div class="pr"><b>${lab}</b><u>${av}</u><i>→</i><s>${ap}</s></div>`);
+    for(const z of ["tete","torse","extrem"]) if(o.d[z]!==n.d[z])
+      add({tete:"Dégâts tête",torse:"Dégâts torse",extrem:"Dégâts extrémités"}[z], fr(o.d[z]), fr(n.d[z]));
+    if(o.rpm!==n.rpm) add("Cadence", fr(o.rpm)+" RPM", fr(n.rpm)+" RPM");
+    if(o.eq!==n.eq) add("Temps d'équipement", fr(o.eq,1)+" s", fr(n.eq,1)+" s");
+    if(JSON.stringify(o.b)!==JSON.stringify(n.b)) add("Paliers de dégâts", bt(o), bt(n));
+    const ta=ttkR(o,D,Z), tb=ttkR(n,D,Z), dd=(ta!==null&&tb!==null)?tb-ta:null;
+    add(`TTK à ${fr(D,D%1?1:0)} m`, vt(ta), vt(tb)+(dd!==null&&Math.abs(dd)>=1
+      ?` <em class="${dd<0?"up":"dn"}">${dd<0?"−":"+"}${fr(Math.abs(dd))} ms</em>`:""));
+    const sa=shots(o,D,Z), sb=shots(n,D,Z);
+    if(sa!==sb) add("Balles pour tuer", sa===null?"—":fr(sa), sb===null?"—":fr(sb));
+    blocks += `<div class="chead">${states[k-1].v} → ${states[k].v}</div>`
+            + (rows.length?`<div class="prows">${rows.join("")}</div>`
+                          :`<div class="mnote">Cette arme n'a pas bougé entre ces deux versions.</div>`);
+  }
 
-  const all=Object.keys(PREV).map(n=>{
-    const nw=W.find(x=>x.n===n), ow=oldOf(nw);
-    const a=ttk(ow,D,Z), b=ttk(nw,D,Z);
+  /* Évolution de toutes les armes suivies, sur la fenêtre retenue */
+  const v0=sel[0], v1=sel[sel.length-1];
+  const all=touched().map(n=>{
+    const nw=W.find(x=>x.n===n);
+    const a=ttkR(at(nw,v0),D,Z), b=ttkR(at(nw,v1),D,Z);
     return {n, a, b, d:(a!==null&&b!==null)?b-a:null};
   }).sort((p,q)=>(p.d===null?1:0)-(q.d===null?1:0) || (p.d||0)-(q.d||0));
-  $("#pdiff").innerHTML = `<div class="prows">${rows.join("")}</div>
-    <div class="chead">Tout le patch à ${fr(D,D%1?1:0)} m</div>` +
+  $("#pdiff").innerHTML = blocks +
+    `<div class="chead">Évolution de ${v0} à ${v1}, à ${fr(D,D%1?1:0)} m</div>` +
     all.map(r=>`<div class="fin${r.n===name?" pick":""}"><b>${r.n}<em>${
       r.d===null?"hors de portée d'un côté":`${vt(r.a)} → ${vt(r.b)}`}</em></b>
       <u class="${r.d===null?"":r.d<0?"up":r.d>0?"dn":""}">${
       r.d===null?"—":Math.abs(r.d)<1?"égal":(r.d<0?"−":"+")+fr(Math.abs(r.d))+" ms"}</u></div>`).join("") +
-    `<div class="mnote">Les armes absentes de cette liste n'ont pas été touchées par la 1.8.0.
-     Un temps en vert veut dire qu'elle tue plus vite qu'avant.</div>`;
+    `<div class="mnote">Un temps en vert veut dire que l'arme tue plus vite qu'avant.
+     Les armes absentes de la liste n'ont jamais été touchées par les patchs suivis.</div>`;
 }
 
 /* ---------- accessoires ---------- */
@@ -1435,12 +1527,18 @@ let ITEMS=[], DRAG=null;
    Huit joueurs, 1 à 4 en orange, 5 à 8 en bleu, posés dans leur spawn au départ.
    Chacun porte deux armes, un accessoire, un nom facultatif et un trajet. */
 let PLAYERS=[], SEL=null, SHOW_NAMES=true, SHOW_AIMS=true, MMODE="sel";
+/* Trait et zone sont le meme geste d'annotation : un seul outil, deux formes. */
+let DSHAPE="line";
 let STROKES=[], SHAPES=[], COL="#F5A524", DRAWING=null, ANIM=null;
 /* La mesure est un acte volontaire : on fige les deux extrémités au moment où
    on les touche. Déplacer un joueur ensuite ne recalcule rien, il faut remesurer. */
 let MEAS=null, LIFT0=null;
 const pById = id => PLAYERS.find(p=>p.id===id);
 const pcol = p => p.team==="o" ? "#F5A524" : "#4CC9F0";
+/* Une couleur par paire d'ascenseurs : deux plots de la meme couleur sont les
+   deux bouts du meme tunnel. Le numero leve l'ambiguite si deux paires se
+   croisent ou si la carte est imprimee en noir et blanc. */
+const LIFTCOL = ["#2FBF9B","#C084FC","#F97316","#38BDF8"];
 /* Silhouette vue de dessus : la longueur de l'arme dépend de la famille de l'arme
    principale. À 50 px/m, un corps de 34 px fait 0,7 m de large et le canon d'un
    sniper 1,2 m : les figurines sont à l'échelle de la carte. */
@@ -1558,7 +1656,10 @@ function drawStatic(){
   for(const [x,y,w,h,c] of map.tint)
     g.push(`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}" opacity=".14"/>`);
   const ih=map.losh*(map.w/map.losw);
-  g.push(`<image href="${map.cover}" x="0" y="0" width="${map.w}" height="${ih}"/>`);
+  /* The Cliff n'a pas de calque de couverture : sans ce garde-fou on emettait
+     href="null", donc une requete d'image cassee a chaque rendu. */
+  if(map.cover)
+    g.push(`<image href="${map.cover}" x="0" y="0" width="${map.w}" height="${ih}"/>`);
   g.push(`<image href="${map.walls}" x="0" y="0" width="${map.w}" height="${ih}" opacity=".92"/>`);
 
   /* échelle : une barre de 5 m */
@@ -1567,12 +1668,13 @@ function drawStatic(){
 
   /* ascenseurs : plot d'entrée, plot de sortie, et la liaison en pointillé */
   (M().lifts||[]).forEach((pair,i)=>{
-    const [A,B]=pair, on=(MMODE==="lift");
-    g.push(`<line x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}" stroke="#2FBF9B"
-      stroke-width="${on?3:2}" stroke-dasharray="4 8" opacity="${on?.9:.45}"/>`);
+    const [A,B]=pair, on=(MMODE==="lift"), c=LIFTCOL[i%LIFTCOL.length];
+    g.push(`<line x1="${A[0]}" y1="${A[1]}" x2="${B[0]}" y2="${B[1]}" stroke="${c}"
+      stroke-width="${on?3:2}" stroke-dasharray="4 8" opacity="${on?.9:.55}"/>`);
     for(const p of pair){
-      g.push(`<circle cx="${p[0]}" cy="${p[1]}" r="15" fill="#0B0F14" stroke="#2FBF9B" stroke-width="4"/>`);
-      g.push(`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#2FBF9B"/>`);
+      g.push(`<circle cx="${p[0]}" cy="${p[1]}" r="15" fill="#0B0F14" stroke="${c}" stroke-width="4"/>`);
+      g.push(`<text x="${p[0]}" y="${p[1]+6}" fill="${c}" font-size="17" font-weight="700"
+        font-family="monospace" text-anchor="middle">${i+1}</text>`);
     }
   });
   if(MMODE==="lift" && LIFT0)
@@ -1726,8 +1828,7 @@ function drawMap(){
   $("#mapsvg").innerHTML = `<g id="stat">${drawStatic()}</g><g id="dyn">${drawDyn()}</g>`;
   $("#mapdim").textContent = `${map.n} · ${fr(map.w/map.ppm,1)} × ${fr(map.h/map.ppm,1)} m`;
   $("#mapstate").textContent = ANIM ? "Animation en cours…"
-    : MMODE==="draw" ? "Trace un trait"
-    : MMODE==="zone" ? "Glisse pour dessiner une zone"
+    : MMODE==="draw" ? (DSHAPE==="rect" ? "Glisse pour dessiner une zone" : "Trace un trait")
     : MMODE==="aim"  ? "Appuie sur un joueur et tourne"
     : MMODE==="path" ? "Appuie sur un joueur et trace"
     : MMODE==="lift" ? (LIFT0?"Touche la sortie":"Touche l'entrée")
@@ -1924,8 +2025,10 @@ svgEl.addEventListener("pointerdown",ev=>{
   if(ANIM) return;
   const p=toView(ev);
   try{ svgEl.setPointerCapture(ev.pointerId); }catch(e){}
-  if(MMODE==="draw"){ DRAWING={p:[[p.x,p.y]]}; ev.preventDefault(); return; }
-  if(MMODE==="zone"){ DRAWING={rect:true, x:p.x, y:p.y, x2:p.x, y2:p.y}; ev.preventDefault(); return; }
+  if(MMODE==="draw"){
+    DRAWING = DSHAPE==="rect" ? {rect:true, x:p.x, y:p.y, x2:p.x, y2:p.y} : {p:[[p.x,p.y]]};
+    ev.preventDefault(); return;
+  }
   if(MMODE==="lift"){
     /* premier appui = entrée, second = sortie ; sur un plot existant, on le retire */
     const L=M().lifts=M().lifts||[];
@@ -2153,13 +2256,21 @@ function drawCtx(){
   if(MMODE==="path") c.innerHTML=`<span class="hint">Appuie sur un joueur et trace son chemin</span>
     <button data-act="delpath">Effacer son trajet</button>
     <button data-act="play" class="play">${ANIM?"■ Stop":"▶ Jouer"}</button>`;
-  if(MMODE==="draw"||MMODE==="zone") c.innerHTML=`<span class="sw" id="swatch"></span>
+  if(MMODE==="draw") c.innerHTML=`<span class="sw" id="swatch"></span>
+    <span class="shp" role="group" aria-label="Forme du tracé">
+      <button data-shp="line" aria-pressed="${DSHAPE==="line"}">Trait</button>
+      <button data-shp="rect" aria-pressed="${DSHAPE==="rect"}">Zone</button>
+    </span>
     <button data-act="undo">↶ dernier</button><button data-act="clear">Tout effacer</button>`;
   if(MMODE==="obj")  c.innerHTML=`<span class="hint">Pose, glisse, pivote · la croix retire</span>`;
   if(MMODE==="lift") c.innerHTML=`<span class="hint">${LIFT0?"Touche la sortie":"Touche l'entrée d'un ascenseur"} · sur un plot existant pour le retirer</span>`;
   if($("#swatch")) drawSwatch();
 }
 function onTool(b){
+  if(b.dataset.shp){
+    DSHAPE=b.dataset.shp; DRAWING=null;
+    drawCtx(); drawMap(); return;
+  }
   if(b.dataset.md){
     MMODE=b.dataset.md; DRAWING=null;
     $$("#tools button[data-md]").forEach(x=>x.setAttribute("aria-pressed",x===b));
@@ -2356,7 +2467,7 @@ function syncURL(){
   if(VIEW==="duel"){ p.set("a",$("#w1").value); p.set("b",$("#w2").value); if(HS) p.set("hs",String(HS)); }
   if(VIEW==="combo"){ p.set("a",$("#ca").value); p.set("b",$("#cb").value); }
   if(VIEW==="cover"){ p.set("a",$("#k1").value); p.set("b",$("#k2").value); }
-  if(VIEW==="patch") p.set("a",$("#pw").value);
+  if(VIEW==="patch"){ p.set("a",$("#pw").value); p.set("pv",pselSorted().join("|")); }
   if(VIEW==="map") p.set("mk",MK);
   try{ history.replaceState(null,"","#"+p.toString()); }catch(e){}
 }
@@ -2391,7 +2502,11 @@ function readURL(){
   if(v==="duel")  setPair("#w1","#w2");
   if(v==="combo") setPair("#ca","#cb");
   if(v==="cover") setPair("#k1","#k2");
-  if(v==="patch" && a && Object.keys(PREV).includes(a)) $("#pw").value=a;
+  if(v==="patch"){
+    if(a && touched().includes(a)) $("#pw").value=a;
+    const pv=(p.get("pv")||"").split("|").filter(x=>VERS.includes(x));
+    if(pv.length){ PSEL=pv; drawVers(); }
+  }
   if(v==="map" && p.has("mk") && MAPS[p.get("mk")]){ MK=p.get("mk"); $("#mapsel").value=MK; }
   return [...TABS,"acc","map"].includes(v) ? v : null;
 }
@@ -2572,8 +2687,8 @@ sprite=function(p){
     <path d="M2,15 Q13,11 17,3" fill="none" stroke="${c}" stroke-width="7" stroke-linecap="round"/>
     <path d="M2,-15 Q13,-11 17,-3" fill="none" stroke="#0B0F14" stroke-width="2" opacity=".35"/>
     <path d="M2,15 Q13,11 17,3" fill="none" stroke="#0B0F14" stroke-width="2" opacity=".35"/>
-    <rect x="12" y="-2.8" width="${L}" height="5.6" rx="2.4" fill="#12181F" stroke="#0B0F14" stroke-width="1"/>
-    <rect x="8" y="-4.4" width="14" height="8.8" rx="3" fill="#1B2431" stroke="#0B0F14" stroke-width="1"/>
+    <rect x="12" y="-2.8" width="${L}" height="5.6" rx="2.4" fill="#DCE6F2" stroke="#0B0F14" stroke-width="1.4"/>
+    <rect x="8" y="-4.4" width="14" height="8.8" rx="3" fill="#8C9AAB" stroke="#0B0F14" stroke-width="1.4"/>
     <ellipse cx="1" cy="0" rx="8.5" ry="9.5" fill="#0E141B" stroke="${c}" stroke-width="2"/>
     ${on?`<circle cx="-4" cy="0" r="26" fill="none" stroke="#FFFFFF" stroke-width="2.5" opacity=".9"/>`:""}
     <g transform="translate(-27 0) rotate(${-a})">
