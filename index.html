@@ -62,10 +62,10 @@
   .hypnote{margin-top:11px;font-size:12.5px;line-height:1.5;color:var(--ink-dim)}
   .lead{margin:2px 0 18px;font-size:13.5px;line-height:1.6;color:var(--ink-dim)}
   .lead b{color:var(--ink);font-weight:600}
-  .covleg{display:flex;flex-wrap:wrap;gap:14px;margin:6px 0 16px;
-    font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim)}
-  .covleg span{display:flex;align-items:center;gap:6px}
-  .covleg i{width:14px;height:9px;display:block}
+  #pvers{display:flex;flex-direction:column;gap:8px;margin:12px 0 4px}
+  .vgroup{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .vslab{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-faint);min-width:74px}
   #foot{margin-top:28px;padding-top:12px;border-top:1px solid var(--rule);
     font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
   .st{margin:14px 0;border:1px solid var(--rule);background:var(--panel)}
@@ -198,6 +198,11 @@
   .acc-stat{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-top:1px solid var(--panel-2);font-size:12.5px}
   .acc-stat span:first-child{color:var(--ink-dim)}
   .acc-stat span:last-child{font-family:var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+  .gunsvg{display:block;width:100%;max-width:180px;height:auto;margin:10px 0 4px}
+  .gun-card dl{margin:0}
+  .gun-card dt{font-size:11.5px;color:var(--ink-dim);margin-top:7px;padding-top:7px;border-top:1px solid var(--panel-2)}
+  .gun-card dd{font-family:var(--mono);font-size:12.5px;color:var(--ink);margin:2px 0 0;
+    font-variant-numeric:tabular-nums;line-height:1.45}
 
   /* ---------- carte ---------- */
   .mapbar{padding:10px 0 0}
@@ -412,8 +417,8 @@
     <button role="tab" aria-selected="false" data-v="curve">Courbes</button>
     <button role="tab" aria-selected="false" data-v="duel">Duel</button>
     <button role="tab" aria-selected="false" data-v="combo">Combo</button>
-    <button role="tab" aria-selected="false" data-v="cover">Couverture</button>
     <button role="tab" aria-selected="false" data-v="patch">Patch</button>
+    <button role="tab" aria-selected="false" data-v="guns">Armes</button>
     <button role="tab" aria-selected="false" data-v="acc">Accessoires</button>
     <span class="sep" aria-hidden="true"></span>
     <button role="tab" aria-selected="false" data-v="map">Cartes</button>
@@ -474,7 +479,7 @@
 <section id="curve" hidden>
   <div class="picks" id="picks"></div>
   <div class="chart-cap"><span>TTK (ms) · plus bas = tue plus vite</span><span id="capnote"></span></div>
-  <svg id="chart" viewBox="0 0 660 320" role="img" aria-label="TTK en fonction de la distance"></svg>
+  <svg id="chart" viewBox="0 0 660 250" role="img" aria-label="TTK en fonction de la distance"></svg>
 </section>
 
 <section id="duel" hidden>
@@ -537,7 +542,6 @@
     <button data-md="path" aria-pressed="false">Trajet</button>
     <button data-md="draw" aria-pressed="false">Dessin</button>
     <button data-md="obj"  aria-pressed="false">Objets</button>
-    <button data-md="lift" aria-pressed="false">Ascenseurs</button>
   </div>
   <div class="tools ctx" id="ctx"></div>
   <div class="equip" id="equip" hidden></div>
@@ -559,29 +563,15 @@
   <div id="clist"></div>
 </section>
 
-<section id="cover" hidden>
-  <p class="lead">Une compo, c'est deux armes. Cette vue prend ton duo et parcourt les
-    40 m mètre par mètre pour répondre à une seule question : <b>à cette distance, est-ce
-    que j'ai de quoi tuer ?</b> Elle repère les tranches où le duo tue franchement, celles
-    où il traîne, et celles où il ne tue pas du tout — les trous de ta compo.</p>
-  <div class="duel">
-    <select id="k1" aria-label="Arme principale"></select>
-    <span class="vs">AVEC</span>
-    <select id="k2" aria-label="Arme secondaire"></select>
-  </div>
-  <div class="chart-cap"><span>Bande du haut : l'arme la plus rapide · bande du bas : facilité à tuer</span></div>
-  <svg id="covchart" viewBox="0 0 660 170" role="img" aria-label="Couverture du duo d'armes en fonction de la distance"></svg>
-  <div class="covleg" id="covleg"></div>
-  <div id="covdiff"></div>
-</section>
-
 <section id="patch" hidden>
   <select id="pw" aria-label="Arme modifiée"></select>
   <div class="picks" id="pvers" role="group" aria-label="Versions à comparer"></div>
   <div class="chart-cap"><span id="pcap"></span><span id="pprev"></span></div>
-  <svg id="pchart" viewBox="0 0 660 300" role="img" aria-label="TTK avant et après patch"></svg>
+  <svg id="pchart" viewBox="0 0 660 230" role="img" aria-label="TTK avant et après patch"></svg>
   <div id="pdiff"></div>
 </section>
+
+<section id="guns" hidden></section>
 
 <section id="acc" hidden></section>
 
@@ -596,18 +586,18 @@ const MED = {hp:100, dur:1, cd:45};
 
 /* Modèle S8, patchnote 1.8.0 du 23/07/2026. bands: d = borne basse en mètres, m = multiplicateur. cat = famille. */
 const W = [
- {n:"MX-42",     c:"Fusil d'assaut", cat:"ar",       f:"balle",  d:{tete:15, torse:13, extrem:10},  rpm:672,  eq:.6,  disp:.25,  b:[[0,1],[22,.85],[30,.75]]},
- {n:"AK-77",     c:"Fusil d'assaut", cat:"ar",       f:"balle",  d:{tete:17, torse:15, extrem:14},  rpm:570,  eq:.6,  disp:.3,   b:[[0,1],[25,.83],[35,.75]]},
- {n:"Vulcan",    c:"Rafale ×3",      cat:"ar",       f:"balle",  d:{tete:19, torse:17, extrem:15},  rpm:500,  eq:.4,  disp:.07,  dnote:"moyenne de la rafale : 0 / 0,1 / 0,1", b:[[0,1],[30,.75]]},
+ {n:"MX-42",     c:"Fusil d'assaut", cat:"ar",       f:"balle",  d:{tete:15, torse:13, extrem:10},  rpm:672,  eq:.6,  disp:.25,  mag:40, rel:1.5, b:[[0,1],[22,.85],[30,.75]]},
+ {n:"AK-77",     c:"Fusil d'assaut", cat:"ar",       f:"balle",  d:{tete:17, torse:15, extrem:14},  rpm:570,  eq:.6,  disp:.3,   mag:35, rel:1.8, b:[[0,1],[25,.83],[35,.75]]},
+ {n:"Vulcan",    c:"Rafale ×3",      cat:"ar",       f:"balle",  d:{tete:19, torse:17, extrem:15},  rpm:500,  eq:.4,  disp:.07,  dnote:"moyenne de la rafale : 0 / 0,1 / 0,1", mag:30, rel:1.5, b:[[0,1],[30,.75]]},
  {n:"MP-52",     c:"SMG",            cat:"smg",      f:"balle",  d:{tete:19, torse:16, extrem:14},  rpm:630,  eq:.4,  disp:1.431,mag:35, rel:1,   b:[[0,1],[8,.70],[12,.55],[15,.45]]},
  {n:"Striker",   c:"SMG",            cat:"smg",      f:"balle",  d:{tete:19, torse:15, extrem:13},  rpm:780,  eq:.4,  disp:1.5,  mag:30, rel:1,   b:[[0,1],[5,.65],[8,.55],[10,.30]]},
  {n:"Spectre",   c:"SMG",            cat:"smg",      f:"balle",  d:{tete:12, torse:10, extrem:9},   rpm:1020, eq:.4,  disp:1.35, mag:45, rel:1,   b:[[0,1],[8,.65],[12,.50],[20,.10]]},
- {n:"Fury",      c:"LMG",            cat:"lmg",      f:"balle",  d:{tete:25, torse:20, extrem:18},  rpm:450,  eq:.9,  disp:.15, dmove:10, b:[[0,1],[50,.80],[70,.70]]},
+ {n:"Fury",      c:"LMG",            cat:"lmg",      f:"balle",  d:{tete:25, torse:20, extrem:18},  rpm:450,  eq:.9,  disp:.15, dmove:10, mag:75, rel:4,   b:[[0,1],[50,.80],[70,.70]]},
  {n:"ERG-51",    c:"Laser continu",  cat:"laser",    f:"continu",d:{tete:162,torse:122,extrem:110}, rpm:60,   eq:.6,  disp:0,    b:[[0,1],[20,.80],[30,.70]]},
  {n:"T1 Gauss",  c:"Fusil à pompe",  cat:"shotgun",  f:"balle",  d:{tete:120,torse:110,extrem:80},  rpm:54,   eq:.5,  disp:2,    mag:5,  rel:3,   b:[[0,1],[3.5,.50],[6,.40],[10,.20],[15,0]]},
  {n:"M12",       c:"Fusil à pompe",  cat:"shotgun",  f:"balle",  d:{tete:80, torse:80, extrem:51},  rpm:150,  eq:.3,  disp:2,    mode:1, mag:8,  rel:2,   b:[[0,1],[5,.70],[15,.60]]},
  {n:"M12 chargé",c:"Fusil à pompe",  cat:"shotgun",  f:"balle",  d:{tete:150,torse:80, extrem:80},  rpm:1.2,  eq:.3,  disp:0,    mode:1, cd:50, mag:8,  rel:2, cost:3, b:[[0,1],[5,.70],[15,.60]]},
- {n:"Warden",    c:"Pistolet",       cat:"pistol",   f:"balle",  d:{tete:49, torse:32, extrem:28},  rpm:270,  eq:.25, disp:0,    b:[[0,1]]},
+ {n:"Warden",    c:"Pistolet",       cat:"pistol",   f:"balle",  d:{tete:49, torse:32, extrem:28},  rpm:270,  eq:.25, disp:0,    mag:9,  rel:1.2, b:[[0,1]]},
  {n:"Socom",     c:"Pistolet",       cat:"pistol",   f:"balle",  d:{tete:20, torse:15, extrem:12},  rpm:360,  eq:.1,  disp:0,    mag:12, rel:.5,  b:[[0,1],[16,.75]]},
  {n:"Needle",    c:"Marksman",       cat:"marksman", f:"balle",  d:{tete:30, torse:24, extrem:20},  rpm:354,  eq:.6,  disp:0,    mag:20, rel:1.5, b:[[0,1]]},
  {n:"Westfire",  c:"Marksman",       cat:"marksman", f:"balle",  d:{tete:100,torse:60, extrem:45},  rpm:63,   eq:.8,  disp:0,    b:[[0,.70],[5,1],[25,.80]]},
@@ -719,6 +709,12 @@ const relMs = (w,n)=> reloadsFor(w,n) * (w.rel||0) * 1000;
 const ttkR = (w,x,z)=>{ const t=ttk(w,x,z); if(t===null) return null; return t + relMs(w, shots(w,x,z)); };
 
 const fr  = (v,d=0)=>v.toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d});
+/* Plafond d'axe arrondi a une valeur lisible, jamais en dessous des donnees. */
+function niceCap(hi){
+  const v=Math.max(hi||0,600);
+  const p=Math.pow(10,Math.floor(Math.log10(v)));
+  return Math.ceil(v/(p/2))*(p/2);
+}
 /* Coût d'un raté : délai avant que la balle suivante puisse partir.
    C'est le seul critère qui sépare deux armes qui tuent toutes les deux en un coup. */
 const gap = w => w.f==="continu" ? null : 60000/w.rpm;
@@ -726,7 +722,7 @@ const dur = ms => ms>=1000 ? fr(ms/1000, ms>=10000?0:1)+" s" : fr(ms)+" ms";
 const $   = s=>document.querySelector(s);
 const $$  = s=>[...document.querySelectorAll(s)];
 
-const TABS = ["rank","curve","duel","combo","cover","patch"];
+const TABS = ["rank","curve","duel","combo","patch"];
 let MODE = "armes";
 let D = 12, Z = "torse", TAB = "rank", HS = 0, CAT = "all";
 let DISP = false, MOVING = false;
@@ -798,12 +794,12 @@ function drawCurve(){
   const pool = filteredW();
   $("#picks").innerHTML = pool.map(w=>
     `<button class="chip" data-n="${w.n}" aria-pressed="${PICK.includes(w.n)}">${w.n}</button>`).join("");
-  const VW=660, VH=320, L=46, R=8, T=12, B=30;
+  const VW=660, VH=250, L=46, R=8, T=12, B=28;
   const px = x=>L+(x/40)*(VW-L-R);
   const series = PICK.map(n=>W.find(w=>w.n===n)).filter(Boolean);
   let hi = 0;
   for(const w of series) for(let x=0;x<=40;x+=.5){const t=TT(w,x,Z); if(t!==null&&t>hi)hi=t;}
-  hi = Math.max(hi,600); const cap = Math.min(hi,2600);
+  const cap = niceCap(hi);
   const py = t=>VH-B-(Math.min(t,cap)/cap)*(VH-T-B);
   const COL=["#F5A524","#4CC9F0","#7BD389","#C084FC","#F472B6"];
   let g="";
@@ -834,8 +830,6 @@ function fillSelects(){
   const os = SRC.map(s=>`<option>${s.n}</option>`).join("");
   $("#ca").innerHTML=os; $("#cb").innerHTML=os;
   $("#ca").value="M12 chargé"; $("#cb").value="Striker";
-  $("#k1").innerHTML=o; $("#k2").innerHTML=o;
-  $("#k1").value="MX-42"; $("#k2").value="M12";
 }
 function initMap(){ PLAYERS=spawnPlayers(); fillStrats(); drawCtx(); }
 function drawDuel(){
@@ -1029,12 +1023,16 @@ function selfTest(){
   T(badZone.length===0, "Tête ≥ torse ≥ extrémités pour chaque arme",
     badZone.length?badZone.map(w=>w.n).join(", "):`${W.length} armes vérifiées`);
 
-  const orphan=PATCHES.flatMap(p=>Object.keys(p.w)).filter(n=>!wOf(n));
+  const orphan=PATCHES.flatMap(p=>Object.keys(p.chg||{})).filter(n=>!wOf(n));
   T(orphan.length===0, "Chaque arme de l'historique des patchs existe dans l'arsenal",
     orphan.length?orphan.join(", "):`${VERS.length} versions, ${touched().length} armes suivies`);
-  T(PATCHES[PATCHES.length-1].v===VER && Object.keys(PATCHES[PATCHES.length-1].w).length===0,
-    "La dernière entrée de l'historique est la version courante, sans surcharge",
+  T(PATCHES[PATCHES.length-1].v===VER && W.every(w=>at(w,VER)===w),
+    "La dernière entrée de l'historique est la version courante",
     VERS.join(" → "));
+  const badChg=PATCHES.flatMap(p=>Object.entries(p.chg||{}).map(([n,c])=>[p.v,n,c]))
+    .filter(([v,n,c])=>Object.keys(c).some(k=>!(k in (wOf(n)||{}))));
+  T(badChg.length===0, "Chaque champ de l'historique existe sur l'arme visée",
+    badChg.length?badChg.map(([v,n,c])=>`${v}/${n}`).join(", "):"champs vérifiés");
   const noCover=Object.entries(MAPS).filter(([k,m])=>!m.cover).map(([k])=>k);
   if(noCover.length) I("Cartes sans calque de couverture basse", noCover.join(", "));
   const noLift=Object.entries(MAPS).filter(([k,m])=>!(m.lifts||[]).length).map(([k])=>k);
@@ -1091,120 +1089,82 @@ function showSelfTest(){
    est la meilleure, c'est quelles bandes de distance le duo tient et laquelle
    il laisse ouverte. Pour chaque mètre on prend l'arme qui tue le plus vite,
    recharges comprises, et on agrège les tranches contiguës. */
-function coverScan(a,b){
-  const step=.25, pts=[];
-  for(let x=0;x<=40+1e-9;x+=step){
-    const ta=TT(a,x,Z), tb=TT(b,x,Z);
-    let k=null, t=null;
-    if(ta!==null && (tb===null || ta<=tb)) { k="a"; t=ta; }
-    else if(tb!==null)                     { k="b"; t=tb; }
-    /* Facilité à tuer, bornée par deux faits du jeu : en dessous du temps de
-       réaction humain l'échange est gagné d'office ; au-delà de la seconde,
-       la cible a de quoi sortir un Med Pack et annuler l'échange. */
-    const lvl = t===null ? "none" : t<=REACT*2 ? "franc" : t<=MED.dur*1000 ? "jouable" : "dur";
-    pts.push({x, k, t, lvl});
-  }
-  return pts;
-}
-function runs(pts,key){
-  const out=[];
-  for(const p of pts){
-    const v=p[key], last=out[out.length-1];
-    if(last && last.v===v){ last.x1=p.x; last.tmin=Math.min(last.tmin,p.t??Infinity); last.tmax=Math.max(last.tmax,p.t??-Infinity); }
-    else out.push({v, x0:p.x, x1:p.x, tmin:p.t??Infinity, tmax:p.t??-Infinity});
-  }
-  return out;
-}
-function drawCover(){
-  const a=W.find(w=>w.n===$("#k1").value), b=W.find(w=>w.n===$("#k2").value);
-  const pts=coverScan(a,b);
-  const lead=runs(pts,"k"), diff=runs(pts,"lvl");
-  const VW=660, VH=170, L=6, R=6, H=30;
-  const px=x=>L+(x/40)*(VW-L-R);
-  const colLead={a:"#F5A524", b:"#4CC9F0", null:"#26313F"};
-  const colLvl={franc:"#7BD389", jouable:"#4CC9F0", dur:"#F5A524", none:"#26313F"};
-  const band=(rows,y,cols)=>rows.map(r=>{
-    const x0=px(r.x0), x1=px(Math.min(r.x1+.25,40));
-    return `<rect x="${x0.toFixed(1)}" y="${y}" width="${Math.max(1,x1-x0).toFixed(1)}" height="${H}"
-      fill="${cols[r.v]}" opacity="${r.v===null||r.v==="none"?.5:.9}"/>`;
-  }).join("");
-  let g="";
-  g+=`<text x="${L}" y="16" fill="#6B7C90" font-size="10.5" font-family="var(--mono)">ARME LA PLUS RAPIDE</text>`;
-  g+=band(lead,22,colLead);
-  g+=`<text x="${L}" y="76" fill="#6B7C90" font-size="10.5" font-family="var(--mono)">FACILITÉ À TUER</text>`;
-  g+=band(diff,82,colLvl);
-  for(const d of [0,10,20,30,40])
-    g+=`<text x="${px(d)}" y="${132}" fill="#41505F" font-size="9.5" font-family="var(--mono)"
-      text-anchor="${d===0?"start":d===40?"end":"middle"}">${d} m</text>`;
-  g+=`<line x1="${px(D)}" y1="18" x2="${px(D)}" y2="116" stroke="#C9D4E0" stroke-width="1.5"/>`;
-  g+=`<text x="${px(D)}" y="152" fill="#C9D4E0" font-size="10" font-family="var(--mono)"
-      text-anchor="middle">distance réglée : ${fr(D,D%1?1:0)} m</text>`;
-  $("#covchart").innerHTML=g;
-
-  $("#covleg").innerHTML = [
-    [colLead.a, a.n], [colLead.b, b.n],
-    [colLvl.franc, "tue avant réaction (≤ "+fr(REACT*2)+" ms)"],
-    [colLvl.jouable, "tue en moins d'une seconde"],
-    [colLvl.dur, "plus d'une seconde : la cible peut se soigner"],
-    [colLvl.none, "aucune des deux ne tue"],
-  ].map(([c,t])=>`<span><i style="background:${c}"></i>${t}</span>`).join("");
-
-  const rng=r=>`${fr(r.x0,r.x0%1?1:0)} → ${fr(Math.min(r.x1+.25,40),1)} m`;
-  const nm=v=>v==="a"?a.n:v==="b"?b.n:"aucune";
-  const rows=lead.filter(r=>r.x1-r.x0>.24||r.x0===0).map(r=>
-    `<div class="pr"><b>${rng(r)}</b><u>${nm(r.v)}</u><i></i><s>${
-      r.v===null?"aucun dégât":`${fr(r.tmin)} à ${fr(r.tmax)} ms`}</s></div>`).join("");
-  const hard=diff.filter(r=>r.v==="dur"&&r.x1-r.x0>.24).map(rng);
-  const dead=diff.filter(r=>r.v==="none"&&r.x1-r.x0>.24).map(rng);
-  const verdict = !hard.length && !dead.length
-    ? `Compo saine : sur les 40 m, le duo tue toujours en moins d'une seconde.`
-    : [ dead.length ? `<b>Trou de compo</b> — aucune des deux armes ne tue : ${dead.join(", ")}.` : "",
-        hard.length ? `<b>Zone compliquée</b> — il faut plus d'une seconde pour tuer, la cible a le temps de décrocher et de se soigner : ${hard.join(", ")}.` : ""
-      ].filter(Boolean).join(" ");
-  $("#covdiff").innerHTML = rows + `<div class="verdict-note">${verdict}</div>`;
-}
-
 /* ---------- comparatif de patch ---------- */
 const VER = "1.8.0";
-/* ---------- historique des patchs ----------
-   PATCHES va du plus ancien au plus recent. Pour chaque version anterieure on
-   stocke l'etat ABSOLU des champs qui differaient a cette date ; une arme
-   absente d'une entree avait deja ses valeurs actuelles. Ajouter une version
-   se resume donc a inserer une entree dans l'ordre chronologique : rien
-   d'autre a toucher, la vue Patch s'adapte. */
+/* ---------- historique des patchs, par saison ----------
+   Chaque entrée est un point de l'histoire, dans l'ordre chronologique, et
+   `chg` contient les valeurs telles qu'elles étaient AVANT ce patch — c'est
+   exactement ce que les patch notes d'EVA donnent entre parenthèses. L'état
+   d'une arme à une version donnée se reconstruit en remontant le temps : on
+   annule les patchs postérieurs, du plus récent au plus ancien.
+
+   Sources transcrites : patchnote 1.7.1 (10/02/2026), 1.7.5 (23/04/2026) et
+   1.8.0 (23/07/2026), toutes trois relevées sur blog.eva.gg.
+   Restent à transcrire pour compléter : 1.7.0, 1.7.2.27, 1.7.6, 1.7.7, et les
+   saisons 1 à 6. Ajouter une entrée dans cette liste suffit, rien d'autre à
+   toucher — les puces de sélection et les écarts s'adaptent. */
 const PATCHES = [
-  {v:"1.7.5", w:{
-  "T1 Gauss":  {d:{tete:110,torse:110,extrem:80}},
-  "M12":       {b:[[0,1],[5,.70],[10,.60]]},
-  "M12 chargé":{d:{tete:100,torse:100,extrem:100}},
-  "MP-52":     {b:[[0,1],[8,.70],[9,.55],[15,.45]], eq:.3},
-  "Striker":   {eq:.3},
-  "Spectre":   {b:[[0,1],[8,.65],[12,.50],[20,.40]]},
-  "Socom":     {d:{tete:25,torse:20,extrem:14}},
-  "Needle":    {d:{tete:34,torse:30,extrem:30}, rpm:258},
+  {v:"1.7.0", s:7, d:"05/02/2026", chg:null},
+  {v:"1.7.1", s:7, d:"10/02/2026", chg:{
+    "M12":        {mag:12},
+    "M12 chargé": {mag:12, cd:20, cost:2, b:[[0,1],[10,.70],[15,.60]]},
   }},
-  {v:"1.8.0", w:{}},          /* etat courant : les valeurs de W */
+  {v:"1.7.5", s:7, d:"23/04/2026", chg:{
+    "M12":        {rpm:162},
+    "M12 chargé": {cd:35, b:[[0,1],[6,.70],[15,.60]]},
+    "MP-52":      {rpm:588},
+    "Warden":     {rpm:288},
+    "Socom":      {d:{tete:20,torse:18,extrem:14}},
+    "MX-42":      {rpm:660},
+    "AK-77":      {rpm:552},
+    "Needle":     {d:{tete:34,torse:28,extrem:28}},
+    /* 3e balle de la rafale à 0,15° au lieu de 0,10° : moyenne 0,083 au lieu de 0,067 */
+    "Vulcan":     {disp:.0833, dnote:"moyenne de la rafale : 0 / 0,1 / 0,15"},
+  }},
+  {v:"1.7.6", s:7, d:"12/06/2026", chg:null},
+  {v:"1.7.7", s:7, d:"08/07/2026", chg:null},
+  {v:"1.8.0", s:8, d:"23/07/2026", chg:{
+    "T1 Gauss":   {d:{tete:110,torse:110,extrem:80}},
+    "M12":        {b:[[0,1],[5,.70],[10,.60]]},
+    "M12 chargé": {d:{tete:100,torse:100,extrem:100}},
+    "MP-52":      {b:[[0,1],[8,.70],[9,.55],[15,.45]], eq:.3},
+    "Striker":    {eq:.3},
+    "Spectre":    {b:[[0,1],[8,.65],[12,.50],[20,.40]]},
+    "Socom":      {d:{tete:25,torse:20,extrem:14}},
+    "Needle":     {d:{tete:34,torse:30,extrem:30}, rpm:258},
+  }},
 ];
 const VERS = PATCHES.map(p=>p.v);
 const PREVN = VERS[VERS.length-2] || VERS[0];
-/* etat d'une arme a une version donnee */
-const at = (w,v)=>{
-  const e=PATCHES.find(p=>p.v===v);
-  return e && e.w[w.n] ? Object.assign({}, w, e.w[w.n]) : w;
-};
-/* armes touchees par au moins une version de l'historique */
-const touched = ()=> [...new Set(PATCHES.flatMap(p=>Object.keys(p.w)))].filter(n=>W.some(w=>w.n===n));
+/* état d'une arme à une version : on annule les patchs postérieurs */
+function at(w,v){
+  const i=VERS.indexOf(v);
+  let o=w;
+  for(let k=PATCHES.length-1;k>i;k--){
+    const c=PATCHES[k].chg && PATCHES[k].chg[w.n];
+    if(c) o=Object.assign({},o,c);
+  }
+  return o;
+}
+/* armes touchées par au moins un patch de l'historique */
+const touched = ()=> [...new Set(PATCHES.flatMap(p=>Object.keys(p.chg||{})))].filter(n=>W.some(w=>w.n===n));
 /* versions retenues pour la comparaison, dans l'ordre chronologique */
-let PSEL = VERS.slice(-2);
+let PSEL = [VERS[0], VER];
 const pselSorted = ()=> VERS.filter(v=>PSEL.includes(v));
+const seasonOf = v => (PATCHES.find(p=>p.v===v)||{}).s;
+const dateOf   = v => (PATCHES.find(p=>p.v===v)||{}).d;
 function fillPatch(){
   $("#pw").innerHTML = touched().map(n=>`<option>${n}</option>`).join("");
   drawVers();
 }
 function drawVers(){
-  $("#pvers").innerHTML = VERS.map(v=>
-    `<button class="chip" data-v2="${v}" aria-pressed="${PSEL.includes(v)}">${v}${
-      v===VER?" · actuelle":""}</button>`).join("");
+  const seasons=[...new Set(VERS.map(seasonOf))];
+  $("#pvers").innerHTML = seasons.map(sn=>
+    `<div class="vgroup"><span class="vslab">Saison ${sn}</span>` +
+    VERS.filter(v=>seasonOf(v)===sn).map(v=>
+      `<button class="chip" data-v2="${v}" aria-pressed="${PSEL.includes(v)}"
+        title="${dateOf(v)||""}">${v}${v===VER?" · actuelle":""}</button>`).join("") +
+    `</div>`).join("");
 }
 $("#pvers").addEventListener("click",e=>{
   const b=e.target.closest(".chip"); if(!b) return;
@@ -1218,11 +1178,13 @@ function drawPatch(){
   if(!w) return;
   const sel=pselSorted();
   const states=sel.map(v=>({v, w:at(w,v)}));
-  const VW=660, VH=300, L=46, R=8, T=12, B=30;
+  const VW=660, VH=230, L=46, R=8, T=12, B=28;
   const px=x=>L+(x/40)*(VW-L-R);
   let hi=0;
   for(const st of states) for(let x=0;x<=40;x+=.5){const t=ttkR(st.w,x,Z); if(t!==null&&t>hi)hi=t;}
-  const cap=Math.min(Math.max(hi,600),2600), py=t=>VH-B-(Math.min(t,cap)/cap)*(VH-T-B);
+  /* L'echelle suit les donnees : avec les recharges, un TTK peut depasser
+     largement les 2,6 s d'avant, et un plafond fixe tronquait la courbe. */
+  const cap=niceCap(hi), py=t=>VH-B-(Math.min(t,cap)/cap)*(VH-T-B);
   let g="";
   for(let i=0;i<=4;i++){const v=cap*i/4,y=py(v);
     g+=`<line x1="${L}" y1="${y}" x2="${VW-R}" y2="${y}" stroke="#1B2431"/>
@@ -1284,6 +1246,74 @@ function drawPatch(){
       r.d===null?"—":Math.abs(r.d)<1?"égal":(r.d<0?"−":"+")+fr(Math.abs(r.d))+" ms"}</u></div>`).join("") +
     `<div class="mnote">Un temps en vert veut dire que l'arme tue plus vite qu'avant.
      Les armes absentes de la liste n'ont jamais été touchées par les patchs suivis.</div>`;
+}
+
+/* ---------- fiches d'armes ----------
+   Même principe que les accessoires : une carte par arme, mais avec la fiche
+   technique complète et une silhouette schématique. Les silhouettes ne sont pas
+   les modèles du jeu : ce sont des schémas construits à partir de la longueur
+   d'arme utilisée sur la carte, pour rendre la catégorie reconnaissable d'un
+   coup d'œil. */
+const GUNSHAPE = {
+  pistol:   {L:34, stock:false, optic:false, mag:9,  grip:1.0},
+  smg:      {L:52, stock:true,  optic:false, mag:15, grip:1.0},
+  ar:       {L:74, stock:true,  optic:true,  mag:14, grip:1.0},
+  lmg:      {L:82, stock:true,  optic:true,  mag:22, grip:1.3},
+  shotgun:  {L:62, stock:true,  optic:false, mag:0,  grip:1.1},
+  marksman: {L:86, stock:true,  optic:true,  mag:11, grip:0.9},
+  sniper:   {L:104,stock:true,  optic:true,  mag:10, grip:0.9},
+  laser:    {L:70, stock:true,  optic:true,  mag:0,  grip:1.1, cell:true},
+};
+function gunSchema(cat){
+  const g = GUNSHAPE[cat] || GUNSHAPE.ar;
+  const x0 = 14, y = 40, body = g.L;
+  const P = [];
+  /* canon */
+  P.push(`<rect x="${x0}" y="${y-4}" width="${body}" height="8" rx="3" fill="#DCE6F2"/>`);
+  /* carcasse */
+  P.push(`<rect x="${x0+body*0.34}" y="${y-9}" width="${body*0.34}" height="18" rx="4" fill="#8C9AAB"/>`);
+  /* poignée */
+  P.push(`<path d="M${x0+body*0.60},${y+8} l${9*g.grip},${17*g.grip} l-${11*g.grip},0 l-${5*g.grip},-17 z" fill="#8C9AAB"/>`);
+  /* crosse */
+  if(g.stock) P.push(`<rect x="${x0+body*0.74}" y="${y-5}" width="${body*0.26}" height="10" rx="3" fill="#5B6979"/>`);
+  /* chargeur */
+  if(g.mag) P.push(`<rect x="${x0+body*0.42}" y="${y+8}" width="10" height="${g.mag}" rx="2" fill="#5B6979"/>`);
+  /* cellule d'énergie pour le laser */
+  if(g.cell) P.push(`<circle cx="${x0+body*0.50}" cy="${y+15}" r="7" fill="none" stroke="#7BD389" stroke-width="3"/>`);
+  /* lunette */
+  if(g.optic) P.push(`<rect x="${x0+body*0.40}" y="${y-17}" width="${body*0.26}" height="7" rx="3" fill="#C9D4E0"/>`);
+  return `<svg class="gunsvg" viewBox="0 0 130 76" role="img" aria-label="Silhouette schématique">${P.join("")}</svg>`;
+}
+function drawGuns(){
+  const pool = filteredW();
+  $("#guns").innerHTML = `<p class="lead">Fiche complète de chaque arme, valeurs ${VER}.
+    Le temps à tuer est calculé à la distance réglée plus haut (${fr(D,D%1?1:0)} m)
+    et suit les hypothèses en cours.</p><div class="acc-grid">` + pool.map(w=>{
+    const t=TT(w,D,Z), sh=shots(w,D,Z), r=DISP?real(w,D,Z,MOVING):null;
+    const rl=reloadsFor(w, r?r.fired:sh);
+    const rows=[
+      ["Dégâts tête", fr(w.d.tete)],
+      ["Dégâts torse", fr(w.d.torse)],
+      ["Dégâts extrémités", fr(w.d.extrem)],
+      ["Cadence", w.f==="continu" ? "tir continu" : fr(w.rpm)+" RPM"],
+      ["Dispersion", w.disp ? fr(w.disp,w.disp%1?2:0)+"°" + (w.dmove!==undefined?` · ${fr(w.dmove)}° en mouvement`:"") : "nulle"],
+      ["Chargeur", w.mag ? fr(w.mag)+" balles" + (w.cost?` · ${fr(w.cost)} par tir`:"") : "non publié"],
+      ["Recharge", w.rel ? fr(w.rel,w.rel%1?1:0)+" s" : "non publiée"],
+      ["Temps d'équipement", fr(w.eq,1)+" s"],
+      ["Paliers de dégâts", w.b.map(([d,m])=>`${fr(d,d%1?1:0)} m : ${Math.round(m*100)} %`).join(" · ")],
+      [`À ${fr(D,D%1?1:0)} m`, t===null ? "aucun dégât"
+        : `${fr(t)} ms · ${w.f==="continu"?fr(sh,2)+" s de faisceau":fr(sh)+(sh>1?" balles":" balle")}${
+          rl>0?` · ${fr(rl)} recharge${rl>1?"s":""}`:""}`],
+    ];
+    if(w.cd) rows.push(["Temps de recharge du mode", fr(w.cd)+" s"]);
+    if(w.dnote) rows.push(["Note", w.dnote]);
+    return `<div class="acc-card gun-card">
+      <h3>${w.n}</h3>
+      <div class="acc-type">${w.c}</div>
+      ${gunSchema(w.cat)}
+      <dl>${rows.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>
+    </div>`;
+  }).join("") + `</div>`;
 }
 
 /* ---------- accessoires ---------- */
@@ -2408,11 +2438,13 @@ function render(){
   if(MODE==="cartes"){ drawMap(); syncURL(); return; }
   $("#dv").innerHTML = fr(D, D%1?1:0)+"<span>m</span>";
   drawTicks();
+  /* la vue Armes court-circuite l'aiguillage par TAB : sans ca, un onglet
+     precedemment actif reprend la main et la fiche ne se rafraichit jamais */
+  if(VIEW==="guns"){ drawGuns(); syncURL(); return; }
   if(TAB==="rank") drawRank();
   else if(TAB==="curve") drawCurve();
   else if(TAB==="duel") drawDuel();
   else if(TAB==="combo") drawCombo();
-  else if(TAB==="cover") drawCover();
   else drawPatch();
   syncURL();
 }
@@ -2420,8 +2452,8 @@ function render(){
 /* ---------- aiguillage de vue : une seule barre d'onglets ----------
    Les vues qui consomment la distance affichent la règle et les hypothèses ;
    les autres ne montrent aucun réglage qui ne les concerne pas. */
-const USES_D = ["rank","curve","duel","combo","cover","patch"];
-const FILTERED = ["rank","curve"];          /* seules vues où la catégorie filtre une liste */
+const USES_D = ["rank","curve","duel","combo","patch","guns"];
+const FILTERED = ["rank","curve","guns"];   /* vues où la catégorie filtre une liste */
 let VIEW = "rank";
 
 function hypSum(){
@@ -2443,8 +2475,9 @@ function go(v){
   $("#hyp").hidden    = !usesD;
   $("#catbar").hidden = !FILTERED.includes(v);
   $("#mapbar").hidden = v!=="map";
-  [...TABS,"acc","map"].forEach(id=>$("#"+id).hidden = id!==v);
+  [...TABS,"guns","acc","map"].forEach(id=>$("#"+id).hidden = id!==v);
   if(v==="acc"){ drawAcc(); return; }
+  if(v==="guns"){ drawGuns(); hypSum(); syncURL(); return; }
   if(v==="map"){ loadLOS(MK); drawMap(); return; }
   hypSum();
   render();
@@ -2466,7 +2499,6 @@ function syncURL(){
   if(VIEW==="curve" && PICK.length) p.set("p",PICK.join("|"));
   if(VIEW==="duel"){ p.set("a",$("#w1").value); p.set("b",$("#w2").value); if(HS) p.set("hs",String(HS)); }
   if(VIEW==="combo"){ p.set("a",$("#ca").value); p.set("b",$("#cb").value); }
-  if(VIEW==="cover"){ p.set("a",$("#k1").value); p.set("b",$("#k2").value); }
   if(VIEW==="patch"){ p.set("a",$("#pw").value); p.set("pv",pselSorted().join("|")); }
   if(VIEW==="map") p.set("mk",MK);
   try{ history.replaceState(null,"","#"+p.toString()); }catch(e){}
@@ -2501,14 +2533,13 @@ function readURL(){
   const setPair=(s1,s2)=>{ setSel(s1,a); setSel(s2,b); };
   if(v==="duel")  setPair("#w1","#w2");
   if(v==="combo") setPair("#ca","#cb");
-  if(v==="cover") setPair("#k1","#k2");
   if(v==="patch"){
     if(a && touched().includes(a)) $("#pw").value=a;
     const pv=(p.get("pv")||"").split("|").filter(x=>VERS.includes(x));
     if(pv.length){ PSEL=pv; drawVers(); }
   }
   if(v==="map" && p.has("mk") && MAPS[p.get("mk")]){ MK=p.get("mk"); $("#mapsel").value=MK; }
-  return [...TABS,"acc","map"].includes(v) ? v : null;
+  return [...TABS,"guns","acc","map"].includes(v) ? v : null;
 }
 
 $$("#nav button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.v)));
@@ -2529,8 +2560,6 @@ $("#picks").addEventListener("click",e=>{
   else { PICK=[...PICK,n].slice(-5); }
   drawCurve();});
 $("#pw").addEventListener("change",drawPatch);
-$("#k1").addEventListener("change",drawCover);
-$("#k2").addEventListener("change",drawCover);
 $("#w1").addEventListener("change",drawDuel);
 $("#w2").addEventListener("change",drawDuel);
 $("#ca").addEventListener("change",drawCombo);
@@ -2728,7 +2757,8 @@ svgEl.addEventListener("pointermove",function(ev){
     DRAG.moved=true; frame();
   }
 },true);
-$$('#tools button[data-md="aim"]').forEach(b=>b.remove());
+/* L'outil Visée reste disponible en plus de la poignée de rotation : la poignée
+   n'apparaît que sur le joueur sélectionné, ce qui la rend facile à manquer. */
 svgEl.addEventListener("pointerup",function(){
   if(DRAG && DRAG.t==="new" && !DRAG.moved && MMODE==="sel") SEL=null;
 },true);
