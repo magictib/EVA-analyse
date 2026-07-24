@@ -33,22 +33,39 @@
   }
   .wrap{max-width:680px;margin:0 auto;padding:0 16px}
 
-  /* ---------- onglets principaux ---------- */
-  .mainnav{display:flex;gap:2px;padding:14px 0 0}
-  .mainnav button{
-    flex:1;background:var(--panel);border:1px solid var(--rule);color:var(--ink-dim);cursor:pointer;
-    font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
-    padding:12px 4px;transition:background .12s,color .12s;
+  /* ---------- navigation : un seul niveau, defilable ---------- */
+  #stick{position:sticky;top:0;z-index:10;background:var(--void);border-bottom:1px solid var(--rule)}
+  .nav{display:flex;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding:12px 0 0}
+  .nav::-webkit-scrollbar{display:none}
+  .nav button{
+    flex:0 0 auto;background:none;border:none;border-bottom:2px solid transparent;
+    color:var(--ink-dim);cursor:pointer;white-space:nowrap;
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;
+    padding:8px 10px 9px;transition:color .12s,border-color .12s;
   }
-  .mainnav button[aria-selected=true]{background:var(--ink);color:#0B0F14;font-weight:700;border-color:var(--ink)}
-  .mainnav button:focus-visible{outline:2px solid var(--cold);outline-offset:-2px}
+  .nav button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--signal)}
+  .nav button:focus-visible{outline:2px solid var(--cold);outline-offset:-2px}
+  .nav .sep{flex:0 0 auto;width:1px;background:var(--rule);margin:7px 7px 9px}
+
+  /* ---------- hypotheses de calcul, repliables ---------- */
+  .hyp{border:1px solid var(--rule);background:var(--panel);margin:12px 0 0}
+  .hyp>summary{
+    cursor:pointer;list-style:none;padding:9px 11px;display:flex;gap:10px;justify-content:space-between;
+    font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim);
+  }
+  .hyp>summary::-webkit-details-marker{display:none}
+  .hyp>summary b{color:var(--ink);font-weight:400;letter-spacing:.04em;text-transform:none;text-align:right}
+  .hyp>summary:focus-visible{outline:2px solid var(--cold);outline-offset:-2px}
+  .hyp[open]>summary{border-bottom:1px solid var(--rule)}
+  .hypbody{padding:0 11px 13px}
+  .hyp .seg{margin-top:13px}
 
   /* ---------- barres de selection ---------- */
   .catbar{padding:10px 0 0}
   .catbar select{width:100%}
 
   /* ---------- la regle : signature de la page ---------- */
-  .ruler{padding:18px 0 4px;border-bottom:1px solid var(--rule);position:sticky;top:0;background:var(--void);z-index:10}
+  .ruler{padding:15px 0 3px}
   .ruler-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
   .ruler-label{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim)}
   .ruler-val{font-family:var(--mono);font-size:34px;font-weight:600;color:var(--signal);line-height:1;font-variant-numeric:tabular-nums}
@@ -91,16 +108,6 @@
   }
   .seg button[aria-pressed=true]{background:var(--signal);color:#0B0F14;font-weight:700}
   .seg button:focus-visible{outline:2px solid var(--cold);outline-offset:-2px}
-
-  /* ---------- sous-onglets ---------- */
-  nav{display:flex;gap:18px;border-bottom:1px solid var(--rule);margin-top:2px}
-  nav button{
-    background:none;border:0;border-bottom:2px solid transparent;color:var(--ink-faint);
-    cursor:pointer;padding:13px 0;font-family:var(--mono);font-size:10.5px;
-    letter-spacing:.14em;text-transform:uppercase;transition:color .12s;
-  }
-  nav button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--signal)}
-  nav button:focus-visible{outline:2px solid var(--cold);outline-offset:2px}
 
   section{padding:18px 0 0}
   [hidden]{display:none !important}
@@ -187,8 +194,8 @@
   .equip button i{width:8px;height:8px;display:block;border-radius:50%}
   .equip button.wipe{color:var(--ink-faint);margin-left:auto}
   .mapbox{border:1px solid var(--rule);background:#0E1319;line-height:0}
-  #atlantis{cursor:crosshair;touch-action:none;overflow:hidden;-webkit-user-select:none;user-select:none}
-  #atlantis image{image-rendering:pixelated}
+  #mapsvg{cursor:crosshair;touch-action:none;overflow:hidden;-webkit-user-select:none;user-select:none}
+  #mapsvg image{image-rendering:pixelated}
   .maphint{
     display:flex;justify-content:space-between;gap:10px;padding:7px 0 0;
     font-family:var(--mono);font-size:9px;letter-spacing:.07em;color:var(--ink-faint);text-transform:uppercase;
@@ -369,7 +376,7 @@
     .duel{grid-template-columns:1fr;gap:8px}
     .vs{text-align:center}
     .acc-grid{grid-template-columns:1fr}
-    nav{gap:13px}
+    .nav button{padding:8px 8px 9px}
     .fam{grid-template-columns:1fr;gap:0}
     .equip button.wipe{margin-left:0}
   }
@@ -378,9 +385,25 @@
 <body>
 <div class="wrap">
 
-<div class="mainnav" role="tablist" aria-label="Sections">
-  <button role="tab" aria-selected="true" data-mode="armes">Armes</button>
-  <button role="tab" aria-selected="false" data-mode="cartes">Cartes</button>
+<div id="stick">
+  <div class="nav" id="nav" role="tablist" aria-label="Sections">
+    <button role="tab" aria-selected="true"  data-v="rank">Classement</button>
+    <button role="tab" aria-selected="false" data-v="curve">Courbes</button>
+    <button role="tab" aria-selected="false" data-v="duel">Duel</button>
+    <button role="tab" aria-selected="false" data-v="combo">Combo</button>
+    <button role="tab" aria-selected="false" data-v="patch">Patch</button>
+    <button role="tab" aria-selected="false" data-v="acc">Accessoires</button>
+    <span class="sep" aria-hidden="true"></span>
+    <button role="tab" aria-selected="false" data-v="map">Cartes</button>
+  </div>
+  <div class="ruler" id="ruler">
+    <div class="ruler-head">
+      <span class="ruler-label">Distance</span>
+      <span class="ruler-val" id="dv">12<span>m</span></span>
+    </div>
+    <input type="range" id="dist" min="0" max="40" step="0.1" value="12" aria-label="Distance en mètres">
+    <div class="ticks" id="ticks"></div>
+  </div>
 </div>
 
 <div class="catbar" id="catbar">
@@ -394,7 +417,6 @@
     <option value="pistol">Pistolets</option>
     <option value="marksman">Marksman</option>
     <option value="sniper">Sniper</option>
-    <option value="acc">Accessoires</option>
   </select>
 </div>
 
@@ -402,30 +424,20 @@
   <select id="mapsel" aria-label="Carte"></select>
 </div>
 
-<div class="ruler" id="ruler">
-  <div class="ruler-head">
-    <span class="ruler-label">Distance</span>
-    <span class="ruler-val" id="dv">12<span>m</span></span>
+<details class="hyp" id="hyp">
+  <summary>Hypothèses <b id="hypsum"></b></summary>
+  <div class="hypbody">
+    <div class="seg" role="group" aria-label="Zone touchée">
+      <button data-z="tete">Tête</button>
+      <button data-z="torse" aria-pressed="true">Torse</button>
+      <button data-z="extrem">Extrémités</button>
+    </div>
+    <div class="tog" id="tog">
+      <button data-tg="disp" aria-pressed="false">Compter les ratés</button>
+      <button data-tg="mov" aria-pressed="false" disabled>En mouvement</button>
+    </div>
   </div>
-  <input type="range" id="dist" min="0" max="40" step="0.1" value="12" aria-label="Distance en mètres">
-  <div class="ticks" id="ticks"></div>
-  <div class="seg" role="group" aria-label="Zone touchée">
-    <button data-z="tete">Tête</button>
-    <button data-z="torse" aria-pressed="true">Torse</button>
-    <button data-z="extrem">Extrémités</button>
-  </div>
-  <div class="tog" id="tog">
-    <button data-tg="disp" aria-pressed="false">Compter les ratés</button>
-    <button data-tg="mov" aria-pressed="false" disabled>En mouvement</button>
-  </div>
-  <nav id="subnav" role="tablist">
-    <button role="tab" aria-selected="true" data-t="rank">Classement</button>
-    <button role="tab" aria-selected="false" data-t="curve">Courbes</button>
-    <button role="tab" aria-selected="false" data-t="duel">Duel</button>
-    <button role="tab" aria-selected="false" data-t="combo">Combo</button>
-    <button role="tab" aria-selected="false" data-t="patch">Patch</button>
-  </nav>
-</div>
+</details>
 
 <section id="rank"></section>
 
@@ -467,22 +479,10 @@
       <button data-act="import">Importer le code</button>
     </div>
   </div>
-  <div class="tools modes" id="tools">
-    <button data-md="sel"  aria-pressed="true">Sélection</button>
-    <button data-md="meas" aria-pressed="false">Mesure</button>
-    <button data-md="aim"  aria-pressed="false">Visée</button>
-    <button data-md="path" aria-pressed="false">Trajet</button>
-    <button data-md="draw" aria-pressed="false">Dessin</button>
-    <button data-md="zone" aria-pressed="false">Zone</button>
-    <button data-md="obj"  aria-pressed="false">Objets</button>
-    <button data-md="lift" aria-pressed="false">Ascenseurs</button>
-  </div>
-  <div class="tools ctx" id="ctx"></div>
-  <div class="equip" id="equip" hidden></div>
   <div class="mgrid">
     <div class="mleft">
       <div class="mapbox">
-        <svg id="atlantis" viewBox="0 0 1384 697" role="img" aria-label="Carte à l'échelle"></svg>
+        <svg id="mapsvg" viewBox="0 0 1384 697" role="img" aria-label="Carte à l'échelle"></svg>
       </div>
       <div class="maphint">
         <span id="mapdim"></span>
@@ -500,6 +500,18 @@
       <div class="items" id="itemlist"></div>
     </div>
   </div>
+  <div class="tools modes" id="tools">
+    <button data-md="sel"  aria-pressed="true">Sélection</button>
+    <button data-md="meas" aria-pressed="false">Mesure</button>
+    <button data-md="aim"  aria-pressed="false">Visée</button>
+    <button data-md="path" aria-pressed="false">Trajet</button>
+    <button data-md="draw" aria-pressed="false">Dessin</button>
+    <button data-md="zone" aria-pressed="false">Zone</button>
+    <button data-md="obj"  aria-pressed="false">Objets</button>
+    <button data-md="lift" aria-pressed="false">Ascenseurs</button>
+  </div>
+  <div class="tools ctx" id="ctx"></div>
+  <div class="equip" id="equip" hidden></div>
 </section>
 
 <section id="combo" hidden>
@@ -520,7 +532,7 @@
 
 <section id="patch" hidden>
   <select id="pw" aria-label="Arme modifiée"></select>
-  <div class="chart-cap"><span id="pcap"></span><span>1.7.5 en pointillé</span></div>
+  <div class="chart-cap"><span id="pcap"></span><span id="pprev"></span></div>
   <svg id="pchart" viewBox="0 0 660 300" role="img" aria-label="TTK avant et après patch"></svg>
   <div id="pdiff"></div>
 </section>
@@ -879,7 +891,8 @@ const PREV = {
   "T1 Gauss":  {d:{tete:110,torse:110,extrem:80}},
   "M12":       {b:[[0,1],[5,.70],[10,.60]]},
   "M12 chargé":{d:{tete:100,torse:100,extrem:100}},
-  "MP-52":     {b:[[0,1],[8,.70],[9,.55],[15,.45]]},
+  "MP-52":     {b:[[0,1],[8,.70],[9,.55],[15,.45]], eq:.3},
+  "Striker":   {eq:.3},
   "Spectre":   {b:[[0,1],[8,.65],[12,.50],[20,.40]]},
   "Socom":     {d:{tete:25,torse:20,extrem:14}},
   "Needle":    {d:{tete:34,torse:30,extrem:30}, rpm:258},
@@ -888,6 +901,7 @@ const oldOf = w => PREV[w.n] ? Object.assign({}, w, PREV[w.n]) : null;
 const bandTxt = w => w.b.map(([d,m])=>`${fr(d,d%1?1:0)} m : ${Math.round(m*100)} %`).join(" · ");
 function fillPatch(){
   $("#pw").innerHTML = Object.keys(PREV).map(n=>`<option>${n}</option>`).join("");
+  $("#pprev").textContent = PREVN+" en pointillé";
 }
 function drawPatch(){
   const name=$("#pw").value, w=W.find(x=>x.n===name), o=oldOf(w);
@@ -921,6 +935,7 @@ function drawPatch(){
   for(const z of ["tete","torse","extrem"]) if(o.d[z]!==w.d[z])
     add({tete:"Dégâts tête",torse:"Dégâts torse",extrem:"Dégâts extrémités"}[z], fr(o.d[z]), fr(w.d[z]));
   if(o.rpm!==w.rpm) add("Cadence", fr(o.rpm)+" RPM", fr(w.rpm)+" RPM");
+  if(o.eq!==w.eq) add("Temps d'équipement", fr(o.eq,1)+" s", fr(w.eq,1)+" s");
   if(JSON.stringify(o.b)!==JSON.stringify(w.b)) add("Paliers de dégâts", bandTxt(o), bandTxt(w));
   const ta=ttk(o,D,Z), tb=ttk(w,D,Z);
   const vt=t=>t===null?"aucun dégât":fr(t)+" ms";
@@ -1304,7 +1319,7 @@ function snap(p){
    pour ne pas relancer le décodage des calques à chaque image. */
 function drawStatic(){
   const map=M(), g=[];
-  $("#atlantis").setAttribute("viewBox",`0 0 ${map.w} ${map.h}`);
+  $("#mapsvg").setAttribute("viewBox",`0 0 ${map.w} ${map.h}`);
   g.push(`<rect x="0" y="0" width="${map.w}" height="${map.h}" fill="#0E1319"/>`);
   for(const [x,y,w,h,c] of map.tint)
     g.push(`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}" opacity=".14"/>`);
@@ -1474,7 +1489,7 @@ function drawDyn(){
 
 function drawMap(){
   const map=M();
-  $("#atlantis").innerHTML = `<g id="stat">${drawStatic()}</g><g id="dyn">${drawDyn()}</g>`;
+  $("#mapsvg").innerHTML = `<g id="stat">${drawStatic()}</g><g id="dyn">${drawDyn()}</g>`;
   $("#mapdim").textContent = `${map.n} · ${fr(map.w/map.ppm,1)} × ${fr(map.h/map.ppm,1)} m`;
   $("#mapstate").textContent = ANIM ? "Animation en cours…"
     : MMODE==="draw" ? "Trace un trait"
@@ -1620,7 +1635,7 @@ function drawItems(){
 
 /* ---------- pointeur : poser, glisser, retirer ---------- */
 function toView(ev){
-  const svg=$("#atlantis"), r=svg.getBoundingClientRect(), map=M();
+  const svg=$("#mapsvg"), r=svg.getBoundingClientRect(), map=M();
   return {x:(ev.clientX-r.left)/r.width*map.w, y:(ev.clientY-r.top)/r.height*map.h};
 }
 /* rayons de saisie exprimés en pixels écran puis convertis en unités viewBox,
@@ -1670,7 +1685,7 @@ function pick(p){
     if(dpx(p,ITEMS[i])<rI) return {t:"item", i};
   return null;
 }
-const svgEl = $("#atlantis");
+const svgEl = $("#mapsvg");
 svgEl.addEventListener("pointerdown",ev=>{
   if(ANIM) return;
   const p=toView(ev);
@@ -2055,50 +2070,49 @@ function render(){
   else drawPatch();
 }
 
-/* bascule armes <-> accessoires selon la catégorie */
-function applyCat(){
-  const acc = CAT==="acc";
-  $("#ruler").hidden = acc;
-  $("#acc").hidden = !acc;
-  if(acc){
-    TABS.forEach(id=>$("#"+id).hidden=true);
-    drawAcc();
-  } else {
-    TABS.forEach(id=>$("#"+id).hidden = id!==TAB);
-    const pool = filteredW();
-    PICK = (CAT==="all") ? [...DEFAULT_PICK] : pool.slice(0,5).map(w=>w.n);
-    render();
-  }
-}
-function applyMode(){
-  const arm = MODE==="armes";
-  $("#catbar").hidden = !arm;
-  $("#mapbar").hidden = arm;
-  $("#subnav").hidden = !arm;
-  $("#map").hidden = arm;
-  if(arm){ applyCat(); }
-  else {
-    $("#ruler").hidden = true;   /* la carte se mesure toute seule */
-    [...TABS,"acc"].forEach(id=>$("#"+id).hidden=true);
-    loadLOS(MK);
-    render();
-  }
+/* ---------- aiguillage de vue : une seule barre d'onglets ----------
+   Les vues qui consomment la distance affichent la règle et les hypothèses ;
+   les autres ne montrent aucun réglage qui ne les concerne pas. */
+const USES_D = ["rank","curve","duel","combo","patch"];
+const FILTERED = ["rank","curve"];          /* seules vues où la catégorie filtre une liste */
+let VIEW = "rank";
+
+function hypSum(){
+  const z = {tete:"tête", torse:"torse", extrem:"extrémités"}[Z];
+  const d = !DISP ? "tous les tirs au but"
+          : MOVING ? "ratés comptés, cible en mouvement"
+                   : "ratés comptés, cible à l'arrêt";
+  $("#hypsum").textContent = `${z} · ${d}`;
 }
 
-$$(".mainnav button").forEach(b=>b.addEventListener("click",()=>{
-  MODE=b.dataset.mode;
-  $$(".mainnav button").forEach(x=>x.setAttribute("aria-selected",x===b));
-  applyMode();}));
-$("#cat").addEventListener("change",e=>{CAT=e.target.value;applyCat();});
+function go(v){
+  VIEW = v;
+  MODE = (v==="map") ? "cartes" : "armes";   /* conservé : le rendu de carte s'y réfère */
+  if(TABS.includes(v)) TAB = v;
+  $$("#nav button").forEach(b=>b.setAttribute("aria-selected", b.dataset.v===v));
+  const usesD = USES_D.includes(v);
+  $("#ruler").hidden  = !usesD;
+  $("#hyp").hidden    = !usesD;
+  $("#catbar").hidden = !FILTERED.includes(v);
+  $("#mapbar").hidden = v!=="map";
+  [...TABS,"acc","map"].forEach(id=>$("#"+id).hidden = id!==v);
+  if(v==="acc"){ drawAcc(); return; }
+  if(v==="map"){ loadLOS(MK); drawMap(); return; }
+  hypSum();
+  render();
+}
+
+$$("#nav button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.v)));
+$("#cat").addEventListener("change",e=>{
+  CAT=e.target.value;
+  const pool=filteredW();
+  PICK = (CAT==="all") ? [...DEFAULT_PICK] : pool.slice(0,5).map(w=>w.n);
+  render();});
 $("#dist").addEventListener("input",e=>{D=+e.target.value;render();});
 $("#hs").addEventListener("input",e=>{HS=+e.target.value;$("#hsv").textContent=HS+" ms";drawDuel();});
 $$(".seg button").forEach(b=>b.addEventListener("click",()=>{
-  Z=b.dataset.z; $$(".seg button").forEach(x=>x.setAttribute("aria-pressed",x===b)); render();}));
-$$("#subnav button").forEach(b=>b.addEventListener("click",()=>{
-  TAB=b.dataset.t;
-  $$("#subnav button").forEach(x=>x.setAttribute("aria-selected",x===b));
-  TABS.forEach(id=>$("#"+id).hidden = id!==TAB);
-  render();}));
+  Z=b.dataset.z; $$(".seg button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  hypSum(); render();}));
 $("#picks").addEventListener("click",e=>{
   const c=e.target.closest(".chip"); if(!c)return;
   const n=c.dataset.n;
@@ -2125,7 +2139,7 @@ $$("#tog button").forEach(b=>b.addEventListener("click",()=>{
     mv.disabled=!DISP; mv.setAttribute("aria-pressed",MOVING);
   } else { if(!DISP) return; MOVING=!MOVING; }
   b.setAttribute("aria-pressed", b.dataset.tg==="disp"?DISP:MOVING);
-  render();}));
+  hypSum(); render();}));
 
 
 /* ===== CORRECTIFS AJOUTES (anneaux Engine, teleporteurs, silhouettes) ===== */
@@ -2304,7 +2318,7 @@ svgEl.addEventListener("pointerup",function(){
   if(DRAG && DRAG.t==="new" && !DRAG.moved && MMODE==="sel") SEL=null;
 },true);
 
-fillSelects(); fillPatch(); fillMaps(); initMap(); drawEquip(); applyMode();
+fillSelects(); fillPatch(); fillMaps(); initMap(); drawEquip(); go("rank");
 </script>
 </body>
 </html>
