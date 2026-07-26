@@ -22,6 +22,11 @@
     --ink-faint:#41505F;
     --mono:ui-monospace,"SF Mono","Cascadia Mono","Roboto Mono",Menlo,Consolas,monospace;
     --ui:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    /* --dim et --bg etaient utilises par la vue Matchs sans jamais avoir ete
+       declares : chaque var() invalide retombait sur l'heritage, donc les
+       en-tetes de tableaux s'affichaient a la couleur du texte plein. */
+    --dim:#6B7C90;
+    --bg:#0B0F14;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
@@ -213,6 +218,63 @@
   .mtr3{border-top:1px solid var(--rule)}
   .mtr3 s{text-decoration:none;font-family:var(--mono);text-align:right}
   .mdet+.mdet,.mdet+.mtr,.mtr+.mdet{border-top:1px solid var(--rule)}
+  /* Tableaux a six colonnes : effectif d'equipe, ou l'on veut voir le score. */
+  .mtab6 .mth,.mtab6 .mtr{grid-template-columns:1.6fr repeat(5,1fr)}
+  /* Fiches par carte. Le fond est le calque des murs, pas le rendu couleur : il
+     pese 2 ko au lieu de 100, et la silhouette du plan suffit a identifier la
+     carte d'un coup d'oeil. */
+  .mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:10px;margin:6px 0 14px}
+  .mcard{border:1px solid var(--rule);background:var(--panel);overflow:hidden}
+  .mcard-top{position:relative;height:84px;background:#0B0F14 center/contain no-repeat;
+    display:flex;align-items:flex-end;justify-content:center;padding:8px}
+  .mcard-top::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(11,15,20,.45),rgba(11,15,20,.92))}
+  .mcard-top b{position:relative;z-index:1;font-size:14.5px;font-weight:600;letter-spacing:.01em;text-align:center}
+  .mcard-sub{padding:6px 10px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--ink-dim);text-align:center}
+  .mcard-sub b{color:var(--signal);font-weight:400}
+  .mcard-row{display:grid;grid-template-columns:1fr auto;gap:8px;padding:5px 10px;font-size:12.5px;
+    color:var(--ink-dim);border-top:1px solid var(--panel-2)}
+  .mcard-row:first-of-type{border-top:0}
+  .mcard-row s{text-decoration:none;font-family:var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+  .mchip{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;
+    border:1px solid var(--rule);background:var(--panel);padding:2px 7px;margin:0 5px 5px 0;color:var(--ink-dim)}
+  .mchip b{color:var(--ink);font-weight:400}
+  .mchip[data-moi]{border-color:var(--signal)}
+  .mchip[data-moi] b{color:var(--signal)}
+  .mid{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 6px}
+  .mid input{flex:1 1 190px;min-width:0;background:var(--panel);color:var(--ink);
+    border:1px solid var(--rule);padding:8px 10px;font-family:var(--mono);font-size:13px}
+  /* Saisie manuelle : un recours, pas le chemin par defaut, d'ou le repli. */
+  .mform{border:1px solid var(--rule);background:var(--panel);margin:6px 0 14px}
+  .mform>summary{padding:10px 12px;cursor:pointer;list-style:none;font-family:var(--mono);
+    font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
+  .mform>summary::-webkit-details-marker{display:none}
+  .mform>summary::after{content:" ▸"}
+  .mform[open]>summary{border-bottom:1px solid var(--rule);color:var(--ink)}
+  .mform[open]>summary::after{content:" ▾"}
+  .mfbody{padding:12px}
+  .mfg{display:grid;grid-template-columns:repeat(auto-fit,minmax(124px,1fr));gap:10px}
+  .mfg label{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-dim);margin-bottom:4px}
+  .mfg input,.mfg select{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--rule);
+    padding:7px 8px;font-family:var(--mono);font-size:13px}
+  .mfsp{margin-top:12px}
+  .mfchk{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ink-dim);margin-top:10px}
+  .mfchk input{width:16px;height:16px;accent-color:var(--signal)}
+  .msbrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+    margin-top:6px;padding-top:6px;border-top:1px solid var(--panel-2)}
+  .msbrow input[type=text]{flex:1 1 118px;min-width:0}
+  .msbrow input[type=number]{flex:0 1 54px;min-width:44px}
+  .msbrow input{background:var(--bg);color:var(--ink);border:1px solid var(--rule);
+    padding:6px 7px;font-family:var(--mono);font-size:12.5px}
+  .msbmvp{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10.5px;
+    letter-spacing:.06em;color:var(--ink-dim);cursor:pointer}
+  .msbmvp input{flex:0 0 15px;width:15px;height:15px;accent-color:var(--signal)}
+  .msbrow button{background:none;border:1px solid var(--rule);color:var(--ink-dim);
+    padding:5px 9px;cursor:pointer;font-family:var(--mono);font-size:12px;flex:0 0 auto}
+  .msbrow button:hover{color:var(--dead);border-color:var(--dead)}
   #mcoll{width:100%;background:var(--panel);color:var(--ink);border:1px solid var(--rule);
     padding:8px;font-family:var(--mono);font-size:12px}
   .acc-grid{display:grid;gap:12px;grid-template-columns:1fr 1fr}
@@ -1181,6 +1243,26 @@ function selfTest(){
     morts.length?[...new Set(morts)].join(", ")
       :`${document.querySelectorAll("button[data-act]").length} boutons vérifiés`);
 
+  /* Le tag doit se detacher des vrais TAGxPseudo sans couper les pseudos qui
+     contiennent un x. C'est la seule chose qui separe les deux camps, donc une
+     regression ici deplacerait silencieusement des joueurs d'une equipe a l'autre. */
+  const casTag=[["BVSxTibco","BVS"],["SLRxWire","SLR"],["G2xM1do","G2"],
+    ["Maxence",null],["Alexis",null],["xX_sniper_Xx",null],["BVS x Tibco",null],["Tibco",null]];
+  const rateTag=casTag.filter(([n,t])=>tagDe(n)!==t).map(([n])=>`${n} → ${tagDe(n)}`);
+  T(rateTag.length===0, "Le tag d'équipe se détache du pseudo",
+    rateTag.length?rateTag.join(", ")
+      :`${casTag.length} cas vérifiés · BVSxTibco → BVS + Tibco, Maxence intact`);
+
+  /* Et le decoupage lui-meme : ton camp d'un cote, le tag majoritaire de l'autre,
+     y compris quand un adversaire joue sans tag. */
+  const faux={k:9,m:2,a:4,res:"V",sb:[{n:"BVSxTibco",k:9,m:2,a:4,s:80},{n:"BVSxAlex",k:3,m:5,a:1,s:40},
+    {n:"SLRxWire",k:6,m:6,a:2,s:55},{n:"SLRxGrom",k:4,m:7,a:0,s:35},{n:"randomguy",k:1,m:8,a:1,s:12}]};
+  const sauve=PSEUDO; PSEUDO="BVSxTibco";
+  const cc=camps(faux); PSEUDO=sauve;
+  T(cc.mien.length===2 && cc.adv.length===3 && cc.tagAdv==="SLR",
+    "Les deux camps se séparent par leur tag",
+    `${cc.mien.length} avec toi · ${cc.adv.length} en face · adversaire ${cc.tagAdv}`);
+
   /* Les zones de spawn vivent dans tint[0] et tint[1]. Une carte qui les oublie
      faisait planter spawnPlayers() avant l'appel à loadLOS(), donc supprimait
      toute occlusion sans le dire. Ce contrôle rend la panne visible. */
@@ -1531,6 +1613,128 @@ function parJoueur(){
   }
   return [...g.entries()].sort((a,b)=>b[1].s/b[1].n-a[1].s/a[1].n);
 }
+
+/* ---------- equipes ----------
+   Le jeu colle le tag au pseudo : BVSxTibco. Deux capitales ou chiffres au moins
+   a gauche d'un x minuscule, sinon Maxence et Alexis se retrouveraient coupes en
+   deux. Il reste des faux positifs possibles — MAXence donnerait le tag MA — donc
+   la liste des tags reconnus est affichee : une bizarrerie doit se voir plutot que
+   de contaminer silencieusement un tableau. */
+const RE_TAG=/^([A-Z0-9]{2,6})x([A-Za-z0-9].*)$/;
+const tagDe  = n => { const g=String(n||"").match(RE_TAG); return g?g[1]:null; };
+const sansTag= n => { const g=String(n||"").match(RE_TAG); return g?g[2]:String(n||""); };
+/* Quel nom du tableau est le tien ? Celui dont le K/D/A colle a celui de la partie,
+   partie apres partie. Un coequipier peut faire le meme score une fois, pas cinq.
+   On devine plutot que d'exiger une saisie, et le champ reste la pour corriger. */
+function devinePseudo(){
+  const c=new Map();
+  for(const m of MATCHS){
+    if(!m.sb) continue;
+    for(const p of m.sb) if(p.k===m.k && p.m===m.m && p.a===m.a) c.set(p.n,(c.get(p.n)||0)+1);
+  }
+  const t=[...c.entries()].sort((a,b)=>b[1]-a[1]);
+  return t.length?t[0][0]:null;
+}
+let PSEUDO=(()=>{ try{ return localStorage.getItem(PKEY)||""; }catch(e){ return ""; } })();
+const monPseudo = () => PSEUDO || devinePseudo() || "";
+/* Decoupe un tableau de partie en deux camps. Le tien est celui qui porte ton
+   pseudo ou ton tag ; l'adverse est le tag majoritaire parmi les autres, ce qui
+   encaisse les equipes mixtes et les joueurs sans tag. Sans pseudo connu on ne
+   devine rien : tout le monde reste dans ton camp, comme avant. */
+function camps(m){
+  const sb=m.sb||[], me=monPseudo(), monTag=tagDe(me);
+  if(!me) return {mien:sb.slice(),adv:[],tagAdv:null};
+  const mien=[], adv=[];
+  for(const p of sb){
+    const t=tagDe(p.n);
+    if(p.n===me || (monTag && t===monTag)) mien.push(p); else adv.push(p);
+  }
+  const cnt=new Map();
+  for(const p of adv){ const t=tagDe(p.n); if(t) cnt.set(t,(cnt.get(t)||0)+1); }
+  const top=[...cnt.entries()].sort((a,b)=>b[1]-a[1])[0];
+  return {mien,adv,tagAdv:top?top[0]:null};
+}
+/* Effectifs des deux camps, cumules sur toutes les parties detaillees. Cote
+   adverse le "v" compte leurs victoires, donc tes defaites. */
+function parCamp(){
+  const A=new Map(), B=new Map();
+  const push=(g,p,v)=>{ const o=g.get(p.n)||{n:0,k:0,m:0,a:0,s:0,mvp:0,v:0};
+    o.n++; o.k+=p.k||0; o.m+=p.m||0; o.a+=p.a||0; o.s+=p.s||0; o.mvp+=p.mvp?1:0; o.v+=v; g.set(p.n,o); };
+  for(const m of MATCHS){
+    if(!m.sb) continue;
+    const c=camps(m), g=m.res==="V"?1:0;
+    for(const p of c.mien) push(A,p,g);
+    for(const p of c.adv)  push(B,p,m.res==="D"?1:0);
+  }
+  const tri=g=>[...g.entries()].sort((a,b)=>b[1].s/b[1].n-a[1].s/a[1].n);
+  return {mien:tri(A),adv:tri(B)};
+}
+/* Par equipe rencontree. Trie par nombre de rencontres puis par difficulte :
+   celles qui te battent le plus remontent, ce sont celles a preparer. */
+function parAdversaire(){
+  const g=new Map();
+  for(const m of MATCHS){
+    if(!m.sb) continue;
+    const c=camps(m); if(!c.tagAdv) continue;
+    const o=g.get(c.tagAdv)||{n:0,v:0,k:0,m:0,a:0,ek:0,em:0,noms:new Set()};
+    o.n++; o.v+=m.res==="V"?1:0; o.k+=m.k||0; o.m+=m.m||0; o.a+=m.a||0;
+    /* ek/em couvre tout le camp d'en face, y compris les joueurs sans tag : c'est
+       bien l'equipe entiere qui t'a battu. L'effectif nomme, lui, ne compte que
+       les porteurs du tag — un mercenaire sans tag n'appartient pas a l'equipe. */
+    for(const p of c.adv){ o.ek+=p.k||0; o.em+=p.m||0; if(tagDe(p.n)===c.tagAdv) o.noms.add(p.n); }
+    g.set(c.tagAdv,o);
+  }
+  return [...g.entries()].sort((a,b)=>b[1].n-a[1].n||a[1].v/a[1].n-b[1].v/b[1].n);
+}
+/* Tous les tags vus, avec leur effectif : le controle a l'oeil du decoupage. */
+function tousLesTags(){
+  const g=new Map();
+  for(const m of MATCHS) for(const p of (m.sb||[])){
+    const t=tagDe(p.n); if(!t) continue;
+    const o=g.get(t)||new Set(); o.add(p.n); g.set(t,o);
+  }
+  return [...g.entries()].map(([t,s])=>[t,s.size]).sort((a,b)=>b[1]-a[1]);
+}
+/* Par carte, en fiches. Le score moyen n'est renseigne que sur les parties dont
+   on a le tableau, d'ou son propre compteur. */
+function parCarteRiche(){
+  const g=new Map(), me=monPseudo();
+  for(const m of MATCHS){
+    const k=m.cle||m.carte; if(!k) continue;
+    const o=g.get(k)||{n:0,v:0,k:0,m:0,a:0,s:0,ns:0,mvp:0,
+      nom:(m.cle&&MAPS[m.cle])?MAPS[m.cle].n:(m.carte||k),cle:m.cle||null};
+    o.n++; o.v+=m.res==="V"?1:0; o.k+=m.k||0; o.m+=m.m||0; o.a+=m.a||0; o.mvp+=m.mvp?1:0;
+    if(m.sb&&me){ const p=m.sb.find(x=>x.n===me); if(p){ o.s+=p.s||0; o.ns++; } }
+    g.set(k,o);
+  }
+  return [...g.values()].sort((a,b)=>b.v/b.n-a.v/a.n||b.n-a.n);
+}
+/* ---------- saisie manuelle ----------
+   Le collage reste le chemin rapide, et le commentaire du parseur explique
+   pourquoi. Mais il suppose une liste selectionnable : sur un casque, sur une
+   capture d'ecran ou quand le jeu ne laisse rien copier, il ne reste que la main.
+   Le formulaire vit donc dans un repli, sous le collage, et non a sa place. */
+const nomDeCle = c => {
+  if(!c) return "";
+  if(MAPS[c]) return MAPS[c].n;
+  const e=Object.entries(NOMCARTE).find(([,v])=>v===c);
+  return e?e[0].replace(/\b\w/g,x=>x.toUpperCase()):c;
+};
+function optionsCartes(){
+  const v=new Map();
+  for(const cle of Object.values(NOMCARTE)) if(!v.has(cle)) v.set(cle,nomDeCle(cle));
+  return [...v.entries()].sort((a,b)=>a[1].localeCompare(b[1],"fr"))
+    .map(([c,n])=>`<option value="${c}">${n}</option>`).join("");
+}
+/* Une ligne de joueur. Les noms deja vus alimentent une datalist : une equipe
+   joue avec le meme effectif, autant ne le taper qu'une fois. */
+const ligneSB = (n="") => `<div class="msbrow">
+  <input type="text" list="mnoms" placeholder="pseudo" value="${n}">
+  <input type="number" min="0" placeholder="K"><input type="number" min="0" placeholder="D">
+  <input type="number" min="0" placeholder="A"><input type="number" min="0" placeholder="score">
+  <label class="msbmvp"><input type="checkbox"> MVP</label>
+  <button data-act="mrowdel" title="Retirer cette ligne">✕</button></div>`;
+
 function drawMat(){
   const el=$("#mat");
   const n=MATCHS.length;
@@ -1541,7 +1745,51 @@ function drawMat(){
     <div class="ptools"><button data-act="mimp">Ajouter</button>
       ${n?`<button data-act="mexp">Exporter</button><button data-act="mraz">Tout effacer</button>`:""}</div>
     <div id="mstate" class="note"></div>`;
-  if(!n){ el.innerHTML=saisie; return; }
+  /* Le formulaire est reconstruit a chaque rendu, donc vide apres un ajout — ce
+     qu'on veut pour la partie suivante. Seul l'effectif est repropose, repris du
+     dernier tableau connu : c'est la seule chose qui ne change pas d'une partie
+     a l'autre, et la retaper cinq fois par soiree ferait abandonner. */
+  const der=(MATCHS.find(x=>x.sb)||{}).sb||[];
+  const rangs=der.length?der.map(p=>ligneSB(p.n)).join(""):ligneSB()+ligneSB();
+  const modes=[...new Set(MATCHS.map(x=>x.mode).filter(Boolean)
+    .concat(["Domination","Point Stratégique"]))].sort((a,b)=>a.localeCompare(b,"fr"));
+  const noms=[...new Set([].concat(...MATCHS.map(x=>(x.sb||[]).map(p=>p.n))))].sort();
+  const z=new Date(), p2=v=>String(v).padStart(2,"0");
+  const formulaire=`<details class="mform">
+    <summary>Saisir une partie à la main</summary>
+    <div class="mfbody">
+      <p class="note">Pour les parties qu'on ne peut pas copier : lues sur un écran, notées après coup,
+        relevées depuis un casque. La date et l'heure servent de clé — deux parties ne peuvent pas
+        partager les deux.</p>
+      <div class="mfg">
+        <div><label>Résultat</label><select id="fres">
+          <option value="V">Victoire</option><option value="N">Égalité</option>
+          <option value="D">Défaite</option></select></div>
+        <div><label>Carte</label><select id="fcarte"><option value="">—</option>${optionsCartes()}</select></div>
+        <div><label>Mode</label><input id="fmode" list="mmodes" placeholder="Domination"></div>
+        <div><label>Frags</label><input id="fk" type="number" min="0" inputmode="numeric" placeholder="0"></div>
+        <div><label>Morts</label><input id="fm" type="number" min="0" inputmode="numeric" placeholder="0"></div>
+        <div><label>Assists</label><input id="fa" type="number" min="0" inputmode="numeric" placeholder="0"></div>
+        <div><label>Date</label><input id="fdt" type="date" value="${z.getFullYear()}-${p2(z.getMonth()+1)}-${p2(z.getDate())}"></div>
+        <div><label>Heure</label><input id="fh" type="time" value="${p2(z.getHours())}:${p2(z.getMinutes())}"></div>
+      </div>
+      <label class="mfchk"><input type="checkbox" id="fmvp"> Tu étais MVP de la partie</label>
+      <p class="note mfsp">Tableau des joueurs — facultatif, mais c'est lui seul qui alimente les
+        sections par équipe et par adversaire. Un joueur par ligne, tag compris : <b>BVSxTibco</b>.
+        Une ligne sans aucun chiffre est ignorée ; s'il en manque un ou deux, ils comptent pour zéro.</p>
+      <div id="msbrows">${rangs}</div>
+      <div class="ptools mfsp"><button data-act="mrow">+ un joueur</button></div>
+      <div class="mfg mfsp">
+        <div><label>Score ton camp %</label><input id="fpc0" type="number" min="0" max="100" placeholder="—"></div>
+        <div><label>Score adverse %</label><input id="fpc1" type="number" min="0" max="100" placeholder="—"></div>
+      </div>
+      <div class="ptools mfsp"><button data-act="madd">Ajouter cette partie</button></div>
+    </div></details>
+    <datalist id="mmodes">${modes.map(x=>`<option value="${x}">`).join("")}</datalist>
+    <datalist id="mnoms">${noms.map(x=>`<option value="${x}">`).join("")}</datalist>`;
+  /* Zero partie enregistree, c'est justement le moment ou le formulaire compte le
+     plus : quelqu'un qui ne peut pas coller n'a sinon aucune porte d'entree. */
+  if(!n){ el.innerHTML=saisie+formulaire; return; }
   const V=MATCHS.filter(m=>m.res==="V").length;
   const K=MATCHS.reduce((a,m)=>a+(m.k||0),0), M=MATCHS.reduce((a,m)=>a+(m.m||0),0), A=MATCHS.reduce((a,m)=>a+(m.a||0),0);
   const mvp=MATCHS.filter(m=>m.mvp).length;
@@ -1596,17 +1844,79 @@ function drawMat(){
     <div class="mtab">` + MATCHS.slice(0,40).map(ligne).join("")
     + `</div>${MATCHS.length>40?`<p class="note">40 parties les plus récentes sur ${MATCHS.length}.</p>`:""}`;
 
-  const pj=parJoueur();
-  const joueurs = !pj.length ? `<h3>Par joueur</h3><p class="note">Colle le détail d'une partie
-      pour alimenter cette section : le tableau du jeu ne liste que ton camp, donc chaque nom qui
-      revient est un coéquipier.</p>`
-    : `<h3>Par joueur</h3><div class="mtab">
-        <div class="mth"><s>joueur</s><s>parties</s><s>K/D</s><s>score moyen</s><s>MVP</s></div>`
-      + pj.map(([n,o])=>`<div class="mtr"><b>${n}</b><s>${o.n}</s>`
-        + `<s>${fr(o.k/Math.max(o.m,1),2)}</s><s>${fr(Math.round(o.s/o.n))}</s><s>${o.mvp||"—"}</s></div>`).join("")
-      + `</div><p class="note">Sur ${MATCHS.filter(m=>m.sb).length} partie${MATCHS.filter(m=>m.sb).length>1?"s":""}
-         détaillée${MATCHS.filter(m=>m.sb).length>1?"s":""} sur ${MATCHS.length}. Le score du jeu tient compte
-         des objectifs, pas seulement des frags — c'est le seul indicateur qui les mesure.</p>`;
+  /* ---------- identite, equipes, adversaires ----------
+     Tout ce bloc ne vit que sur les parties dont le tableau a ete colle : sans
+     tableau il n'y a ni coequipiers ni adversaires, seulement tes propres lignes. */
+  const nd=MATCHS.filter(m=>m.sb).length;
+  const dev=devinePseudo(), moi=monPseudo(), monTag=tagDe(moi);
+  const idbox=`<h3>Ton pseudo</h3>
+    <div class="mid"><input id="mps" placeholder="ex. BVSxTibco" value="${PSEUDO}">
+      <button data-act="mps">Enregistrer</button></div>
+    <p class="note">Il sert à séparer les deux camps dans les tableaux collés : ton équipe est
+      celle qui porte ton tag, l'adverse est le tag majoritaire des autres.
+      ${PSEUDO?"":dev?`Deviné à partir de tes K/D/A : <b>${dev}</b>. Corrige-le si c'est faux.`
+        :"Tant qu'il est vide et qu'aucun tableau n'est collé, tout le monde compte comme coéquipier."}</p>`;
+  const tags=tousLesTags();
+  const chips=!tags.length?"":`<p class="note">Tags reconnus :</p><div>`
+    + tags.map(([t,n])=>`<span class="mchip"${t===monTag?" data-moi":""}><b>${t}</b> · ${n} joueur${n>1?"s":""}</span>`).join("")
+    + `</div><p class="note">Le découpage lit la convention <b>TAGxPseudo</b>. Si un pseudo qui
+       contient un x apparaît ici comme un tag, c'est un faux positif — il faussera la colonne adverse.</p>`;
+
+  const eff=parCamp();
+  const effTab=(titre,L,note)=>!L.length?"":`<h3>${titre}</h3><div class="mtab mtab6">
+      <div class="mth"><s>joueur</s><s>parties</s><s>K/D</s><s>(K+A)/mort</s><s>score moyen</s><s>MVP</s></div>`
+    + L.map(([n,o])=>`<div class="mtr"><b>${sansTag(n)}${tagDe(n)?`<em>${tagDe(n)}</em>`:""}</b>`
+      + `<s>${o.n}</s><s>${fr(o.k/Math.max(o.m,1),2)}</s><s>${fr((o.k+o.a)/Math.max(o.m,1),2)}</s>`
+      + `<s>${o.s?fr(Math.round(o.s/o.n)):"—"}</s><s>${o.mvp||"—"}</s></div>`).join("")
+    + `</div>${note?`<p class="note">${note}</p>`:""}`;
+  const equipe = !nd ? `<h3>Ton équipe</h3><p class="note">Colle le détail d'une partie pour
+      alimenter cette section : c'est le tableau du jeu qui porte les coéquipiers, les adversaires
+      et les scores.</p>`
+    : effTab(monTag?`Ton équipe · ${monTag}`:"Ton camp",eff.mien,
+        `Sur ${nd} partie${nd>1?"s":""} détaillée${nd>1?"s":""} sur ${MATCHS.length}. Le score du jeu
+         tient compte des objectifs, pas seulement des frags — c'est le seul indicateur qui les mesure,
+         donc le classement de ce tableau s'y appuie.`);
+
+  const pa=parAdversaire();
+  const advers = !pa.length ? "" : `<h3>Par équipe rencontrée</h3><div class="mtab">
+      <div class="mth"><s>équipe</s><s>rencontres</s><s>victoires</s><s>ton K/D</s><s>leur K/D</s></div>`
+    + pa.map(([t,o])=>`<div class="mtr"><b>${t}<em>${o.noms.size} joueur${o.noms.size>1?"s":""} vus</em></b>`
+      + `<s>${o.n}</s><s>${o.v} · ${Math.round(o.v/o.n*100)} %</s>`
+      + `<s>${fr(o.k/Math.max(o.m,1),2)}</s><s>${o.em?fr(o.ek/o.em,2):"—"}</s></div>`).join("")
+    + `</div><p class="note">« Leur K/D » agrège tout le camp adverse, pas un joueur : c'est le
+       rendement de l'équipe entière face à la tienne. Les plus fréquentes d'abord, puis celles qui
+       te battent le plus.${pa.some(([,o])=>o.n<3)?" Une ou deux rencontres ne disent rien d'une équipe.":""}</p>`;
+  const advEff = !eff.adv.length ? "" :
+    effTab("Adversaires, joueur par joueur",eff.adv.slice(0,20),
+      `Les 20 premiers par score moyen. « Parties » compte vos rencontres, « victoires »
+       les leurs${eff.adv.length>20?` — ${eff.adv.length} joueurs adverses vus en tout.`:"."}`);
+
+  /* Fiches par carte : la forme de EBP, avec les indicateurs qu'on a reellement.
+     RKD, AM et Rating EBP ne sont pas repris parce que leurs formules ne sont pas
+     publiees — recopier les etiquettes en calculant autre chose rendrait les deux
+     pages incomparables sans que ca se voie. */
+  const pc=parCarteRiche();
+  const fiches=!pc.length?"":`<h3>Par carte</h3><div class="mgrid">`+pc.map(o=>{
+    const w=o.cle&&MAPS[o.cle]?MAPS[o.cle].walls:null;
+    return `<div class="mcard">
+      <div class="mcard-top"${w?` style="background-image:url(${w})"`:""}><b>${o.nom}</b></div>
+      <div class="mcard-sub">${o.n} partie${o.n>1?"s":""} · <b>${Math.round(o.v/o.n*100)} %</b> de victoires</div>
+      <div class="mcard-row"><span>K/D</span><s>${fr(o.k/Math.max(o.m,1),2)}</s></div>
+      <div class="mcard-row"><span>(K+A)/mort</span><s>${fr((o.k+o.a)/Math.max(o.m,1),2)}</s></div>
+      <div class="mcard-row"><span>frags par partie</span><s>${fr(o.k/o.n,1)}</s></div>
+      ${o.ns?`<div class="mcard-row"><span>score moyen</span><s>${fr(Math.round(o.s/o.ns))}</s></div>`:""}
+      ${o.mvp?`<div class="mcard-row"><span>MVP</span><s>${o.mvp}</s></div>`:""}
+      ${o.cle&&DPROF.med[o.cle]?`<div class="mcard-row"><span>ligne de vue méd.</span><s>${fr(DPROF.med[o.cle],1)} m</s></div>`:""}
+    </div>`;
+  }).join("")+`</div><p class="note">Classées par taux de victoire. Le fond de chaque fiche est le
+     calque des murs de la carte, pas une illustration.</p>`;
+  const hypAM=`<details class="hyp"><summary>Pourquoi pas de RKD, AM ni Rating EBP
+    <b>formules non publiées</b></summary><div class="hypnote">Sur la fiche Solary d'EBP, une carte à
+    2,67 de RKD et 11,00 d'AM se lit bien comme 8 frags pour 3 morts et 3 assists, ce qui ferait de
+    l'AM une moyenne de (frags + assists) par partie et du RKD un simple K/D. Deux points de mesure
+    ne valident pas une formule, et le Rating EBP reste opaque. Cette page calcule donc ses propres
+    indicateurs sous leurs vrais noms plutôt que d'emprunter des étiquettes qu'elle ne saurait
+    reproduire — les chiffres des deux sites ne sont pas censés coïncider.</div></details>`;
   /* "ligne de vue mediane" a besoin d'etre defini : ce n'est pas la taille de la
      carte ni une distance de jeu observee, c'est une mesure geometrique. */
   const expli=`<p class="note">La <b>ligne de vue médiane</b> d'une carte est mesurée sur sa géométrie,
@@ -1615,9 +1925,11 @@ function drawMat(){
     un terrain de contact, une carte à 8,8 m laisse de la place aux duels longs. C'est ce qui permet
     de rapprocher ta réussite de la nature des cartes, et c'est la même mesure que le sélecteur
     « Distances » de l'onglet Classement.</p>`;
-  el.innerHTML = bilan + saisie + tableau("Par mode",parMode)
+  el.innerHTML = bilan + saisie + formulaire + idbox
+    + equipe + advers + advEff + chips
+    + fiches + hypAM + tableau("Par mode",parMode)
     + tableau("Par carte",parCarte,"carte") + expli
-    + tableau("Par jour",parJour) + croise + joueurs + liste;
+    + tableau("Par jour",parJour) + croise + liste;
 }
 
 function drawAcc(){
@@ -2451,6 +2763,8 @@ function composeDeck(map){
    Stockage local uniquement, comme le repertoire de compos : ce sont tes releves,
    pas une donnee d'equipe partagee. */
 const MKEY="eva-matchs-v1";
+/* Ton pseudo, garde a part : il ne decrit pas une partie mais qui tu es dedans. */
+const PKEY="eva-pseudo-v1";
 const MOIS={janvier:1,"février":2,fevrier:2,mars:3,avril:4,mai:5,juin:6,juillet:7,
             "août":8,aout:8,septembre:9,octobre:10,novembre:11,"décembre":12,decembre:12};
 /* Les noms affiches par le jeu vers les cles internes des cartes. */
@@ -3616,6 +3930,63 @@ function onTool(b){
     if(!bouts.length && $("#mcoll")) $("#mcoll").value=t;
     $("#mstate").textContent = bouts.length?bouts.join(" · ")
       :"Rien de reconnu — chaque partie doit commencer par sa ligne de résultat (Victoire, Défaite ou Égalité), puis carte, mode, K/D/A, date, heure.";
+    return;
+  }
+  /* Ajout et retrait de lignes : on touche au DOM sans redessiner la vue, sinon
+     chaque nouvelle ligne effacerait tout ce qui est deja saisi. */
+  if(a==="mrow"){
+    const c=$("#msbrows"); if(c) c.insertAdjacentHTML("beforeend",ligneSB());
+    return;
+  }
+  if(a==="mrowdel"){
+    const r=b.closest(".msbrow"); if(r) r.remove();
+    return;
+  }
+  if(a==="madd"){
+    const V=id=>{ const e=$("#"+id); return e?String(e.value).trim():""; };
+    const N=id=>{ const v=V(id); return v===""?null:parseInt(v,10); };
+    const dt=V("fdt"), h=V("fh"), k=N("fk"), mo=N("fm"), as=N("fa");
+    /* On refuse plutot que de completer : une partie enregistree a 0/0/0 parce que
+       le champ etait vide fausserait tous les ratios sans jamais se signaler. */
+    if(!dt||!h){ $("#mstate").textContent="Il manque la date ou l'heure — c'est ce qui distingue deux parties l'une de l'autre."; return; }
+    if(k===null||mo===null||as===null){ $("#mstate").textContent="Il manque tes frags, morts ou assists."; return; }
+    if(MATCHS.some(x=>x.dt===dt && x.h===h)){
+      $("#mstate").textContent=`Une partie est déjà enregistrée le ${dt.split("-").reverse().join("/")} à ${h}.`; return;
+    }
+    const cle=V("fcarte");
+    const nv={res:V("fres")||"V", carte:nomDeCle(cle), cle:cle||null, mode:V("fmode"),
+      k, m:mo, a:as, dt, h};
+    if($("#fmvp") && $("#fmvp").checked) nv.mvp=true;
+    const sb=[]; let vides=0;
+    for(const r of $$("#msbrows .msbrow")){
+      const f=r.querySelectorAll("input"), nom=String(f[0].value).trim();
+      if(!nom) continue;
+      /* Un nom sans aucun chiffre est ignore plutot qu'enregistre a 0/0/0 : la
+         meme raison qu'au niveau de la partie, un zero invente tire les moyennes
+         vers le bas sans jamais se signaler. Un chiffre sur quatre suffit, les
+         autres valent alors zero — la, c'est une lecture, pas une invention. */
+      if(![1,2,3,4].some(i=>f[i].value!=="")){ vides++; continue; }
+      const num=i=>f[i].value===""?0:parseInt(f[i].value,10);
+      sb.push({n:nom, k:num(1), m:num(2), a:num(3), s:num(4), mvp:f[5].checked});
+    }
+    if(sb.length) nv.sb=sb;
+    const q0=N("fpc0"), q1=N("fpc1");
+    if(q0!==null && q1!==null) nv.pc=[q0,q1];
+    MATCHS.push(nv);
+    MATCHS.sort((x,y)=>(y.dt+y.h).localeCompare(x.dt+x.h));
+    saveMatchs(); drawMat();
+    const inc=sb.length && !sb.some(p=>p.n===monPseudo()) && monPseudo();
+    $("#mstate").textContent=`Partie ajoutée${sb.length?` avec ${sb.length} joueur${sb.length>1?"s":""}`:""}.`
+      + (vides?` ${vides} ligne${vides>1?"s":""} sans aucun chiffre ignorée${vides>1?"s":""}.`:"")
+      + (inc?` Ton pseudo (${monPseudo()}) n'est pas dans le tableau : les deux camps ne pourront pas être séparés pour cette partie.`:"");
+    return;
+  }
+  if(a==="mps"){
+    const v=$("#mps").value.trim();
+    PSEUDO=v; try{ localStorage.setItem(PKEY,v); }catch(e){}
+    drawMat();
+    $("#mstate").textContent = v?`Pseudo enregistré : ${v}${tagDe(v)?` · équipe ${tagDe(v)}`:" · aucun tag reconnu, le découpage par équipe restera vide"}`
+      :"Pseudo effacé — il sera redeviné à partir des tableaux collés.";
     return;
   }
   if(a==="mexp"){
