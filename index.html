@@ -530,6 +530,10 @@
   .cspark svg{display:block;width:100%;height:38px}
   .cnote{padding:8px 12px;border-top:1px solid var(--rule);font-size:12px;line-height:1.45;
     color:var(--ink-dim)}
+  .retour{background:var(--panel-2);border:1px solid var(--rule);color:var(--ink-dim);
+    border-radius:8px;padding:9px 13px;cursor:pointer;font-family:var(--ui);font-size:13.5px;
+    margin-right:10px;vertical-align:middle}
+  .retour:hover{border-color:var(--signal);color:var(--signal)}
   .cfoot{margin-top:auto;padding:10px 12px;border-top:1px solid var(--rule)}
   .cfoot button{width:100%;background:var(--panel-2);border:1px solid var(--rule);color:var(--ink);
     padding:8px;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
@@ -554,9 +558,12 @@
     <span class="sep" aria-hidden="true"></span>
     <button role="tab" aria-selected="false" data-v="ana">Analyse</button>
     <button role="tab" aria-selected="false" data-v="cart">Cartes</button>
-    <!-- Renomme : cet onglet est un editeur de strats, pas un catalogue. La cle
-         data-v reste "map" pour que les liens ?v=map&mk=... deja partages tiennent. -->
-    <button role="tab" aria-selected="false" data-v="map">Strats</button>
+    <!-- L'editeur de strats n'a plus son propre onglet : on y entre par une fiche du
+         catalogue, qui sert desormais de selecteur de carte. Deux onglets pour un
+         meme sujet obligeaient a savoir lequel faisait quoi. La vue "map" existe
+         toujours et reste atteignable par #v=map&mk=..., donc les liens deja
+         partages continuent de fonctionner. Noter le diese : les liens de cette
+         application vivent dans le fragment, pas dans la requete. -->
   </div>
   <div class="ruler" id="ruler">
     <div class="ruler-head">
@@ -589,6 +596,7 @@
 </div>
 
 <div class="mapbar" id="mapbar" hidden>
+  <button data-act="retourcat" class="retour" title="Revenir au catalogue">‹ Cartes</button>
   <select id="mapsel" aria-label="Carte"></select>
   <div class="seg" id="floorseg" role="group" aria-label="Étage affiché" hidden
        style="display:inline-flex;width:auto;margin:0 0 0 10px;vertical-align:middle">
@@ -1281,10 +1289,39 @@ function selfTest(){
   T(orphelins.length===0, "Chaque onglet a son panneau",
     orphelins.length?orphelins.join(", "):`${document.querySelectorAll("#nav button[data-v]").length} onglets vérifiés`);
 
+  /* Avoir un panneau ne suffit pas : il faut que le clic le montre. L'onglet
+     Analyse avait bien sa section, mais son identifiant manquait a la liste que la
+     bascule parcourt — le clic cachait tout et ne montrait rien. Le controle
+     precedent passait quand meme, puisqu'il ne verifie que l'existence. */
+  const injoignables=[];
+  const vAvant=VIEW;
+  for(const b of document.querySelectorAll("#nav button[data-v]")){
+    const v=b.dataset.v, sec=document.getElementById(v);
+    if(!sec) continue;
+    go(v);
+    if(sec.hidden) injoignables.push(v);
+  }
+  go(vAvant);
+  T(injoignables.length===0, "Chaque onglet s'affiche quand on le sélectionne",
+    injoignables.length?injoignables.join(", ")
+      :`${document.querySelectorAll("#nav button[data-v]").length} onglets atteints`);
+
+  /* Et chaque onglet doit etre partageable par lien. Matchs, Cartes et Analyse
+     etaient absents de la liste blanche de readURL : leurs liens retombaient en
+     silence sur le classement, ce qui est le pire des deux mondes — l'adresse a
+     l'air de fonctionner et n'ouvre pas la bonne page. */
+  const nonPartageables=[...document.querySelectorAll("#nav button[data-v]")]
+    .map(b=>b.dataset.v)
+    .filter(v=>{ const h=location.hash; location.hash="v="+v;
+                 const ok=readURL()===v; location.hash=h; return !ok; });
+  T(nonPartageables.length===0, "Chaque onglet est atteignable par lien",
+    nonPartageables.length?nonPartageables.join(", ")
+      :`${document.querySelectorAll("#nav button[data-v]").length} onglets partageables`);
+
   /* Meme famille de panne, un cran plus bas : un bouton data-act place dans un
      conteneur sans delegation ne fait rien, et ne dit rien. C'est arrive a tout
      l'onglet Matchs. On verifie que chaque data-act a un ancetre ecoute. */
-  const ECOUTES=["#tools","#ctx",".strat","#share","#mat","#cart","#ana"];
+  const ECOUTES=["#tools","#ctx",".strat","#share","#mat","#cart","#ana","#mapbar"];
   const morts=[...document.querySelectorAll("button[data-act]")]
     .filter(b=>!ECOUTES.some(s=>b.closest(s)))
     .map(b=>b.dataset.act);
@@ -1365,6 +1402,40 @@ function selfTest(){
   T(okMig, "La partie devient collective sans perdre tes chiffres",
     okMig?`7/3/2 et les deux MVP passés dans le tableau · second passage : ${m2.n} partie`
          :`avant ${JSON.stringify(l0)} · après ${JSON.stringify(l1)}`);
+
+  /* ---------- coherence des tables de cartes ----------
+     CARTES declare ce qui existe ; MAPS, CIMG et DPROF ne sont que des depots
+     consultes par cle. Ce controle refuse une cle qui vivrait dans un depot sans
+     etre declaree — c'est ainsi que Bastion, Coliseum et The Rock etaient restees
+     invisibles dans tous les decoupages. Les manques assumes, eux, sont signales
+     sans faire echouer : une carte sans plan reste une carte. */
+  const declarees=[...new Set(Object.values(NOMCARTE))];
+  const orphelines=[];
+  for(const [table, cles] of [["MAPS", Object.keys(MAPS)], ["CIMG", Object.keys(CIMG)],
+                              ["DPROF", Object.keys(DPROF.med)]])
+    for(const c of cles) if(!declarees.includes(c)) orphelines.push(`${c} (${table})`);
+  const sansNom=declarees.filter(c=>!nomDeCle(c));
+  const fautes=[...orphelines, ...sansNom.map(c=>`${c} sans nom affichable`)];
+  const nonPlan=declarees.filter(c=>!MAPS[c]);
+  const nonPhoto=declarees.filter(c=>!CIMG[c]);
+  T(fautes.length===0, "Chaque clé de carte est déclarée dans une table unique",
+    fautes.length ? fautes.join(", ")
+      : `${declarees.length} cartes déclarées · ${nonPlan.length} sans plan`
+        + (nonPlan.length?` (${nonPlan.map(nomDeCle).join(", ")})`:"")
+        + (nonPhoto.length?` · ${nonPhoto.length} sans photo`:" · toutes avec photo"));
+
+  /* ---------- variables CSS reellement declarees ----------
+     Une var() inconnue ne casse rien de visible : la propriete devient invalide et
+     retombe sur l'heritage. Les en-tetes de tableaux de l'onglet Matchs se sont
+     affichees des semaines a la couleur du texte plein parce que --dim n'existait
+     pas. Rien ne le signalait. */
+  const feuille = [...document.querySelectorAll("style")].map(x=>x.textContent).join("\n");
+  const utilisees = new Set([...feuille.matchAll(/var\(\s*(--[\w-]+)/g)].map(m=>m[1]));
+  const posees = new Set([...feuille.matchAll(/(^|[;{\s])(--[\w-]+)\s*:/g)].map(m=>m[2]));
+  const inconnues = [...utilisees].filter(v=>!posees.has(v));
+  T(inconnues.length===0, "Chaque variable CSS utilisée est déclarée",
+    inconnues.length ? inconnues.join(", ")
+      : `${utilisees.size} variables utilisées, ${posees.size} déclarées`);
 
   /* Un pseudo doit se distinguer d'une ligne de score. Le cas 8/15 est reel : il
      avait peuple le tableau des adversaires de faux joueurs credibles. */
@@ -2515,7 +2586,7 @@ function drawCat(){
         + armes.map((a,i)=>`<div class="crow"><span>${i+1}. ${a.n}</span>`
           + `<s>${fr(a.t/1000,2)} s${a.mort>0.02?` · ${Math.round(a.mort*100)} % hors portée`:""}</s></div>`).join("")
         :""}
-      <div class="cfoot">${M0?`<button data-act="ckgo" data-mk="${c}">Ouvrir dans les strats</button>`
+      <div class="cfoot">${M0?`<button data-act="ckgo" data-mk="${c}">Ouvrir le plan</button>`
         :`<button disabled>Plan indisponible</button>`}</div>
     </div>`;
   }).join("");
@@ -3434,14 +3505,34 @@ const CIMG={
   silva:"data:image/webp;base64,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",
 };
 /* Les noms affiches par le jeu vers les cles internes des cartes. */
-const NOMCARTE={"atlantis":"atlantis","ceres":"ceres","engine":"engine","helios":"helios",
-  "horizon":"horizon","lunar outpost":"lunar","outlaw":"outlaw","polaris":"polaris",
-  "silva":"silva","the cliff":"cliff","reef point":"reefpoint","artefact":"artefact",
-  /* Trois cartes du selecteur n'avaient aucune entree ici : leurs parties tombaient
-     dans une carte inconnue, sans cle, donc invisibles dans tous les decoupages par
-     carte. Le nom suffit a les comptabiliser ; il leur manque encore leurs calques
-     et leur echelle, donc ni plan ni ligne de vue mediane. */
-  "the rock":"rock","bastion":"bastion","coliseum":"coliseum"};
+/* ---------- la liste des cartes, declaree une seule fois ----------
+   Auparavant quatre tables tenues en parallele se prononcaient sur les cartes, et
+   elles ont divergé : Bastion, Coliseum et The Rock existaient dans le jeu sans
+   figurer ici, donc leurs parties tombaient dans une carte inconnue et sortaient de
+   tous les decoupages. Desormais un seul endroit dit ce qui existe. MAPS et CIMG ne
+   sont plus que des depots consultes par cle — geometrie d'un cote, photo de
+   l'autre — et l'auto-test refuse une cle qui y vivrait sans etre declaree ici.
+
+   Ajouter une carte : une ligne. Le nom est celui qu'affiche le jeu, en minuscules,
+   tel qu'on le colle depuis la liste des parties. */
+const CARTES=[
+  ["atlantis",      "atlantis"],
+  ["bastion",       "bastion"],
+  ["ceres",         "ceres"],
+  ["the cliff",     "cliff"],
+  ["coliseum",      "coliseum"],
+  ["engine",        "engine"],
+  ["helios",        "helios"],
+  ["horizon",       "horizon"],
+  ["lunar outpost", "lunar"],
+  ["outlaw",        "outlaw"],
+  ["polaris",       "polaris"],
+  ["reef point",    "reefpoint"],
+  ["the rock",      "rock"],
+  ["silva",         "silva"],
+  ["artefact",      "artefact"],
+];
+const NOMCARTE = Object.fromEntries(CARTES);
 let MATCHS=(()=>{ try{ return JSON.parse(localStorage.getItem(MKEY))||[]; }catch(e){ return []; } })();
 function saveMatchs(){ try{ localStorage.setItem(MKEY,JSON.stringify(MATCHS)); }catch(e){} }
 const cleCarte = n => NOMCARTE[String(n).trim().toLowerCase()] || null;
@@ -4646,6 +4737,7 @@ function onTool(b){
   /* Ajout et retrait de lignes : on touche au DOM sans redessiner la vue, sinon
      chaque nouvelle ligne effacerait tout ce qui est deja saisi. */
   /* Depuis une fiche du catalogue vers l'editeur, sur la bonne carte. */
+  if(a==="retourcat"){ go("cart"); return; }
   if(a==="ckgo"){
     const k=b.dataset.mk;
     if(MAPS[k] && k!==MK){ $("#mapsel").value=k; $("#mapsel").dispatchEvent(new Event("change")); }
@@ -4789,6 +4881,8 @@ $(".strat").addEventListener("click",e=>{
    demasquage des onglets, et aussi silencieux. Le controle plus bas le detecte. */
 /* Meme oubli que pour #mat a l'origine : sans cette ligne les boutons de l'onglet
    Analyse ne declencheraient rien, en silence. L'auto-test le verifie. */
+$("#mapbar").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-act]"); if(b) onTool(b); });
 $("#ana").addEventListener("click",e=>{
   const b=e.target.closest("button[data-act]"); if(b) onTool(b); });
 $("#mat").addEventListener("click",e=>{
@@ -4959,7 +5053,13 @@ function go(v){
   $("#catbar").hidden = !FILTERED.includes(v);
   $("#mapbar").hidden = v!=="map";
   if(v==="map") $("#floorseg").hidden = !hasFloors(M());
-  [...TABS,"guns","acc","map","mat","cart"].forEach(id=>$("#"+id).hidden = id!==v);
+  /* Cette liste doit contenir toute section d'onglet. En oublier une la rend
+     inatteignable : le clic cache tout et ne montre rien. C'est arrive a l'onglet
+     Analyse. On la derive donc de la barre de navigation plutot que de la tenir a
+     la main — un onglet ajoute est desormais affiche sans rien d'autre a faire. */
+  const SECTIONS=[...new Set([...TABS, "guns", "acc", "map", "mat", "cart",
+    ...[...document.querySelectorAll("#nav button[data-v]")].map(b=>b.dataset.v)])];
+  SECTIONS.forEach(id=>{ const e=$("#"+id); if(e) e.hidden = id!==v; });
   /* le selecteur de ponderation n'a de sens que la ou un classement est affiche ;
      ailleurs il encombrait la page sans rien piloter. */
   $("#pondbar").hidden = v!=="rank";
@@ -5030,7 +5130,13 @@ function readURL(){
     if(pv.length){ PSEL=pv; drawVers(); }
   }
   if(v==="map" && p.has("mk") && MAPS[p.get("mk")]){ MK=p.get("mk"); $("#mapsel").value=MK; }
-  return [...TABS,"guns","acc","map"].includes(v) ? v : null;
+  /* Liste derivee de la barre de navigation, plus tenue a la main : Matchs, Cartes
+     et Analyse en etaient absents, donc leurs liens partages retombaient en silence
+     sur le classement. On y ajoute "map", qui n'a plus d'onglet mais reste une vue
+     atteignable pour que les liens deja diffuses tiennent. */
+  const partageables=[...new Set([
+    ...[...document.querySelectorAll("#nav button[data-v]")].map(b=>b.dataset.v), "map"])];
+  return partageables.includes(v) ? v : null;
 }
 
 $$("#nav button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.v)));
