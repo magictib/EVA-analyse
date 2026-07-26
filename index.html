@@ -190,6 +190,31 @@
   .hs-head span:last-child{font-family:var(--mono);font-size:13px;color:var(--cold);font-variant-numeric:tabular-nums}
 
   /* ---------- accessoires ---------- */
+  .mbig{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:10px;margin:10px 0}
+  .mbig b{background:var(--panel);border:1px solid var(--rule);padding:10px;text-align:center;
+    font-family:var(--mono);font-size:19px;color:var(--signal)}
+  .mbig b em{display:block;font-style:normal;font-size:11px;color:var(--dim);letter-spacing:.05em;
+    text-transform:uppercase;margin-top:3px}
+  .mtab{border:1px solid var(--rule);margin:6px 0 14px}
+  .mth,.mtr{display:grid;grid-template-columns:1.6fr repeat(4,1fr);gap:8px;padding:7px 10px;
+    align-items:center;font-size:13px}
+  .mth{background:var(--panel);color:var(--dim);font-family:var(--mono);font-size:11px;
+    letter-spacing:.05em;text-transform:uppercase}
+  .mtr{border-top:1px solid var(--rule)}
+  .mtr b{font-weight:700}
+  .mtr b em,.mtr em{font-style:normal;display:block;font-size:11px;color:var(--dim)}
+  .mtr s,.mth s{text-decoration:none;font-family:var(--mono);text-align:right;color:var(--ink)}
+  .mdet>summary{list-style:none;cursor:pointer}
+  .mdet>summary::-webkit-details-marker{display:none}
+  .mdet>summary .mtr b::after{content:" ▸";color:var(--dim);font-size:11px}
+  .mdet[open]>summary .mtr b::after{content:" ▾"}
+  .msb{background:var(--bg);border-top:1px solid var(--rule)}
+  .msb .mth,.mtr3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;padding:6px 22px;font-size:13px}
+  .mtr3{border-top:1px solid var(--rule)}
+  .mtr3 s{text-decoration:none;font-family:var(--mono);text-align:right}
+  .mdet+.mdet,.mdet+.mtr,.mtr+.mdet{border-top:1px solid var(--rule)}
+  #mcoll{width:100%;background:var(--panel);color:var(--ink);border:1px solid var(--rule);
+    padding:8px;font-family:var(--mono);font-size:12px}
   .acc-grid{display:grid;gap:12px;grid-template-columns:1fr 1fr}
   .acc-card{border:1px solid var(--rule);background:var(--panel);padding:14px}
   .acc-card h3{font-family:var(--mono);font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--signal);font-weight:700}
@@ -421,6 +446,7 @@
     <button role="tab" aria-selected="false" data-v="patch">Patch</button>
     <button role="tab" aria-selected="false" data-v="guns">Armes</button>
     <button role="tab" aria-selected="false" data-v="acc">Accessoires</button>
+    <button role="tab" aria-selected="false" data-v="mat">Matchs</button>
     <span class="sep" aria-hidden="true"></span>
     <button role="tab" aria-selected="false" data-v="map">Cartes</button>
   </div>
@@ -592,6 +618,7 @@
 <section id="guns" hidden></section>
 
 <section id="acc" hidden></section>
+<section id="mat" hidden></section>
 
 <footer id="foot"></footer>
 
@@ -1135,6 +1162,14 @@ function selfTest(){
   if(nomag.length) I("Chargeur non publié par la 1.8.0, temps à tuer optimiste au-delà d'un chargeur",
     nomag.join(", "));
 
+  /* Chaque onglet doit reellement afficher son panneau : la liste qui les demasque
+     est ecrite a la main, et l'onglet Matchs y avait ete oublie — le bouton
+     fonctionnait, le panneau restait cache. */
+  const orphelins=[...document.querySelectorAll("#nav button[data-v]")]
+    .map(b=>b.dataset.v).filter(v=>!document.getElementById(v));
+  T(orphelins.length===0, "Chaque onglet a son panneau",
+    orphelins.length?orphelins.join(", "):`${document.querySelectorAll("#nav button[data-v]").length} onglets vérifiés`);
+
   /* Les zones de spawn vivent dans tint[0] et tint[1]. Une carte qui les oublie
      faisait planter spawnPlayers() avant l'appel à loadLOS(), donc supprimait
      toute occlusion sans le dire. Ce contrôle rend la panne visible. */
@@ -1447,6 +1482,133 @@ function drawGuns(){
 }
 
 /* ---------- accessoires ---------- */
+
+/* ---------- vue Matchs ---------- */
+function agrege(cle){
+  const g=new Map();
+  for(const m of MATCHS){
+    const k=cle(m); if(k===null||k===undefined) continue;
+    const o=g.get(k)||{n:0,v:0,k:0,m:0,a:0}; 
+    o.n++; o.v+= m.res==="V"?1:0; o.k+=m.k||0; o.m+=m.m||0; o.a+=m.a||0;
+    g.set(k,o);
+  }
+  return [...g.entries()];
+}
+function tableau(titre,lignes,extra){
+  if(!lignes.length) return "";
+  return `<h3>${titre}</h3><div class="mtab">
+    <div class="mth">${extra?"<s>"+extra+"</s>":"<s></s>"}<s>matchs</s><s>victoires</s><s>K/D</s><s>(K+A)/mort</s></div>`
+    + lignes.map(([k,o,note])=>`<div class="mtr"><b>${k}${note?`<em>${note}</em>`:""}</b>`
+      + `<s>${o.n}</s><s>${o.v} · ${Math.round(o.v/o.n*100)} %</s>`
+      + `<s>${fr(o.k/Math.max(o.m,1),2)}</s><s>${fr((o.k+o.a)/Math.max(o.m,1),2)}</s></div>`).join("")
+    + `</div>`;
+}
+/* Agregat par joueur sur les parties dont on a colle le tableau. C'est la que
+   vivent les stats d'equipe : le scoreboard ne liste que ton camp, donc chaque nom
+   qui revient est un coequipier. On compte aussi les MVP et le score moyen, qui est
+   le seul indicateur du jeu tenant compte des objectifs et pas seulement des frags. */
+function parJoueur(){
+  const g=new Map();
+  for(const m of MATCHS){
+    if(!m.sb) continue;
+    for(const p of m.sb){
+      const o=g.get(p.n)||{n:0,k:0,m:0,a:0,s:0,mvp:0,v:0};
+      o.n++; o.k+=p.k||0; o.m+=p.m||0; o.a+=p.a||0; o.s+=p.s||0;
+      o.mvp+= p.mvp?1:0; o.v+= m.res==="V"?1:0;
+      g.set(p.n,o);
+    }
+  }
+  return [...g.entries()].sort((a,b)=>b[1].s/b[1].n-a[1].s/a[1].n);
+}
+function drawMat(){
+  const el=$("#mat");
+  const n=MATCHS.length;
+  const saisie=`<p class="lead">Colle ici la liste de tes parties telle qu'elle apparaît dans le jeu,
+    ou le détail d'une partie pour en récupérer le tableau des joueurs. Le collage est
+    cumulatif et les doublons sont ignorés — tu peux recoller la même liste sans risque.</p>
+    <textarea id="mcoll" rows="4" placeholder="Défaite&#10;Polaris&#10;Point Stratégique&#10;3 / 7 / 0&#10;24 juillet 2026&#10;19:28"></textarea>
+    <div class="ptools"><button data-act="mimp">Ajouter</button>
+      ${n?`<button data-act="mexp">Exporter</button><button data-act="mraz">Tout effacer</button>`:""}</div>
+    <div id="mstate" class="note"></div>`;
+  if(!n){ el.innerHTML=saisie; return; }
+  const V=MATCHS.filter(m=>m.res==="V").length;
+  const K=MATCHS.reduce((a,m)=>a+(m.k||0),0), M=MATCHS.reduce((a,m)=>a+(m.m||0),0), A=MATCHS.reduce((a,m)=>a+(m.a||0),0);
+  const mvp=MATCHS.filter(m=>m.mvp).length;
+  const bilan=`<div class="mbig">
+      <b>${n}<em>matchs</em></b><b>${V} · ${Math.round(V/n*100)} %<em>victoires</em></b>
+      <b>${fr(K/Math.max(M,1),2)}<em>K/D</em></b><b>${fr((K+A)/Math.max(M,1),2)}<em>(K+A)/mort</em></b>
+      <b>${mvp}<em>fois MVP</em></b></div>`;
+  const parMode=agrege(m=>m.mode||"—").sort((a,b)=>b[1].v/b[1].n-a[1].v/a[1].n||b[1].n-a[1].n);
+  const parJour=agrege(m=>m.dt||"—").sort((a,b)=>b[0].localeCompare(a[0]));
+  const NC=new Set(["horizon","silva","lunar","outlaw","polaris"]);
+  const parCarte=agrege(m=>m.cle).map(([k,o])=>[MAPS[k]?MAPS[k].n:k,o,
+      DPROF.med[k]?`ligne de vue médiane ${fr(DPROF.med[k],1)} m${NC.has(k)?" · échelle à confirmer":""}`:""])
+    .sort((a,b)=>b[1].v/b[1].n-a[1].v/a[1].n||b[1].n-a[1].n);
+  /* Croisement avec le profil de distances de chaque carte : c'est ce qu'un tableur
+     ne peut pas faire, puisqu'il ignore la geometrie des cartes. Corrigee du nombre
+     de matchs, et assortie de son effectif — a moins d'une trentaine de parties une
+     correlation de ce genre est une piste, pas un resultat. */
+  const pts=agrege(m=>m.cle).filter(([k])=>DPROF.med[k])
+    .map(([k,o])=>({x:DPROF.med[k],y:o.k/Math.max(o.m,1),w:o.n}));
+  let croise="";
+  if(pts.length>=4){
+    const W=pts.reduce((a,p)=>a+p.w,0);
+    const mx=pts.reduce((a,p)=>a+p.x*p.w,0)/W, my=pts.reduce((a,p)=>a+p.y*p.w,0)/W;
+    const cov=pts.reduce((a,p)=>a+(p.x-mx)*(p.y-my)*p.w,0)/W;
+    const sx=Math.sqrt(pts.reduce((a,p)=>a+(p.x-mx)**2*p.w,0)/W);
+    const sy=Math.sqrt(pts.reduce((a,p)=>a+(p.y-my)**2*p.w,0)/W);
+    const r=(sx&&sy)?cov/(sx*sy):0;
+    const sens = r<-0.5 ? "ton K/D baisse quand les distances d'engagement montent"
+              : r>0.5  ? "ton K/D monte avec les distances d'engagement"
+              : "aucun lien net entre ta réussite et les distances de la carte";
+    croise=`<h3>Distances et réussite</h3><p class="note">
+      Corrélation entre la distance médiane des lignes de vue d'une carte et ton K/D :
+      <b>r = ${r>=0?"+":""}${fr(r,2)}</b> sur ${pts.length} cartes et ${W} match${W>1?"s":""}. ${sens}.
+      ${W<30?`<br>À ${W} matchs, c'est une piste et non un résultat : il en faudrait une trentaine pour trancher.`:""}
+      ${pts.some(p=>NC.has(Object.keys(DPROF.med).find(k=>DPROF.med[k]===p.x)))?"<br>Certaines cartes ont une échelle non confirmée, leur médiane peut être fausse d'un facteur 1,4 à 2,4.":""}</p>`;
+  }
+  /* Les parties dont on a le tableau se deplient : le detail existe, il faut
+     pouvoir le lire, pas seulement savoir qu'il est la. */
+  const ligne=m=>{
+    const tete=`<div class="mtr"><b>${m.res==="V"?"Victoire":m.res==="N"?"Égalité":"Défaite"}${m.mvp?"<em>MVP</em>":""}</b>`
+      + `<s>${m.carte||"?"}</s><s>${m.mode||"?"}</s><s>${m.k}/${m.m}/${m.a}</s>`
+      + `<s>${(m.dt||"").split("-").reverse().join("/")} ${m.h||""}</s></div>`;
+    if(!m.sb) return tete;
+    const sc=m.pc?` · score ${m.pc[0]} % contre ${m.pc[1]} %`:"";
+    return `<details class="mdet"><summary>${tete}</summary>
+      <div class="msb"><div class="mth"><s>joueur</s><s>K/D/A</s><s>score</s></div>`
+      + m.sb.map(p=>`<div class="mtr3"><b>${p.n}${p.mvp?"<em>MVP</em>":""}</b>`
+        + `<s>${p.k}/${p.m}/${p.a}</s><s>${fr(p.s)}</s></div>`).join("")
+      + `</div><p class="note">${m.sb.length} joueurs${sc}</p></details>`;
+  };
+  const liste=`<h3>Parties</h3><p class="note">Les parties dont tu as collé le détail se déplient.</p>
+    <div class="mtab">` + MATCHS.slice(0,40).map(ligne).join("")
+    + `</div>${MATCHS.length>40?`<p class="note">40 parties les plus récentes sur ${MATCHS.length}.</p>`:""}`;
+
+  const pj=parJoueur();
+  const joueurs = !pj.length ? `<h3>Par joueur</h3><p class="note">Colle le détail d'une partie
+      pour alimenter cette section : le tableau du jeu ne liste que ton camp, donc chaque nom qui
+      revient est un coéquipier.</p>`
+    : `<h3>Par joueur</h3><div class="mtab">
+        <div class="mth"><s>joueur</s><s>parties</s><s>K/D</s><s>score moyen</s><s>MVP</s></div>`
+      + pj.map(([n,o])=>`<div class="mtr"><b>${n}</b><s>${o.n}</s>`
+        + `<s>${fr(o.k/Math.max(o.m,1),2)}</s><s>${fr(Math.round(o.s/o.n))}</s><s>${o.mvp||"—"}</s></div>`).join("")
+      + `</div><p class="note">Sur ${MATCHS.filter(m=>m.sb).length} partie${MATCHS.filter(m=>m.sb).length>1?"s":""}
+         détaillée${MATCHS.filter(m=>m.sb).length>1?"s":""} sur ${MATCHS.length}. Le score du jeu tient compte
+         des objectifs, pas seulement des frags — c'est le seul indicateur qui les mesure.</p>`;
+  /* "ligne de vue mediane" a besoin d'etre defini : ce n'est pas la taille de la
+     carte ni une distance de jeu observee, c'est une mesure geometrique. */
+  const expli=`<p class="note">La <b>ligne de vue médiane</b> d'une carte est mesurée sur sa géométrie,
+    pas sur tes parties : on tire 12 000 couples de positions au hasard dans le sol praticable,
+    on garde ceux qui se voient, et on prend la médiane de leurs distances. Une carte à 4,6 m est
+    un terrain de contact, une carte à 8,8 m laisse de la place aux duels longs. C'est ce qui permet
+    de rapprocher ta réussite de la nature des cartes, et c'est la même mesure que le sélecteur
+    « Distances » de l'onglet Classement.</p>`;
+  el.innerHTML = bilan + saisie + tableau("Par mode",parMode)
+    + tableau("Par carte",parCarte,"carte") + expli
+    + tableau("Par jour",parJour) + croise + joueurs + liste;
+}
+
 function drawAcc(){
   $("#acc").innerHTML = `<div class="acc-grid">`+ ACC.map(a=>`
     <div class="acc-card">
@@ -2268,6 +2430,107 @@ function composeDeck(map){
   const ajoute=q=>{ if(q) for(let i=0;i<m.length;i++) if(q[i]) m[i]=1; };
   ajoute(map.dv); ajoute(map.dr);
   map.up=m;
+}
+
+/* ---------- historique de matchs ----------
+   Saisie par collage : on copie la liste depuis le jeu et on colle. Un formulaire
+   a six champs pour quatorze matchs ferait abandonner des la deuxieme session.
+   Le parseur est volontairement tolerant — il cherche des sequences reconnaissables
+   et ignore le reste — parce que la mise en page de la source changera.
+   Stockage local uniquement, comme le repertoire de compos : ce sont tes releves,
+   pas une donnee d'equipe partagee. */
+const MKEY="eva-matchs-v1";
+const MOIS={janvier:1,"février":2,fevrier:2,mars:3,avril:4,mai:5,juin:6,juillet:7,
+            "août":8,aout:8,septembre:9,octobre:10,novembre:11,"décembre":12,decembre:12};
+/* Les noms affiches par le jeu vers les cles internes des cartes. */
+const NOMCARTE={"atlantis":"atlantis","ceres":"ceres","engine":"engine","helios":"helios",
+  "horizon":"horizon","lunar outpost":"lunar","outlaw":"outlaw","polaris":"polaris",
+  "silva":"silva","the cliff":"cliff","reef point":"reefpoint","artefact":"artefact"};
+let MATCHS=(()=>{ try{ return JSON.parse(localStorage.getItem(MKEY))||[]; }catch(e){ return []; } })();
+function saveMatchs(){ try{ localStorage.setItem(MKEY,JSON.stringify(MATCHS)); }catch(e){} }
+const cleCarte = n => NOMCARTE[String(n).trim().toLowerCase()] || null;
+
+function parseMatchs(txt){
+  const L=txt.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+  const out=[]; let i=0;
+  const estRes=x=>/^(victoire|défaite|defaite|égalité|egalite)$/i.test(x);
+  const estKDA=x=>/^\d+\s*\/\s*\d+\s*\/\s*\d+$/.test(x);
+  const estDate=x=>/^\d{1,2}\s+\S+\s+\d{4}$/.test(x);
+  const estH=x=>/^\d{1,2}:\d{2}$/.test(x);
+  while(i<L.length){
+    if(!estRes(L[i])){ i++; continue; }
+    const r=L[i].toLowerCase();
+    const m={res: r[0]==="v" ? "V" : (r.indexOf("gal")>0 ? "N" : "D")};
+    i++;
+    if(L[i]==="MVP"){ m.mvp=true; i++; }
+    /* carte puis mode : deux libelles libres avant le K/D/A */
+    const libres=[];
+    while(i<L.length && !estKDA(L[i]) && libres.length<3 && !estRes(L[i])) libres.push(L[i++]);
+    if(!estKDA(L[i]||"")) continue;
+    const kda=L[i].split("/").map(x=>parseInt(x,10)); i++;
+    m.carte=libres[0]||""; m.mode=libres[1]||"";
+    m.k=kda[0]; m.m=kda[1]; m.a=kda[2];
+    if(estDate(L[i]||"")){
+      const g=L[i].match(/^(\d{1,2})\s+(\S+)\s+(\d{4})$/); i++;
+      const mo=MOIS[g[2].toLowerCase()];
+      if(mo) m.dt=`${g[3]}-${String(mo).padStart(2,"0")}-${String(+g[1]).padStart(2,"0")}`;
+    }
+    if(estH(L[i]||"")){ m.h=L[i]; i++; }
+    m.cle=cleCarte(m.carte);
+    if(m.dt && m.h) out.push(m);
+  }
+  return out;
+}
+/* Le detail d'une partie apporte le tableau des joueurs. On le rattache au match
+   deja enregistre par sa date et son heure plutot que d'en creer un second. */
+function parseDetail(txt){
+  const L=txt.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+  const sb=[]; let dt=null,h=null,carte=null,mode=null,pc=[];
+  for(let i=0;i<L.length;i++){
+    const x=L[i];
+    if(/^\d{1,2}\s+\S+\s+\d{4}$/.test(x)){
+      const g=x.match(/^(\d{1,2})\s+(\S+)\s+(\d{4})$/), mo=MOIS[g[2].toLowerCase()];
+      if(mo) dt=`${g[3]}-${String(mo).padStart(2,"0")}-${String(+g[1]).padStart(2,"0")}`;
+    }
+    if(/^\d{1,2}:\d{2}$/.test(x)) h=h||x;
+    if(cleCarte(x)) carte=carte||x;
+    if(/^\d{1,3}\s*%$/.test(x)) pc.push(parseInt(x,10));
+    /* une ligne de joueur : un nom, puis K/D/A, puis un score */
+    if(/^\d+\s*\/\s*\d+\s*\/\s*\d+$/.test(x)){
+      let j=i-1, mvp=false;
+      while(j>=0 && (L[j]==="MVP" || /^\d+$/.test(L[j]))){ if(L[j]==="MVP") mvp=true; j--; }
+      const nom=(j>=0 && !cleCarte(L[j]) && !/^\d{1,2}:\d{2}$/.test(L[j])) ? L[j] : null;
+      const sc=/^\d+$/.test(L[i+1]||"") ? parseInt(L[i+1],10) : null;
+      if(nom && sc!==null){
+        const kda=x.split("/").map(v=>parseInt(v,10));
+        sb.push({n:nom,mvp,k:kda[0],m:kda[1],a:kda[2],s:sc});
+      }
+    }
+  }
+  return {dt,h,carte,mode,sb,pc};
+}
+function ajouteMatchs(txt){
+  const nv=parseMatchs(txt);
+  let ajout=0, doublon=0;
+  for(const m of nv){
+    if(MATCHS.some(x=>x.dt===m.dt && x.h===m.h)){ doublon++; continue; }
+    MATCHS.push(m); ajout++;
+  }
+  /* Un detail de partie est toujours cherche, meme quand le collage contenait
+     aussi des lignes de liste : les deux peuvent arriver ensemble. */
+  let sb=0, orphelin=null;
+  const d=parseDetail(txt);
+  if(d.dt && d.h && d.sb.length){
+    const c=MATCHS.find(x=>x.dt===d.dt && x.h===d.h);
+    if(c){ c.sb=d.sb; if(d.pc.length>=2) c.pc=d.pc.slice(0,2); sb=d.sb.length; }
+    /* Le detail seul ne suffit pas a creer la partie : il ne dit pas de quel cote
+       tu jouais, donc ni le resultat ni ton K/D/A. On le signale plutot que de
+       laisser croire que le collage n'a rien donne. */
+    else orphelin=`${d.sb.length} joueurs pour le ${d.dt.split("-").reverse().join("/")} à ${d.h}`;
+  }
+  MATCHS.sort((a,b)=>(b.dt+b.h).localeCompare(a.dt+a.h));
+  saveMatchs();
+  return {ajout,doublon,sb,orphelin};
 }
 /* ---------- profil de distances par carte ----------
    Le classement se lit a une distance que l'utilisateur choisit. Or chaque carte
@@ -3326,6 +3589,32 @@ function onTool(b){
   const a=b.dataset.act;
   if(a==="nomeas"){ MEAS=null; }
   if(a==="delpath"){ const p=pById(SEL); if(p) p.path=null; }
+  if(a==="mimp"){
+    const t=$("#mcoll").value;
+    if(!t.trim()) return;
+    const r=ajouteMatchs(t);
+    drawMat();
+    const bouts=[];
+    if(r.ajout) bouts.push(`${r.ajout} partie${r.ajout>1?"s":""} ajoutée${r.ajout>1?"s":""}`);
+    if(r.doublon) bouts.push(`${r.doublon} déjà connue${r.doublon>1?"s":""}`);
+    if(r.sb) bouts.push(`tableau de ${r.sb} joueurs rattaché`);
+    if(r.orphelin) bouts.push(`détail reconnu (${r.orphelin}) mais cette partie n'est pas encore enregistrée — colle d'abord sa ligne de liste`);
+    $("#mstate").textContent = bouts.length?bouts.join(" · "):"Rien de reconnu dans ce collage";
+    return;
+  }
+  if(a==="mexp"){
+    /* export en TSV : ca se recolle dans un tableur, et ca ne depend pas de moi */
+    const l=["resultat\tmvp\tcarte\tmode\tkills\tmorts\tassists\tdate\theure"]
+      .concat(MATCHS.map(m=>[m.res,m.mvp?"MVP":"",m.carte,m.mode,m.k,m.m,m.a,m.dt,m.h].join("\t")));
+    navigator.clipboard && navigator.clipboard.writeText(l.join("\n"));
+    $("#mstate").textContent=`${MATCHS.length} parties copiées au format tableur`;
+    return;
+  }
+  if(a==="mraz"){
+    if(!confirm(`Effacer les ${MATCHS.length} parties enregistrées ?`)) return;
+    MATCHS=[]; saveMatchs(); drawMat();
+    return;
+  }
   if(a==="vispl"){
     const p=pById(SEL);
     if(!p){ $("#mapstate").textContent="Choisis d'abord un joueur"; return; }
@@ -3538,8 +3827,13 @@ function go(v){
   $("#catbar").hidden = !FILTERED.includes(v);
   $("#mapbar").hidden = v!=="map";
   if(v==="map") $("#floorseg").hidden = !hasFloors(M());
-  [...TABS,"guns","acc","map"].forEach(id=>$("#"+id).hidden = id!==v);
+  [...TABS,"guns","acc","map","mat"].forEach(id=>$("#"+id).hidden = id!==v);
+  /* le selecteur de ponderation n'a de sens que la ou un classement est affiche ;
+     ailleurs il encombrait la page sans rien piloter. */
+  $("#pondbar").hidden = v!=="rank";
+  if(v==="rank" && POND) $("#ruler").hidden = true;
   if(v==="acc"){ drawAcc(); return; }
+  if(v==="mat"){ drawMat(); return; }
   if(v==="guns"){ drawGuns(); syncURL(); return; }
   if(v==="map"){ loadLOS(MK); drawMap(); return; }
   if(usesD) hypSum();
