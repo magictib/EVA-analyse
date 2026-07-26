@@ -1170,6 +1170,17 @@ function selfTest(){
   T(orphelins.length===0, "Chaque onglet a son panneau",
     orphelins.length?orphelins.join(", "):`${document.querySelectorAll("#nav button[data-v]").length} onglets vérifiés`);
 
+  /* Meme famille de panne, un cran plus bas : un bouton data-act place dans un
+     conteneur sans delegation ne fait rien, et ne dit rien. C'est arrive a tout
+     l'onglet Matchs. On verifie que chaque data-act a un ancetre ecoute. */
+  const ECOUTES=["#tools","#ctx",".strat","#share","#mat"];
+  const morts=[...document.querySelectorAll("button[data-act]")]
+    .filter(b=>!ECOUTES.some(s=>b.closest(s)))
+    .map(b=>b.dataset.act);
+  T(morts.length===0, "Chaque bouton d'action est relié à un écouteur",
+    morts.length?[...new Set(morts)].join(", ")
+      :`${document.querySelectorAll("button[data-act]").length} boutons vérifiés`);
+
   /* Les zones de spawn vivent dans tint[0] et tint[1]. Une carte qui les oublie
      faisait planter spawnPlayers() avant l'appel à loadLOS(), donc supprimait
      toute occlusion sans le dire. Ce contrôle rend la panne visible. */
@@ -3599,7 +3610,12 @@ function onTool(b){
     if(r.doublon) bouts.push(`${r.doublon} déjà connue${r.doublon>1?"s":""}`);
     if(r.sb) bouts.push(`tableau de ${r.sb} joueurs rattaché`);
     if(r.orphelin) bouts.push(`détail reconnu (${r.orphelin}) mais cette partie n'est pas encore enregistrée — colle d'abord sa ligne de liste`);
-    $("#mstate").textContent = bouts.length?bouts.join(" · "):"Rien de reconnu dans ce collage";
+    /* drawMat reconstruit le panneau, donc vide la zone de saisie. Quand rien n'a
+       ete reconnu on la remet : perdre son collage juste apres un echec est la
+       pire facon d'apprendre que le format attendu commence par le resultat. */
+    if(!bouts.length && $("#mcoll")) $("#mcoll").value=t;
+    $("#mstate").textContent = bouts.length?bouts.join(" · ")
+      :"Rien de reconnu — chaque partie doit commencer par sa ligne de résultat (Victoire, Défaite ou Égalité), puis carte, mode, K/D/A, date, heure.";
     return;
   }
   if(a==="mexp"){
@@ -3668,6 +3684,11 @@ function onTool(b){
 $("#tools").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) onTool(b); });
 $("#ctx").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) onTool(b); });
 $(".strat").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-act]"); if(b) onTool(b); });
+/* Le panneau Matchs porte lui aussi des data-act (mimp, mexp, mraz). Sans cette
+   ligne ses boutons ne declenchaient rien du tout — meme oubli que la liste de
+   demasquage des onglets, et aussi silencieux. Le controle plus bas le detecte. */
+$("#mat").addEventListener("click",e=>{
   const b=e.target.closest("button[data-act]"); if(b) onTool(b); });
 $("#share").addEventListener("click",e=>{
   const b=e.target.closest("button[data-act]"); if(b) onTool(b); });
