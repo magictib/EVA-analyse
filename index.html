@@ -528,6 +528,7 @@
     <button data-md="path" aria-pressed="false">Trajet</button>
     <button data-md="draw" aria-pressed="false">Dessin</button>
     <button data-md="label" aria-pressed="false">Repère</button>
+    <button data-md="vis" aria-pressed="false">Visibilité</button>
     <button data-md="obj"  aria-pressed="false">Objets</button>
   </div>
   <div class="tools ctx" id="ctx"></div>
@@ -1884,6 +1885,86 @@ let STROKES=[], SHAPES=[], COL="#F5A524", DRAWING=null, ANIM=null;
    bouton, parce qu'une carte couverte de texte devient illisible des qu'on veut
    lire les trajets. Elles suivent la strat : enregistrees, partagees, importees. */
 let LABELS=[], SHOW_LABELS=true;
+/* ---------- carte de visibilite ----------
+   On pose un point, l'outil ombre tout ce qu'on ne voit pas depuis la. Un pro
+   raisonne en angles couverts ; jusqu'ici l'outil savait repondre pour une ligne
+   a la fois, pas pour l'ensemble du champ.
+   Le calcul cellule par cellule couterait 285 000 tracés de segment. On lance
+   plutot un rayon par cellule de perimetre et on marque au passage : environ
+   5 400 rayons pour la plus grande carte, chacun d'au plus 870 pas, soit un
+   ordre de grandeur en moins.
+   L'inconvenient du lancer de rayons est connu : deux rayons voisins s'ecartent
+   avec la distance et laissent des cellules non marquees au loin. On comble par
+   une fermeture morphologique d'un rayon d'une cellule, ce qui suffit puisque les
+   trous font au plus une cellule de large a la portee maximale. */
+let VIS=null;
+function visibilite(ox,oy){
+  const map=M(); if(!map.los) return null;
+  /* meme choix de masque que ray() : un joueur au niveau +1 voit a travers les
+     cloisons du rez, qui sont sous ses pieds, et se heurte aux siennes. */
+  const enHaut = map.up && lvl({x:ox,y:oy})===1;
+  const occ = enHaut ? (map.baseUp || map.base) : map.los;
+  const LW=map.losw, LH=map.losh, ls=map.w/LW;
+  const vu=new Uint8Array(LW*LH);
+  const cx=ox/ls, cy=oy/(map.h/LH);
+  const R=Math.ceil(Math.hypot(LW,LH));
+  const N=Math.ceil(2*Math.PI*R);
+  for(let k=0;k<N;k++){
+    const a=2*Math.PI*k/N, dx=Math.cos(a), dy=Math.sin(a);
+    let x=cx, y=cy;
+    for(let s=0;s<R;s++){
+      x+=dx; y+=dy;
+      const xi=Math.round(x), yi=Math.round(y);
+      if(xi<0||yi<0||xi>=LW||yi>=LH) break;
+      const i=yi*LW+xi;
+      vu[i]=1;                      /* on voit le mur qui arrete le regard */
+      if(occ[i]) break;
+    }
+  }
+  /* fermeture : une cellule vue entouree de vues l'est aussi */
+  const out=Uint8Array.from(vu);
+  for(let y=1;y<LH-1;y++) for(let x=1;x<LW-1;x++){
+    const i=y*LW+x; if(vu[i]||occ[i]) continue;
+    if(vu[i-1]&&vu[i+1]) { out[i]=1; continue; }
+    if(vu[i-LW]&&vu[i+LW]) out[i]=1;
+  }
+  /* part du sol praticable effectivement couverte */
+  let sol=0, couv=0;
+  for(let i=0;i<out.length;i++) if(!occ[i]){ sol++; if(out[i]) couv++; }
+  const aireCell=(map.w/LW)*(map.h/LH)/(map.ppm*map.ppm);
+  return {m:out, x:ox, y:oy, pct:sol?couv/sol*100:0, m2:couv*aireCell, haut:!!enHaut};
+}
+/* Le voile est peint dans un canvas puis pose en une seule image : dessiner
+   285 000 rectangles en SVG figerait le rendu. Aucune image externe n'entre dans
+   ce canvas, donc toDataURL reste autorise meme en file://. */
+/* Pose la carte de visibilite depuis un point ou depuis un joueur. Partagee par
+   le mode carte et le bouton du panneau joueur, pour que les deux chemins donnent
+   exactement le meme resultat. */
+function poseVis(pos, joueur){
+  const v=visibilite(pos.x,pos.y);
+  if(!v){ $("#mapstate").textContent="Masque pas encore chargé"; return; }
+  v.url=voileVis(v); v.qui=joueur?joueur.id:null; v.col=joueur?pcol(joueur):"#F5A524";
+  VIS=v;
+  const nom = joueur ? (joueur.name || "joueur "+joueur.id) : "ce point";
+  drawMap();
+  /* apres drawMap et non avant : drawCtx() reecrit #mapstate avec le libelle du
+     mode, et ecrasait donc le resultat du calcul. */
+  $("#mapstate").textContent=`Depuis ${nom}${v.haut?" (étage)":""} : `
+    + `${fr(v.pct,0)} % du sol couvert, soit ${fr(v.m2,0)} m²`;
+}
+function voileVis(v){
+  const map=M(), LW=map.losw, LH=map.losh;
+  const c=document.createElement("canvas"); c.width=LW; c.height=LH;
+  const g=c.getContext && c.getContext("2d");
+  if(!g) return null;          /* sans canvas on perd le voile, pas le pourcentage */
+  const d=g.createImageData(LW,LH);
+  for(let i=0;i<LW*LH;i++){
+    if(v.m[i]) continue;
+    d.data[i*4]=8; d.data[i*4+1]=11; d.data[i*4+2]=16; d.data[i*4+3]=170;
+  }
+  g.putImageData(d,0,0);
+  try{ return c.toDataURL(); }catch(e){ return null; }
+}
 /* ---------- repertoire de compositions ----------
    Une compo par nom de joueur, gardee en local d'une session a l'autre. Le meme
    coequipier revient chaque semaine avec les memes armes : on le choisit dans la
@@ -2321,6 +2402,13 @@ function drawStatic(){
     }
   }
 
+  /* voile de visibilite : pose avant les traces et les joueurs, pour ne pas les
+     assombrir — ce qu'on veut lire, c'est le terrain couvert. */
+  if(VIS && VIS.url)
+    g.push(`<image href="${VIS.url}" x="0" y="0" width="${map.w}" height="${map.h}"/>`
+      + `<circle cx="${VIS.x}" cy="${VIS.y}" r="9" fill="none" stroke="${VIS.col||"#F5A524"}" stroke-width="3"/>`
+      + `<circle cx="${VIS.x}" cy="${VIS.y}" r="3" fill="${VIS.col||"#F5A524"}"/>`);
+
   /* reperes de communication : lisibles sur fond clair comme sur fond sombre,
      d'ou le liseré sombre derriere le texte plutot qu'un simple remplissage. */
   if(SHOW_LABELS) for(const l of LABELS){
@@ -2480,6 +2568,7 @@ function drawMap(){
   $("#mapdim").textContent = `${map.n} · ${fr(map.w/map.ppm,1)} × ${fr(map.h/map.ppm,1)} m`;
   $("#mapstate").textContent = ANIM ? "Animation en cours…"
     : MMODE==="draw" ? (DSHAPE==="rect" ? "Glisse pour dessiner une zone" : "Trace un trait")
+    : MMODE==="vis"  ? "Touche un joueur pour voir ce qu'il couvre, ou un point libre"
     : MMODE==="label"? "Touche la carte pour poser un repere, touche-le pour l’enlever"
     : MMODE==="aim"  ? "Appuie sur un joueur et tourne"
     : MMODE==="path" ? "Appuie sur un joueur et trace"
@@ -2730,6 +2819,14 @@ svgEl.addEventListener("pointerdown",ev=>{
   if(sw) for(const k in sw){
     if(Math.hypot(p.x-sw[k].x, p.y-sw[k].y) < hitR(32)){ toggleDoor(k); ev.preventDefault(); return; }
   }
+  if(MMODE==="vis"){
+    /* un appui sur un joueur prend sa position : c'est le cas d'usage courant,
+       on veut savoir ce que couvre un coequipier la ou il est, pas un point
+       abstrait. Le point libre reste disponible ailleurs sur la carte. */
+    const rI=hitR(26); let qui=null;
+    for(let i=PLAYERS.length-1;i>=0;i--) if(dpx(pt,PLAYERS[i])<rI){ qui=PLAYERS[i]; break; }
+    poseVis(qui||pt, qui); return;
+  }
   if(MMODE==="label"){
     /* un appui sur un repere existant le retire : pas besoin d'un second outil
        pour defaire, et ca evite d'empiler des etiquettes au meme endroit. */
@@ -2879,6 +2976,7 @@ function drawCard(){
     <div class="ptools">
       <button data-act="rsave">${ROSTER[p.name]?"Mettre à jour":"Enregistrer"} la compo${p.name?" de "+p.name:""}</button>
       ${ROSTER[p.name]?`<button data-act="rdel">Oublier ${p.name}</button>`:""}
+      <button data-act="vispl">Sa visibilité</button>
       <button data-act="delpath">Effacer le trajet</button>
     </div>
     <div class="mnote">${p.path?`Trajet de ${fr(pathLen(p),1)} m`:"Pas de trajet tracé"} ·
@@ -3002,6 +3100,12 @@ function onTool(b){
   const a=b.dataset.act;
   if(a==="nomeas"){ MEAS=null; }
   if(a==="delpath"){ const p=pById(SEL); if(p) p.path=null; }
+  if(a==="vispl"){
+    const p=pById(SEL);
+    if(!p){ $("#mapstate").textContent="Choisis d'abord un joueur"; return; }
+    poseVis(p,p);
+    return;
+  }
   if(a==="rsave"){
     const p=pById(SEL);
     if(!p) return;
@@ -3014,7 +3118,7 @@ function onTool(b){
     if(p && ROSTER[p.name]){ delete ROSTER[p.name]; saveRoster(); $("#mapstate").textContent=`${p.name} oublié`; }
   }
   if(a==="undo"){ if(STROKES.length) STROKES.pop(); else if(SHAPES.length) SHAPES.pop(); }
-  if(a==="clear"){ STROKES=[]; SHAPES=[]; LABELS=[]; PLAYERS.forEach(p=>p.path=null); }
+  if(a==="clear"){ STROKES=[]; SHAPES=[]; LABELS=[]; VIS=null; PLAYERS.forEach(p=>p.path=null); }
   if(a==="names"){ SHOW_NAMES=!SHOW_NAMES; b.setAttribute("aria-pressed",SHOW_NAMES); }
   if(a==="aims"){ SHOW_AIMS=!SHOW_AIMS; b.setAttribute("aria-pressed",SHOW_AIMS); }
   if(a==="labels"){ SHOW_LABELS=!SHOW_LABELS; b.setAttribute("aria-pressed",SHOW_LABELS); }
@@ -3135,6 +3239,7 @@ function fillMaps(){
 $("#mapsel").addEventListener("change",e=>{
   if(!e.target.value){ e.target.value=MK; return; }
   MK=e.target.value; ITEMS=[]; STROKES=[]; SHAPES=[]; PLAYERS=spawnPlayers(); LOADED=null; MEAS=null;
+  VIS=null;
   FLOOR=0; $$("#floorseg button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.fl==="0"));
   $("#floorseg").hidden = !hasFloors(M());
   loadLOS(MK); fillStrats(); drawMap();
