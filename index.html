@@ -530,6 +530,16 @@
   .cspark svg{display:block;width:100%;height:38px}
   .cnote{padding:8px 12px;border-top:1px solid var(--rule);font-size:12px;line-height:1.45;
     color:var(--ink-dim)}
+  /* Subordonnee a la barre principale, et elle doit le montrer : pas de fond, un
+     filet en dessous, une typographie plus petite. Deux barres d'egale importance
+     ne feraient que remplacer une liste plate par deux. */
+  .sousnav{display:flex;flex-wrap:wrap;gap:2px;padding:0 0 8px;margin:0 0 10px;
+    border-bottom:1px solid var(--rule)}
+  .sousnav button{background:none;border:0;border-bottom:2px solid transparent;
+    color:var(--ink-dim);padding:7px 11px;cursor:pointer;font-family:var(--ui);
+    font-size:13px;border-radius:0}
+  .sousnav button:hover{color:var(--ink)}
+  .sousnav button[aria-selected="true"]{color:var(--signal);border-bottom-color:var(--signal)}
   .retour{background:var(--panel-2);border:1px solid var(--rule);color:var(--ink-dim);
     border-radius:8px;padding:9px 13px;cursor:pointer;font-family:var(--ui);font-size:13.5px;
     margin-right:10px;vertical-align:middle}
@@ -547,15 +557,15 @@
 
 <div id="stick">
   <div class="nav" id="nav" role="tablist" aria-label="Sections">
-    <button role="tab" aria-selected="true"  data-v="rank">Classement</button>
-    <button role="tab" aria-selected="false" data-v="curve">Courbes</button>
-    <button role="tab" aria-selected="false" data-v="duel">Duel</button>
-    <button role="tab" aria-selected="false" data-v="combo">Combo</button>
-    <button role="tab" aria-selected="false" data-v="patch">Patch</button>
-    <button role="tab" aria-selected="false" data-v="guns">Armes</button>
-    <button role="tab" aria-selected="false" data-v="acc">Accessoires</button>
+    <!-- Sept des dix onglets etaient sept vues du meme modele de temps a tuer :
+         Classement, Courbes, Duel, Combo, Armes, Accessoires et Patch. Rien dans une
+         barre plate ne le disait, et un nouvel arrivant ne pouvait pas deviner que
+         Duel et Courbes parlaient de la meme chose. Ils deviennent des modes d'un
+         espace unique, et la barre passe de dix entrees a quatre.
+         Les vues gardent leur identifiant data-v : les liens deja partages tiennent,
+         et aucune fonction de rendu ne change. -->
+    <button role="tab" aria-selected="true"  data-v="rank" data-esp="armes">Armes</button>
     <button role="tab" aria-selected="false" data-v="mat">Matchs</button>
-    <span class="sep" aria-hidden="true"></span>
     <button role="tab" aria-selected="false" data-v="ana">Analyse</button>
     <button role="tab" aria-selected="false" data-v="cart">Cartes</button>
     <!-- L'editeur de strats n'a plus son propre onglet : on y entre par une fiche du
@@ -564,6 +574,15 @@
          toujours et reste atteignable par #v=map&mk=..., donc les liens deja
          partages continuent de fonctionner. Noter le diese : les liens de cette
          application vivent dans le fragment, pas dans la requete. -->
+  </div>
+  <div class="sousnav" id="armbar" role="tablist" aria-label="Vues des armes">
+    <button role="tab" aria-selected="true"  data-v="rank">Classement</button>
+    <button role="tab" aria-selected="false" data-v="curve">Courbes</button>
+    <button role="tab" aria-selected="false" data-v="duel">Duel</button>
+    <button role="tab" aria-selected="false" data-v="combo">Combo</button>
+    <button role="tab" aria-selected="false" data-v="guns">Fiches</button>
+    <button role="tab" aria-selected="false" data-v="acc">Accessoires</button>
+    <button role="tab" aria-selected="false" data-v="patch">Patch</button>
   </div>
   <div class="ruler" id="ruler">
     <div class="ruler-head">
@@ -925,6 +944,11 @@ const $   = s=>document.querySelector(s);
 const $$  = s=>[...document.querySelectorAll(s)];
 
 const TABS = ["rank","curve","duel","combo","patch"];
+/* Les sept vues qui parlent du modele de temps a tuer. Elles partagent un espace,
+   et l'espace se souvient du mode ou l'on etait : revenir a « Armes » depuis Matchs
+   ne doit pas ramener au classement si on lisait une courbe. */
+const ARMES = ["rank","curve","duel","combo","guns","acc","patch"];
+let ARMEVUE = "rank";
 let MODE = "armes";
 let D = 12, Z = "torse", TAB = "rank", HS = 0, CAT = "all";
 let DISP = false, MOVING = false;
@@ -1284,10 +1308,10 @@ function selfTest(){
   /* Chaque onglet doit reellement afficher son panneau : la liste qui les demasque
      est ecrite a la main, et l'onglet Matchs y avait ete oublie — le bouton
      fonctionnait, le panneau restait cache. */
-  const orphelins=[...document.querySelectorAll("#nav button[data-v]")]
+  const orphelins=[...document.querySelectorAll("#nav button[data-v], #armbar button[data-v]")]
     .map(b=>b.dataset.v).filter(v=>!document.getElementById(v));
   T(orphelins.length===0, "Chaque onglet a son panneau",
-    orphelins.length?orphelins.join(", "):`${document.querySelectorAll("#nav button[data-v]").length} onglets vérifiés`);
+    orphelins.length?orphelins.join(", "):`${document.querySelectorAll("#nav button[data-v], #armbar button[data-v]").length} onglets vérifiés`);
 
   /* Avoir un panneau ne suffit pas : il faut que le clic le montre. L'onglet
      Analyse avait bien sa section, mais son identifiant manquait a la liste que la
@@ -1295,7 +1319,7 @@ function selfTest(){
      precedent passait quand meme, puisqu'il ne verifie que l'existence. */
   const injoignables=[];
   const vAvant=VIEW;
-  for(const b of document.querySelectorAll("#nav button[data-v]")){
+  for(const b of document.querySelectorAll("#nav button[data-v], #armbar button[data-v]")){
     const v=b.dataset.v, sec=document.getElementById(v);
     if(!sec) continue;
     go(v);
@@ -1304,19 +1328,19 @@ function selfTest(){
   go(vAvant);
   T(injoignables.length===0, "Chaque onglet s'affiche quand on le sélectionne",
     injoignables.length?injoignables.join(", ")
-      :`${document.querySelectorAll("#nav button[data-v]").length} onglets atteints`);
+      :`${document.querySelectorAll("#nav button[data-v], #armbar button[data-v]").length} onglets atteints`);
 
   /* Et chaque onglet doit etre partageable par lien. Matchs, Cartes et Analyse
      etaient absents de la liste blanche de readURL : leurs liens retombaient en
      silence sur le classement, ce qui est le pire des deux mondes — l'adresse a
      l'air de fonctionner et n'ouvre pas la bonne page. */
-  const nonPartageables=[...document.querySelectorAll("#nav button[data-v]")]
+  const nonPartageables=[...document.querySelectorAll("#nav button[data-v], #armbar button[data-v]")]
     .map(b=>b.dataset.v)
     .filter(v=>{ const h=location.hash; location.hash="v="+v;
                  const ok=readURL()===v; location.hash=h; return !ok; });
   T(nonPartageables.length===0, "Chaque onglet est atteignable par lien",
     nonPartageables.length?nonPartageables.join(", ")
-      :`${document.querySelectorAll("#nav button[data-v]").length} onglets partageables`);
+      :`${document.querySelectorAll("#nav button[data-v], #armbar button[data-v]").length} onglets partageables`);
 
   /* Meme famille de panne, un cran plus bas : un bouton data-act place dans un
      conteneur sans delegation ne fait rien, et ne dit rien. C'est arrive a tout
@@ -5046,7 +5070,14 @@ function go(v){
   VIEW = v;
   MODE = (v==="map") ? "cartes" : "armes";   /* conservé : le rendu de carte s'y réfère */
   if(TABS.includes(v)) TAB = v;
-  $$("#nav button").forEach(b=>b.setAttribute("aria-selected", b.dataset.v===v));
+  /* Une vue de l'espace Armes selectionne l'entree « Armes » de la barre principale,
+     pas une entree qui lui correspondrait — il n'y en a plus qu'une pour les sept. */
+  const dansArmes = ARMES.includes(v);
+  $$("#nav button").forEach(b=>b.setAttribute("aria-selected",
+    dansArmes ? b.dataset.esp==="armes" : b.dataset.v===v));
+  $("#armbar").hidden = !dansArmes;
+  $$("#armbar button").forEach(b=>b.setAttribute("aria-selected", b.dataset.v===v));
+  if(dansArmes) ARMEVUE = v;
   const usesD = USES_D.includes(v);
   $("#ruler").hidden  = !usesD;
   $("#hyp").hidden    = !usesD;
@@ -5058,7 +5089,7 @@ function go(v){
      Analyse. On la derive donc de la barre de navigation plutot que de la tenir a
      la main — un onglet ajoute est desormais affiche sans rien d'autre a faire. */
   const SECTIONS=[...new Set([...TABS, "guns", "acc", "map", "mat", "cart",
-    ...[...document.querySelectorAll("#nav button[data-v]")].map(b=>b.dataset.v)])];
+    ...[...document.querySelectorAll("#nav button[data-v], #armbar button[data-v]")].map(b=>b.dataset.v)])];
   SECTIONS.forEach(id=>{ const e=$("#"+id); if(e) e.hidden = id!==v; });
   /* le selecteur de ponderation n'a de sens que la ou un classement est affiche ;
      ailleurs il encombrait la page sans rien piloter. */
@@ -5135,11 +5166,13 @@ function readURL(){
      sur le classement. On y ajoute "map", qui n'a plus d'onglet mais reste une vue
      atteignable pour que les liens deja diffuses tiennent. */
   const partageables=[...new Set([
-    ...[...document.querySelectorAll("#nav button[data-v]")].map(b=>b.dataset.v), "map"])];
+    ...[...document.querySelectorAll("#nav button[data-v], #armbar button[data-v]")].map(b=>b.dataset.v), "map"])];
   return partageables.includes(v) ? v : null;
 }
 
-$$("#nav button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.v)));
+$$("#nav button").forEach(b=>b.addEventListener("click",
+  ()=>go(b.dataset.esp==="armes" ? ARMEVUE : b.dataset.v)));
+$$("#armbar button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.v)));
 $$("#floorseg button").forEach(b=>b.addEventListener("click",()=>{
   FLOOR=+b.dataset.fl;
   $$("#floorseg button").forEach(x=>x.setAttribute("aria-pressed", x===b));
