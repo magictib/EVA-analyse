@@ -196,6 +196,7 @@
   .mbig{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:10px;margin:10px 0}
   .mbig b{background:var(--panel);border:1px solid var(--rule);padding:10px;text-align:center;
     font-family:var(--mono);font-size:19px;color:var(--signal)}
+  .mbig b i{font-style:normal;color:var(--ink-faint);font-size:15px}
   .mbig b em{display:block;font-style:normal;font-size:11px;color:var(--dim);letter-spacing:.05em;
     text-transform:uppercase;margin-top:3px}
   .mtab{border:1px solid var(--rule);margin:6px 0 14px}
@@ -251,6 +252,14 @@
   .mchip[data-moi]{border-color:var(--signal)}
   .mchip[data-moi] b{color:var(--signal)}
   .mid{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 6px}
+  /* ---------- identite ---------- */
+  .mwho-ask{border:1px solid var(--signal);background:var(--panel);padding:14px;margin:12px 0}
+  .mwho-ask .lead{margin:0 0 10px}
+  .mwhorow{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 10px}
+  .mwho{background:var(--panel-2);border:1px solid var(--rule);color:var(--ink);
+    padding:9px 14px;cursor:pointer;font-family:var(--ui);font-size:14px}
+  .mwho:hover{border-color:var(--signal)}
+  .mwho-on{border-color:var(--signal);color:var(--signal)}
   .mid input{flex:1 1 190px;min-width:0;background:var(--panel);color:var(--ink);
     border:1px solid var(--rule);padding:8px 10px;font-family:var(--mono);font-size:13px}
   /* Saisie manuelle : un recours, pas le chemin par defaut, d'ou le repli. */
@@ -543,6 +552,7 @@
     <button role="tab" aria-selected="false" data-v="acc">Accessoires</button>
     <button role="tab" aria-selected="false" data-v="mat">Matchs</button>
     <span class="sep" aria-hidden="true"></span>
+    <button role="tab" aria-selected="false" data-v="ana">Analyse</button>
     <button role="tab" aria-selected="false" data-v="cart">Cartes</button>
     <!-- Renomme : cet onglet est un editeur de strats, pas un catalogue. La cle
          data-v reste "map" pour que les liens ?v=map&mk=... deja partages tiennent. -->
@@ -720,6 +730,7 @@
      casse $("#cat") partout. D'ou "cart". -->
 <section id="cart" hidden></section>
 <section id="mat" hidden></section>
+<section id="ana" hidden></section>
 
 
 </div>
@@ -1273,7 +1284,7 @@ function selfTest(){
   /* Meme famille de panne, un cran plus bas : un bouton data-act place dans un
      conteneur sans delegation ne fait rien, et ne dit rien. C'est arrive a tout
      l'onglet Matchs. On verifie que chaque data-act a un ancetre ecoute. */
-  const ECOUTES=["#tools","#ctx",".strat","#share","#mat","#cart"];
+  const ECOUTES=["#tools","#ctx",".strat","#share","#mat","#cart","#ana"];
   const morts=[...document.querySelectorAll("button[data-act]")]
     .filter(b=>!ECOUTES.some(s=>b.closest(s)))
     .map(b=>b.dataset.act);
@@ -1310,6 +1321,50 @@ function selfTest(){
     sansPhoto.length?"sans photo : "+sansPhoto.join(", ")
       :orphPhoto.length?"photo sans carte : "+orphPhoto.join(", ")
       :`${toutes.length} cartes · ${toutes.filter(c=>!MAPS[c]).length} sans plan (${toutes.filter(c=>!MAPS[c]).map(nomDeCle).join(", ")})`);
+
+  /* L'identite doit faire l'aller-retour par le stockage. Le controle vient d'un vrai
+     bug : PKEY etait declare plus bas dans le fichier que PSEUDO, la lecture levait un
+     ReferenceError avale par le try/catch, et le pseudo ne survivait a aucun
+     rechargement — sans que rien ne le signale. */
+  /* setIdentite declenche migreV2, qui inscrit le pseudo dans les parties non
+     encore migrees : le controle injectait donc un faux joueur dans les donnees
+     reelles. On travaille sur une copie et on remet tout en place. */
+  const idAvant=PSEUDO, matchsAvant=JSON.stringify(MATCHS);
+  MATCHS.length=0;
+  setIdentite("BVSxTestUnitaire");
+  const ok1 = localStorage.getItem(PKEY)==="BVSxTestUnitaire"
+           && localStorage.getItem(WKEY)==="BVSxTestUnitaire"
+           && SWHO==="BVSxTestUnitaire";
+  const ok2 = effectif().includes("BVSxTestUnitaire");
+  setIdentite(idAvant);
+  try{ MATCHS.push(...JSON.parse(matchsAvant)); }catch(e){}
+  saveMatchs();
+  T(ok1 && ok2, "L'identité s'écrit dans le stockage et rejoint l'effectif",
+    ok1?(ok2?`${PKEY} et ${WKEY} écrites, effectif à jour`:"écrite mais absente de l'effectif")
+       :"le pseudo ne fait pas l'aller-retour par le stockage");
+
+  /* La bascule vers la partie collective doit etre sans perte et rejouable : les
+     memes chiffres avant et apres, et un second passage qui ne fait rien. */
+  const avant=JSON.stringify(MATCHS), pAvant=PSEUDO;
+  MATCHS.length=0; PSEUDO="ZZZxCobaye";
+  MATCHS.push({res:"V",carte:"Polaris",cle:"polaris",mode:"Domination",k:7,m:3,a:2,mvp:true,
+    dt:"2026-07-01",h:"10:00",sb:[{n:"ZZZxPair",k:4,m:5,a:1,s:400}]});
+  /* Le second cas est celui qui avait fait perdre le MVP : ma ligne est deja dans le
+     tableau, et le drapeau n'existe qu'au sommet. */
+  MATCHS.push({res:"V",carte:"Silva",cle:"silva",mode:"Domination",k:6,m:4,a:1,mvp:true,
+    dt:"2026-07-02",h:"10:00",sb:[{n:"ZZZxCobaye",k:6,m:4,a:1,s:500}]});
+  const l0=maLigne(MATCHS[0]);
+  const m1=migreV2(), l1=maLigne(MATCHS[0]);
+  const m2=migreV2();
+  const mvpGarde = sbOk(MATCHS[1]).find(x=>x.n==="ZZZxCobaye").mvp===true;
+  const okMig = m1.n===2 && m2.n===0 && l1 && l1.k===l0.k && l1.m===l0.m && l1.a===l0.a
+             && l1.mvp===l0.mvp && MATCHS[0].k===undefined && sbOk(MATCHS[0]).length===2
+             && mvpGarde;
+  MATCHS.length=0; PSEUDO=pAvant;
+  try{ MATCHS.push(...JSON.parse(avant)); }catch(e){}
+  T(okMig, "La partie devient collective sans perdre tes chiffres",
+    okMig?`7/3/2 et les deux MVP passés dans le tableau · second passage : ${m2.n} partie`
+         :`avant ${JSON.stringify(l0)} · après ${JSON.stringify(l1)}`);
 
   /* Un pseudo doit se distinguer d'une ligne de score. Le cas 8/15 est reel : il
      avait peuple le tableau des adversaires de faux joueurs credibles. */
@@ -1639,6 +1694,283 @@ function drawGuns(){
 
 /* ---------- accessoires ---------- */
 
+/* ---------- analyses de partie, importees du lecteur de morts ----------
+   Un fichier par partie, produit par lire_morts.py. On garde le format compact du
+   lecteur tel quel : les instants sont des secondes du chrono, pas des dates, et
+   le bloc « partie » porte la carte, la date et l'heure qui rattachent l'analyse
+   a un match deja enregistre. Cle de rattachement dt+h, la meme que la dedup.
+
+   Les tueurs peuvent valoir null : la chronologie des morts est fiable, leur
+   attribution ne l'est pas encore. Le format les porte des maintenant pour que
+   les memes fichiers se rechargent sans changement le jour ou elle le sera. */
+const AKEY="eva-analyses-v1";
+let ANALYSES=(()=>{ try{ return JSON.parse(localStorage.getItem(AKEY))||[]; }catch(e){ return []; } })();
+function saveAnalyses(){ try{ localStorage.setItem(AKEY,JSON.stringify(ANALYSES)); }catch(e){} }
+const cleAna = a => `${(a.partie&&a.partie.dt)||""} ${(a.partie&&a.partie.h)||""}`;
+
+
+/* ---------- calculs d'analyse ----------
+   Toutes ces fonctions lisent le meme sous-ensemble que l'onglet Matchs : le tri
+   par carte et par equipe rencontree s'applique donc sans etre reimplemente.
+   Chacune renvoie null plutot qu'un zero quand la donnee manque : un taux de
+   revenge de 0 % et « pas d'attribution disponible » ne veulent pas dire la meme
+   chose, et confondre les deux serait le genre de faux aplomb qu'on evite ici. */
+
+/* Les analyses rattachees aux parties retenues par le tri. */
+function analysesRetenues(){
+  const cles=new Set(LOT.map(m=>`${m.dt||""} ${m.h||""}`));
+  return ANALYSES.filter(a=>cles.has(cleAna(a)));
+}
+
+const monCamp = a => (a.partie&&a.partie.slots||[]).slice(4);
+const estMien = (a,slot) => monCamp(a).includes(slot);
+const nomDe   = (a,slot) => (a.noms&&a.noms[String(slot)]) || `slot ${slot}`;
+
+/* Effectif vivant seconde par seconde, cote BVS. Une duree, pas un comptage :
+   c'est ce qui rend la mesure solide sur une seule partie. */
+function effectifDansLeTemps(lot){
+  const paliers=[0,0,0,0,0];
+  let total=0;
+  for(const a of lot){
+    const mien=monCamp(a);
+    if(!mien.length || !a.evenements) continue;
+    const ev=[...a.evenements].filter(e=>e.type==="mort"||e.type==="reapparition")
+      .sort((x,y)=>y.instant-x.instant);
+    if(!ev.length) continue;
+    const deb=ev[0].instant, fin=ev[ev.length-1].instant;
+    const etat={}; for(const k of mien) etat[k]=true;
+    let i=0;
+    for(let t=deb;t>=fin;t--){
+      while(i<ev.length && ev[i].instant===t){
+        if(mien.includes(ev[i].slot)) etat[ev[i].slot]= ev[i].type==="reapparition";
+        i++;
+      }
+      paliers[Object.values(etat).filter(Boolean).length]++; total++;
+    }
+  }
+  return total?{paliers,total}:null;
+}
+
+/* Delai de reapparition : la mediane des sejours complets. */
+function delaiRetour(lot){
+  const d=[];
+  for(const a of lot) for(const s of (a.sejours||[])) d.push(s.duree);
+  if(!d.length) return null;
+  d.sort((x,y)=>x-y);
+  return {mediane:d[Math.floor(d.length/2)], n:d.length,
+          min:d[0], max:d[d.length-1]};
+}
+
+/* Qui nous tue, qui on tue. Renvoie null si aucune attribution n'est disponible. */
+function echanges(lot){
+  const subis=new Map(), rendus=new Map();
+  let attribuees=0, morts=0;
+  for(const a of lot){
+    for(const f of (a.frags||[])){
+      const mienne=estMien(a,f.victime);
+      if(mienne) morts++;
+      if(f.tueur===null||f.tueur===undefined) continue;
+      attribuees++;
+      const g = mienne ? subis : rendus;
+      const cle = mienne ? nomDe(a,f.tueur) : nomDe(a,f.victime);
+      g.set(cle,(g.get(cle)||0)+1);
+    }
+  }
+  if(!attribuees) return null;
+  const tri=g=>[...g.entries()].sort((x,y)=>y[1]-x[1]);
+  return {subis:tri(subis), rendus:tri(rendus), attribuees, morts};
+}
+
+/* Revenge : le tueur d'un des notres tombe-t-il par la main d'un des notres ?
+   Fenetre de 20 s, et on ne compte que les morts dont le tueur est connu — sinon
+   on ferait passer une lecture manquante pour une impunite. */
+function revenge(lot, fenetre=20){
+  let vengees=0, exam=0;
+  const impunis=new Map();
+  for(const a of lot){
+    const fr=(a.frags||[]).filter(f=>f.tueur!==null&&f.tueur!==undefined);
+    for(const f of fr){
+      if(!estMien(a,f.victime)) continue;
+      exam++;
+      const vengeur=fr.find(g=>g.victime===f.tueur && estMien(a,g.tueur)
+                              && g.instant<f.instant && f.instant-g.instant<=fenetre);
+      if(vengeur) vengees++;
+      else { const n=nomDe(a,f.tueur); impunis.set(n,(impunis.get(n)||0)+1); }
+    }
+  }
+  if(!exam) return null;
+  return {vengees, exam, taux:vengees/exam,
+          impunis:[...impunis.entries()].sort((x,y)=>y[1]-x[1])};
+}
+
+/* Par joueur de mon camp : morts, temps au sol, retours accompagnes. */
+function parJoueurAna(lot){
+  const g=new Map();
+  const prendre=nom=>{ if(!g.has(nom)) g.set(nom,{morts:0,ausol:0,sejours:0,
+    retours:0,accompagnes:0,subies:0,rendues:0}); return g.get(nom); };
+  for(const a of lot){
+    const mien=monCamp(a);
+    for(const e of (a.evenements||[])){
+      if(!mien.includes(e.slot)) continue;
+      if(e.type==="mort") prendre(nomDe(a,e.slot)).morts++;
+      if(e.type==="reapparition") prendre(nomDe(a,e.slot)).retours++;
+    }
+    for(const s of (a.sejours||[])){
+      if(!mien.includes(s.slot)) continue;
+      const o=prendre(nomDe(a,s.slot)); o.ausol+=s.duree; o.sejours++;
+    }
+    /* Retour accompagne : un coequipier revient a moins de six secondes. */
+    const ret=(a.evenements||[]).filter(e=>e.type==="reapparition"&&mien.includes(e.slot));
+    for(const e of ret){
+      if(ret.some(f=>f!==e && Math.abs(f.instant-e.instant)<=6))
+        prendre(nomDe(a,e.slot)).accompagnes++;
+    }
+    for(const f of (a.frags||[])){
+      if(f.tueur===null||f.tueur===undefined) continue;
+      if(estMien(a,f.victime)) prendre(nomDe(a,f.victime)).subies++;
+      if(estMien(a,f.tueur))   prendre(nomDe(a,f.tueur)).rendues++;
+    }
+  }
+  return [...g.entries()].sort((x,y)=>y[1].morts-x[1].morts);
+}
+
+
+
+/* Rattachement d'une analyse a une partie enregistree.
+   On refuse plutot que d'inventer : sans date ni heure dans le fichier, ou sans
+   partie correspondante, l'analyse serait orpheline et n'apparaitrait dans aucun
+   tri — un import silencieusement inutile est pire qu'un refus explicite. */
+function ajouteAnalyse(txt){
+  let d;
+  try{ d=JSON.parse(txt); }
+  catch(e){ return {ok:false, msg:"Ce n'est pas du JSON valide. Copie tout le contenu du fichier, accolades comprises."}; }
+  if(!d || !Array.isArray(d.evenements))
+    return {ok:false, msg:"Aucun tableau « evenements » : ce fichier ne vient pas de lire_morts.py."};
+  const p=d.partie||{};
+  if(!p.dt || !p.h)
+    return {ok:false, msg:"Le fichier ne porte ni date ni heure. Relance le lecteur avec --date et --heure, sinon l'analyse ne peut pas se rattacher à une partie."};
+  if(!MATCHS.some(m=>m.dt===p.dt && m.h===p.h))
+    return {ok:false, msg:`Aucune partie enregistrée le ${p.dt.split("-").reverse().join("/")} à ${p.h}. Ajoute-la d'abord dans l'onglet Matchs.`};
+
+  const cle=`${p.dt} ${p.h}`;
+  const avant=ANALYSES.length;
+  ANALYSES=ANALYSES.filter(a=>cleAna(a)!==cle);
+  const remplace=avant!==ANALYSES.length;
+  ANALYSES.push(d);
+  saveAnalyses();
+  const morts=d.evenements.filter(e=>e.type==="mort").length;
+  const attrib=(d.frags||[]).filter(f=>f.tueur!==null&&f.tueur!==undefined).length;
+  return {ok:true, msg:`${remplace?"Analyse remplacée":"Analyse ajoutée"} : ${morts} morts`
+    + (attrib?`, ${attrib} tueur(s) identifié(s)`:", aucun tueur identifié")
+    + `. ${ANALYSES.length} analyse(s) en mémoire.`};
+}
+
+/* ---------- vue Analyse ---------- */
+function drawAna(){
+  const el=$("#ana");
+  LOT=filtre();                                  /* meme sous-ensemble que Matchs */
+  const lot=analysesRetenues();
+  const fr=n=>String(n);
+
+  const importe=`<details class="mform"><summary>Importer une analyse</summary>
+    <div class="mfbody">
+      <p class="note">Dépose le <b>morts.json</b> produit par <b>lire_morts.py</b>, ou colle-le.
+        Il se rattache tout seul à la partie enregistrée qui porte la même date et la même
+        heure. Le collage est cumulatif et un même fichier réimporté remplace l'ancien.</p>
+      <div class="depot" id="adepot" tabindex="0" role="button">
+        <span class="depot-texte">Dépose morts.json, ou <u>parcours</u></span>
+        <input type="file" id="afichier" accept=".json,application/json" hidden>
+      </div>
+      <textarea id="acoll" rows="3" placeholder='{"partie": {...}, "evenements": [...]}'></textarea>
+      <div class="ptools"><button data-act="aimp">Ajouter</button>
+        ${ANALYSES.length?`<button data-act="araz">Tout effacer</button>`:""}</div>
+      <div id="astate" class="note"></div>
+    </div></details>`;
+
+  if(!ANALYSES.length){
+    el.innerHTML=`<p class="lead">Aucune analyse importée. L'onglet se remplit avec les fichiers
+      <b>morts.json</b> du lecteur de morts : chronologie des morts, délais de réapparition,
+      effectif de l'équipe, et — dès que l'attribution des tueurs sera automatisée — qui nous
+      tue et le taux de revenge.</p>`+importe;
+    return;
+  }
+  if(!lot.length){
+    el.innerHTML=importe+`<p class="lead">${ANALYSES.length} analyse(s) enregistrée(s), mais
+      aucune ne correspond au tri en cours ni à une partie enregistrée. Vérifie que la date et
+      l'heure du fichier correspondent bien à une partie de l'onglet Matchs.</p>`;
+    return;
+  }
+
+  /* --- 1. global --- */
+  const eff=effectifDansLeTemps(lot), ret=delaiRetour(lot), rev=revenge(lot), ech=echanges(lot);
+  const nMorts=lot.reduce((a,x)=>a+(x.evenements||[]).filter(e=>e.type==="mort").length,0);
+
+  let global=`<h3>Vue d'ensemble${(FCARTE||FADV)?", sur ce tri":""}</h3><div class="mbig">
+    <b>${lot.length}<em>partie${lot.length>1?"s":""} analysée${lot.length>1?"s":""}</em></b>
+    <b>${nMorts}<em>morts relevées</em></b>
+    ${ret?`<b>${fr(ret.mediane)} s<em>retour médian</em></b>`:""}
+    ${eff?`<b>${Math.round(eff.paliers[4]/eff.total*100)} %<em>équipe complète</em></b>`:""}
+    ${rev?`<b>${Math.round(rev.taux*100)} %<em>revenge</em></b>`:""}
+    </div>`;
+
+  if(eff){
+    const l=["à terre","1 vivant","2 vivants","3 vivants","complète"];
+    global+=`<div class="mtab"><div class="mth"><s>effectif</s><s>durée</s><s>part du temps</s></div>`
+      + eff.paliers.map((v,i)=>`<div class="mtr3"><b>${l[i]}</b><s>${v} s</s>`
+        + `<s>${Math.round(v/eff.total*100)} %</s></div>`).reverse().join("")
+      + `</div><p class="note">Des durées, pas des comptages : c'est ce qui rend cette mesure
+         solide même sur une seule partie, là où un pourcentage calculé sur cinq sorties de
+         spawn ne dirait rien.</p>`;
+  }
+  if(ret) global+=`<p class="note">Délai de réapparition : médiane ${fr(ret.mediane)} s
+    sur ${ret.n} séjours complets, de ${fr(ret.min)} à ${fr(ret.max)} s. Un délai fixe et
+    individuel — pas de vagues imposées par le jeu.</p>`;
+
+  /* --- 2. echanges --- */
+  let duel;
+  if(!ech){
+    duel=`<h3>Qui nous tue</h3><p class="alerte" data-ton="info">Attribution des tueurs
+      indisponible sur ces analyses. La chronologie des morts est fiable, mais le nom du tueur
+      se lit dans le bandeau de morts, dont la lecture n'est pas encore automatisée. Les
+      fichiers actuels portent ${nMorts} morts sans tueur identifié.</p>`;
+  } else {
+    const barre=(v,max)=>`<i style="width:${Math.round(v/max*100)}%"></i>`;
+    const maxS=Math.max(...ech.subis.map(x=>x[1]),1);
+    const maxR=Math.max(...ech.rendus.map(x=>x[1]),1);
+    duel=`<h3>Qui nous tue</h3><div class="mtab">
+        <div class="mth"><s>adversaire</s><s>morts infligées</s><s></s></div>`
+      + ech.subis.map(([n,v])=>`<div class="mtr3"><b>${n}</b><s>${v}</s>`
+        + `<s><span class="barre">${barre(v,maxS)}</span></s></div>`).join("")
+      + `</div><h3>Ce qu'on rend</h3><div class="mtab">
+        <div class="mth"><s>adversaire</s><s>morts subies</s><s></s></div>`
+      + ech.rendus.map(([n,v])=>`<div class="mtr3"><b>${n}</b><s>${v}</s>`
+        + `<s><span class="barre">${barre(v,maxR)}</span></s></div>`).join("")
+      + `</div><p class="note">${ech.attribuees} frags attribués sur ${nMorts} morts relevées.
+         Comparer les deux listes est plus parlant que chacune séparément : un adversaire qui
+         vous tue beaucoup et tombe peu est celui à traiter en priorité.</p>`;
+    if(rev && rev.impunis.length)
+      duel+=`<p class="note">Restés impunis : `
+        + rev.impunis.map(([n,v])=>`<b>${n}</b> ${v} fois`).join(" · ") + `.</p>`;
+  }
+
+  /* --- 3. par joueur --- */
+  const pj=parJoueurAna(lot);
+  const joueurs=!pj.length?"":`<h3>Par joueur</h3><div class="mtab mtab6">
+      <div class="mth"><s>joueur</s><s>morts</s><s>temps au sol</s><s>retour moyen</s>`
+    + `<s>retours accompagnés</s><s>frags</s></div>`
+    + pj.map(([n,o])=>`<div class="mtr"><b>${sansTag(n)}${tagDe(n)?`<em>${tagDe(n)}</em>`:""}</b>`
+      + `<s>${o.morts}</s><s>${o.ausol} s</s>`
+      + `<s>${o.sejours?fr(Math.round(o.ausol/o.sejours))+" s":"—"}</s>`
+      + `<s>${o.retours?Math.round(o.accompagnes/o.retours*100)+" %":"—"}</s>`
+      + `<s>${ech?o.rendues:"—"}</s></div>`).join("")
+    + `</div><p class="note">« Retours accompagnés » : un coéquipier revient dans les six
+       secondes. Attention à la lecture — revenir groupé va souvent de pair avec mourir plus
+       vite, parce qu'une vague de retours signifie que l'équipe vient d'être balayée. Cette
+       colonne décrit une situation autant qu'un comportement.</p>`;
+
+  el.innerHTML = importe + global + duel + joueurs;
+}
+
 /* ---------- vue Matchs ---------- */
 /* Les agregats ne lisent plus MATCHS mais LOT, le sous-ensemble retenu par les
    filtres. Un seul point de verite : poser LOT en tete de drawMat suffit a ce que
@@ -1655,8 +1987,10 @@ function agrege(cle){
   const g=new Map();
   for(const m of LOT){
     const k=cle(m); if(k===null||k===undefined) continue;
-    const o=g.get(k)||{n:0,v:0,k:0,m:0,a:0}; 
-    o.n++; o.v+= m.res==="V"?1:0; o.k+=m.k||0; o.m+=m.m||0; o.a+=m.a||0;
+    const q=maLigne(m);
+    const o=g.get(k)||{n:0,v:0,k:0,m:0,a:0};
+    o.n++; o.v+= m.res==="V"?1:0;
+    if(q){ o.k+=q.k||0; o.m+=q.m||0; o.a+=q.a||0; }
     g.set(k,o);
   }
   return [...g.entries()];
@@ -1677,8 +2011,7 @@ function tableau(titre,lignes,extra){
 function parJoueur(){
   const g=new Map();
   for(const m of MATCHS){
-    if(!m.sb) continue;
-    for(const p of m.sb){
+    for(const p of sbOk(m)){
       const o=g.get(p.n)||{n:0,k:0,m:0,a:0,s:0,mvp:0,v:0};
       o.n++; o.k+=p.k||0; o.m+=p.m||0; o.a+=p.a||0; o.s+=p.s||0;
       o.mvp+= p.mvp?1:0; o.v+= m.res==="V"?1:0;
@@ -1703,20 +2036,67 @@ const sansTag= n => { const g=String(n||"").match(RE_TAG); return g?g[2]:String(
 function devinePseudo(){
   const c=new Map();
   for(const m of MATCHS){
-    if(!m.sb) continue;
-    for(const p of m.sb) if(p.k===m.k && p.m===m.m && p.a===m.a) c.set(p.n,(c.get(p.n)||0)+1);
+    for(const p of sbOk(m)) if(p.k===m.k && p.m===m.m && p.a===m.a) c.set(p.n,(c.get(p.n)||0)+1);
   }
   const t=[...c.entries()].sort((a,b)=>b[1]-a[1]);
   return t.length?t[0][0]:null;
 }
+/* Ces deux cles etaient declarees plus bas dans le fichier que PSEUDO : la lecture
+   levait un ReferenceError que le try/catch avalait, et le pseudo ne survivait donc
+   a aucun rechargement. Elles precedent desormais leur premier usage. */
+const PKEY="eva-pseudo-v1";
+const WKEY="eva-who";
 let PSEUDO=(()=>{ try{ return localStorage.getItem(PKEY)||""; }catch(e){ return ""; } })();
 const monPseudo = () => PSEUDO || devinePseudo() || "";
 /* Decoupe un tableau de partie en deux camps. Le tien est celui qui porte ton
    pseudo ou ton tag ; l'adverse est le tag majoritaire parmi les autres, ce qui
    encaisse les equipes mixtes et les joueurs sans tag. Sans pseudo connu on ne
    devine rien : tout le monde reste dans ton camp, comme avant. */
+/* Toute lecture d'un tableau passe par ici. Filtrer a l'entree ne suffisait pas :
+   les parties deja enregistrees portaient les faux joueurs, et il fallait cliquer
+   un bouton pour les retirer. Filtrer aussi a la lecture rend le retour impossible,
+   quel que soit l'etat du stockage ou le chemin par lequel une ligne est arrivee. */
+const sbOk = m => (m.sb||[]).filter(p=>estNom(p.n));
+
+/* ---------- une partie est collective ----------
+   Les stats individuelles n'appartiennent pas a la partie : elles appartiennent a
+   un joueur dedans. Une partie porte donc la carte, le mode, l'heure, le resultat
+   de l'equipe et le tableau ; "toi" est une recherche dans ce tableau. C'est ce qui
+   permettra a une seule personne de saisir pour tout le monde.
+   Les parties d'avant la bascule n'ont que des champs au sommet — c'etait celui qui
+   collait, donc c'etait toi : on les rend en repli, et migreV2 les convertit. */
+function maLigne(m){
+  const me=monPseudo();
+  if(me){ const p=sbOk(m).find(x=>x.n===me); if(p) return p; }
+  return m.k!==undefined ? {n:me||"", k:m.k||0, m:m.m||0, a:m.a||0, s:0, mvp:!!m.mvp} : null;
+}
+/* Conversion sur place, une fois, et seulement quand tu t'es nomme explicitement :
+   attribuer des frags a une devinette serait pire que ne pas migrer. */
+function migreV2(){
+  const me=PSEUDO;
+  if(!me) return {n:0};
+  let c=0;
+  for(const m of MATCHS){
+    if(m.v>=2) continue;
+    if(m.k!==undefined){
+      const mienne=sbOk(m).find(x=>x.n===me);
+      if(!mienne){
+        if(!m.sb) m.sb=[];
+        m.sb.push({n:me, k:m.k||0, m:m.m||0, a:m.a||0, s:0, mvp:!!m.mvp});
+      }
+      /* Ma ligne existe deja mais le MVP n'etait note qu'au sommet : le reporter,
+         sinon la bascule effacerait l'information en silence. */
+      else if(m.mvp && !mienne.mvp) mienne.mvp=true;
+    }
+    delete m.k; delete m.m; delete m.a; delete m.mvp;
+    m.v=2; c++;
+  }
+  if(c) saveMatchs();
+  return {n:c};
+}
+
 function camps(m){
-  const sb=m.sb||[], me=monPseudo(), monTag=tagDe(me);
+  const sb=sbOk(m), me=monPseudo(), monTag=tagDe(me);
   if(!me) return {mien:sb.slice(),adv:[],tagAdv:null};
   const mien=[], adv=[];
   for(const p of sb){
@@ -1751,7 +2131,8 @@ function parAdversaire(){
     if(!m.sb) continue;
     const c=camps(m); if(!c.tagAdv) continue;
     const o=g.get(c.tagAdv)||{n:0,v:0,k:0,m:0,a:0,ek:0,em:0,noms:new Set()};
-    o.n++; o.v+=m.res==="V"?1:0; o.k+=m.k||0; o.m+=m.m||0; o.a+=m.a||0;
+    o.n++; o.v+=m.res==="V"?1:0;
+    const q=maLigne(m); if(q){ o.k+=q.k||0; o.m+=q.m||0; o.a+=q.a||0; }
     /* ek/em couvre tout le camp d'en face, y compris les joueurs sans tag : c'est
        bien l'equipe entiere qui t'a battu. L'effectif nomme, lui, ne compte que
        les porteurs du tag — un mercenaire sans tag n'appartient pas a l'equipe. */
@@ -1763,7 +2144,7 @@ function parAdversaire(){
 /* Tous les tags vus, avec leur effectif : le controle a l'oeil du decoupage. */
 function tousLesTags(){
   const g=new Map();
-  for(const m of LOT) for(const p of (m.sb||[])){
+  for(const m of LOT) for(const p of sbOk(m)){
     const t=tagDe(p.n); if(!t) continue;
     const o=g.get(t)||new Set(); o.add(p.n); g.set(t,o);
   }
@@ -1777,8 +2158,10 @@ function parCarteRiche(){
     const k=m.cle||m.carte; if(!k) continue;
     const o=g.get(k)||{n:0,v:0,k:0,m:0,a:0,s:0,ns:0,mvp:0,
       nom:(m.cle&&MAPS[m.cle])?MAPS[m.cle].n:(m.carte||k),cle:m.cle||null};
-    o.n++; o.v+=m.res==="V"?1:0; o.k+=m.k||0; o.m+=m.m||0; o.a+=m.a||0; o.mvp+=m.mvp?1:0;
-    if(m.sb&&me){ const p=m.sb.find(x=>x.n===me); if(p){ o.s+=p.s||0; o.ns++; } }
+    o.n++; o.v+=m.res==="V"?1:0;
+    const q=maLigne(m);
+    if(q){ o.k+=q.k||0; o.m+=q.m||0; o.a+=q.a||0; o.mvp+=q.mvp?1:0;
+      if(q.s){ o.s+=q.s; o.ns++; } }
     g.set(k,o);
   }
   return [...g.values()].sort((a,b)=>b.v/b.n-a.v/a.n||b.n-a.n);
@@ -1843,11 +2226,11 @@ function drawMat(){
      qu'on veut pour la partie suivante. Seul l'effectif est repropose, repris du
      dernier tableau connu : c'est la seule chose qui ne change pas d'une partie
      a l'autre, et la retaper cinq fois par soiree ferait abandonner. */
-  const der=(MATCHS.find(x=>x.sb)||{}).sb||[];
+  const der=sbOk(MATCHS.find(x=>sbOk(x).length)||{});
   const rangs=der.length?der.map(p=>ligneSB(p.n)).join(""):ligneSB()+ligneSB();
   const modes=[...new Set(MATCHS.map(x=>x.mode).filter(Boolean)
     .concat(["Domination","Point Stratégique"]))].sort((a,b)=>a.localeCompare(b,"fr"));
-  const noms=[...new Set([].concat(...MATCHS.map(x=>(x.sb||[]).map(p=>p.n))))].sort();
+  const noms=[...new Set([].concat(...MATCHS.map(x=>sbOk(x).map(p=>p.n))))].sort();
   const z=new Date(), p2=v=>String(v).padStart(2,"0");
   const formulaire=`<details class="mform">
     <summary>Saisir une partie à la main</summary>
@@ -1884,33 +2267,36 @@ function drawMat(){
   const collage=`<details class="mform"><summary>Ajouter des parties</summary>
     <div class="mfbody">${saisie}</div></details>${formulaire}`;
 
-  /* Zero partie enregistree : les deux portes d'entree, et rien d'autre. */
-  if(!tot){ el.innerHTML=`<p class="lead">Aucune partie enregistrée. Colle la liste du jeu,
-    ou saisis-en une à la main si elle n'est pas copiable.</p>`+saisie+formulaire; return; }
-
-  /* ---------- reglages, replies : ils se posent une fois ---------- */
+  /* ---------- reglages : ils se posent une fois ---------- */
   const dev=devinePseudo(), moi=monPseudo(), monTag=tagDe(moi);
-  const tags=tousLesTags();
-  const reglages=`<details class="mform"><summary>Réglages</summary><div class="mfbody">
-    <p class="note">Ton pseudo sépare les deux camps dans les tableaux collés : ton équipe est celle
-      qui porte ton tag, l'adverse est le tag majoritaire des autres.
-      ${PSEUDO?"":dev?`Deviné à partir de tes K/D/A : <b>${dev}</b>. Corrige-le si c'est faux.`
-        :"Tant qu'il est vide et qu'aucun tableau n'est collé, tout le monde compte comme coéquipier."}</p>
-    <div class="mid"><input id="mps" placeholder="ex. BVSxTibco" value="${PSEUDO}">
-      <button data-act="mps">Enregistrer</button></div>
-    ${!tags.length?"":`<p class="note mfsp">Tags reconnus, lus sur la convention <b>TAGxPseudo</b>.
-      Si un pseudo contenant un x apparaît ici comme un tag, c'est un faux positif.</p>
-      <div>${tags.map(([t,c])=>`<span class="mchip"${t===monTag?" data-moi":""}><b>${t}</b> · ${c} joueur${c>1?"s":""}</span>`).join("")}</div>`}
-    </div></details>`;
-
-  /* ---------- l'alerte reste dehors : elle demande une decision ---------- */
-  const fx=fauxJoueurs();
-  const alerte=!fx.length?"":`<h3>Lignes prises pour des joueurs</h3>
-    <p class="note">Ces valeurs figurent dans tes tableaux comme si c'étaient des pseudos. Le parseur
-      retenait la ligne précédant un K/D/A quelle qu'elle soit — c'est corrigé pour les prochains
-      collages, mais les parties déjà enregistrées les portent encore.</p>
-    <div>${fx.map(([x,c])=>`<span class="mchip"><b>${x}</b> · ${c} fois</span>`).join("")}</div>
-    <div class="ptools mfsp"><button data-act="mclean">Retirer ces ${fx.reduce((s,x)=>s+x[1],0)} lignes</button></div>`;
+  const tags=tot?tousLesTags():[];
+  /* ---------- qui es-tu ? ----------
+     Un clic sur son nom, une fois. Tant que ce n'est pas fait, la question est
+     posee en clair au-dessus du reste : c'est elle qui conditionne le decoupage
+     des camps, donc tout ce que la page affiche ensuite. */
+  const ros=effectif();
+  const boutons=n=>n.map(x=>`<button class="mwho${x===PSEUDO?" mwho-on":""}" data-act="mwho" data-n="${x}">${sansTag(x)}</button>`).join("");
+  const choix = ros.length
+    ? `<div class="mwhorow">${boutons(ros)}</div>`
+    : (()=>{ const g=parTag();
+        return !g.length ? "" : g.map(([t,v])=>`<p class="note mfsp"><b>${t}</b></p>
+          <div class="mwhorow">${boutons(v)}</div>`).join(""); })();
+  const libre=`<div class="mid"><input id="mps" placeholder="ou tape-le : ex. ${tagEquipe()||"BVS"}xTibco" value="${PSEUDO}">
+      <button data-act="mps">Enregistrer</button></div>`;
+  const identite = PSEUDO
+    ? `<details class="mform"><summary>Réglages</summary><div class="mfbody">
+        <p class="note">Tu es <b>${sansTag(PSEUDO)}</b>${tagDe(PSEUDO)?` · ${tagDe(PSEUDO)}`:""}.
+          C'est ce qui sépare ton camp de l'adverse dans les tableaux collés, et ce qui signe
+          les strats que tu enregistres.</p>
+        ${choix}${libre}
+        ${!tags.length?"":`<p class="note mfsp">Tags reconnus</p>
+          <div>${tags.map(([t,c])=>`<span class="mchip"${t===monTag?" data-moi":""}><b>${t}</b> · ${c} joueur${c>1?"s":""}</span>`).join("")}</div>`}
+        </div></details>`
+    : `<div class="mwho-ask"><p class="lead">Qui es-tu&nbsp;?
+        ${ros.length?`Choisis ton nom dans l'effectif${tagEquipe()?" "+tagEquipe():""}.`
+          :dev?`Un seul clic, une fois. D'après tes K/D/A, tu es probablement <b>${sansTag(dev)}</b>.`
+          :"Un seul clic, une fois."}</p>
+        ${choix}${libre}</div>`;
 
   /* ---------- le tri : il commande tout ce qui suit, donc il vient avant ----------
      Les listes ne proposent que ce qui existe dans tes parties : une carte jamais
@@ -1926,13 +2312,12 @@ function drawMat(){
         ${advVus.map(t=>`<option value="${t}"${t===FADV?" selected":""}>${t}</option>`).join("")}</select></div>
     </div>${actif?`<p class="note">${n} partie${n>1?"s":""} sur ${tot} retenue${n>1?"s":""}.
       <button class="mlink" data-act="mflt0">Tout afficher</button></p>`:""}`;
-  if(!advVus.length && !FADV) { /* rien a signaler : le filtre equipe reste offert mais vide */ }
 
-  if(!n) return void(el.innerHTML=collage+reglages+alerte+tri
+  if(!n) return void(el.innerHTML=collage+identite+tri
     +`<p class="lead">Aucune partie ne correspond à ce tri.</p>`);
 
   /* ---------- 1. l'equipe ---------- */
-  const nd=LOT.filter(m=>m.sb).length;
+  const nd=LOT.filter(m=>sbOk(m).length).length;
   const eff=parCamp();
   const effTab=(titre,L,note)=>!L.length?"":`<h3>${titre}</h3><div class="mtab mtab6">
       <div class="mth"><s>joueur</s><s>parties</s><s>K/D</s><s>(K+A)/mort</s><s>score moyen</s><s>MVP</s></div>`
@@ -1948,11 +2333,15 @@ function drawMat(){
          c'est le seul indicateur du jeu qui tienne compte des objectifs et pas seulement des frags.`);
 
   /* ---------- 2. le bilan global ---------- */
-  const V=LOT.filter(m=>m.res==="V").length;
-  const K=LOT.reduce((a,m)=>a+(m.k||0),0), M=LOT.reduce((a,m)=>a+(m.m||0),0), A=LOT.reduce((a,m)=>a+(m.a||0),0);
-  const mvp=LOT.filter(m=>m.mvp).length;
+  /* Les tuiles ne comptent que les parties ou tu figures : sur des donnees partagees,
+     une partie de l'equipe a laquelle tu n'as pas joue ne doit pas diluer ton K/D. */
+  const mes=LOT.map(m=>({m,q:maLigne(m)})).filter(x=>x.q);
+  const np=mes.length||1;
+  const V=mes.filter(x=>x.m.res==="V").length;
+  const K=mes.reduce((a,x)=>a+(x.q.k||0),0), M=mes.reduce((a,x)=>a+(x.q.m||0),0), A=mes.reduce((a,x)=>a+(x.q.a||0),0);
+  const mvp=mes.filter(x=>x.q.mvp).length;
   const bilan=`<h3>Toi${actif?", sur ce tri":""}</h3><div class="mbig">
-      <b>${n}<em>matchs</em></b><b>${V} · ${Math.round(V/n*100)} %<em>victoires</em></b>
+      <b>${mes.length}${mes.length!==n?`<i> / ${n}</i>`:""}<em>matchs</em></b><b>${V} · ${Math.round(V/np*100)} %<em>victoires</em></b>
       <b>${fr(K/Math.max(M,1),2)}<em>K/D</em></b><b>${fr((K+A)/Math.max(M,1),2)}<em>(K+A)/mort</em></b>
       <b>${mvp}<em>fois MVP</em></b></div>`;
 
@@ -2017,16 +2406,18 @@ function drawMat(){
   /* Les parties dont on a le tableau se deplient : le detail existe, il faut
      pouvoir le lire, pas seulement savoir qu'il est la. */
   const ligne=m=>{
-    const tete=`<div class="mtr"><b>${m.res==="V"?"Victoire":m.res==="N"?"Égalité":"Défaite"}${m.mvp?"<em>MVP</em>":""}</b>`
-      + `<s>${m.carte||"?"}</s><s>${m.mode||"?"}</s><s>${m.k}/${m.m}/${m.a}</s>`
+    const q=maLigne(m);
+    const tete=`<div class="mtr"><b>${m.res==="V"?"Victoire":m.res==="N"?"Égalité":"Défaite"}${q&&q.mvp?"<em>MVP</em>":""}</b>`
+      + `<s>${m.carte||"?"}</s><s>${m.mode||"?"}</s><s>${q?`${q.k}/${q.m}/${q.a}`:"—"}</s>`
       + `<s>${(m.dt||"").split("-").reverse().join("/")} ${m.h||""}</s></div>`;
-    if(!m.sb) return tete;
+    const sbl=sbOk(m);
+    if(!sbl.length) return tete;
     const sc=m.pc?` · score ${m.pc[0]} % contre ${m.pc[1]} %`:"";
     return `<details class="mdet"><summary>${tete}</summary>
       <div class="msb"><div class="mth"><s>joueur</s><s>K/D/A</s><s>score</s></div>`
-      + m.sb.map(p=>`<div class="mtr3"><b>${p.n}${p.mvp?"<em>MVP</em>":""}</b>`
+      + sbl.map(p=>`<div class="mtr3"><b>${p.n}${p.mvp?"<em>MVP</em>":""}</b>`
         + `<s>${p.k}/${p.m}/${p.a}</s><s>${fr(p.s)}</s></div>`).join("")
-      + `</div><p class="note">${m.sb.length} joueurs${sc}</p></details>`;
+      + `</div><p class="note">${sbl.length} joueurs${sc}</p></details>`;
   };
   const liste=`<p class="note">Les parties dont tu as collé le détail se déplient.</p>
     <div class="mtab">` + LOT.slice(0,40).map(ligne).join("")
@@ -2042,7 +2433,15 @@ function drawMat(){
       qu'elle ne saurait reproduire ; les chiffres des deux sites ne sont pas censés coïncider.</p>
     </div></details>`;
 
-  el.innerHTML = collage + reglages + alerte + tri + equipe + bilan + fiches + advers + plus;
+  /* Zero partie enregistree : la question d'identite et les deux portes d'entree.
+     Un nouveau coequipier arrive exactement dans cet etat, c'est donc le moment ou
+     la question compte le plus — meme si l'effectif est encore vide et qu'il ne
+     reste que le champ libre. */
+  if(!tot) return void(el.innerHTML = identite
+    + `<p class="lead">Aucune partie enregistrée. Colle la liste du jeu, ou saisis-en une
+       à la main si elle n'est pas copiable.</p>` + saisie + formulaire);
+
+  el.innerHTML = collage + identite + tri + equipe + bilan + fiches + advers + plus;
 }
 
 /* ---------- catalogue des cartes ----------
@@ -2056,7 +2455,9 @@ function catBilan(){
   for(const m of MATCHS){
     const k=cleDe(m); if(!k) continue;
     const o=g.get(k)||{n:0,v:0,k:0,m:0,a:0,mvp:0};
-    o.n++; o.v+=m.res==="V"?1:0; o.k+=m.k||0; o.m+=m.m||0; o.a+=m.a||0; o.mvp+=m.mvp?1:0;
+    o.n++; o.v+=m.res==="V"?1:0;
+    const q=maLigne(m);
+    if(q){ o.k+=q.k||0; o.m+=q.m||0; o.a+=q.a||0; o.mvp+=q.mvp?1:0; }
     g.set(k,o);
   }
   return g;
@@ -2834,7 +3235,10 @@ const SKEY="eva-strats-v1";
 const SB_URL="https://ymmztexzwqydwoinfoce.supabase.co";
 const SB_KEY="sb_publishable_ItkS0_v7PNfrzq_psQYm6Q_mIMWy7Kf";
 const SB_H={apikey:SB_KEY, Authorization:"Bearer "+SB_KEY, "Content-Type":"application/json"};
-const SWHO=localStorage.getItem("eva-who")||null;
+/* eva-who etait lu et estampille dans updated_by, mais rien ne l'ecrivait jamais.
+   Le selecteur d'identite le renseigne desormais, en meme temps que le pseudo :
+   c'est la meme question posee une fois. */
+let SWHO=localStorage.getItem(WKEY)||null;
 function localStrats(){ try{ return JSON.parse(localStorage.getItem(SKEY))||{}; }catch(e){ return {}; } }
 let SCACHE=localStrats();
 let SPREV=JSON.stringify(SCACHE);
@@ -2953,7 +3357,56 @@ function composeDeck(map){
    pas une donnee d'equipe partagee. */
 const MKEY="eva-matchs-v1";
 /* Ton pseudo, garde a part : il ne decrit pas une partie mais qui tu es dedans. */
-const PKEY="eva-pseudo-v1";
+/* ---------- identite dans l'equipe ----------
+   L'outil est d'abord celui de BVS : le tag est donc une constante, pas quelque
+   chose a deviner. L'effectif se complete tout seul depuis les tableaux colles,
+   et EFFECTIF ne sert qu'a amorcer la liste avant la premiere partie enregistree
+   ou a y ajouter quelqu'un qui n'a pas encore joue. */
+/* Le tag n'est pas une constante : une equipe peut se renommer. Il se deduit du
+   pseudo — si tu es XYZxTibco, ton equipe est XYZ, et la bascule est automatique
+   le jour ou vous changez de nom. Rien a regler. */
+const tagEquipe = () => tagDe(PSEUDO) || "";
+/* L'effectif se complete tout seul depuis les tableaux colles, mais il fallait une
+   premiere partie pour qu'il existe : un nouveau venu n'avait donc que le champ
+   libre. Ces quatre entrees l'amorcent. A tenir a jour si l'equipe bouge — le tag,
+   lui, se deduit du pseudo et suit un renommage sans qu'on y touche. */
+const EFFECTIF=["BVSxTibco","BVSxLix","BVSxCromx","BVSxTchernobyl"];
+/* Tous les pseudos vus portant le tag de l'equipe, plus ceux ecrits a la main. */
+function effectif(){
+  const v=new Set(EFFECTIF);
+  for(const m of MATCHS) for(const p of (m.sb||[]))
+    if(estNom(p.n) && tagEquipe() && tagDe(p.n)===tagEquipe()) v.add(p.n);
+  if(PSEUDO) v.add(PSEUDO);
+  return [...v].sort((a,b)=>sansTag(a).localeCompare(sansTag(b),"fr"));
+}
+/* Quand l'effectif est encore vide, on propose tous les joueurs vus, groupes par
+   tag : impossible de deviner quel tag est le tien avant que tu ne te sois nomme,
+   donc on montre tout et tu cliques. */
+function parTag(){
+  const g=new Map();
+  for(const m of MATCHS) for(const p of (m.sb||[])){
+    if(!estNom(p.n)) continue;
+    const t=tagDe(p.n)||"sans tag";
+    if(!g.has(t)) g.set(t,new Set());
+    g.get(t).add(p.n);
+  }
+  /* La plus grosse escouade vue est vraisemblablement la tienne : on la propose en
+     premier, faute de savoir quel tag est le tien avant que tu ne te nommes. */
+  return [...g.entries()].map(([t,v])=>[t,[...v].sort()])
+    .sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0]));
+}
+/* Une seule ecriture pour les deux cles : le pseudo qui separe les camps et
+   l'auteur estampille sur les strats sont la meme personne. */
+function setIdentite(nom){
+  PSEUDO=String(nom||"").trim();
+  SWHO=PSEUDO||null;
+  try{
+    localStorage.setItem(PKEY,PSEUDO);
+    if(PSEUDO) localStorage.setItem(WKEY,PSEUDO); else localStorage.removeItem(WKEY);
+  }catch(e){}
+  migreV2();
+  return PSEUDO;
+}
 const MOIS={janvier:1,"février":2,fevrier:2,mars:3,avril:4,mai:5,juin:6,juillet:7,
             "août":8,aout:8,septembre:9,octobre:10,novembre:11,"décembre":12,decembre:12};
 /* ---------- photos des cartes ----------
@@ -4157,10 +4610,25 @@ function onTool(b){
   const a=b.dataset.act;
   if(a==="nomeas"){ MEAS=null; }
   if(a==="delpath"){ const p=pById(SEL); if(p) p.path=null; }
+  if(a==="aimp"){
+    const t=$("#acoll").value;
+    if(!t.trim()){ $("#astate").textContent="Colle le contenu de morts.json, ou dépose le fichier."; return; }
+    const r=ajouteAnalyse(t);
+    drawAna();
+    $("#astate").textContent=r.msg;
+    if(!r.ok && $("#acoll")) $("#acoll").value=t;
+    return;
+  }
+  if(a==="araz"){
+    ANALYSES=[]; saveAnalyses(); drawAna();
+    $("#astate").textContent="Analyses effacées. Les parties de l'onglet Matchs sont intactes.";
+    return;
+  }
   if(a==="mimp"){
     const t=$("#mcoll").value;
     if(!t.trim()) return;
     const r=ajouteMatchs(t);
+    migreV2();
     drawMat();
     const bouts=[];
     if(r.ajout) bouts.push(`${r.ajout} partie${r.ajout>1?"s":""} ajoutée${r.ajout>1?"s":""}`);
@@ -4185,13 +4653,6 @@ function onTool(b){
     return;
   }
   if(a==="mflt0"){ FCARTE=""; FADV=""; drawMat(); return; }
-  if(a==="mclean"){
-    const r=nettoieSB(); drawMat();
-    $("#mstate").textContent = r.ret
-      ? `${r.ret} ligne${r.ret>1?"s":""} retirée${r.ret>1?"s":""} dans ${r.parties} partie${r.parties>1?"s":""}. Recolle leur détail si un vrai joueur a été emporté.`
-      : "Rien à retirer.";
-    return;
-  }
   if(a==="mrow"){
     const c=$("#msbrows"); if(c) c.insertAdjacentHTML("beforeend",ligneSB());
     return;
@@ -4215,7 +4676,7 @@ function onTool(b){
     const nv={res:V("fres")||"V", carte:nomDeCle(cle), cle:cle||null, mode:V("fmode"),
       k, m:mo, a:as, dt, h};
     if($("#fmvp") && $("#fmvp").checked) nv.mvp=true;
-    const sb=[]; let vides=0;
+    const sb=[]; let vides=0; const rejet=[];
     for(const r of $$("#msbrows .msbrow")){
       const f=r.querySelectorAll("input"), nom=String(f[0].value).trim();
       if(!nom) continue;
@@ -4224,6 +4685,8 @@ function onTool(b){
          vers le bas sans jamais se signaler. Un chiffre sur quatre suffit, les
          autres valent alors zero — la, c'est une lecture, pas une invention. */
       if(![1,2,3,4].some(i=>f[i].value!=="")){ vides++; continue; }
+      /* Le meme controle qu'au collage : rien n'empechait de taper 8/15 a la main. */
+      if(!estNom(nom)){ rejet.push(nom); continue; }
       const num=i=>f[i].value===""?0:parseInt(f[i].value,10);
       sb.push({n:nom, k:num(1), m:num(2), a:num(3), s:num(4), mvp:f[5].checked});
     }
@@ -4232,16 +4695,22 @@ function onTool(b){
     if(q0!==null && q1!==null) nv.pc=[q0,q1];
     MATCHS.push(nv);
     MATCHS.sort((x,y)=>(y.dt+y.h).localeCompare(x.dt+x.h));
-    saveMatchs(); drawMat();
+    saveMatchs(); migreV2(); drawMat();
     const inc=sb.length && !sb.some(p=>p.n===monPseudo()) && monPseudo();
     $("#mstate").textContent=`Partie ajoutée${sb.length?` avec ${sb.length} joueur${sb.length>1?"s":""}`:""}.`
       + (vides?` ${vides} ligne${vides>1?"s":""} sans aucun chiffre ignorée${vides>1?"s":""}.`:"")
+      + (rejet.length?` ${rejet.join(", ")} n'est pas un pseudo : ligne ignorée.`:"")
       + (inc?` Ton pseudo (${monPseudo()}) n'est pas dans le tableau : les deux camps ne pourront pas être séparés pour cette partie.`:"");
+    return;
+  }
+  if(a==="mwho"){
+    setIdentite(b.dataset.n); drawMat();
+    $("#mstate").textContent=`Bonjour ${sansTag(PSEUDO)}.`;
     return;
   }
   if(a==="mps"){
     const v=$("#mps").value.trim();
-    PSEUDO=v; try{ localStorage.setItem(PKEY,v); }catch(e){}
+    setIdentite(v);
     drawMat();
     $("#mstate").textContent = v?`Pseudo enregistré : ${v}${tagDe(v)?` · équipe ${tagDe(v)}`:" · aucun tag reconnu, le découpage par équipe restera vide"}`
       :"Pseudo effacé — il sera redeviné à partir des tableaux collés.";
@@ -4250,7 +4719,8 @@ function onTool(b){
   if(a==="mexp"){
     /* export en TSV : ca se recolle dans un tableur, et ca ne depend pas de moi */
     const l=["resultat\tmvp\tcarte\tmode\tkills\tmorts\tassists\tdate\theure"]
-      .concat(MATCHS.map(m=>[m.res,m.mvp?"MVP":"",m.carte,m.mode,m.k,m.m,m.a,m.dt,m.h].join("\t")));
+      .concat(MATCHS.map(m=>{ const q=maLigne(m)||{};
+        return [m.res,q.mvp?"MVP":"",m.carte,m.mode,q.k,q.m,q.a,m.dt,m.h].join("\t"); }));
     navigator.clipboard && navigator.clipboard.writeText(l.join("\n"));
     $("#mstate").textContent=`${MATCHS.length} parties copiées au format tableur`;
     return;
@@ -4317,6 +4787,10 @@ $(".strat").addEventListener("click",e=>{
 /* Le panneau Matchs porte lui aussi des data-act (mimp, mexp, mraz). Sans cette
    ligne ses boutons ne declenchaient rien du tout — meme oubli que la liste de
    demasquage des onglets, et aussi silencieux. Le controle plus bas le detecte. */
+/* Meme oubli que pour #mat a l'origine : sans cette ligne les boutons de l'onglet
+   Analyse ne declencheraient rien, en silence. L'auto-test le verifie. */
+$("#ana").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-act]"); if(b) onTool(b); });
 $("#mat").addEventListener("click",e=>{
   const b=e.target.closest("button[data-act]"); if(b) onTool(b); });
 $("#cart").addEventListener("click",e=>{
@@ -4492,6 +4966,7 @@ function go(v){
   if(v==="rank" && POND) $("#ruler").hidden = true;
   if(v==="acc"){ drawAcc(); return; }
   if(v==="mat"){ drawMat(); return; }
+  if(v==="ana"){ drawAna(); return; }
   if(v==="cart"){ drawCat(); return; }
   if(v==="guns"){ drawGuns(); syncURL(); return; }
   if(v==="map"){ loadLOS(MK); drawMap(); return; }
@@ -4784,6 +5259,10 @@ svgEl.addEventListener("pointerup",function(){
   if(DRAG && DRAG.t==="new" && !DRAG.moved && MMODE==="sel") SEL=null;
 },true);
 
+/* Les faux joueurs sont retires du stockage au chargement, sans bouton et sans
+   message : la lecture les ignore de toute facon, et laisser des donnees fausses
+   sur le disque en esperant un clic n'a servi a rien. */
+nettoieSB(); migreV2();
 fillSelects(); fillPatch(); fillMaps(); fillPond(); initMap(); drawEquip();
 
 go(readURL() || "rank");
