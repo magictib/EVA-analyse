@@ -2133,10 +2133,15 @@ async function syncMatchs(){
           score_nous: m.sg || null, score_eux: m.sd || null,
           nb_joueurs: sb.length || null,
           sans_tag: sb.filter(x => !sbTag(x.n)).length,
-          /* Une partie a effectif incomplet ou melee de joueurs sans equipe ne
-             doit pas nourrir les moyennes : on la marque au lieu de decouvrir
-             plus tard que les cumuls portaient sur des parties d'entrainement. */
-          effectif_ok: sb.length === 8 && sb.every(x => sbTag(x.n)),
+          /* Le jeu va de 1v1 a 5v5 ; le competitif se joue en 4v4, soit huit
+             joueurs. Exiger huit rejetterait un 5v5 pourtant complet, alors
+             qu'une partie a effectif inegal ou melee de joueurs sans equipe est
+             la seule a ne pas devoir nourrir les moyennes.
+             On distingue donc deux choses : l'effectif est-il equilibre et
+             identifiable, et la partie est-elle au format competitif. */
+          effectif_ok: sb.length >= 4 && sb.length % 2 === 0
+                       && sb.every(x => sbTag(x.n)),
+          competitif: sb.length === 8 && sb.every(x => sbTag(x.n)),
           maj: new Date().toISOString()}])});
     }catch(e){
       /* Base injoignable : on s'arrete sans rien marquer comme envoye, donc le

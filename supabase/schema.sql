@@ -281,3 +281,9 @@ join scores_match s on s.match_id = m.id
 where m.adverse_tag is not null
   and coalesce(m.effectif_ok, true) and coalesce(m.sans_tag, 0) = 0
 group by m.adverse_tag, m.mode;
+
+-- Format de partie (27/07/2026). Le jeu va de 1v1 a 5v5, le competitif se joue
+-- en 4v4. « Effectif correct » ne veut donc pas dire « huit joueurs » : un 5v5
+-- complet est valable, une partie a effectif inegal ou melee de joueurs sans
+-- equipe ne l est pas. Les deux notions sont distinctes et se filtrent a part.
+alter table matchs add column if not exists competitif boolean;
