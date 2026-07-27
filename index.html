@@ -2015,6 +2015,54 @@ if(typeof ajouteAnalyse==="function"){
   };
 }
 
+/* ---------- zone de depot de l'onglet Analyse ----------
+   Le balisage existait — un cadre `#adepot` et un champ de fichier cache
+   `#afichier` — mais aucun gestionnaire ne les reliait : cliquer sur
+   « parcours » ne faisait rien, et il fallait ouvrir le fichier a la main pour
+   en copier le contenu dans le champ texte.
+   Les ecouteurs sont poses sur `document` et non sur les elements eux-memes :
+   drawAna() reconstruit ce balisage a chaque affichage, et des ecouteurs
+   directs seraient perdus au premier redessin. */
+function lisFichierAnalyse(f){
+  if(!f) return;
+  const l=new FileReader();
+  l.onload=()=>{
+    const c=document.querySelector("#acoll");
+    if(c) c.value=l.result;
+    const b=document.querySelector('[data-act="aimp"]');
+    if(b) b.click();                    // meme chemin que le collage manuel
+  };
+  l.onerror=()=>{
+    const e=document.querySelector("#astate");
+    if(e) e.textContent="Fichier illisible.";
+  };
+  l.readAsText(f);
+}
+document.addEventListener("click",e=>{
+  if(!e.target||!e.target.closest) return;
+  /* Le champ de fichier est dans le cadre : sans cette garde, son propre clic
+     remonterait au cadre et le rouvrirait sans fin. */
+  if(e.target.id==="afichier") return;
+  if(!e.target.closest("#adepot")) return;
+  const f=document.querySelector("#afichier");
+  if(f) f.click();
+});
+document.addEventListener("change",e=>{
+  if(e.target&&e.target.id==="afichier"&&e.target.files&&e.target.files.length){
+    lisFichierAnalyse(e.target.files[0]);
+    e.target.value="";                  // pour que redeposer le meme fichier marche
+  }
+});
+document.addEventListener("dragover",e=>{
+  if(e.target&&e.target.closest&&e.target.closest("#adepot")) e.preventDefault();
+});
+document.addEventListener("drop",e=>{
+  if(!e.target||!e.target.closest||!e.target.closest("#adepot")) return;
+  e.preventDefault();
+  const dt=e.dataTransfer;
+  if(dt&&dt.files&&dt.files.length) lisFichierAnalyse(dt.files[0]);
+});
+
 chargeIdentite();
 chargeAnalysesEnLigne();
 const cleAna = a => `${(a.partie&&a.partie.dt)||""} ${(a.partie&&a.partie.h)||""}`;
