@@ -2077,7 +2077,13 @@ document.addEventListener("drop",e=>{
    L'envoi est differentiel. La liste du jeu se recolle en entier a chaque fois :
    sans comparaison prealable, chaque collage reecrirait des centaines de lignes
    et ferait clignoter la liste de tout le monde. */
-const MSYNC = "eva-matchs-sync-v1";
+/* Version 2 : changer la clef force un renvoi complet, une fois. Les empreintes
+   de la v1 avaient ete posees par un code fautif — scores a zero faute d'avoir
+   distingue l'absence de valeur, progression d'armes et score d'en-tete jamais
+   envoyes. Comme les donnees n'ont pas change depuis, l'envoi differentiel les
+   sautait indefiniment : c'est le defaut d'une synchronisation par empreinte, et
+   la seule sortie est d'invalider les empreintes. */
+const MSYNC = "eva-matchs-sync-v2";
 /* Coercition plutot que test de type : le parseur du site rend ces valeurs en
    texte, et un `typeof v === "number"` les rejetait toutes en silence — les
    K/D/A du colleur arrivaient vides en base sans qu'aucune erreur ne le signale. */
