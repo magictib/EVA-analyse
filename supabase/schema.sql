@@ -210,3 +210,74 @@ begin
     execute format('create policy ecriture on %I for all using (true) with check (true)', t);
   end loop;
 end $$;
+
+-- ============================================================================
+-- 3. Quatre modes, joueurs sans tag, effectifs inegaux (27/07/2026)
+-- ============================================================================
+-- Trois hypotheses tombees en relevant les collages de Match a mort, de Point
+-- Strategique et des parties avec debutants.
+
+-- Le score d en-tete s ecrit de quatre facons selon le mode : « 0% », « 100% »,
+-- « 20 » en frags bruts, « 12/15 » en progression d armes. Aucun entier ne les
+-- couvre : on garde le texte du jeu tel quel.
+alter table matchs add column if not exists score_nous text;
+alter table matchs add column if not exists score_eux  text;
+
+-- Effectif reel et joueurs sans tag. Une partie a trois contre deux avec des
+-- debutants ne doit pas nourrir les moyennes d equipe : un K/D calcule dessus ne
+-- veut rien dire. On le marque au lieu de le decouvrir plus tard dans les vues.
+alter table matchs add column if not exists nb_joueurs   int;
+alter table matchs add column if not exists sans_tag     int default 0;
+alter table matchs add column if not exists effectif_ok  boolean;
+
+-- La progression d armes, vide hors Jeu d arme en equipe.
+alter table scores_match add column if not exists arme text;
+
+-- Trois etats et non deux. Un joueur sans tag n est pas forcement un adversaire :
+-- le rang ne donne pas l equipe, la position non plus des que les effectifs sont
+-- inegaux. Le marquer « adverse » d office inventerait un adversaire et fausserait
+-- le carnet des equipes affrontees. NULL signifie donc « inconnu ».
+alter table scores_match alter column notre_equipe drop not null;
+
+-- Les vues n agregent plus que les parties d equipe completes. L option d inclure
+-- le reste reste ouverte en interrogeant les tables directement.
+drop view if exists bilan_joueur cascade;
+create view bilan_joueur as
+select s.nom,
+       bool_or(s.notre_equipe)                             as chez_nous,
+       m.mode,
+       count(*)                                            as parties,
+       sum(s.kills)                                        as kills,
+       sum(s.morts)                                        as morts,
+       sum(s.assists)                                      as assists,
+       round(sum(s.kills)::numeric
+             / nullif(sum(s.morts), 0), 2)                 as ratio
+from scores_match s
+join matchs m on m.id = s.match_id
+where coalesce(m.effectif_ok, true) and coalesce(m.sans_tag, 0) = 0
+group by s.nom, m.mode;
+
+drop view if exists bilan_carte cascade;
+create view bilan_carte as
+select m.carte, m.mode,
+       count(distinct m.id)                                       as parties,
+       count(distinct m.id) filter (where m.resultat = 'V')        as victoires,
+       sum(s.kills) filter (where s.notre_equipe)                  as nos_kills,
+       sum(s.morts) filter (where s.notre_equipe)                  as nos_morts
+from matchs m
+join scores_match s on s.match_id = m.id
+where coalesce(m.effectif_ok, true) and coalesce(m.sans_tag, 0) = 0
+group by m.carte, m.mode;
+
+drop view if exists bilan_adversaire cascade;
+create view bilan_adversaire as
+select m.adverse_tag, m.mode,
+       count(distinct m.id)                                       as parties,
+       count(distinct m.id) filter (where m.resultat = 'V')        as victoires,
+       sum(s.kills) filter (where s.notre_equipe)                  as nos_kills,
+       sum(s.morts) filter (where s.notre_equipe)                  as nos_morts
+from matchs m
+join scores_match s on s.match_id = m.id
+where m.adverse_tag is not null
+  and coalesce(m.effectif_ok, true) and coalesce(m.sans_tag, 0) = 0
+group by m.adverse_tag, m.mode;
