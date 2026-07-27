@@ -1837,7 +1837,43 @@ function drawGuns(){
    les memes fichiers se rechargent sans changement le jour ou elle le sera. */
 const AKEY="eva-analyses-v1";
 let ANALYSES=(()=>{ try{ return JSON.parse(localStorage.getItem(AKEY))||[]; }catch(e){ return []; } })();
-function saveAnalyses(){ try{ localStorage.setItem(AKEY,JSON.stringify(ANALYSES)); }catch(e){} }
+/* On ne persiste que les analyses importees a la main. Celles qui viennent du
+   depot sont rechargees a chaque ouverture : les copier dans le localStorage les
+   y figerait, et elles survivraient a leur propre retrait du depot. */
+function saveAnalyses(){ try{ localStorage.setItem(AKEY,JSON.stringify(ANALYSES.filter(a=>!a._depot))); }catch(e){} }
+
+/* Analyses livrees avec le site.
+   L'import manuel ne remplit que le localStorage du navigateur qui importe : un
+   coequipier ouvrant le site voyait un onglet Analyse vide, et devait se faire
+   envoyer le fichier. Les analyses versionnees dans analyses/ sont donc chargees
+   au demarrage. Un import local l'emporte sur le depot a partie egale — sinon une
+   correction faite a la main serait effacee par la version publiee. */
+async function chargeAnalysesDuDepot(){
+  let liste;
+  try{
+    const r=await fetch("analyses/index.json",{cache:"no-cache"});
+    if(!r.ok) return;                       // pas de dossier analyses : rien a faire
+    liste=await r.json();
+  }catch(e){ return; }
+  if(!Array.isArray(liste)) return;
+  const vues=new Set(ANALYSES.map(cleAna));
+  let ajout=0;
+  for(const f of liste){
+    try{
+      const rep=await fetch("analyses/"+f,{cache:"no-cache"});
+      if(!rep.ok) continue;
+      const x=await rep.json();
+      /* Meme controle qu'a l'import manuel : sans evenements ni date, l'analyse
+         ne se rattache a rien et n'apparaitrait dans aucun tri. */
+      if(!x || !Array.isArray(x.evenements) || !x.partie || !x.partie.dt || !x.partie.h) continue;
+      if(vues.has(cleAna(x))) continue;
+      x._depot=true;
+      ANALYSES.push(x); vues.add(cleAna(x)); ajout++;
+    }catch(e){}
+  }
+  if(ajout && typeof drawAna==="function" && document.querySelector("#ana")) drawAna();
+}
+chargeAnalysesDuDepot();
 const cleAna = a => `${(a.partie&&a.partie.dt)||""} ${(a.partie&&a.partie.h)||""}`;
 
 
