@@ -3951,7 +3951,23 @@ const estJeton = x => x==="MVP" || /^\d+$/.test(x)
 
 function parseDetail(txt){
   const L=txt.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+  /* Les colonnes changent selon le mode : en Jeu d'arme une colonne « Arme »
+     remplace la colonne « Score ». On lit l'en-tete du tableau plutot que de
+     deviner, parce qu'un rang de joueur se lit exactement comme un score.
+     Mesure du 27/07 : sans cela, les sept joueurs enregistres l'etaient avec le
+     rang du suivant comme score — 1, 2, 2, 3, 3, 4, 4 — et le huitieme, qui n'a
+     personne apres lui, etait rejete en silence. */
+  const sansScore = L.includes("Arme");
+  /* Le score d'en-tete s'ecrit de quatre facons selon le mode : « 0% » en
+     Domination et en Point Strategique, « 20 » en frags bruts au Match a mort,
+     « 12/15 » en progression au Jeu d'arme. Aucun nombre ne les couvre toutes,
+     on garde le texte du jeu. */
+  const iVS = L.indexOf("VS");
+  const scoreG = iVS > 0 ? L[iVS-1] : null;
+  const scoreD = (iVS >= 0 && iVS+1 < L.length) ? L[iVS+1] : null;
   const sb=[]; let dt=null,h=null,carte=null,mode=null,pc=[], dernierNom=-1;
+  /* Le mode ouvre le collage, juste avant la carte. */
+  if(L.length>1 && cleCarte(L[1])) mode=L[0];
   for(let i=0;i<L.length;i++){
     const x=L[i];
     if(/^\d{1,2}\s+\S+\s+\d{4}$/.test(x)){
@@ -3963,21 +3979,28 @@ function parseDetail(txt){
     if(/^\d{1,3}\s*%$/.test(x)) pc.push(parseInt(x,10));
     /* une ligne de joueur : un nom, d'eventuels compteurs, un K/D/A, puis un score */
     if(/^\d+\s*\/\s*\d+\s*\/\s*\d+$/.test(x)){
-      let j=i-1, mvp=false;
-      while(j>=0 && estJeton(L[j])){ if(L[j]==="MVP") mvp=true; j--; }
+      let j=i-1, mvp=false, arme=null;
+      while(j>=0 && estJeton(L[j])){
+        if(L[j]==="MVP") mvp=true;
+        /* La progression d'armes precede immediatement le K/D/A : en remontant,
+           le premier rapport rencontre est le bon. */
+        else if(!arme && /^\d+\s*\/\s*\d+$/.test(L[j])) arme=L[j];
+        j--;
+      }
       /* Un nom deja consomme ne peut pas servir deux fois : sans cette borne, une
          ligne de joueur amputee de son pseudo emprunterait celui du joueur du
          dessus et le compterait deux fois. */
       const nom=(j>dernierNom && estNom(L[j])) ? L[j] : null;
       const sc=/^\d+$/.test(L[i+1]||"") ? parseInt(L[i+1],10) : null;
-      if(nom && sc!==null){
+      if(nom && (sansScore || sc!==null)){
         dernierNom=j;
         const kda=x.split("/").map(v=>parseInt(v,10));
-        sb.push({n:nom,mvp,k:kda[0],m:kda[1],a:kda[2],s:sc});
+        sb.push({n:nom,mvp,k:kda[0],m:kda[1],a:kda[2],
+                 s:sansScore?null:sc, arme});
       }
     }
   }
-  return {dt,h,carte,mode,sb,pc};
+  return {dt,h,carte,mode,sb,pc,scoreG,scoreD};
 }
 function ajouteMatchs(txt){
   const nv=parseMatchs(txt);
@@ -3992,7 +4015,16 @@ function ajouteMatchs(txt){
   const d=parseDetail(txt);
   if(d.dt && d.h && d.sb.length){
     const c=MATCHS.find(x=>x.dt===d.dt && x.h===d.h);
-    if(c){ c.sb=d.sb; if(d.pc.length>=2) c.pc=d.pc.slice(0,2); sb=d.sb.length; }
+    if(c){
+      c.sb=d.sb;
+      if(d.pc.length>=2) c.pc=d.pc.slice(0,2);
+      /* Score d'en-tete garde en texte : selon le mode il vaut « 0% », « 20 »
+         ou « 12/15 », et aucun nombre ne les couvre toutes. */
+      if(d.scoreG) c.sg=d.scoreG;
+      if(d.scoreD) c.sd=d.scoreD;
+      if(d.mode && !c.mode) c.mode=d.mode;
+      sb=d.sb.length;
+    }
     /* Le detail seul ne suffit pas a creer la partie : il ne dit pas de quel cote
        tu jouais, donc ni le resultat ni ton K/D/A. On le signale plutot que de
        laisser croire que le collage n'a rien donne. */
