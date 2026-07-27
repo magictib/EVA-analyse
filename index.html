@@ -954,7 +954,13 @@ const relMs = (w,n)=> reloadsFor(w,n) * (w.rel||0) * 1000;
 /* temps à tuer théorique, recharges comprises */
 const ttkR = (w,x,z)=>{ const t=ttk(w,x,z); if(t===null) return null; return t + relMs(w, shots(w,x,z)); };
 
-const fr  = (v,d=0)=>v.toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d});
+/* Tolere l'absence de valeur. `null.toLocaleString()` levait une TypeError qui
+   faisait echouer tout le rendu de l'onglet Matchs — un tableau entier disparu
+   pour un seul score manquant. Le Jeu d'arme n'a pas de colonne Score, donc le
+   cas est normal et non exceptionnel. */
+const fr  = (v,d=0)=>(v===null||v===undefined||(typeof v==="number"&&!Number.isFinite(v)))
+  ? "—"
+  : Number(v).toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d});
 /* Plafond d'axe arrondi a une valeur lisible, jamais en dessous des donnees. */
 function niceCap(hi){
   const v=Math.max(hi||0,600);
