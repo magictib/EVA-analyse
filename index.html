@@ -2075,20 +2075,7 @@ const MSYNC = "eva-matchs-sync-v1";
 /* Coercition plutot que test de type : le parseur du site rend ces valeurs en
    texte, et un `typeof v === "number"` les rejetait toutes en silence — les
    K/D/A du colleur arrivaient vides en base sans qu'aucune erreur ne le signale. */
-/* `Number(null)` vaut zero : sans ce garde, l'absence de score en Jeu d'arme
-   arrivait en base comme un zero, indiscernable d'un joueur qui n'a rien marque. */
-const nb = v => {
-  if(v === null || v === undefined || v === "") return null;
-  const n = Number(v);
-  return Number.isFinite(n) ? n : null;
-};
-/* Trois etats, pas deux. Un joueur sans tag n'est pas forcement un adversaire :
-   des que les effectifs sont inegaux, ni le rang ni la position ne donnent son
-   equipe. Le marquer adverse inventerait un adversaire dans le carnet. */
-const notreEquipe = (pseudo, tag) => {
-  const t = sbTag(pseudo).toUpperCase();
-  return t ? (t === tag) : null;
-};
+const nb = v => { const n = Number(v); return Number.isFinite(n) ? n : null; };
 const empreinteMatch = m => [m.dt, m.h, m.res, m.carte, m.mode, m.k, m.m, m.a,
   (m.sb || []).map(x => x.n + ":" + x.k + "/" + x.m + "/" + x.a + "/" + x.s).join(",")
 ].join("|");
@@ -2117,14 +2104,6 @@ async function syncMatchs(){
              note de qui ils viennent, sans quoi ils seraient ininterpretables. */
           colleur_nom: sbNom(typeof PSEUDO === "string" ? PSEUDO : ""),
           colleur_k: nb(m.k), colleur_d: nb(m.m), colleur_a: nb(m.a),
-          /* Score d'en-tete en texte : « 0% », « 20 » ou « 12/15 » selon le mode. */
-          score_nous: m.sg || null, score_eux: m.sd || null,
-          nb_joueurs: sb.length || null,
-          sans_tag: sb.filter(x => !sbTag(x.n)).length,
-          /* Une partie a effectif incomplet ou melee de joueurs sans equipe ne
-             doit pas nourrir les moyennes : on la marque au lieu de decouvrir
-             plus tard que les cumuls portaient sur des parties d'entrainement. */
-          effectif_ok: sb.length === 8 && sb.every(x => sbTag(x.n)),
           maj: new Date().toISOString()}])});
     }catch(e){
       /* Base injoignable : on s'arrete sans rien marquer comme envoye, donc le
@@ -2139,8 +2118,8 @@ async function syncMatchs(){
         await sbFetch("scores_match?match_id=eq." + id, {method:"DELETE"});
         await sbFetch("scores_match", {method:"POST", body: JSON.stringify(
           sb.map((x, i) => ({match_id:id, tag:sbTag(x.n), nom:sbNom(x.n),
-            notre_equipe: notreEquipe(x.n, tag),
-            rang: i + 1, mvp: !!x.mvp, arme: x.arme || null,
+            notre_equipe: sbTag(x.n).toUpperCase() === tag,
+            rang: i + 1, mvp: !!x.mvp,
             kills: nb(x.k), morts: nb(x.m), assists: nb(x.a), score: nb(x.s)})))});
       }catch(e){ continue; }   // le match est passe, pas son tableau : on reessaiera
     }
