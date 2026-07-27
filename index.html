@@ -2063,6 +2063,73 @@ document.addEventListener("drop",e=>{
   if(dt&&dt.files&&dt.files.length) lisFichierAnalyse(dt.files[0]);
 });
 
+/* ---------- synchronisation des matchs ----------
+   On se greffe sur `saveMatchs`, seul point de passage : six appels y
+   aboutissent, collage et saisie manuelle compris. Traiter les formulaires un
+   par un aurait laisse passer les entrees qu'on ajoutera plus tard.
+
+   L'envoi est differentiel. La liste du jeu se recolle en entier a chaque fois :
+   sans comparaison prealable, chaque collage reecrirait des centaines de lignes
+   et ferait clignoter la liste de tout le monde. */
+const MSYNC = "eva-matchs-sync-v1";
+const nb = v => (typeof v === "number" ? v : null);
+const empreinteMatch = m => [m.dt, m.h, m.res, m.carte, m.mode, m.k, m.m, m.a,
+  (m.sb || []).map(x => x.n + ":" + x.k + "/" + x.m + "/" + x.a + "/" + x.s).join(",")
+].join("|");
+
+async function syncMatchs(){
+  if(typeof MATCHS === "undefined" || !MATCHS.length) return;
+  let vus = {};
+  try{ vus = JSON.parse(localStorage.getItem(MSYNC)) || {}; }catch(e){}
+  const tag = notreTag().toUpperCase();
+  const envoi = MATCHS.filter(m => m && m.dt && m.h
+                                && vus[m.dt + " " + m.h] !== empreinteMatch(m));
+  if(!envoi.length) return;
+
+  for(const m of envoi){
+    const sb = m.sb || [];
+    const adv = [...new Set(sb.map(x => sbTag(x.n).toUpperCase())
+                              .filter(t => t && t !== tag))];
+    let rep;
+    try{
+      rep = await sbFetch("matchs?on_conflict=dt,h", {method:"POST",
+        headers:{Prefer:"resolution=merge-duplicates,return=representation"},
+        body: JSON.stringify([{dt:m.dt, h:m.h, carte:m.carte||null,
+          mode:m.mode||null, resultat:m.res||null, notre_tag:tag,
+          adverse_tag:adv[0]||null,
+          /* La liste du jeu ne donne que les chiffres de celui qui colle : on
+             note de qui ils viennent, sans quoi ils seraient ininterpretables. */
+          colleur_nom: sbNom(typeof PSEUDO === "string" ? PSEUDO : ""),
+          colleur_k: nb(m.k), colleur_d: nb(m.m), colleur_a: nb(m.a),
+          maj: new Date().toISOString()}])});
+    }catch(e){
+      /* Base injoignable : on s'arrete sans rien marquer comme envoye, donc le
+         prochain enregistrement reprendra ou celui-ci s'est interrompu. */
+      EVA_SB_OK = false;
+      break;
+    }
+    const id = rep && rep[0] && rep[0].id;
+    if(!id) continue;
+    if(sb.length){
+      try{
+        await sbFetch("scores_match?match_id=eq." + id, {method:"DELETE"});
+        await sbFetch("scores_match", {method:"POST", body: JSON.stringify(
+          sb.map((x, i) => ({match_id:id, tag:sbTag(x.n), nom:sbNom(x.n),
+            notre_equipe: sbTag(x.n).toUpperCase() === tag,
+            rang: i + 1, mvp: !!x.mvp,
+            kills: nb(x.k), morts: nb(x.m), assists: nb(x.a), score: nb(x.s)})))});
+      }catch(e){ continue; }   // le match est passe, pas son tableau : on reessaiera
+    }
+    vus[m.dt + " " + m.h] = empreinteMatch(m);
+  }
+  try{ localStorage.setItem(MSYNC, JSON.stringify(vus)); }catch(e){}
+}
+
+if(typeof saveMatchs === "function"){
+  const saveMatchsLocal = saveMatchs;
+  saveMatchs = function(){ saveMatchsLocal(); syncMatchs(); };
+}
+
 chargeIdentite();
 chargeAnalysesEnLigne();
 const cleAna = a => `${(a.partie&&a.partie.dt)||""} ${(a.partie&&a.partie.h)||""}`;
