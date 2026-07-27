@@ -79,7 +79,8 @@ create index if not exists parties_adverse on parties (adverse_tag);
 -- ------------------------------------------------------- vues d'agregation
 -- Bilan par joueur, toutes parties confondues. Agrege sur `nom`, donc insensible
 -- a un changement de tag.
-create or replace view bilan_joueur as
+drop view if exists bilan_joueur cascade;
+create view bilan_joueur as
 select j.nom,
        bool_or(j.notre_equipe)                as chez_nous,
        count(*)                               as parties,
@@ -92,7 +93,8 @@ from joueurs_partie j
 group by j.nom;
 
 -- Bilan par carte, de notre point de vue.
-create or replace view bilan_carte as
+drop view if exists bilan_carte cascade;
+create view bilan_carte as
 select p.carte,
        count(*)                                          as parties,
        count(*) filter (where p.resultat = 'V')          as victoires,
@@ -103,7 +105,8 @@ join joueurs_partie j on j.partie_id = p.id
 group by p.carte;
 
 -- Bilan par adversaire — la base du carnet.
-create or replace view bilan_adversaire as
+drop view if exists bilan_adversaire cascade;
+create view bilan_adversaire as
 select p.adverse_tag,
        count(distinct p.id)                              as parties,
        count(distinct p.id) filter (where p.resultat = 'V') as victoires,
@@ -188,7 +191,8 @@ create index if not exists scores_nom      on scores_match (nom);
 -- Ecarts entre le tableau du jeu et les chiffres tires de la video. On les
 -- expose au lieu de les corriger : sur Atlantis les deux concordaient joueur par
 -- joueur, et c est ce controle qui a valide toute la lecture des morts.
-create or replace view ecarts_video as
+drop view if exists ecarts_video cascade;
+create view ecarts_video as
 select m.dt, m.h, m.carte, s.nom,
        s.kills as k_jeu, j.kills as k_video, s.kills - j.kills as ecart_k,
        s.morts as d_jeu, j.morts as d_video, s.morts - j.morts as ecart_d
