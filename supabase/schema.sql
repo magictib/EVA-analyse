@@ -133,3 +133,80 @@ begin
     execute format('create policy ecriture on %I for all using (true) with check (true)', t);
   end loop;
 end $$;
+
+-- ============================================================================
+-- 2. Parties collees depuis le jeu (27/07/2026)
+-- ============================================================================
+-- Deux tables distinctes de `parties` et `joueurs_partie`, volontairement.
+-- `matchs` existe pour toute partie jouee, des qu'elle est collee. `parties` n'
+-- existe que pour celles qu'on a pris le temps d'analyser en video. Les fusionner
+-- obligerait a inventer des colonnes vides pour l'immense majorite des parties.
+-- Elles se rejoignent sur (dt, h), la meme clef que partout ailleurs.
+
+create table if not exists matchs (
+  id            uuid primary key default gen_random_uuid(),
+  dt            date not null,
+  h             text not null,
+  carte         text,
+  mode          text,
+  resultat      text check (resultat in ('V', 'N', 'D')),
+  notre_tag     text,
+  adverse_tag   text,
+  -- La liste du jeu ne donne que les chiffres de celui qui colle, pas ceux de
+  -- l equipe : on les garde tels quels et on note de qui ils viennent.
+  colleur_nom   text,
+  colleur_k     int,
+  colleur_d     int,
+  colleur_a     int,
+  pct_nous      int,
+  pct_eux       int,
+  cree          timestamptz not null default now(),
+  maj           timestamptz not null default now(),
+  unique (dt, h)
+);
+
+-- Tableau des scores tel que le jeu l affiche. C est la reference pour les K/D/A :
+-- il vient du jeu, quand joueurs_partie est deduit de la video.
+create table if not exists scores_match (
+  match_id      uuid not null references matchs(id) on delete cascade,
+  tag           text not null,
+  nom           text not null,
+  notre_equipe  boolean not null,
+  rang          int,
+  mvp           boolean not null default false,
+  kills         int,
+  morts         int,
+  assists       int,
+  score         int,
+  primary key (match_id, tag, nom)
+);
+
+create index if not exists matchs_carte    on matchs (carte);
+create index if not exists matchs_adverse  on matchs (adverse_tag);
+create index if not exists scores_nom      on scores_match (nom);
+
+-- Ecarts entre le tableau du jeu et les chiffres tires de la video. On les
+-- expose au lieu de les corriger : sur Atlantis les deux concordaient joueur par
+-- joueur, et c est ce controle qui a valide toute la lecture des morts.
+create or replace view ecarts_video as
+select m.dt, m.h, m.carte, s.nom,
+       s.kills as k_jeu, j.kills as k_video, s.kills - j.kills as ecart_k,
+       s.morts as d_jeu, j.morts as d_video, s.morts - j.morts as ecart_d
+from matchs m
+join scores_match s  on s.match_id = m.id
+join parties p       on p.dt = m.dt and p.h = m.h
+join joueurs_partie j on j.partie_id = p.id and j.nom = s.nom
+where s.kills is distinct from j.kills or s.morts is distinct from j.morts;
+
+alter table matchs       enable row level security;
+alter table scores_match enable row level security;
+do $$
+declare t text;
+begin
+  foreach t in array array['matchs', 'scores_match'] loop
+    execute format('drop policy if exists lecture on %I', t);
+    execute format('drop policy if exists ecriture on %I', t);
+    execute format('create policy lecture  on %I for select using (true)', t);
+    execute format('create policy ecriture on %I for all using (true) with check (true)', t);
+  end loop;
+end $$;
