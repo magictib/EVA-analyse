@@ -533,6 +533,29 @@
   /* Subordonnee a la barre principale, et elle doit le montrer : pas de fond, un
      filet en dessous, une typographie plus petite. Deux barres d'egale importance
      ne feraient que remplacer une liste plate par deux. */
+  .pondbar{margin:0 0 14px}
+  .pondbar .micro{margin-bottom:7px}
+  .pondrow{display:flex;flex-wrap:wrap;gap:6px}
+  .pondrow button{background:var(--panel);border:1px solid var(--rule);color:var(--ink-dim);
+    border-radius:999px;padding:6px 12px;cursor:pointer;font-family:var(--ui);font-size:13px;
+    display:inline-flex;align-items:baseline;gap:6px}
+  /* --encre-bas venait d'une autre palette et n'existe pas ici : seule la valeur de
+     repli s'appliquait. Ca fonctionnait, donc rien ne le signalait — c'est le
+     controle des variables CSS qui l'a trouve. */
+  .pondrow button:hover{border-color:var(--ink-dim);color:var(--ink)}
+  .pondrow button[aria-pressed="true"]{border-color:var(--signal);color:var(--signal);
+    background:#1D1B14}
+  .pondrow button s{text-decoration:none;font-family:var(--mono);font-size:11px;
+    color:var(--ink-faint)}
+  .pondrow button[aria-pressed="true"] s{color:var(--signal)}
+  /* La photo sert a reconnaitre la carte d'un coup d'oeil ; le voile garantit que le
+     nom et la mediane restent lisibles, qui est l'information utile. */
+  .pondimg{position:relative;background-size:cover;background-position:center;
+    border-color:var(--rule)}
+  .pondimg::before{content:"";position:absolute;inset:0;border-radius:inherit;
+    background:rgba(11,15,20,.72)}
+  .pondimg[aria-pressed="true"]::before{background:rgba(11,15,20,.55)}
+  .pondimg span{position:relative;z-index:1}
   .sousnav{display:flex;flex-wrap:wrap;gap:2px;padding:0 0 8px;margin:0 0 10px;
     border-bottom:1px solid var(--rule)}
   .sousnav button{background:none;border:0;border-bottom:2px solid transparent;
@@ -594,11 +617,13 @@
   </div>
 </div>
 
-<div class="catbar" id="pondbar">
-  <label for="pondsel">Distances</label>
-  <select id="pondsel">
-    <option value="">Distance réglée à la règle</option>
-  </select>
+<!-- Ce croisement carte x arme est ce que cet outil sait faire et que rien d'autre
+     ne fait : les armes que la geometrie d'une carte favorise reellement. Il vivait
+     dans un menu deroulant replie, donc personne ne pouvait le decouvrir. Il devient
+     la premiere chose qu'on voit en ouvrant l'application. -->
+<div class="pondbar" id="pondbar">
+  <span class="micro">Sur quelle carte joues-tu&nbsp;?</span>
+  <div class="pondrow" id="pondrow"></div>
 </div>
 <div class="catbar" id="catbar">
   <select id="cat" aria-label="Catégorie d'arme">
@@ -949,6 +974,14 @@ const TABS = ["rank","curve","duel","combo","patch"];
    ne doit pas ramener au classement si on lisait une courbe. */
 const ARMES = ["rank","curve","duel","combo","guns","acc","patch"];
 let ARMEVUE = "rank";
+/* Temoin de demarrage. Une exception a mi-script — un ecouteur sur un element
+   disparu, par exemple — interrompt tout ce qui suit sans rien afficher : les
+   fonctions declarees plus haut restent appelables, donc l'application repond aux
+   clics et semble vivante, alors que son initialisation n'a jamais abouti. C'est
+   arrive avec un ecouteur laisse sur #pondsel apres son remplacement par une barre
+   de pastilles. Ce temoin est pose sur la derniere ligne du script et verifie par
+   l'auto-test : rien d'autre ne le detectait. */
+let DEMARRAGE_ABOUTI = false;
 let MODE = "armes";
 let D = 12, Z = "torse", TAB = "rank", HS = 0, CAT = "all";
 let DISP = false, MOVING = false;
@@ -1426,6 +1459,10 @@ function selfTest(){
   T(okMig, "La partie devient collective sans perdre tes chiffres",
     okMig?`7/3/2 et les deux MVP passés dans le tableau · second passage : ${m2.n} partie`
          :`avant ${JSON.stringify(l0)} · après ${JSON.stringify(l1)}`);
+
+  T(DEMARRAGE_ABOUTI, "Le script s'exécute jusqu'à la dernière ligne",
+    DEMARRAGE_ABOUTI ? "initialisation aboutie"
+      : "une exception a interrompu le script avant la fin — voir la console");
 
   /* ---------- coherence des tables de cartes ----------
      CARTES declare ce qui existe ; MAPS, CIMG et DPROF ne sont que des depots
@@ -3683,7 +3720,13 @@ function ajouteMatchs(txt){
    sur horizon, silva, lunar, outlaw et polaris les distances restent fausses d'un
    facteur 1,4 a 2,4, et leur profil l'est donc aussi. */
 const DPROF={"h":{"atlantis":[510,1320,1473,1531,1360,1251,1051,816,694,515,350,269,190,133,79,67,77,47,34,43,44,37,30,19,16,18,11,11,3,1,0,0,0,0,0,0,0,0,0,0],"ceres":[327,792,1125,1252,1236,1121,1071,976,863,781,633,475,403,268,187,129,107,58,42,31,19,26,26,15,12,11,9,5,0,0,0,0,0,0,0,0,0,0,0,0],"engine":[409,1073,1295,1325,1309,1246,1041,937,769,695,563,372,316,243,132,83,80,45,29,17,14,3,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"helios":[717,1556,1740,1608,1402,1146,966,730,574,439,298,241,164,127,106,77,68,33,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"horizon":[770,1561,1734,1550,1301,1099,862,644,600,466,384,306,221,150,130,66,55,41,37,14,7,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"lunar":[226,609,818,903,940,946,891,832,752,695,612,549,460,445,358,322,281,240,196,161,120,81,91,75,74,64,48,42,44,28,23,12,8,3,11,13,4,5,3,7],"outlaw":[504,1082,1180,1179,1153,1057,918,817,669,684,488,422,344,299,241,198,161,126,104,84,73,57,44,28,25,19,14,12,10,2,3,3,0,0,0,0,0,0,0,0],"polaris":[187,517,705,817,826,814,799,747,697,640,533,461,445,416,376,325,305,306,242,232,192,186,157,121,116,92,99,98,70,86,72,49,67,51,41,28,31,20,19,11],"silva":[244,626,772,935,976,1001,944,871,857,790,686,584,495,419,369,280,262,181,151,122,92,78,74,52,42,34,27,19,13,4,0,0,0,0,0,0,0,0,0,0],"cliff":[557,1287,1489,1424,1346,1169,945,767,685,555,396,306,266,178,137,118,95,76,62,46,27,22,13,8,12,6,4,3,0,1,0,0,0,0,0,0,0,0,0,0],"reefpoint":[635,1418,1534,1563,1423,1226,1101,878,620,414,342,217,134,114,63,67,59,45,41,42,29,17,6,6,3,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0],"artefact":[665,1490,1655,1555,1310,1176,909,709,556,401,297,236,174,163,124,113,97,95,81,51,42,33,29,19,16,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},"med":{"atlantis":4.8,"ceres":6.1,"engine":5.5,"helios":4.3,"horizon":4.3,"lunar":7.8,"outlaw":5.8,"polaris":8.8,"silva":7.6,"cliff":4.9,"reefpoint":4.6,"artefact":4.5}};
-let POND="";           /* "" = distance reglee, sinon la cle d'une carte */
+/* La carte sur laquelle tu joues survit au rechargement. Sans cela l'application
+   rouvrait a chaque fois sur « distance reglee a la regle », c'est-a-dire sur le
+   reglage le moins informatif : celui qui suppose de savoir d'avance a quelle
+   distance on se bat. Ponderer par une carte est ce que cet outil sait faire et que
+   rien d'autre ne fait — autant qu'il ouvre dessus. */
+const PONDKEY="eva-pond-v1";
+let POND=(()=>{ try{ return localStorage.getItem(PONDKEY)||""; }catch(e){ return ""; } })();
 /* On classe sur la MEDIANE du TTK sur le profil, pas sur la moyenne. La moyenne
    est tiree par les distances lointaines ou l'arme decroche : le Striker sort a
    688 ms en moyenne contre 462 en mediane sur helios, alors que c'est une arme de
@@ -4986,12 +5029,12 @@ $("#equip").addEventListener("click",ev=>{
   ITEMS.push({k, x:at.x, y:at.y, a:0});
   drawMap();
 });
-$("#pondsel").addEventListener("change",ev=>{
-  POND=ev.target.value;
-  /* la regle et les hypotheses de distance n'ont plus de sens en vue profil */
-  const r=$("#ruler"); if(r) r.hidden = !!POND || !USES_D.includes(VIEW);
-  drawRank(); drawCurve && VIEW==="curve" && drawCurve();
-});
+/* Ici vivait un ecouteur sur #pondsel, l'ancien menu deroulant de ponderation.
+   L'element a disparu quand la ponderation est devenue une barre de pastilles, mais
+   l'ecouteur est reste : $("#pondsel") valait null et .addEventListener levait une
+   exception qui interrompait le script juste avant l'initialisation. La barre de
+   cartes restait donc vide et rien de ce qui suit ne s'executait. La logique utile a
+   ete reprise par l'ecouteur de #pondrow, plus bas. */
 $("#mlines").addEventListener("click",ev=>{
   const c=ev.target.closest(".chip"); if(!c) return;
   const l=M().lines[+c.dataset.l], pts=M().pts;
@@ -5010,10 +5053,17 @@ function setD(m){
    choisisse en connaissance : "helios (4,3 m)" dit tout de suite a quoi s'attendre.
    Les cartes non calibrees sont signalees, leur profil dependant d'un ppm faux. */
 function fillPond(){
-  const nc=new Set(["horizon","silva","lunar","outlaw","polaris"]);
-  $("#pondsel").innerHTML = '<option value="">Distance réglée à la règle</option>'
-    + Object.entries(MAPS).map(([k,m])=>
-        `<option value="${k}"${k===POND?" selected":""}>Profil de ${m.n} — médiane ${fr(DPROF.med[k],1)} m${nc.has(k)?" · échelle à confirmer":""}</option>`).join("");
+  /* Une pastille par carte dont on connait le profil de distances, la mediane
+     affichee dessous : c'est elle qui explique le classement obtenu, et la lire a
+     cote du nom evite d'avoir a se souvenir qu'Atlantis est une carte de contact.
+     « Toutes distances » revient au reglage manuel de la regle. */
+  const dispo=Object.keys(MAPS).filter(k=>DPROF.med[k]!==undefined)
+    .sort((a,b)=>DPROF.med[a]-DPROF.med[b]);
+  $("#pondrow").innerHTML =
+    `<button data-pond="" aria-pressed="${!POND}">Toutes distances</button>`
+    + dispo.map(k=>`<button data-pond="${k}" aria-pressed="${k===POND}"`
+        + (CIMG[k]?` class="pondimg" style="background-image:url(${CIMG[k]})"`:"")
+        + `><span>${nomDeCle(k)}<s>${fr(DPROF.med[k],1)} m</s></span></button>`).join("");
 }
 function fillMaps(){
   $("#mapsel").innerHTML = Object.entries(MAPS).map(([k,m])=>
@@ -5173,6 +5223,12 @@ function readURL(){
 $$("#nav button").forEach(b=>b.addEventListener("click",
   ()=>go(b.dataset.esp==="armes" ? ARMEVUE : b.dataset.v)));
 $$("#armbar button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.v)));
+$("#pondrow").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-pond]"); if(!b) return;
+  POND = b.dataset.pond || null;
+  try{ localStorage.setItem(PONDKEY, POND||""); }catch(e){}
+  fillPond(); go(VIEW);
+});
 $$("#floorseg button").forEach(b=>b.addEventListener("click",()=>{
   FLOOR=+b.dataset.fl;
   $$("#floorseg button").forEach(x=>x.setAttribute("aria-pressed", x===b));
@@ -5405,6 +5461,7 @@ nettoieSB(); migreV2();
 fillSelects(); fillPatch(); fillMaps(); fillPond(); initMap(); drawEquip();
 
 go(readURL() || "rank");
+DEMARRAGE_ABOUTI = true;
 if(/[?&]test=1/.test(location.search)) showSelfTest();
 </script>
 </body>
