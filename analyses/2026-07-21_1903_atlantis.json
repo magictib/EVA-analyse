@@ -1,0 +1,2105 @@
+{
+  "evenements": [
+    {
+      "image": 20,
+      "instant": 597,
+      "type": "mort",
+      "slot": 4,
+      "saturation": 20.8
+    },
+    {
+      "image": 21,
+      "instant": 596,
+      "type": "mort",
+      "slot": 8,
+      "saturation": 10.5
+    },
+    {
+      "image": 22,
+      "instant": 595,
+      "type": "mort",
+      "slot": 6,
+      "saturation": 11.5
+    },
+    {
+      "image": 30,
+      "instant": 587,
+      "type": "mort",
+      "slot": 9,
+      "saturation": 10.5
+    },
+    {
+      "image": 33,
+      "instant": 584,
+      "type": "mort",
+      "slot": 2,
+      "saturation": 41.4
+    },
+    {
+      "image": 34,
+      "instant": 583,
+      "type": "mort",
+      "slot": 7,
+      "saturation": 23.2
+    },
+    {
+      "image": 37,
+      "instant": 580,
+      "type": "reapparition",
+      "slot": 4,
+      "saturation": 173.1
+    },
+    {
+      "image": 38,
+      "instant": 579,
+      "type": "reapparition",
+      "slot": 8,
+      "saturation": 139.1
+    },
+    {
+      "image": 39,
+      "instant": 578,
+      "type": "reapparition",
+      "slot": 6,
+      "saturation": 160.2
+    },
+    {
+      "image": 47,
+      "instant": 570,
+      "type": "reapparition",
+      "slot": 9,
+      "saturation": 144.0
+    },
+    {
+      "image": 48,
+      "instant": 569,
+      "type": "mort",
+      "slot": 6,
+      "saturation": 19.7
+    },
+    {
+      "image": 50,
+      "instant": 567,
+      "type": "reapparition",
+      "slot": 2,
+      "saturation": 168.5
+    },
+    {
+      "image": 51,
+      "instant": 566,
+      "type": "reapparition",
+      "slot": 7,
+      "saturation": 151.0
+    },
+    {
+      "image": 54,
+      "instant": 563,
+      "type": "mort",
+      "slot": 4,
+      "saturation": 22.0
+    },
+    {
+      "image": 55,
+      "instant": 562,
+      "type": "mort",
+      "slot": 3,
+      "saturation": 40.0
+    },
+    {
+      "image": 56,
+      "instant": 561,
+      "type": "mort",
+      "slot": 8,
+      "saturation": 21.1
+    },
+    {
+      "image": 65,
+      "instant": 552,
+      "type": "mort",
+      "slot": 1,
+      "saturation": 19.9
+    },
+    {
+      "image": 65,
+      "instant": 552,
+      "type": "reapparition",
+      "slot": 6,
+      "saturation": 140.5
+    },
+    {
+      "image": 71,
+      "instant": 546,
+      "type": "reapparition",
+      "slot": 4,
+      "saturation": 163.9
+    },
+    {
+      "image": 72,
+      "instant": 545,
+      "type": "reapparition",
+      "slot": 3,
+      "saturation": 167.5
+    },
+    {
+      "image": 73,
+      "instant": 544,
+      "type": "reapparition",
+      "slot": 8,
+      "saturation": 145.2
+    },
+    {
+      "image": 82,
+      "instant": 535,
+      "type": "reapparition",
+      "slot": 1,
+      "saturation": 162.6
+    },
+    {
+      "image": 83,
+      "instant": 534,
+      "type": "mort",
+      "slot": 7,
+      "saturation": 10.2
+    },
+    {
+      "image": 86,
+      "instant": 531,
+      "type": "mort",
+      "slot": 2,
+      "saturation": 15.3
+    },
+    {
+      "image": 86,
+      "instant": 531,
+      "type": "mort",
+      "slot": 4,
+      "saturation": 64.5
+    },
+    {
+      "image": 93,
+      "instant": 524,
+      "type": "mort",
+      "slot": 3,
+      "saturation": 32.1
+    },
+    {
+      "image": 100,
+      "instant": 517,
+      "type": "reapparition",
+      "slot": 7,
+      "saturation": 143.1
+    },
+    {
+      "image": 103,
+      "instant": 514,
+      "type": "reapparition",
+      "slot": 2,
+      "saturation": 169.2
+    },
+    {
+      "image": 107,
+      "instant": 510,
+      "type": "reapparition",
+      "slot": 4,
+      "saturation": 163.3
+    },
+    {
+      "image": 110,
+      "instant": 507,
+      "type": "reapparition",
+      "slot": 3,
+      "saturation": 168.0
+    },
+    {
+      "image": 117,
+      "instant": 500,
+      "type": "mort",
+      "slot": 2,
+      "saturation": 9.5
+    },
+    {
+      "image": 118,
+      "instant": 499,
+      "type": "mort",
+      "slot": 9,
+      "saturation": 47.5
+    },
+    {
+      "image": 122,
+      "instant": 495,
+      "type": "mort",
+      "slot": 1,
+      "saturation": 48.7
+    },
+    {
+      "image": 126,
+      "instant": 491,
+      "type": "mort",
+      "slot": 4,
+      "saturation": 33.1
+    },
+    {
+      "image": 126,
+      "instant": 491,
+      "type": "mort",
+      "slot": 8,
+      "saturation": 21.2
+    },
+    {
+      "image": 139,
+      "instant": 478,
+      "type": "reapparition",
+      "slot": 3,
+      "saturation": 128.4
+    },
+    {
+      "image": 142,
+      "instant": 475,
+      "type": "reapparition",
+      "slot": 1,
+      "saturation": 162.7
+    },
+    {
+      "image": 142,
+      "instant": 475,
+      "type": "mort",
+      "slot": 3,
+      "saturation": 9.7
+    },
+    {
+      "image": 143,
+      "instant": 474,
+      "type": "reapparition",
+      "slot": 8,
+      "saturation": 135.5
+    },
+    {
+      "image": 147,
+      "instant": 470,
+      "type": "reapparition",
+      "slot": 4,
+      "saturation": 165.4
+    },
+    {
+      "image": 154,
+      "instant": 463,
+      "type": "mort",
+      "slot": 9,
+      "saturation": 10.0
+    },
+    {
+      "image": 157,
+      "instant": 460,
+      "type": "mort",
+      "slot": 7,
+      "saturation": 7.9
+    },
+    {
+      "image": 159,
+      "instant": 458,
+      "type": "reapparition",
+      "slot": 3,
+      "saturation": 167.0
+    },
+    {
+      "image": 160,
+      "instant": 457,
+      "type": "mort",
+      "slot": 1,
+      "saturation": 42.6
+    },
+    {
+      "image": 160,
+      "instant": 457,
+      "type": "mort",
+      "slot": 2,
+      "saturation": 13.8
+    },
+    {
+      "image": 163,
+      "instant": 454,
+      "type": "mort",
+      "slot": 6,
+      "saturation": 8.3
+    },
+    {
+      "image": 171,
+      "instant": 446,
+      "type": "reapparition",
+      "slot": 9,
+      "saturation": 137.8
+    },
+    {
+      "image": 174,
+      "instant": 443,
+      "type": "reapparition",
+      "slot": 7,
+      "saturation": 144.1
+    },
+    {
+      "image": 178,
+      "instant": 439,
+      "type": "reapparition",
+      "slot": 1,
+      "saturation": 164.1
+    },
+    {
+      "image": 181,
+      "instant": 436,
+      "type": "reapparition",
+      "slot": 6,
+      "saturation": 139.6
+    },
+    {
+      "image": 182,
+      "instant": 435,
+      "type": "mort",
+      "slot": 4,
+      "saturation": 10.3
+    },
+    {
+      "image": 183,
+      "instant": 434,
+      "type": "reapparition",
+      "slot": 2,
+      "saturation": 167.1
+    },
+    {
+      "image": 185,
+      "instant": 432,
+      "type": "mort",
+      "slot": 3,
+      "saturation": 10.8
+    },
+    {
+      "image": 185,
+      "instant": 432,
+      "type": "mort",
+      "slot": 9,
+      "saturation": 18.7
+    },
+    {
+      "image": 189,
+      "instant": 428,
+      "type": "mort",
+      "slot": 6,
+      "saturation": 9.0
+    },
+    {
+      "image": 189,
+      "instant": 428,
+      "type": "mort",
+      "slot": 7,
+      "saturation": 10.1
+    },
+    {
+      "image": 199,
+      "instant": 418,
+      "type": "reapparition",
+      "slot": 4,
+      "saturation": 162.8
+    },
+    {
+      "image": 202,
+      "instant": 415,
+      "type": "reapparition",
+      "slot": 3,
+      "saturation": 169.2
+    },
+    {
+      "image": 202,
+      "instant": 415,
+      "type": "reapparition",
+      "slot": 9,
+      "saturation": 141.6
+    },
+    {
+      "image": 206,
+      "instant": 411,
+      "type": "mort",
+      "slot": 3,
+      "saturation": 15.0
+    },
+    {
+      "image": 206,
+      "instant": 411,
+      "type": "reapparition",
+      "slot": 7,
+      "saturation": 142.7
+    },
+    {
+      "image": 206,
+      "instant": 411,
+      "type": "mort",
+      "slot": 8,
+      "saturation": 31.0
+    },
+    {
+      "image": 211,
+      "instant": 406,
+      "type": "reapparition",
+      "slot": 6,
+      "saturation": 157.0
+    },
+    {
+      "image": 216,
+      "instant": 401,
+      "type": "mort",
+      "slot": 6,
+      "saturation": 6.3
+    },
+    {
+      "image": 216,
+      "instant": 401,
+      "type": "mort",
+      "slot": 7,
+      "saturation": 9.0
+    },
+    {
+      "image": 216,
+      "instant": 401,
+      "type": "mort",
+      "slot": 9,
+      "saturation": 11.6
+    },
+    {
+      "image": 224,
+      "instant": 393,
+      "type": "reapparition",
+      "slot": 3,
+      "saturation": 171.6
+    },
+    {
+      "image": 224,
+      "instant": 393,
+      "type": "reapparition",
+      "slot": 8,
+      "saturation": 134.3
+    },
+    {
+      "image": 227,
+      "instant": 390,
+      "type": "reapparition",
+      "slot": 4,
+      "saturation": 162.2
+    },
+    {
+      "image": 230,
+      "instant": 387,
+      "type": "mort",
+      "slot": 8,
+      "saturation": 6.1
+    },
+    {
+      "image": 233,
+      "instant": 384,
+      "type": "reapparition",
+      "slot": 6,
+      "saturation": 148.5
+    },
+    {
+      "image": 238,
+      "instant": 379,
+      "type": "reapparition",
+      "slot": 7,
+      "saturation": 147.7
+    },
+    {
+      "image": 241,
+      "instant": 376,
+      "type": "reapparition",
+      "slot": 9,
+      "saturation": 134.2
+    },
+    {
+      "image": 243,
+      "instant": 374,
+      "type": "mort",
+      "slot": 6,
+      "saturation": 57.9
+    },
+    {
+      "image": 246,
+      "instant": 371,
+      "type": "mort",
+      "slot": 4,
+      "saturation": 10.4
+    },
+    {
+      "image": 247,
+      "instant": 370,
+      "type": "reapparition",
+      "slot": 8,
+      "saturation": 138.2
+    },
+    {
+      "image": 254,
+      "instant": 363,
+      "type": "mort",
+      "slot": 7,
+      "saturation": 37.7
+    },
+    {
+      "image": 257,
+      "instant": 360,
+      "type": "mort",
+      "slot": 2,
+      "saturation": 47.5
+    },
+    {
+      "image": 263,
+      "instant": 354,
+      "type": "reapparition",
+      "slot": 4,
+      "saturation": 171.0
+    },
+    {
+      "image": 265,
+      "instant": 352,
+      "type": "reapparition",
+      "slot": 6,
+      "saturation": 138.3
+    },
+    {
+      "image": 265,
+      "instant": 352,
+      "type": "mort",
+      "slot": 9,
+      "saturation": 42.6
+    },
+    {
+      "image": 273,
+      "instant": 344,
+      "type": "mort",
+      "slot": 4,
+      "saturation": 54.2
+    },
+    {
+      "image": 273,
+      "instant": 344,
+      "type": "mort",
+      "slot": 8,
+      "saturation": 6.8
+    },
+    {
+      "image": 274,
+      "instant": 343,
+      "type": "reapparition",
+      "slot": 2,
+      "saturation": 178.8
+    },
+    {
+      "image": 274,
+      "instant": 343,
+      "type": "mort",
+      "slot": 6,
+      "saturation": 22.5
+    },
+    {
+      "image": 275,
+      "instant": 342,
+      "type": "reapparition",
+      "slot": 7,
+      "saturation": 151.3
+    },
+    {
+      "image": 281,
+      "instant": 336,
+      "type": "mort",
+      "slot": 7,
+      "saturation": 25.7
+    },
+    {
+      "image": 282,
+      "instant": 335,
+      "type": "reapparition",
+      "slot": 9,
+      "saturation": 135.5
+    },
+    {
+      "image": 290,
+      "instant": 327,
+      "type": "reapparition",
+      "slot": 4,
+      "saturation": 170.0
+    },
+    {
+      "image": 290,
+      "instant": 327,
+      "type": "reapparition",
+      "slot": 8,
+      "saturation": 138.7
+    },
+    {
+      "image": 292,
+      "instant": 325,
+      "type": "reapparition",
+      "slot": 6,
+      "saturation": 160.3
+    },
+    {
+      "image": 298,
+      "instant": 319,
+      "type": "reapparition",
+      "slot": 7,
+      "saturation": 159.9
+    },
+    {
+      "image": 300,
+      "instant": 317,
+      "type": "mort",
+      "slot": 8,
+      "saturation": 12.8
+    },
+    {
+      "image": 307,
+      "instant": 310,
+      "type": "mort",
+      "slot": 1,
+      "saturation": 12.6
+    },
+    {
+      "image": 309,
+      "instant": 308,
+      "type": "mort",
+      "slot": 4,
+      "saturation": 29.1
+    },
+    {
+      "image": 311,
+      "instant": 306,
+      "type": "mort",
+      "slot": 3,
+      "saturation": 23.2
+    },
+    {
+      "image": 315,
+      "instant": 302,
+      "type": "mort",
+      "slot": 2,
+      "saturation": 37.2
+    },
+    {
+      "image": 324,
+      "instant": 293,
+      "type": "reapparition",
+      "slot": 1,
+      "saturation": 168.1
+    },
+    {
+      "image": 326,
+      "instant": 291,
+      "type": "reapparition",
+      "slot": 4,
+      "saturation": 162.5
+    },
+    {
+      "image": 328,
+      "instant": 289,
+      "type": "reapparition",
+      "slot": 3,
+      "saturation": 166.8
+    },
+    {
+      "image": 332,
+      "instant": 285,
+      "type": "reapparition",
+      "slot": 2,
+      "saturation": 169.5
+    },
+    {
+      "image": 345,
+      "instant": 272,
+      "type": "mort",
+      "slot": 7,
+      "saturation": 16.9
+    },
+    {
+      "image": 348,
+      "instant": 269,
+      "type": "mort",
+      "slot": 3,
+      "saturation": 17.0
+    },
+    {
+      "image": 350,
+      "instant": 267,
+      "type": "mort",
+      "slot": 2,
+      "saturation": 33.9
+    },
+    {
+      "image": 362,
+      "instant": 255,
+      "type": "reapparition",
+      "slot": 7,
+      "saturation": 154.5
+    },
+    {
+      "image": 362,
+      "instant": 255,
+      "type": "mort",
+      "slot": 9,
+      "saturation": 37.0
+    },
+    {
+      "image": 365,
+      "instant": 252,
+      "type": "reapparition",
+      "slot": 3,
+      "saturation": 176.0
+    },
+    {
+      "image": 367,
+      "instant": 250,
+      "type": "reapparition",
+      "slot": 2,
+      "saturation": 174.5
+    },
+    {
+      "image": 372,
+      "instant": 245,
+      "type": "mort",
+      "slot": 6,
+      "saturation": 31.6
+    },
+    {
+      "image": 379,
+      "instant": 238,
+      "type": "mort",
+      "slot": 3,
+      "saturation": 63.9
+    },
+    {
+      "image": 380,
+      "instant": 237,
+      "type": "mort",
+      "slot": 8,
+      "saturation": 8.6
+    },
+    {
+      "image": 382,
+      "instant": 235,
+      "type": "mort",
+      "slot": 1,
+      "saturation": 10.9
+    },
+    {
+      "image": 384,
+      "instant": 233,
+      "type": "mort",
+      "slot": 4,
+      "saturation": 12.0
+    },
+    {
+      "image": 384,
+      "instant": 233,
+      "type": "reapparition",
+      "slot": 9,
+      "saturation": 133.1
+    },
+    {
+      "image": 390,
+      "instant": 227,
+      "type": "reapparition",
+      "slot": 6,
+      "saturation": 139.7
+    },
+    {
+      "image": 397,
+      "instant": 220,
+      "type": "reapparition",
+      "slot": 3,
+      "saturation": 169.1
+    },
+    {
+      "image": 397,
+      "instant": 220,
+      "type": "reapparition",
+      "slot": 8,
+      "saturation": 139.6
+    },
+    {
+      "image": 399,
+      "instant": 218,
+      "type": "reapparition",
+      "slot": 1,
+      "saturation": 162.1
+    },
+    {
+      "image": 401,
+      "instant": 216,
+      "type": "reapparition",
+      "slot": 4,
+      "saturation": 163.2
+    },
+    {
+      "image": 407,
+      "instant": 210,
+      "type": "mort",
+      "slot": 7,
+      "saturation": 26.4
+    },
+    {
+      "image": 411,
+      "instant": 206,
+      "type": "mort",
+      "slot": 4,
+      "saturation": 9.4
+    },
+    {
+      "image": 411,
+      "instant": 206,
+      "type": "mort",
+      "slot": 6,
+      "saturation": 9.0
+    },
+    {
+      "image": 418,
+      "instant": 199,
+      "type": "mort",
+      "slot": 3,
+      "saturation": 47.0
+    },
+    {
+      "image": 418,
+      "instant": 199,
+      "type": "mort",
+      "slot": 9,
+      "saturation": 7.0
+    },
+    {
+      "image": 423,
+      "instant": 194,
+      "type": "mort",
+      "slot": 8,
+      "saturation": 13.5
+    },
+    {
+      "image": 424,
+      "instant": 193,
+      "type": "reapparition",
+      "slot": 7,
+      "saturation": 145.5
+    },
+    {
+      "image": 428,
+      "instant": 189,
+      "type": "reapparition",
+      "slot": 4,
+      "saturation": 162.7
+    },
+    {
+      "image": 428,
+      "instant": 189,
+      "type": "reapparition",
+      "slot": 6,
+      "saturation": 138.7
+    },
+    {
+      "image": 435,
+      "instant": 182,
+      "type": "mort",
+      "slot": 1,
+      "saturation": 33.3
+    },
+    {
+      "image": 435,
+      "instant": 182,
+      "type": "mort",
+      "slot": 2,
+      "saturation": 20.7
+    },
+    {
+      "image": 435,
+      "instant": 182,
+      "type": "mort",
+      "slot": 6,
+      "saturation": 24.8
+    },
+    {
+      "image": 435,
+      "instant": 182,
+      "type": "reapparition",
+      "slot": 9,
+      "saturation": 156.8
+    },
+    {
+      "image": 437,
+      "instant": 180,
+      "type": "reapparition",
+      "slot": 3,
+      "saturation": 168.9
+    },
+    {
+      "image": 438,
+      "instant": 179,
+      "type": "mort",
+      "slot": 7,
+      "saturation": 8.9
+    },
+    {
+      "image": 441,
+      "instant": 176,
+      "type": "reapparition",
+      "slot": 8,
+      "saturation": 144.3
+    },
+    {
+      "image": 446,
+      "instant": 171,
+      "type": "mort",
+      "slot": 3,
+      "saturation": 10.7
+    },
+    {
+      "image": 450,
+      "instant": 167,
+      "type": "mort",
+      "slot": 4,
+      "saturation": null,
+      "source": "compteurs"
+    },
+    {
+      "image": 453,
+      "instant": 164,
+      "type": "reapparition",
+      "slot": 1,
+      "saturation": 164.4
+    },
+    {
+      "image": 455,
+      "instant": 162,
+      "type": "reapparition",
+      "slot": 7,
+      "saturation": 143.9
+    },
+    {
+      "image": 455,
+      "instant": 162,
+      "type": "reapparition",
+      "slot": 8,
+      "saturation": 136.4
+    },
+    {
+      "image": 456,
+      "instant": 161,
+      "type": "mort",
+      "slot": 8,
+      "saturation": 30.9
+    },
+    {
+      "image": 460,
+      "instant": 157,
+      "type": "mort",
+      "slot": 1,
+      "saturation": 17.1
+    },
+    {
+      "image": 463,
+      "instant": 154,
+      "type": "reapparition",
+      "slot": 3,
+      "saturation": 167.1
+    },
+    {
+      "image": 465,
+      "instant": 152,
+      "type": "mort",
+      "slot": 9,
+      "saturation": 8.2
+    },
+    {
+      "image": 467,
+      "instant": 150,
+      "type": "mort",
+      "slot": 6,
+      "saturation": 23.6
+    },
+    {
+      "image": 468,
+      "instant": 149,
+      "type": "reapparition",
+      "slot": 4,
+      "saturation": 160.6
+    }
+  ],
+  "frags": [
+    {
+      "instant": 597,
+      "tueur": 8,
+      "victime": 4,
+      "allie": false
+    },
+    {
+      "instant": 596,
+      "tueur": 2,
+      "victime": 8,
+      "allie": false
+    },
+    {
+      "instant": 595,
+      "tueur": 1,
+      "victime": 6,
+      "allie": false
+    },
+    {
+      "instant": 587,
+      "tueur": 2,
+      "victime": 9,
+      "allie": false
+    },
+    {
+      "instant": 584,
+      "tueur": 7,
+      "victime": 2,
+      "allie": false
+    },
+    {
+      "instant": 583,
+      "tueur": 1,
+      "victime": 7,
+      "allie": false
+    },
+    {
+      "instant": 569,
+      "tueur": 4,
+      "victime": 6,
+      "allie": false
+    },
+    {
+      "instant": 563,
+      "tueur": 8,
+      "victime": 4,
+      "allie": false
+    },
+    {
+      "instant": 562,
+      "tueur": 9,
+      "victime": 3,
+      "allie": false
+    },
+    {
+      "instant": 561,
+      "tueur": 2,
+      "victime": 8,
+      "allie": false
+    },
+    {
+      "instant": 552,
+      "tueur": 9,
+      "victime": 1,
+      "allie": false
+    },
+    {
+      "instant": 534,
+      "tueur": 3,
+      "victime": 7,
+      "allie": false
+    },
+    {
+      "instant": 531,
+      "tueur": 8,
+      "victime": 2,
+      "allie": false
+    },
+    {
+      "instant": 531,
+      "tueur": 6,
+      "victime": 4,
+      "allie": false
+    },
+    {
+      "instant": 524,
+      "tueur": 9,
+      "victime": 3,
+      "allie": false
+    },
+    {
+      "instant": 500,
+      "tueur": 8,
+      "victime": 2,
+      "allie": false
+    },
+    {
+      "instant": 499,
+      "tueur": 3,
+      "victime": 9,
+      "allie": false
+    },
+    {
+      "instant": 495,
+      "tueur": 8,
+      "victime": 1,
+      "allie": false
+    },
+    {
+      "instant": 491,
+      "tueur": 4,
+      "victime": 8,
+      "allie": false
+    },
+    {
+      "instant": 491,
+      "tueur": 7,
+      "victime": 4,
+      "allie": false
+    },
+    {
+      "instant": 475,
+      "tueur": 7,
+      "victime": 3,
+      "allie": false
+    },
+    {
+      "instant": 463,
+      "tueur": 2,
+      "victime": 9,
+      "allie": false
+    },
+    {
+      "instant": 460,
+      "tueur": 2,
+      "victime": 7,
+      "allie": false
+    },
+    {
+      "instant": 457,
+      "tueur": 6,
+      "victime": 1,
+      "allie": false
+    },
+    {
+      "instant": 457,
+      "tueur": 6,
+      "victime": 2,
+      "allie": false
+    },
+    {
+      "instant": 454,
+      "tueur": 4,
+      "victime": 6,
+      "allie": false
+    },
+    {
+      "instant": 435,
+      "tueur": 8,
+      "victime": 4,
+      "allie": false
+    },
+    {
+      "instant": 432,
+      "tueur": 9,
+      "victime": 3,
+      "allie": false
+    },
+    {
+      "instant": 432,
+      "tueur": 3,
+      "victime": 9,
+      "allie": false
+    },
+    {
+      "instant": 428,
+      "tueur": 1,
+      "victime": 7,
+      "allie": false
+    },
+    {
+      "instant": 428,
+      "tueur": 2,
+      "victime": 6,
+      "allie": false
+    },
+    {
+      "instant": 411,
+      "tueur": 8,
+      "victime": 3,
+      "allie": false
+    },
+    {
+      "instant": 411,
+      "tueur": 4,
+      "victime": 8,
+      "allie": false
+    },
+    {
+      "instant": 401,
+      "tueur": 2,
+      "victime": 6,
+      "allie": false
+    },
+    {
+      "instant": 401,
+      "tueur": 4,
+      "victime": 7,
+      "allie": false
+    },
+    {
+      "instant": 401,
+      "tueur": 1,
+      "victime": 9,
+      "allie": false
+    },
+    {
+      "instant": 387,
+      "tueur": 2,
+      "victime": 8,
+      "allie": false
+    },
+    {
+      "instant": 374,
+      "tueur": 2,
+      "victime": 6,
+      "allie": false
+    },
+    {
+      "instant": 371,
+      "tueur": 7,
+      "victime": 4,
+      "allie": false
+    },
+    {
+      "instant": 363,
+      "tueur": 1,
+      "victime": 7,
+      "allie": false
+    },
+    {
+      "instant": 360,
+      "tueur": 8,
+      "victime": 2,
+      "allie": false
+    },
+    {
+      "instant": 352,
+      "tueur": 1,
+      "victime": 9,
+      "allie": false
+    },
+    {
+      "instant": 344,
+      "tueur": 4,
+      "victime": 8,
+      "allie": false
+    },
+    {
+      "instant": 344,
+      "tueur": 6,
+      "victime": 4,
+      "allie": false
+    },
+    {
+      "instant": 343,
+      "tueur": 3,
+      "victime": 6,
+      "allie": false
+    },
+    {
+      "instant": 336,
+      "tueur": 2,
+      "victime": 7,
+      "allie": false
+    },
+    {
+      "instant": 317,
+      "tueur": 2,
+      "victime": 8,
+      "allie": false
+    },
+    {
+      "instant": 310,
+      "tueur": 7,
+      "victime": 1,
+      "allie": false
+    },
+    {
+      "instant": 308,
+      "tueur": 7,
+      "victime": 4,
+      "allie": false
+    },
+    {
+      "instant": 306,
+      "tueur": 7,
+      "victime": 3,
+      "allie": false
+    },
+    {
+      "instant": 302,
+      "tueur": 7,
+      "victime": 2,
+      "allie": false
+    },
+    {
+      "instant": 272,
+      "tueur": 1,
+      "victime": 7,
+      "allie": false
+    },
+    {
+      "instant": 269,
+      "tueur": 6,
+      "victime": 3,
+      "allie": false
+    },
+    {
+      "instant": 267,
+      "tueur": 8,
+      "victime": 2,
+      "allie": false
+    },
+    {
+      "instant": 255,
+      "tueur": 1,
+      "victime": 9,
+      "allie": false
+    },
+    {
+      "instant": 245,
+      "tueur": 4,
+      "victime": 6,
+      "allie": false
+    },
+    {
+      "instant": 238,
+      "tueur": 7,
+      "victime": 3,
+      "allie": false
+    },
+    {
+      "instant": 237,
+      "tueur": 1,
+      "victime": 8,
+      "allie": false
+    },
+    {
+      "instant": 235,
+      "tueur": 7,
+      "victime": 1,
+      "allie": false
+    },
+    {
+      "instant": 233,
+      "tueur": 7,
+      "victime": 4,
+      "allie": false
+    },
+    {
+      "instant": 210,
+      "tueur": 1,
+      "victime": 7,
+      "allie": false
+    },
+    {
+      "instant": 206,
+      "tueur": 8,
+      "victime": 4,
+      "allie": false
+    },
+    {
+      "instant": 206,
+      "tueur": 3,
+      "victime": 6,
+      "allie": false
+    },
+    {
+      "instant": 199,
+      "tueur": 3,
+      "victime": 9,
+      "allie": false
+    },
+    {
+      "instant": 199,
+      "tueur": 8,
+      "victime": 3,
+      "allie": false
+    },
+    {
+      "instant": 194,
+      "tueur": 1,
+      "victime": 8,
+      "allie": false
+    },
+    {
+      "instant": 182,
+      "tueur": 6,
+      "victime": 2,
+      "allie": false
+    },
+    {
+      "instant": 182,
+      "tueur": 4,
+      "victime": 6,
+      "allie": false
+    },
+    {
+      "instant": 182,
+      "tueur": 6,
+      "victime": 1,
+      "allie": false
+    },
+    {
+      "instant": 179,
+      "tueur": 4,
+      "victime": 7,
+      "allie": false
+    },
+    {
+      "instant": 171,
+      "tueur": 8,
+      "victime": 3,
+      "allie": false
+    },
+    {
+      "instant": 167,
+      "tueur": 8,
+      "victime": 4,
+      "allie": false
+    },
+    {
+      "instant": 161,
+      "tueur": 2,
+      "victime": 8,
+      "allie": false
+    },
+    {
+      "instant": 157,
+      "tueur": 7,
+      "victime": 1,
+      "allie": false
+    },
+    {
+      "instant": 152,
+      "tueur": 2,
+      "victime": 9,
+      "allie": false
+    },
+    {
+      "instant": 150,
+      "tueur": 3,
+      "victime": 6,
+      "allie": false
+    }
+  ],
+  "ambigus": [],
+  "sejours": [
+    {
+      "slot": 4,
+      "mort": 597,
+      "retour": 580,
+      "duree": 17
+    },
+    {
+      "slot": 4,
+      "mort": 563,
+      "retour": 546,
+      "duree": 17
+    },
+    {
+      "slot": 4,
+      "mort": 531,
+      "retour": 510,
+      "duree": 21
+    },
+    {
+      "slot": 4,
+      "mort": 491,
+      "retour": 470,
+      "duree": 21
+    },
+    {
+      "slot": 4,
+      "mort": 435,
+      "retour": 418,
+      "duree": 17
+    },
+    {
+      "slot": 4,
+      "mort": 402,
+      "retour": 390,
+      "duree": 12
+    },
+    {
+      "slot": 4,
+      "mort": 371,
+      "retour": 354,
+      "duree": 17
+    },
+    {
+      "slot": 4,
+      "mort": 344,
+      "retour": 327,
+      "duree": 17
+    },
+    {
+      "slot": 4,
+      "mort": 308,
+      "retour": 291,
+      "duree": 17
+    },
+    {
+      "slot": 4,
+      "mort": 233,
+      "retour": 216,
+      "duree": 17
+    },
+    {
+      "slot": 4,
+      "mort": 206,
+      "retour": 189,
+      "duree": 17
+    },
+    {
+      "slot": 8,
+      "mort": 596,
+      "retour": 579,
+      "duree": 17
+    },
+    {
+      "slot": 8,
+      "mort": 561,
+      "retour": 544,
+      "duree": 17
+    },
+    {
+      "slot": 8,
+      "mort": 491,
+      "retour": 474,
+      "duree": 17
+    },
+    {
+      "slot": 8,
+      "mort": 411,
+      "retour": 393,
+      "duree": 18
+    },
+    {
+      "slot": 8,
+      "mort": 387,
+      "retour": 370,
+      "duree": 17
+    },
+    {
+      "slot": 8,
+      "mort": 344,
+      "retour": 327,
+      "duree": 17
+    },
+    {
+      "slot": 8,
+      "mort": 237,
+      "retour": 220,
+      "duree": 17
+    },
+    {
+      "slot": 8,
+      "mort": 194,
+      "retour": 176,
+      "duree": 18
+    },
+    {
+      "slot": 6,
+      "mort": 595,
+      "retour": 578,
+      "duree": 17
+    },
+    {
+      "slot": 6,
+      "mort": 569,
+      "retour": 552,
+      "duree": 17
+    },
+    {
+      "slot": 6,
+      "mort": 454,
+      "retour": 436,
+      "duree": 18
+    },
+    {
+      "slot": 6,
+      "mort": 428,
+      "retour": 406,
+      "duree": 22
+    },
+    {
+      "slot": 6,
+      "mort": 401,
+      "retour": 384,
+      "duree": 17
+    },
+    {
+      "slot": 6,
+      "mort": 374,
+      "retour": 352,
+      "duree": 22
+    },
+    {
+      "slot": 6,
+      "mort": 343,
+      "retour": 325,
+      "duree": 18
+    },
+    {
+      "slot": 6,
+      "mort": 245,
+      "retour": 227,
+      "duree": 18
+    },
+    {
+      "slot": 6,
+      "mort": 206,
+      "retour": 189,
+      "duree": 17
+    },
+    {
+      "slot": 9,
+      "mort": 587,
+      "retour": 570,
+      "duree": 17
+    },
+    {
+      "slot": 9,
+      "mort": 463,
+      "retour": 446,
+      "duree": 17
+    },
+    {
+      "slot": 9,
+      "mort": 432,
+      "retour": 415,
+      "duree": 17
+    },
+    {
+      "slot": 9,
+      "mort": 401,
+      "retour": 376,
+      "duree": 25
+    },
+    {
+      "slot": 9,
+      "mort": 352,
+      "retour": 335,
+      "duree": 17
+    },
+    {
+      "slot": 9,
+      "mort": 255,
+      "retour": 233,
+      "duree": 22
+    },
+    {
+      "slot": 9,
+      "mort": 199,
+      "retour": 182,
+      "duree": 17
+    },
+    {
+      "slot": 2,
+      "mort": 584,
+      "retour": 567,
+      "duree": 17
+    },
+    {
+      "slot": 2,
+      "mort": 531,
+      "retour": 514,
+      "duree": 17
+    },
+    {
+      "slot": 2,
+      "mort": 457,
+      "retour": 434,
+      "duree": 23
+    },
+    {
+      "slot": 2,
+      "mort": 360,
+      "retour": 343,
+      "duree": 17
+    },
+    {
+      "slot": 2,
+      "mort": 302,
+      "retour": 285,
+      "duree": 17
+    },
+    {
+      "slot": 2,
+      "mort": 267,
+      "retour": 250,
+      "duree": 17
+    },
+    {
+      "slot": 7,
+      "mort": 583,
+      "retour": 566,
+      "duree": 17
+    },
+    {
+      "slot": 7,
+      "mort": 534,
+      "retour": 517,
+      "duree": 17
+    },
+    {
+      "slot": 7,
+      "mort": 460,
+      "retour": 443,
+      "duree": 17
+    },
+    {
+      "slot": 7,
+      "mort": 428,
+      "retour": 411,
+      "duree": 17
+    },
+    {
+      "slot": 7,
+      "mort": 401,
+      "retour": 379,
+      "duree": 22
+    },
+    {
+      "slot": 7,
+      "mort": 363,
+      "retour": 342,
+      "duree": 21
+    },
+    {
+      "slot": 7,
+      "mort": 336,
+      "retour": 319,
+      "duree": 17
+    },
+    {
+      "slot": 7,
+      "mort": 272,
+      "retour": 255,
+      "duree": 17
+    },
+    {
+      "slot": 7,
+      "mort": 210,
+      "retour": 193,
+      "duree": 17
+    },
+    {
+      "slot": 7,
+      "mort": 179,
+      "retour": 162,
+      "duree": 17
+    },
+    {
+      "slot": 3,
+      "mort": 562,
+      "retour": 545,
+      "duree": 17
+    },
+    {
+      "slot": 3,
+      "mort": 524,
+      "retour": 507,
+      "duree": 17
+    },
+    {
+      "slot": 3,
+      "mort": 475,
+      "retour": 458,
+      "duree": 17
+    },
+    {
+      "slot": 3,
+      "mort": 432,
+      "retour": 415,
+      "duree": 17
+    },
+    {
+      "slot": 3,
+      "mort": 411,
+      "retour": 393,
+      "duree": 18
+    },
+    {
+      "slot": 3,
+      "mort": 306,
+      "retour": 289,
+      "duree": 17
+    },
+    {
+      "slot": 3,
+      "mort": 269,
+      "retour": 252,
+      "duree": 17
+    },
+    {
+      "slot": 3,
+      "mort": 238,
+      "retour": 220,
+      "duree": 18
+    },
+    {
+      "slot": 3,
+      "mort": 199,
+      "retour": 180,
+      "duree": 19
+    },
+    {
+      "slot": 3,
+      "mort": 171,
+      "retour": 154,
+      "duree": 17
+    },
+    {
+      "slot": 1,
+      "mort": 552,
+      "retour": 535,
+      "duree": 17
+    },
+    {
+      "slot": 1,
+      "mort": 495,
+      "retour": 475,
+      "duree": 20
+    },
+    {
+      "slot": 1,
+      "mort": 457,
+      "retour": 439,
+      "duree": 18
+    },
+    {
+      "slot": 1,
+      "mort": 310,
+      "retour": 293,
+      "duree": 17
+    },
+    {
+      "slot": 1,
+      "mort": 235,
+      "retour": 218,
+      "duree": 17
+    },
+    {
+      "slot": 1,
+      "mort": 182,
+      "retour": 164,
+      "duree": 18
+    }
+  ],
+  "sejours_incomplets": [
+    {
+      "slot": 4,
+      "type": "réapparition sans mort vue",
+      "instant": 149
+    },
+    {
+      "slot": 8,
+      "type": "réapparition sans mort vue",
+      "instant": 162
+    },
+    {
+      "slot": 8,
+      "type": "mort sans retour vu",
+      "instant": 161
+    },
+    {
+      "slot": 6,
+      "type": "mort sans retour vu",
+      "instant": 150
+    },
+    {
+      "slot": 9,
+      "type": "mort sans retour vu",
+      "instant": 152
+    },
+    {
+      "slot": 3,
+      "type": "réapparition sans mort vue",
+      "instant": 478
+    },
+    {
+      "slot": 3,
+      "type": "mort sans retour vu",
+      "instant": 149
+    },
+    {
+      "slot": 1,
+      "type": "mort sans retour vu",
+      "instant": 157
+    }
+  ],
+  "reapparitions_simultanees": {
+    "415": [
+      3,
+      9
+    ],
+    "393": [
+      3,
+      8
+    ],
+    "327": [
+      4,
+      8
+    ],
+    "220": [
+      3,
+      8
+    ],
+    "189": [
+      4,
+      6
+    ],
+    "162": [
+      7,
+      8
+    ]
+  },
+  "plages": {
+    "1": {
+      "bas": 1.1,
+      "haut": 183.7,
+      "seuil": 89.5
+    },
+    "2": {
+      "bas": 6.0,
+      "haut": 185.7,
+      "seuil": 95.9
+    },
+    "3": {
+      "bas": 4.8,
+      "haut": 186.3,
+      "seuil": 106.9
+    },
+    "4": {
+      "bas": 0.0,
+      "haut": 180.3,
+      "seuil": 95.8
+    },
+    "6": {
+      "bas": 0.1,
+      "haut": 164.9,
+      "seuil": 79.9
+    },
+    "7": {
+      "bas": 0.4,
+      "haut": 165.5,
+      "seuil": 75.2
+    },
+    "8": {
+      "bas": 0.4,
+      "haut": 162.2,
+      "seuil": 63.6
+    },
+    "9": {
+      "bas": 0.4,
+      "haut": 160.9,
+      "seuil": 80.6
+    }
+  },
+  "images": 475,
+  "retenues": 454,
+  "hors_jeu": [
+    131,
+    132,
+    133,
+    135,
+    316,
+    448,
+    449,
+    450,
+    451,
+    475,
+    476,
+    477,
+    478,
+    479,
+    480,
+    481,
+    482,
+    483,
+    484,
+    485,
+    486
+  ],
+  "manques": [
+    [
+      130,
+      134
+    ],
+    [
+      134,
+      136
+    ],
+    [
+      315,
+      317
+    ],
+    [
+      447,
+      452
+    ]
+  ],
+  "noms": {
+    "1": "GUNxHippocampe",
+    "2": "GUNxRhino",
+    "3": "GUNxRabitte",
+    "4": "GUNxPhasme",
+    "6": "BVSxLiX",
+    "7": "BVSxTchernobyl",
+    "8": "BVSxCROMx",
+    "9": "BVSxTibco"
+  },
+  "compte": {
+    "4": {
+      "mort": 11,
+      "reapparition": 12
+    },
+    "8": {
+      "mort": 10,
+      "reapparition": 9
+    },
+    "6": {
+      "mort": 11,
+      "reapparition": 9
+    },
+    "9": {
+      "mort": 9,
+      "reapparition": 7
+    },
+    "2": {
+      "mort": 8,
+      "reapparition": 6
+    },
+    "7": {
+      "mort": 10,
+      "reapparition": 10
+    },
+    "3": {
+      "mort": 10,
+      "reapparition": 11
+    },
+    "1": {
+      "mort": 7,
+      "reapparition": 6
+    }
+  },
+  "partie": {
+    "carte": "Atlantis",
+    "dt": "2026-07-21",
+    "h": "19:03",
+    "res": "V",
+    "mode": "Domination",
+    "ancre": "",
+    "slots": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      7,
+      8,
+      9
+    ]
+  }
+}

@@ -1837,7 +1837,186 @@ function drawGuns(){
    les memes fichiers se rechargent sans changement le jour ou elle le sera. */
 const AKEY="eva-analyses-v1";
 let ANALYSES=(()=>{ try{ return JSON.parse(localStorage.getItem(AKEY))||[]; }catch(e){ return []; } })();
-function saveAnalyses(){ try{ localStorage.setItem(AKEY,JSON.stringify(ANALYSES)); }catch(e){} }
+/* On ne persiste que les analyses importees a la main. Celles qui viennent du
+   depot sont rechargees a chaque ouverture : les copier dans le localStorage les
+   y figerait, et elles survivraient a leur propre retrait du depot. */
+function saveAnalyses(){ try{ localStorage.setItem(AKEY,JSON.stringify(ANALYSES.filter(a=>!a._depot))); }catch(e){} }
+
+/* Analyses livrees avec le site.
+   L'import manuel ne remplit que le localStorage du navigateur qui importe : un
+   coequipier ouvrant le site voyait un onglet Analyse vide, et devait se faire
+   envoyer le fichier. Les analyses versionnees dans analyses/ sont donc chargees
+   au demarrage. Un import local l'emporte sur le depot a partie egale — sinon une
+   correction faite a la main serait effacee par la version publiee. */
+async function chargeAnalysesDuDepot(){
+  let liste;
+  try{
+    const r=await fetch("analyses/index.json",{cache:"no-cache"});
+    if(!r.ok) return;                       // pas de dossier analyses : rien a faire
+    liste=await r.json();
+  }catch(e){ return; }
+  if(!Array.isArray(liste)) return;
+  const vues=new Set(ANALYSES.map(cleAna));
+  let ajout=0;
+  for(const f of liste){
+    try{
+      const rep=await fetch("analyses/"+f,{cache:"no-cache"});
+      if(!rep.ok) continue;
+      const x=await rep.json();
+      /* Meme controle qu'a l'import manuel : sans evenements ni date, l'analyse
+         ne se rattache a rien et n'apparaitrait dans aucun tri. */
+      if(!x || !Array.isArray(x.evenements) || !x.partie || !x.partie.dt || !x.partie.h) continue;
+      if(vues.has(cleAna(x))) continue;
+      x._depot=true;
+      ANALYSES.push(x); vues.add(cleAna(x)); ajout++;
+    }catch(e){}
+  }
+  if(ajout && typeof drawAna==="function" && document.querySelector("#ana")) drawAna();
+}
+chargeAnalysesDuDepot();
+
+/* ---------------------------------------------------------- base en ligne
+   Acces direct a PostgREST, sans le SDK Supabase : le site est un fichier unique
+   sans etape de construction, et charger une bibliotheque depuis un CDN
+   ajouterait une dependance externe pour quatre requetes.
+   La cle est publiable — elle est faite pour figurer dans une page.
+   Tout est prefixe `sb` : le site declare deja ses propres `tagDe` et `sansTag`
+   plus bas, et les redeclarer cassait le script entier. */
+const EVA_SB_URL="https://ymmztexzwqydwoinfoce.supabase.co";
+const EVA_SB_KEY="sb_publishable_ItkS0_v7PNfrzq_psQYm6Q_mIMWy7Kf";
+let EVA_SB_OK=null;                      // null = pas encore essaye, false = injoignable
+
+async function sbFetch(chemin,opts){
+  opts=opts||{};
+  const r=await fetch(EVA_SB_URL+"/rest/v1/"+chemin,Object.assign({},opts,{
+    headers:Object.assign({apikey:EVA_SB_KEY,Authorization:"Bearer "+EVA_SB_KEY,
+      "Content-Type":"application/json"},opts.headers||{})}));
+  if(!r.ok) throw new Error(r.status+" "+(await r.text()).slice(0,200));
+  const t=await r.text();
+  return t?JSON.parse(t):null;
+}
+
+/* Le pseudo suit la convention TAGxNom. On agrege sur le nom seul : garder
+   « BVSxTibco » entier ferait de « NTxTibco » un autre joueur le jour du
+   renommage, et couperait l'historique de chacun en deux. */
+const sbTag=p=>String(p||"").includes("x")?String(p).slice(0,String(p).indexOf("x")):"";
+const sbNom=p=>String(p||"").includes("x")?String(p).slice(String(p).indexOf("x")+1):String(p||"");
+
+/* ---------- identite d'equipe, partagee par tout le monde ---------- */
+let IDENTITE=null;
+async function chargeIdentite(){
+  try{
+    const r=await sbFetch("identite?id=eq.1&select=nom,logo");
+    IDENTITE=(r&&r[0])||null; EVA_SB_OK=true;
+    if(IDENTITE) appliqueIdentite(IDENTITE);
+  }catch(e){ EVA_SB_OK=false; }
+  return IDENTITE;
+}
+async function sauveIdentite(nom,logo){
+  const d={nom:nom,maj:new Date().toISOString()};
+  if(logo!==undefined) d.logo=logo;
+  await sbFetch("identite?id=eq.1",{method:"PATCH",body:JSON.stringify(d)});
+  IDENTITE=Object.assign({},IDENTITE||{},d);
+  appliqueIdentite(IDENTITE);
+}
+function appliqueIdentite(id){
+  const n=document.querySelector("#teamNom");
+  if(n&&id.nom) n.textContent=id.nom;
+  const l=document.querySelector("#teamLogo");
+  if(l&&id.logo) l.src=id.logo;
+}
+/* Le tag qui fait foi : celui de l'identite si la base a repondu, sinon celui
+   deduit du pseudo — le site doit rester utilisable base injoignable. */
+function notreTag(){
+  if(IDENTITE&&IDENTITE.nom) return IDENTITE.nom;
+  try{ return sbTag(localStorage.getItem("eva-pseudo")||"")||"BVS"; }catch(e){ return "BVS"; }
+}
+
+/* ---------- lecture des analyses ---------- */
+async function chargeAnalysesEnLigne(){
+  let rows;
+  try{ rows=await sbFetch("parties?select=brut&order=dt.desc"); EVA_SB_OK=true; }
+  catch(e){ EVA_SB_OK=false; return; }
+  const vues=new Set(ANALYSES.map(cleAna));
+  let n=0;
+  for(const r of rows||[]){
+    const x=r&&r.brut;
+    if(!x||!Array.isArray(x.evenements)||!x.partie||!x.partie.dt||!x.partie.h) continue;
+    if(vues.has(cleAna(x))) continue;
+    x._depot=true;                       // ne pas figer dans le localStorage
+    ANALYSES.push(x); vues.add(cleAna(x)); n++;
+  }
+  if(n&&typeof drawAna==="function"&&document.querySelector("#ana")) drawAna();
+}
+
+/* ---------- ecriture d'une analyse ----------
+   Le fichier complet part dans `brut` — le site sait deja le lire — et les tables
+   joueurs/frags le dupliquent en lignes. C'est cette seconde forme qui permet
+   d'agreger par carte, par joueur ou par adversaire sans tout retelecharger. */
+async function enregistreEnLigne(d){
+  const p=d.partie||{}, noms=d.noms||{}, tag=notreTag().toUpperCase();
+  const slots=(p.slots&&p.slots.length)?p.slots:Object.keys(noms).map(Number);
+  const nos=slots.filter(s=>sbTag(noms[String(s)]).toUpperCase()===tag);
+  if(nos.length!==4) throw new Error(
+    "le tag « "+tag+" » désigne "+nos.length+" joueur(s) sur 8, vérifie le nom d'équipe");
+  const adv=slots.filter(s=>nos.indexOf(s)<0).map(s=>sbTag(noms[String(s)]));
+  const compte=d.compte||{}, fr=d.frags||[];
+  const rep=await sbFetch("parties?on_conflict=dt,h",{method:"POST",
+    headers:{Prefer:"resolution=merge-duplicates,return=representation"},
+    body:JSON.stringify([{dt:p.dt,h:p.h,carte:p.carte||null,mode:p.mode||null,
+      resultat:p.res||null,notre_tag:tag,adverse_tag:adv[0]||null,pov:p.pov||null,
+      images:d.images||null,
+      morts:(d.evenements||[]).filter(e=>e.type==="mort").length,
+      attribuees:fr.filter(f=>f.tueur!==null&&f.tueur!==undefined).length,
+      brut:d}])});
+  const id=rep&&rep[0]&&rep[0].id;
+  if(!id) throw new Error("la partie n'a pas été enregistrée");
+  /* Reimport de la meme partie : on efface les lignes filles avant de les
+     reecrire, sinon les frags s'accumuleraient en double a chaque correction. */
+  await sbFetch("frags?partie_id=eq."+id,{method:"DELETE"});
+  await sbFetch("joueurs_partie?partie_id=eq."+id,{method:"DELETE"});
+  await sbFetch("joueurs_partie",{method:"POST",body:JSON.stringify(
+    slots.map(s=>({partie_id:id,slot:s,
+      tag:sbTag(noms[String(s)]),nom:sbNom(noms[String(s)]),
+      notre_equipe:nos.indexOf(s)>=0,
+      /* camp laisse vide : depuis que `partie.slots` range notre equipe en
+         dernier, son ordre ne reflete plus celui des cartes a l'ecran, donc on
+         ne peut plus en deduire orange ou bleu. Mieux vaut vide que faux. */
+      camp:null,
+      kills:fr.filter(f=>f.tueur===s).length,
+      morts:(compte[String(s)]||{}).mort||0,
+      assists:null,score:null})))});
+  if(fr.length) await sbFetch("frags",{method:"POST",body:JSON.stringify(
+    fr.map(f=>({partie_id:id,image:f.image||null,instant:f.instant,
+      tueur_slot:(f.tueur===undefined?null:f.tueur),
+      victime_slot:f.victime,allie:!!f.allie})))});
+  return id;
+}
+
+/* L'import local reste la reference : il valide, rattache a une partie et
+   affiche. On y greffe l'envoi en base sans bloquer l'affichage — une base
+   injoignable ne doit pas empecher de consulter une analyse. */
+if(typeof ajouteAnalyse==="function"){
+  const ajouteAnalyseLocal=ajouteAnalyse;
+  ajouteAnalyse=function(txt){
+    const r=ajouteAnalyseLocal(txt);
+    if(r&&r.ok){
+      let d=null;
+      try{ d=JSON.parse(txt); }catch(e){}
+      if(d) enregistreEnLigne(d).then(()=>{
+        const el=document.querySelector("#astate");
+        if(el) el.textContent+=" Enregistrée en ligne pour toute l'équipe.";
+      }).catch(e=>{
+        const el=document.querySelector("#astate");
+        if(el) el.textContent+=" (non enregistrée en ligne : "+e.message+")";
+      });
+    }
+    return r;
+  };
+}
+
+chargeIdentite();
+chargeAnalysesEnLigne();
 const cleAna = a => `${(a.partie&&a.partie.dt)||""} ${(a.partie&&a.partie.h)||""}`;
 
 
