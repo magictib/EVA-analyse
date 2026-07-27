@@ -2072,7 +2072,10 @@ document.addEventListener("drop",e=>{
    sans comparaison prealable, chaque collage reecrirait des centaines de lignes
    et ferait clignoter la liste de tout le monde. */
 const MSYNC = "eva-matchs-sync-v1";
-const nb = v => (typeof v === "number" ? v : null);
+/* Coercition plutot que test de type : le parseur du site rend ces valeurs en
+   texte, et un `typeof v === "number"` les rejetait toutes en silence — les
+   K/D/A du colleur arrivaient vides en base sans qu'aucune erreur ne le signale. */
+const nb = v => { const n = Number(v); return Number.isFinite(n) ? n : null; };
 const empreinteMatch = m => [m.dt, m.h, m.res, m.carte, m.mode, m.k, m.m, m.a,
   (m.sb || []).map(x => x.n + ":" + x.k + "/" + x.m + "/" + x.a + "/" + x.s).join(",")
 ].join("|");
