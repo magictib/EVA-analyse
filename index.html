@@ -334,7 +334,13 @@
   .mdet>summary .mtr b::after{content:" ▸";color:var(--dim);font-size:11px}
   .mdet[open]>summary .mtr b::after{content:" ▾"}
   .msb{background:var(--bg);border-top:1px solid var(--rule)}
-  .msb .mth,.mtr3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;padding:6px 22px;font-size:13px}
+  /* Un en-tete doit porter la MEME grille que ses lignes. `.mth` n'heritait des
+     trois colonnes que dans `.msb` ; partout ailleurs il retombait sur la grille
+     a cinq colonnes ci-dessus, et ses titres se retrouvaient decales d'un cran
+     par rapport aux chiffres qu'ils annoncent — « morts infligées » se posait
+     au-dessus d'une colonne vide, et la colonne des nombres n'avait plus de
+     titre du tout. `.mtab3` rattache l'en-tete a ses lignes. */
+  .mtab3 .mth,.msb .mth,.mtr3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;padding:6px 22px;font-size:13px}
   .mtr3{border-top:1px solid var(--rule)}
   .mtr3 s{text-decoration:none;font-family:var(--mono);text-align:right}
   .mdet+.mdet,.mdet+.mtr,.mtr+.mdet{border-top:1px solid var(--rule)}
@@ -2796,6 +2802,58 @@ function parJoueurAna(lot){
 
 
 
+/* Une SEANCE : toutes les parties d'une meme date contre une meme equipe.
+
+   C'est la maille du progres. Une partie isolee ne dit pas si l'on s'ameliore —
+   elle depend de la carte, de la forme du jour, de qui est present. Reaffronter
+   la meme equipe quelques semaines plus tard, en revanche, pose une question
+   nette : ce qu'on avait releve en debrief, l'a-t-on applique ?
+
+   Les indicateurs retenus sont ceux qui existent sur TOUTES les parties, parce
+   qu'ils viennent de la detection et non de l'attribution des tueurs, encore
+   manuelle : les comparer d'une seance a l'autre ne compare donc pas deux
+   niveaux de depouillement. Les frags en sont volontairement absents.
+
+   L'adversaire vient du tag porte par la partie, pas d'un effectif courant : un
+   mercato a lieu en fin d'annee, et une equipe reaffrontee six mois plus tard
+   n'aligne pas forcement les memes joueurs — c'est bien l'equipe qu'on suit. */
+function parSeance(lot){
+  const g=new Map();
+  for(const a of lot){
+    const p=a.partie||{};
+    const tag=p.adverse_tag || (p.camps ? Object.keys(p.camps).find(t=>t!==p.notre_tag) : null);
+    if(!p.dt || !tag) continue;
+    const k=`${p.dt}|${tag}`;
+    if(!g.has(k)) g.set(k,{dt:p.dt, tag, ana:[]});
+    g.get(k).ana.push(a);
+  }
+  const out=[...g.values()].sort((x,y)=>x.dt.localeCompare(y.dt));
+  for(const s of out){
+    const eff=effectifDansLeTemps(s.ana), dif=differentiel(s.ana);
+    const emp=emprise(s.ana), ouv=ouverture(s.ana);
+    const nous=parJoueurAna(s.ana);
+    s.n=s.ana.length;
+    s.v=s.ana.filter(a=>((a.partie||{}).res||"")==="V").length;
+    s.morts=s.n?nous.reduce((t,[,o])=>t+o.morts,0)/s.n:null;
+    s.complet=eff&&eff.total?eff.paliers[4]/eff.total:null;
+    s.sup=dif&&dif.total?dif.sup/dif.total:null;
+    s.empN=emp?emp.nous:null;
+    s.subie=(ouv&&ouv.parties)?ouv.premiereSubie/ouv.parties:null;
+  }
+  /* Le rang de la seance FACE A CETTE EQUIPE, et l'ecart avec la precedente.
+     Comparer a la seance chronologiquement precedente, toutes equipes
+     confondues, ne dirait rien : on ne progresse pas « en general », on
+     progresse contre quelqu'un. */
+  const vues=new Map();
+  for(const s of out){
+    const av=vues.get(s.tag);
+    s.rang=(av?av.rang:0)+1;
+    s.avant=av||null;
+    vues.set(s.tag,s);
+  }
+  return out;
+}
+
 /* Rattachement d'une analyse a une partie enregistree.
    On refuse plutot que d'inventer : sans date ni heure dans le fichier, ou sans
    partie correspondante, l'analyse serait orpheline et n'apparaitrait dans aucun
@@ -2911,7 +2969,7 @@ function drawAna(){
 
   if(eff){
     const l=["à terre","1 vivant","2 vivants","3 vivants","complète"];
-    global+=`<div class="mtab"><div class="mth"><s>effectif</s><s>durée</s><s>part du temps</s></div>`
+    global+=`<div class="mtab mtab3"><div class="mth"><s>effectif</s><s>durée</s><s>part du temps</s></div>`
       + eff.paliers.map((v,i)=>`<div class="mtr3"><b>${l[i]}</b><s>${v} s</s>`
         + `<s>${Math.round(v/eff.total*100)} %</s></div>`).reverse().join("")
       + `</div><p class="note">Des durées, pas des comptages : c'est ce qui rend cette mesure
@@ -2933,12 +2991,12 @@ function drawAna(){
     const barre=(v,max)=>`<i style="width:${Math.round(v/max*100)}%"></i>`;
     const maxS=Math.max(...ech.subis.map(x=>x[1]),1);
     const maxR=Math.max(...ech.rendus.map(x=>x[1]),1);
-    duel=`<h4>Qui nous tue</h4><div class="mtab">
-        <div class="mth"><s>adversaire</s><s>morts infligées</s><s></s></div>`
+    duel=`<h4>Qui nous tue</h4><div class="mtab mtab3">
+        <div class="mth"><s>adversaire</s><s>frags sur nous</s><s>part</s></div>`
       + ech.subis.map(([n,v])=>`<div class="mtr3"><b>${n}</b><s>${v}</s>`
         + `<s><span class="barre">${barre(v,maxS)}</span></s></div>`).join("")
-      + `</div><h4>Ce qu'on rend</h4><div class="mtab">
-        <div class="mth"><s>adversaire</s><s>morts subies</s><s></s></div>`
+      + `</div><h4>Ce qu'on rend</h4><div class="mtab mtab3">
+        <div class="mth"><s>adversaire</s><s>nos frags sur lui</s><s>part</s></div>`
       + ech.rendus.map(([n,v])=>`<div class="mtr3"><b>${n}</b><s>${v}</s>`
         + `<s><span class="barre">${barre(v,maxR)}</span></s></div>`).join("")
       + `</div><p class="note">${ech.attribuees} frags attribués sur ${nMorts} morts relevées.
@@ -3060,7 +3118,7 @@ function drawAna(){
   let bilanD="";
   if(duels && duels.length){
     const m=Math.max(1,...duels.map(d=>Math.max(d.pris,d.rendu)));
-    bilanD=`<h4>Duels, adversaire par adversaire</h4><div class="mtab mtab4">
+    bilanD=`<h4>Solde des frags, adversaire par adversaire</h4><div class="mtab mtab4">
       <div class="mth"><s>adversaire</s><s>nous prend</s><s>on lui rend</s><s>solde</s></div>`
       + duels.map(d=>`<div class="mtr4"><b>${sansTag(d.n)}${tagDe(d.n)?`<em>${tagDe(d.n)}</em>`:""}</b>`
         + `<s><i class="jauge" style="--p:${Math.round(d.pris/m*100)}%;--c:var(--dead)"></i>${d.pris}</s>`
@@ -3069,12 +3127,57 @@ function drawAna(){
       + `</div><p class="note">Le solde, et non deux listes séparées : un adversaire qui nous
          prend huit frags et nous en rend huit n'est pas le même problème que celui qui en
          prend huit et n'en rend qu'un. Trié du plus coûteux au moins coûteux.
+         Ce sont des <b>frags échangés</b>, pas des duels : un duel suppose que les deux
+         joueurs se soient vus et aient tiré l'un sur l'autre, et le bandeau ne donne que
+         le résultat — il ne distingue pas un duel gagné d'une balle reçue d'un adversaire
+         qu'on n'avait pas vu. Compter de vrais duels demanderait de situer la mort, et
+         seule une mort sur cinq est localisable aujourd'hui.
          ${lotAttrib.length<lot.length
            ? `Ce tableau ne peut porter que sur les parties dont les tueurs ont été
               attribués — <b>${lotAttrib.length}</b> sur les ${lot.length} du tri —, l'attribution
               n'étant pas encore automatisée. Un adversaire absent d'ici n'est donc pas
               inoffensif : il n'a simplement pas encore été dépouillé.`
            : ""}</p>`;
+  }
+
+  /* --- 7. progression d'une seance a l'autre --- */
+  const seances=parSeance(lot);
+  let progres="";
+  if(seances.length>1){
+    const jj=d=>String(d).split("-").reverse().join("/");
+    const pc=x=>x==null?"—":`${Math.round(x*100)} %`;
+    const un=x=>x==null?"—":fr(Math.round(x*10)/10);
+    /* Le sens du mieux n'est pas le meme d'une colonne a l'autre : moins de
+       morts est bon, plus d'emprise est bon. Le porter dans la donnee evite de
+       colorer une degradation en vert. */
+    const ec=(a,b,sens,fmt)=>{
+      if(a==null||b==null) return "";
+      const d=(a-b)*sens;
+      if(Math.abs(a-b)<1e-9) return `<em>=</em>`;
+      return `<em class="${d>0?"pos":"neg"}">${a-b>0?"+":"−"}${fmt(Math.abs(a-b))}</em>`;
+    };
+    const brut=x=>fr(Math.round(x*10)/10), pct=x=>`${Math.round(x*100)} pts`;
+    progres=`<h4>D'une rencontre à l'autre</h4><div class="mtab mtab7">
+      <div class="mth"><s>séance</s><s>parties</s><s>victoires</s><s>morts / partie</s>
+        <s>équipe au complet</s><s>en supériorité</s><s>emprise</s></div>`
+      + seances.map(s=>{
+          const p=s.avant;
+          return `<div class="mtr"><b>${s.tag}<em>${jj(s.dt)}${s.rang>1?` · ${s.rang}ᵉ`:""}</em></b>`
+            + `<s>${s.n}</s>`
+            + `<s>${s.v}/${s.n}${p?ec(s.v/s.n,p.v/p.n,1,pct):""}</s>`
+            + `<s>${un(s.morts)}${p?ec(s.morts,p.morts,-1,brut):""}</s>`
+            + `<s>${pc(s.complet)}${p?ec(s.complet,p.complet,1,pct):""}</s>`
+            + `<s>${pc(s.sup)}${p?ec(s.sup,p.sup,1,pct):""}</s>`
+            + `<s>${pc(s.empN)}${p?ec(s.empN,p.empN,1,pct):""}</s></div>`;
+        }).join("")
+      + `</div><p class="note">Une séance est une date face à une équipe, et l'écart se lit
+         contre la <b>rencontre précédente de la même équipe</b> — on ne progresse pas « en
+         général », on progresse contre quelqu'un. Le vert va toujours dans le sens du mieux :
+         moins de morts, plus d'emprise. Ces six mesures viennent toutes de la détection, donc
+         elles existent sur chaque partie ; les frags en sont écartés exprès, l'attribution des
+         tueurs n'étant faite que sur une partie et fausserait la comparaison. C'est ici qu'on
+         voit si un débrief a été appliqué : ${seances.map(s=>s.tag).filter((t,i,l)=>l.indexOf(t)===i).length}
+         équipe(s) suivie(s) sur ${seances.length} séance(s).</p>`;
   }
 
   /* --- 4bis. ecarts au score --- */
@@ -3147,14 +3250,27 @@ function drawAna(){
   const bloc=(titre,sous,corps)=>corps
     ? `<section class="mbloc"><h3>${titre}</h3><p class="msous">${sous}</p>${corps}</section>`
     : "";
-  el.innerHTML = importe
+  /* Le tri vient AVANT tout le reste, et il est le meme que celui de Matchs.
+     L'onglet subissait ce tri sans l'afficher : on ne pouvait ni savoir sur
+     quelles parties on lisait, ni le changer sans repasser par l'autre onglet.
+     Place en tete, il ne decale rien quand on en change. */
+  el.innerHTML = importe + barreDeTri()
     + bloc("Bilan", "Ce que la partie a donné, de notre côté seulement.", global + score)
     + bloc("Terrain", "Qui tient la carte, et pourquoi on la lâche.", terrain + controle)
     /* La carte des trajets est retiree tant que la detection perd des joueurs
        sur les premieres secondes : une ouverture incomplete se lit comme une
        ouverture ratee. Le calcul reste, il suffira de remettre `+ carte`. */
     + bloc("Ouverture", "Les premières secondes, celles qu'une strat prépare.", debut)
-    + bloc("Duels", "Les échanges, adversaire par adversaire.", duel + bilanD)
+    /* « Duels » etait un abus de langage, et il valait mieux le dire que le
+       garder : un duel suppose que les deux joueurs se soient VUS et aient tire
+       l'un sur l'autre, un seul l'emportant. Le bandeau de morts ne donne que le
+       resultat — qui a tue qui —, et ne distingue pas un duel gagne d'un tir
+       recu d'un adversaire qu'on n'avait pas vu. Ces tableaux comptent donc des
+       FRAGS ECHANGES, ce qui est exact et deja utile ; le vrai duel demanderait
+       de situer la mort, et seule une mort sur cinq est localisable aujourd'hui. */
+    + bloc("Échanges", "Qui prend l'ascendant sur qui, adversaire par adversaire.",
+           duel + bilanD)
+    + bloc("Progression", "Ce que la même équipe donne d'une rencontre à la suivante.", progres)
     + bloc("Joueurs", "Le détail individuel, à lire avec le rôle de chacun.", joueurs);
   replieLesNotes(el);
 
@@ -3313,6 +3429,28 @@ const cleDe = m => m.cle || m.carte || "";
 const advDe = m => camps(m).tagAdv;
 function filtre(){
   return MATCHS.filter(m => (!FCARTE || cleDe(m)===FCARTE) && (!FADV || advDe(m)===FADV));
+}
+/* La barre de tri, ecrite une fois et posee dans les deux onglets.
+
+   Elle n'existait que dans Matchs, et l'Analyse subissait donc un tri qu'elle
+   n'affichait pas et qu'on ne pouvait pas changer sans repasser par l'autre
+   onglet — avec dix-neuf parties de deux adversaires sur dix cartes, c'est
+   l'essentiel de ce qu'on veut regarder : cette equipe, cette carte, ou les deux.
+
+   Les listes ne proposent que ce qui existe : une carte jamais jouee ou une
+   equipe jamais croisee n'a rien a filtrer. */
+function barreDeTri(){
+  const cartesVues=[...new Set(MATCHS.map(cleDe).filter(Boolean))]
+    .map(c=>[c,nomDeCle(c)||c]).sort((a,b)=>a[1].localeCompare(b[1],"fr"));
+  const advVus=[...new Set(MATCHS.map(advDe).filter(Boolean))].sort();
+  const n=filtre().length, tot=MATCHS.length;
+  return `<div class="mfg mtri">
+      <div><label>Carte</label><select data-flt="carte"><option value="">Toutes</option>
+        ${cartesVues.map(([c,nm])=>`<option value="${c}"${c===FCARTE?" selected":""}>${nm}</option>`).join("")}</select></div>
+      <div><label>Équipe rencontrée</label><select data-flt="adv"><option value="">Toutes</option>
+        ${advVus.map(t=>`<option value="${t}"${t===FADV?" selected":""}>${t}</option>`).join("")}</select></div>
+    </div>${(FCARTE||FADV)?`<p class="note">${n} partie${n>1?"s":""} sur ${tot} retenue${n>1?"s":""}.
+      <button class="mlink" data-act="mflt0">Tout afficher</button></p>`:""}`;
 }
 function agrege(cle){
   const g=new Map();
@@ -3648,17 +3786,7 @@ function drawMat(){
   /* ---------- le tri : il commande tout ce qui suit, donc il vient avant ----------
      Les listes ne proposent que ce qui existe dans tes parties : une carte jamais
      jouee ou une equipe jamais croisee n'a rien a filtrer. */
-  const cartesVues=[...new Set(MATCHS.map(cleDe).filter(Boolean))]
-    .map(c=>[c,nomDeCle(c)||c]).sort((a,b)=>a[1].localeCompare(b[1],"fr"));
-  const advVus=[...new Set(MATCHS.map(advDe).filter(Boolean))].sort();
-  const actif=FCARTE||FADV;
-  const tri=`<div class="mfg mtri">
-      <div><label>Carte</label><select data-flt="carte"><option value="">Toutes</option>
-        ${cartesVues.map(([c,nm])=>`<option value="${c}"${c===FCARTE?" selected":""}>${nm}</option>`).join("")}</select></div>
-      <div><label>Équipe rencontrée</label><select data-flt="adv"><option value="">Toutes</option>
-        ${advVus.map(t=>`<option value="${t}"${t===FADV?" selected":""}>${t}</option>`).join("")}</select></div>
-    </div>${actif?`<p class="note">${n} partie${n>1?"s":""} sur ${tot} retenue${n>1?"s":""}.
-      <button class="mlink" data-act="mflt0">Tout afficher</button></p>`:""}`;
+  const tri=barreDeTri();
 
   if(!n) return void(el.innerHTML=collage+identite+tri
     +`<p class="lead">Aucune partie ne correspond à ce tri.</p>`);
@@ -3687,7 +3815,7 @@ function drawMat(){
   const V=mes.filter(x=>x.m.res==="V").length;
   const K=mes.reduce((a,x)=>a+(x.q.k||0),0), M=mes.reduce((a,x)=>a+(x.q.m||0),0), A=mes.reduce((a,x)=>a+(x.q.a||0),0);
   const mvp=mes.filter(x=>x.q.mvp).length;
-  const bilan=`<h3>Toi${actif?", sur ce tri":""}</h3><div class="mbig">
+  const bilan=`<h3>Toi${(FCARTE||FADV)?", sur ce tri":""}</h3><div class="mbig">
       <b>${mes.length}${mes.length!==n?`<i> / ${n}</i>`:""}<em>matchs</em></b><b>${V} · ${Math.round(V/np*100)} %<em>victoires</em></b>
       <b>${fr(K/Math.max(M,1),2)}<em>K/D</em></b><b>${fr((K+A)/Math.max(M,1),2)}<em>(K+A)/mort</em></b>
       <b>${mvp}<em>fois MVP</em></b></div>`;
@@ -6097,7 +6225,12 @@ function onTool(b){
     go("map"); syncURL();
     return;
   }
-  if(a==="mflt0"){ FCARTE=""; FADV=""; drawMat(); return; }
+  /* Le tri est partage : le remettre a zero doit redessiner les deux onglets,
+     sinon celui qu'on ne regarde pas garde l'ancien affichage. */
+  if(a==="mflt0"){ FCARTE=""; FADV="";
+    if(typeof drawMat==="function") drawMat();
+    if(typeof drawAna==="function") drawAna();
+    return; }
   if(a==="mrow"){
     const c=$("#msbrows"); if(c) c.insertAdjacentHTML("beforeend",ligneSB());
     return;
@@ -6242,12 +6375,17 @@ $("#mat").addEventListener("click",e=>{
   const b=e.target.closest("button[data-act]"); if(b) onTool(b); });
 $("#cart").addEventListener("click",e=>{
   const b=e.target.closest("button[data-act]"); if(b) onTool(b); });
-/* Les listes de tri se lisent au change, pas au clic. */
-$("#mat").addEventListener("change",e=>{
+/* Les listes de tri se lisent au change, pas au clic. Le tri est UNIQUE et
+   partage par les deux onglets : on redessine donc les deux, sinon celui qu'on
+   ne regarde pas garderait l'ancien tri affiche et mentirait au retour. */
+function surTri(e){
   const s=e.target.closest("select[data-flt]"); if(!s) return;
   if(s.dataset.flt==="carte") FCARTE=s.value; else FADV=s.value;
-  drawMat();
-});
+  if(typeof drawMat==="function") drawMat();
+  if(typeof drawAna==="function") drawAna();
+}
+$("#mat").addEventListener("change",surTri);
+$("#ana").addEventListener("change",surTri);
 $("#share").addEventListener("click",e=>{
   const b=e.target.closest("button[data-act]"); if(b) onTool(b); });
 
