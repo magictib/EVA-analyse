@@ -3003,6 +3003,36 @@ function drawAna(){
   /* Regroupement par theme. Une liste plate de dix sections obligeait a tout
      parcourir pour trouver ce qu'on cherche ; le debrief, lui, se mene par
      question — le terrain, l'ouverture, les duels, l'equipe. */
+  /* Chaque explication passe derriere un point d'interrogation, a cote de son
+     titre. Fait APRES coup sur le DOM plutot qu'en reecrivant chaque chaine :
+     une seule regle couvre toutes les sections, celles d'aujourd'hui et celles
+     qu'on ajoutera. Les notes restent dans le document — donc trouvables par la
+     recherche du navigateur et lisibles par un lecteur d'ecran — elles sont
+     seulement repliees. */
+  const replieLesNotes=racine=>{
+    for(const t of racine.querySelectorAll("h3,h4")){
+      /* La note d'une section est le premier p.note qui la suit, sans qu'un
+         autre titre s'interpose. */
+      let e=t.nextElementSibling, note=null;
+      while(e && !/^H[1-6]$/.test(e.tagName)){
+        if(e.matches && e.matches("p.note")){ note=e; break; }
+        e=e.nextElementSibling;
+      }
+      if(!note || t.querySelector(".aide")) continue;
+      note.hidden=true;
+      const b=document.createElement("button");
+      b.type="button"; b.className="aide"; b.textContent="?";
+      b.title="Comment cette mesure est calculée";
+      b.setAttribute("aria-expanded","false");
+      b.addEventListener("click",()=>{
+        note.hidden=!note.hidden;
+        b.setAttribute("aria-expanded",String(!note.hidden));
+        b.classList.toggle("ouvert",!note.hidden);
+      });
+      t.append(" ", b);
+    }
+  };
+
   const bloc=(titre,sous,corps)=>corps
     ? `<section class="mbloc"><h3>${titre}</h3><p class="msous">${sous}</p>${corps}</section>`
     : "";
@@ -3015,6 +3045,7 @@ function drawAna(){
     + bloc("Ouverture", "Les premières secondes, celles qu'une strat prépare.", debut)
     + bloc("Duels", "Les échanges, adversaire par adversaire.", duel + bilanD)
     + bloc("Joueurs", "Le détail individuel, à lire avec le rôle de chacun.", joueurs);
+  replieLesNotes(el);
 
   /* Un canvas ne se remplit pas par innerHTML : on trace apres coup, et de
      nouveau a chaque changement de filtre. La couleur suit le tag du pseudo et
