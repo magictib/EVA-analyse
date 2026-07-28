@@ -2120,7 +2120,11 @@ async function syncMatchs(){
   let vus = {};
   try{ vus = JSON.parse(localStorage.getItem(MSYNC)) || {}; }catch(e){}
   const tag = notreTag().toUpperCase();
-  const envoi = MATCHS.filter(m => m && m.dt && m.h
+  /* Jamais les parties venues de la base : on les a reconstruites a partir de
+     colonnes choisies, donc de facon incomplete. Les renvoyer ecraserait les
+     vraies lignes par notre copie appauvrie. On n'envoie que ce qui a ete colle
+     ici. */
+  const envoi = MATCHS.filter(m => m && m.dt && m.h && !m._base
                                 && vus[m.dt + " " + m.h] !== empreinteMatch(m));
   if(!envoi.length) return;
 
@@ -2183,6 +2187,57 @@ if(typeof saveMatchs === "function"){
 
 chargeIdentite();
 chargeAnalysesEnLigne();
+
+/* ---------- lecture des matchs ----------
+   `syncMatchs` n'envoyait que : la table `matchs` se remplissait, mais rien ne
+   redescendait. La liste des parties vivait donc dans le seul localStorage du
+   navigateur ou elle avait ete collee — et comme une analyse ne s'affiche que
+   rattachee a une partie, un coequipier, ou simplement un second navigateur,
+   voyait les analyses arriver et l'onglet Analyse rester vide. Il manquait la
+   moitie du va-et-vient.
+
+   Le local l'emporte a cle egale, comme pour les analyses : une correction faite
+   a la main ne doit pas etre effacee par la version en ligne. Et les parties
+   venues de la base ne sont pas recopiees dans le localStorage — les y figer les
+   ferait survivre a leur propre suppression. */
+async function chargeMatchsEnLigne(){
+  let lignes, scores;
+  try{
+    lignes = await sbFetch("matchs?select=id,dt,h,carte,mode,resultat,"
+      + "colleur_k,colleur_d,colleur_a,pct_nous,pct_eux&order=dt.desc,h.desc");
+    scores = await sbFetch("scores_match?select=match_id,nom,kills,morts,assists,score");
+    EVA_SB_OK = true;
+  }catch(e){ EVA_SB_OK = false; return; }
+  if(!Array.isArray(lignes) || !lignes.length) return;
+
+  const parMatch = new Map();
+  for(const s of scores || []){
+    if(!parMatch.has(s.match_id)) parMatch.set(s.match_id, []);
+    parMatch.get(s.match_id).push({n:s.nom, k:s.kills, m:s.morts,
+                                   a:s.assists, s:s.score});
+  }
+  const vus = new Set(MATCHS.map(m => `${m.dt||""} ${m.h||""}`));
+  /* Les parties collees ici portent une carte normalisee (`cle`), sur laquelle
+     le tri s'appuie. La reconstruire de la meme facon, sinon les parties venues
+     de la base echapperaient au filtre par carte. */
+  const norm = c => { try{ return cleCarte(c) || ""; }catch(e){ return ""; } };
+  let n = 0;
+  for(const l of lignes){
+    const cle = `${l.dt||""} ${l.h||""}`;
+    if(!l.dt || !l.h || vus.has(cle)) continue;
+    MATCHS.push({dt:l.dt, h:l.h, carte:l.carte||"", cle:norm(l.carte),
+                 mode:l.mode||"", res:l.resultat||"",
+                 k:l.colleur_k, m:l.colleur_d, a:l.colleur_a,
+                 pctN:l.pct_nous, pctE:l.pct_eux,
+                 sb:parMatch.get(l.id) || [], _base:true});
+    vus.add(cle); n++;
+  }
+  if(!n) return;
+  if(typeof drawMat === "function" && document.querySelector("#mat")) drawMat();
+  if(typeof drawAna === "function" && document.querySelector("#ana")) drawAna();
+}
+chargeMatchsEnLigne();
+
 const cleAna = a => `${(a.partie&&a.partie.dt)||""} ${(a.partie&&a.partie.h)||""}`;
 
 
@@ -4019,7 +4074,12 @@ const CARTES=[
 ];
 const NOMCARTE = Object.fromEntries(CARTES);
 let MATCHS=(()=>{ try{ return JSON.parse(localStorage.getItem(MKEY))||[]; }catch(e){ return []; } })();
-function saveMatchs(){ try{ localStorage.setItem(MKEY,JSON.stringify(MATCHS)); }catch(e){} }
+/* On ne persiste que les parties collees ici. Celles qui viennent de la base
+   sont rechargees a chaque ouverture : les figer dans le localStorage les ferait
+   survivre a leur propre suppression en ligne — meme regle que pour les analyses
+   du depot. */
+function saveMatchs(){ try{ localStorage.setItem(MKEY,
+  JSON.stringify(MATCHS.filter(m=>!m._base))); }catch(e){} }
 const cleCarte = n => NOMCARTE[String(n).trim().toLowerCase()] || null;
 
 function parseMatchs(txt){
