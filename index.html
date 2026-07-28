@@ -2170,6 +2170,11 @@ document.addEventListener("click",e=>{
   if(f) f.click();
 });
 document.addEventListener("change",e=>{
+  if(e.target && e.target.id==="catcible"){
+    const [t,v]=String(e.target.value).split("|");
+    CIBLE={t,v}; if(typeof drawCat==="function") drawCat();
+    return;
+  }
   if(e.target&&e.target.id==="afichier"&&e.target.files&&e.target.files.length){
     lisFichierAnalyse(e.target.files[0]);
     e.target.value="";                  // pour que redeposer le meme fichier marche
@@ -2331,11 +2336,16 @@ async function chargeMatchsEnLigne(){
   for(const l of lignes){
     const cle = `${l.dt||""} ${l.h||""}`;
     if(!l.dt || !l.h || vus.has(cle)) continue;
-    MATCHS.push({dt:l.dt, h:l.h, carte:l.carte||"", cle:norm(l.carte),
-                 mode:l.mode||"", res:l.resultat||"",
-                 k:l.colleur_k, m:l.colleur_d, a:l.colleur_a,
-                 pctN:l.pct_nous, pctE:l.pct_eux,
-                 sb:parMatch.get(l.id) || [], _base:true});
+    const p={dt:l.dt, h:l.h, carte:l.carte||"", cle:norm(l.carte),
+             mode:l.mode||"", res:l.resultat||"",
+             pctN:l.pct_nous, pctE:l.pct_eux,
+             sb:parMatch.get(l.id) || [], _base:true};
+    /* Ne poser k/m/a QUE s'ils existent. `maLigne` teste `m.k !== undefined`,
+       et `null` passe ce test : une colonne vide en base devenait un K/D de
+       0,00 affiche comme un vrai resultat, alors qu'il fallait lire « inconnu ».
+       Un chiffre faux est pire qu'une case vide. */
+    if(l.colleur_k!=null){ p.k=l.colleur_k; p.m=l.colleur_d; p.a=l.colleur_a; }
+    MATCHS.push(p);
     vus.add(cle); n++;
   }
   if(!n) return;
@@ -2619,9 +2629,15 @@ function revenge(lot, fenetre=20){
 function parJoueurAna(lot){
   const g=new Map();
   const prendre=nom=>{ if(!g.has(nom)) g.set(nom,{morts:0,ausol:0,sejours:0,
-    retours:0,accompagnes:0,subies:0,rendues:0}); return g.get(nom); };
+    retours:0,accompagnes:0,subies:0,rendues:0,duree:0}); return g.get(nom); };
   for(const a of lot){
     const mien=monCamp(a);
+    /* Duree de la partie, pour rapporter le temps a terre a quelque chose.
+       En valeur absolue, « 166 s hors jeu » ne dit rien : c'est long ou court
+       selon que la partie a dure quatre minutes ou dix. */
+    const ins=(a.evenements||[]).map(e=>e.instant).filter(x=>x!=null);
+    const duree=ins.length?Math.max(...ins)-Math.min(...ins):0;
+    for(const k of mien) prendre(nomDe(a,k)).duree+=duree;
     for(const e of (a.evenements||[])){
       if(!mien.includes(e.slot)) continue;
       if(e.type==="mort") prendre(nomDe(a,e.slot)).morts++;
@@ -2788,20 +2804,22 @@ function drawAna(){
   /* --- 3. par joueur --- */
   const pj=parJoueurAna(lot);
   const joueurs=!pj.length?"":`<h4>Par joueur</h4><div class="mtab mtab6">
-      <div class="mth"><s>joueur</s><s>morts</s><s>hors jeu</s><s>retour moyen</s>`
-    + `<s>retours accompagnés</s><s>frags</s></div>`
+      <div class="mth"><s>joueur</s><s>morts</s><s>part à terre</s><s>retour moyen</s>`
+    + `<s>revient seul</s><s>frags</s></div>`
     + pj.map(([n,o])=>`<div class="mtr"><b>${sansTag(n)}${tagDe(n)?`<em>${tagDe(n)}</em>`:""}</b>`
-      + `<s>${o.morts}</s><s>${o.ausol} s</s>`
+      + `<s>${o.morts}</s>`
+      + `<s>${o.duree?Math.round(o.ausol/o.duree*100)+" %":"—"}</s>`
       + `<s>${o.sejours?fr(Math.round(o.ausol/o.sejours))+" s":"—"}</s>`
-      + `<s>${o.retours?Math.round(o.accompagnes/o.retours*100)+" %":"—"}</s>`
+      + `<s>${o.retours?Math.round((o.retours-o.accompagnes)/o.retours*100)+" %":"—"}</s>`
       + `<s>${ech?o.rendues:"—"}</s></div>`).join("")
-    + `</div><p class="note"><b>Hors jeu</b> : le cumul du temps passé à terre sur la partie,
-       en attente de réapparition — c'est autant de temps où l'équipe joue à un de moins.
-       <b>Retour moyen</b> : la durée d'une seule attente.<br>
-       <b>Retours accompagnés</b> : un coéquipier revient dans les six secondes. Attention à
-       la lecture — revenir groupé va souvent de pair avec mourir plus vite, parce qu'une
-       vague de retours signifie que l'équipe vient d'être balayée. Cette colonne décrit une
-       situation autant qu'un comportement.</p>`;
+    + `</div><p class="note"><b>Part à terre</b> — sur 10 minutes de jeu, combien de minutes
+       ce joueur a passées mort. À 30 %, il manque un tiers du temps : l'équipe joue à trois
+       contre quatre pendant ce tiers. Remplace un cumul en secondes, qui ne disait rien de
+       plus que la colonne « morts » d'à côté.<br>
+       <b>Retour moyen</b> — combien de temps dure UNE attente de réapparition.<br>
+       <b>Revient seul</b> — quand il réapparaît, personne d'autre ne revient dans les six
+       secondes qui suivent. Il repart donc seul dans une carte tenue par l'adversaire, et
+       s'y fait cueillir. Un chiffre haut se corrige en attendant un coéquipier au spawn.</p>`;
 
   /* --- 4. sur la carte ---
      Les positions viennent de la chaine video (detect.py, trajets.py,
@@ -3569,14 +3587,40 @@ function drawMat(){
    n'ont ni calque ni echelle — leur fiche le dit au lieu de faire silence, parce
    que c'est exactement ce qui les empeche d'entrer dans l'editeur de strats et
    dans la ponderation par distances. */
+/* Le bilan par carte, vu par qui ? Par defaut toi, mais un debrief d'equipe se
+   lit aussi par equipe entiere ou joueur par joueur — c'est le meme calcul, sur
+   une autre ligne du tableau de scores. */
+let CIBLE={t:"moi", v:""};
+function ligneDe(m){
+  if(CIBLE.t==="joueur"){ return sbOk(m).find(x=>x.n===CIBLE.v) || null; }
+  if(CIBLE.t==="equipe"){
+    const l=sbOk(m).filter(x=>sbTag(x.n).toUpperCase()===CIBLE.v);
+    if(!l.length) return null;
+    /* Une equipe additionne ses quatre lignes : c'est bien un K/D d'equipe, pas
+       une moyenne de moyennes, qui donnerait le meme poids a qui joue peu. */
+    return {n:CIBLE.v, k:l.reduce((t,x)=>t+(x.k||0),0), m:l.reduce((t,x)=>t+(x.m||0),0),
+            a:l.reduce((t,x)=>t+(x.a||0),0), mvp:l.some(x=>x.mvp)};
+  }
+  return maLigne(m);
+}
+function catCibles(){
+  const j=new Set(), e=new Set();
+  for(const m of MATCHS) for(const x of sbOk(m)){
+    if(x.n) j.add(x.n);
+    const t=sbTag(x.n); if(t) e.add(t.toUpperCase());
+  }
+  return {joueurs:[...j].sort((a,b)=>a.localeCompare(b,"fr")), equipes:[...e].sort()};
+}
 function catBilan(){
   const g=new Map();
   for(const m of MATCHS){
     const k=cleDe(m); if(!k) continue;
-    const o=g.get(k)||{n:0,v:0,k:0,m:0,a:0,mvp:0};
+    const o=g.get(k)||{n:0,v:0,k:0,m:0,a:0,mvp:0,nkd:0};
     o.n++; o.v+=m.res==="V"?1:0;
-    const q=maLigne(m);
-    if(q){ o.k+=q.k||0; o.m+=q.m||0; o.a+=q.a||0; o.mvp+=q.mvp?1:0; }
+    const q=ligneDe(m);
+    /* `nkd` compte les parties qui ont VRAIMENT apporte des chiffres : sans lui
+       une carte sans aucun releve affichait 0,00 comme un resultat. */
+    if(q){ o.k+=q.k||0; o.m+=q.m||0; o.a+=q.a||0; o.mvp+=q.mvp?1:0; o.nkd++; }
     g.set(k,o);
   }
   return g;
@@ -3615,7 +3659,14 @@ function drawCat(){
   const cles=[...new Set(Object.values(NOMCARTE))]
     .sort((a,b)=>nomDeCle(a).localeCompare(nomDeCle(b),"fr"));
   const bil=catBilan();
-  const fiches=cles.map(c=>{
+  const cib=catCibles();
+  const sel=`<div class="ccible"><label>Bilan de</label>
+    <select id="catcible">
+      <option value="moi|">toi</option>
+      ${cib.equipes.map(t=>`<option value="equipe|${t}"${CIBLE.t==="equipe"&&CIBLE.v===t?" selected":""}>équipe ${t}</option>`).join("")}
+      ${cib.joueurs.map(n=>`<option value="joueur|${n}"${CIBLE.t==="joueur"&&CIBLE.v===n?" selected":""}>${n}</option>`).join("")}
+    </select></div>`;
+  const fiches=sel+cles.map(c=>{
     const M0=MAPS[c], ph=CIMG[c], o=bil.get(c), armes=catArmes(c), md=DPROF.med[c];
     const dim=M0?`${fr(M0.w/M0.ppm,1)} × ${fr(M0.h/M0.ppm,1)} m`:null;
     return `<div class="ccard">
@@ -3624,10 +3675,11 @@ function drawCat(){
       ${md?`<div class="crow"><span>Ligne de vue médiane</span><s>${fr(md,1)} m</s></div>`:""}
       ${dim?`<div class="crow"><span>Dimensions</span><s>${dim}</s></div>`:""}
       ${md?catSpark(c):""}
-      ${o?`<div class="chead">Ton bilan</div>
+      ${o?`<div class="chead">${CIBLE.t==="moi"?"Ton bilan":(CIBLE.t==="equipe"?"Bilan "+CIBLE.v:"Bilan "+sansTag(CIBLE.v))}</div>
         <div class="crow"><span>Victoires</span><s>${o.v} · ${Math.round(o.v/o.n*100)} %</s></div>
-        <div class="crow"><span>K/D</span><s>${fr(o.k/Math.max(o.m,1),2)}</s></div>
-        <div class="crow"><span>(K+A)/mort</span><s>${fr((o.k+o.a)/Math.max(o.m,1),2)}</s></div>
+        ${o.nkd?`<div class="crow"><span>K/D</span><s>${fr(o.k/Math.max(o.m,1),2)}</s></div>
+        <div class="crow"><span>(K+A)/mort</span><s>${fr((o.k+o.a)/Math.max(o.m,1),2)}</s></div>`
+        :`<div class="crow"><span>K/D</span><s class="cvide">chiffres non collés</s></div>`}
         ${o.mvp?`<div class="crow"><span>MVP</span><s>${o.mvp}</s></div>`:""}`
        :`<div class="cnote">Aucune partie enregistrée sur cette carte.</div>`}
       ${armes?`<div class="chead">Armes favorisées par ce profil</div>`
