@@ -2661,8 +2661,13 @@ function ouverture(lot, fenetre=60){
        evenement : la premiere mort tombe plusieurs secondes apres le depart.
        Seule l'analyse spatiale connait cette image ; sans elle on ne date pas
        le premier contact, et on prefere ne rien afficher a afficher zero. */
-    const img0 = a.spatial && a.spatial.debut!=null ? a.spatial.debut : null;
-    const depart = img0!=null ? C-img0 : C-Math.min(...ev.map(e=>e.image));
+    /* `instant_debut` est livre par l'exportation et fait foi. Le repli calcule
+       `image + instant`, tenu pour constant — ce qui n'est vrai qu'a une image
+       par seconde, la seule cadence extraite jusqu'ici. */
+    const sp0 = a.spatial || {};
+    const img0 = sp0.debut!=null ? sp0.debut : null;
+    const depart = sp0.instant_debut!=null ? sp0.instant_debut
+      : (img0!=null ? C-img0 : C-Math.min(...ev.map(e=>e.image)));
     parties++;
     const premier=fr.reduce((b,f)=>f.instant>b.instant?f:b, fr[0]);
     if(img0!=null) delais.push(depart-premier.instant);
@@ -2754,7 +2759,12 @@ function parJoueurAna(lot){
        partie de ses premieres secondes — 448 s au lieu de 455 sur Atlantis. */
     const ins=(a.evenements||[]).map(e=>e.instant).filter(x=>x!=null);
     const sp=a.spatial||{};
-    const duree=(sp.partie_fin>sp.partie_debut) ? sp.partie_fin-sp.partie_debut
+    /* `sp.duree` est en SECONDES et fait foi quand elle est la. Les replis
+       soustraient des numeros d'image, ce qui ne vaut la seconde qu'a une image
+       par seconde : sur une partie extraite plus finement ils doubleraient la
+       durée sans rien rendre incohérent. */
+    const duree= sp.duree>0 ? sp.duree
+      : (sp.partie_fin>sp.partie_debut) ? sp.partie_fin-sp.partie_debut
       : (sp.fin>sp.debut ? sp.fin-sp.debut
         : (ins.length?Math.max(...ins)-Math.min(...ins):0));
     for(const k of mien) prendre(nomDe(a,k)).duree+=duree;
