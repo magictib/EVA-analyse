@@ -2320,6 +2320,61 @@ function effectifDansLeTemps(lot){
   return total?{paliers,total}:null;
 }
 
+/* Emprise sur la carte, et POURQUOI on la perd.
+
+   L'equipe qui tient le point colore une large part de la minimap ; l'analyse
+   exporte cet ecart de teinte, deja lisse. On en tire des paliers, puis on
+   regarde ce qui precede chaque perte.
+
+   La typologie est le coeur : perdre le point apres avoir perdu les duels et le
+   perdre a effectif egal sans qu'un seul joueur tombe ne se corrigent pas de la
+   meme facon. Le premier cas est un probleme de combat, le second un probleme
+   de placement — on a lache la position sans etre delogé. */
+function emprise(lot, seuil=0.01, fenetre=10){
+  let nous=0, eux=0, dispute=0, total=0;
+  const pertes=[];
+  for(const a of lot){
+    const e=a.spatial && a.spatial.emprise;
+    if(!e || !a.partie || !a.partie.slots) continue;
+    const mien=monCamp(a), tous=a.partie.slots;
+    const adv=tous.filter(s=>!mien.includes(s));
+    /* `emprise` est positif quand le camp « alliance » domine. Savoir lequel des
+       deux est le notre se lit sur les marqueurs, pas sur l'ordre des slots. */
+    const nosTrajets=(a.spatial.trajets||[]).filter(t=>t.slot!=null && mien.includes(t.slot));
+    const all=nosTrajets.filter(t=>t.sorte==="alliance").length;
+    const reb=nosTrajets.filter(t=>t.sorte==="rebels").length;
+    if(!all && !reb) continue;
+    const signe = all>=reb ? 1 : -1;         // +1 si nous sommes « alliance »
+    const img=Object.keys(e).map(Number).sort((x,y)=>x-y);
+    const tenu=img.map(n=>{ const v=e[n]*signe;
+      return v>seuil ? "nous" : (v<-seuil ? "eux" : "dispute"); });
+    for(const t of tenu){ total++; if(t==="nous") nous++; else if(t==="eux") eux++; else dispute++; }
+
+    /* Etat vivant/mort par image, pour dire dans quelle situation on a lache. */
+    const ev=[...(a.evenements||[])].filter(x=>x.type==="mort"||x.type==="reapparition")
+      .sort((x,y)=>x.image-y.image);
+    const etat={}; for(const k of tous) etat[k]=true;
+    let i=0; const vivants={};
+    for(const n of img){
+      while(i<ev.length && ev[i].image<=n){ etat[ev[i].slot]=ev[i].type==="reapparition"; i++; }
+      vivants[n]=[mien.filter(s=>etat[s]).length, adv.filter(s=>etat[s]).length];
+    }
+    for(let k=1;k<tenu.length;k++){
+      if(tenu[k-1]!=="nous" || tenu[k]==="nous") continue;
+      const n=img[k];
+      const avant=(a.evenements||[]).filter(x=>x.type==="mort" && x.image>=n-fenetre && x.image<=n);
+      const nm=avant.filter(x=>mien.includes(x.slot)).length;
+      const v=vivants[n]||[4,4];
+      pertes.push({nm, inf:v[0]<v[1], calme:nm===0 && v[0]>=v[1]});
+    }
+  }
+  if(!total) return null;
+  return {nous:nous/total, eux:eux/total, dispute:dispute/total, total,
+          pertes:pertes.length,
+          enInferiorite:pertes.filter(p=>p.inf).length,
+          sansCombat:pertes.filter(p=>p.calme).length};
+}
+
 /* Ecart au score, en victoire et en defaite.
 
    Le collage garde les deux scores d'en-tete tels que le jeu les ecrit (`sg` a
@@ -2596,6 +2651,7 @@ function drawAna(){
      ils existent des qu'un match est colle, meme sans depouillement video.
      `LOT` est le lot filtre — sans tri, c'est tout l'historique. */
   const ecarts=ecartsScore(LOT);
+  const emp=emprise(lot);
   const nMorts=lot.reduce((a,x)=>a+(x.evenements||[]).filter(e=>e.type==="mort").length,0);
 
   /* La vue d'ensemble ne parle que de NOUS. Elle affichait les morts des deux
@@ -2608,7 +2664,7 @@ function drawAna(){
   const ratio=(nosFrags!==null&&nosMorts)?nosFrags/nosMorts:null;
   const parPartie=n=>lot.length?Math.round(n/lot.length*10)/10:0;
 
-  let global=`<h3>Notre bilan${(FCARTE||FADV)?", sur ce tri":""}</h3><div class="mbig">
+  let global=`<h4>Notre bilan${(FCARTE||FADV)?", sur ce tri":""}</h3><div class="mbig">
     ${nosFrags!==null?`<b>${nosFrags}<em>frags — ${parPartie(nosFrags)} par partie</em></b>`:""}
     <b>${nosMorts}<em>morts — ${parPartie(nosMorts)} par partie</em></b>
     ${ratio!==null?`<b>${(Math.round(ratio*100)/100).toFixed(2)}<em>frags par mort</em></b>`:""}
@@ -2636,7 +2692,7 @@ function drawAna(){
   /* --- 2. echanges --- */
   let duel;
   if(!ech){
-    duel=`<h3>Qui nous tue</h3><p class="alerte" data-ton="info">Attribution des tueurs
+    duel=`<h4>Qui nous tue</h4><p class="alerte" data-ton="info">Attribution des tueurs
       indisponible sur ces analyses. La chronologie des morts est fiable, mais le nom du tueur
       se lit dans le bandeau de morts, dont la lecture n'est pas encore automatisée. Les
       fichiers actuels portent ${nMorts} morts sans tueur identifié.</p>`;
@@ -2644,11 +2700,11 @@ function drawAna(){
     const barre=(v,max)=>`<i style="width:${Math.round(v/max*100)}%"></i>`;
     const maxS=Math.max(...ech.subis.map(x=>x[1]),1);
     const maxR=Math.max(...ech.rendus.map(x=>x[1]),1);
-    duel=`<h3>Qui nous tue</h3><div class="mtab">
+    duel=`<h4>Qui nous tue</h4><div class="mtab">
         <div class="mth"><s>adversaire</s><s>morts infligées</s><s></s></div>`
       + ech.subis.map(([n,v])=>`<div class="mtr3"><b>${n}</b><s>${v}</s>`
         + `<s><span class="barre">${barre(v,maxS)}</span></s></div>`).join("")
-      + `</div><h3>Ce qu'on rend</h3><div class="mtab">
+      + `</div><h4>Ce qu'on rend</h4><div class="mtab">
         <div class="mth"><s>adversaire</s><s>morts subies</s><s></s></div>`
       + ech.rendus.map(([n,v])=>`<div class="mtr3"><b>${n}</b><s>${v}</s>`
         + `<s><span class="barre">${barre(v,maxR)}</span></s></div>`).join("")
@@ -2662,7 +2718,7 @@ function drawAna(){
 
   /* --- 3. par joueur --- */
   const pj=parJoueurAna(lot);
-  const joueurs=!pj.length?"":`<h3>Par joueur</h3><div class="mtab mtab6">
+  const joueurs=!pj.length?"":`<h4>Par joueur</h4><div class="mtab mtab6">
       <div class="mth"><s>joueur</s><s>morts</s><s>hors jeu</s><s>retour moyen</s>`
     + `<s>retours accompagnés</s><s>frags</s></div>`
     + pj.map(([n,o])=>`<div class="mtr"><b>${sansTag(n)}${tagDe(n)?`<em>${tagDe(n)}</em>`:""}</b>`
@@ -2690,7 +2746,7 @@ function drawAna(){
                                  && Array.isArray(a.spatial.trajets));
   let carte = "";
   if(spatiales.length){
-    carte = `<h3>Ouverture et placement</h3>` + spatiales.map((a,i)=>{
+    carte = `<h4>Ouverture et placement</h4>` + spatiales.map((a,i)=>{
       const sp=a.spatial, noms=a.noms||{};
       const slots=[...new Set(sp.trajets.map(t=>t.slot))].sort((x,y)=>x-y);
       const tags=[...new Set(Object.values(noms).map(tagDe).filter(Boolean))].sort();
@@ -2727,7 +2783,7 @@ function drawAna(){
   let controle="";
   if(dif){
     const pc=n=>Math.round(n/dif.total*100);
-    controle=`<h3>Contrôle du temps</h3><div class="mbig">
+    controle=`<h4>Contrôle du temps</h4><div class="mbig">
       <b>${pc(dif.sup)} %<em>en supériorité</em></b>
       <b>${pc(dif.eg)} %<em>à égalité</em></b>
       <b>${pc(dif.inf)} %<em>en infériorité</em></b>
@@ -2744,7 +2800,7 @@ function drawAna(){
   let debut="";
   if(ouv){
     const solde=ouv.pour-ouv.contre;
-    debut=`<h3>Ouverture</h3><div class="mbig">
+    debut=`<h4>Ouverture</h4><div class="mbig">
       ${ouv.premierContact!=null
         ?`<b>${ouv.premierContact} s<em>avant le premier frag</em></b>`:""}
       <b>${ouv.pour} / ${ouv.contre}<em>frags les ${ouv.fenetre} premières s</em></b>
@@ -2760,7 +2816,7 @@ function drawAna(){
   let bilanD="";
   if(duels && duels.length){
     const m=Math.max(1,...duels.map(d=>Math.max(d.pris,d.rendu)));
-    bilanD=`<h3>Duels, adversaire par adversaire</h3><div class="mtab mtab4">
+    bilanD=`<h4>Duels, adversaire par adversaire</h4><div class="mtab mtab4">
       <div class="mth"><s>adversaire</s><s>nous prend</s><s>on lui rend</s><s>solde</s></div>`
       + duels.map(d=>`<div class="mtr4"><b>${sansTag(d.n)}${tagDe(d.n)?`<em>${tagDe(d.n)}</em>`:""}</b>`
         + `<s><i class="jauge" style="--p:${Math.round(d.pris/m*100)}%;--c:var(--dead)"></i>${d.pris}</s>`
@@ -2775,7 +2831,7 @@ function drawAna(){
   let score="";
   if(ecarts){
     const u=ecarts.pts?" pts":"";
-    score=`<h3>Écarts au score${(FCARTE||FADV)?", sur ce tri":""}</h3><div class="mbig">
+    score=`<h4>Écarts au score${(FCARTE||FADV)?", sur ce tri":""}</h3><div class="mbig">
       ${ecarts.v!=null?`<b>+${ecarts.v}${u}<em>écart moyen en victoire</em></b>`:""}
       ${ecarts.d!=null?`<b>−${ecarts.d}${u}<em>écart moyen en défaite</em></b>`:""}
       <b>${ecarts.nv} / ${ecarts.nd}<em>victoires / défaites comptées</em></b>
@@ -2786,7 +2842,37 @@ function drawAna(){
         calcul plutôt que mélangés.</p>`;
   }
 
-  el.innerHTML = importe + global + score + controle + debut + duel + bilanD + joueurs + carte;
+  /* --- emprise sur la carte --- */
+  let terrain="";
+  if(emp){
+    const pc=n=>Math.round(n*100);
+    terrain=`<div class="mbig">
+      <b>${pc(emp.nous)} %<em>emprise à nous</em></b>
+      <b>${pc(emp.dispute)} %<em>disputée</em></b>
+      <b>${pc(emp.eux)} %<em>à eux</em></b>
+      <b>${emp.pertes}<em>fois lâchée</em></b>
+      ${emp.pertes?`<b>${emp.sansCombat}<em>lâchées sans combat</em></b>`:""}
+      </div>
+      <p class="note">L'équipe qui tient le point colore la minimap ; c'est cette teinte
+        qu'on mesure, lissée. <b>Pourquoi on la perd</b> : ${emp.enInferiorite} des
+        ${emp.pertes} pertes arrivent en infériorité numérique — on avait déjà perdu les
+        duels — mais <b>${emp.sansCombat}</b> surviennent à effectif égal ou supérieur
+        <b>sans qu'un seul des nôtres tombe</b>. Celles-là ne se corrigent pas en jouant
+        mieux les duels : la position a été lâchée, pas perdue.</p>`;
+  }
+
+  /* Regroupement par theme. Une liste plate de dix sections obligeait a tout
+     parcourir pour trouver ce qu'on cherche ; le debrief, lui, se mene par
+     question — le terrain, l'ouverture, les duels, l'equipe. */
+  const bloc=(titre,sous,corps)=>corps
+    ? `<section class="mbloc"><h3>${titre}</h3><p class="msous">${sous}</p>${corps}</section>`
+    : "";
+  el.innerHTML = importe
+    + bloc("Bilan", "Ce que la partie a donné, de notre côté seulement.", global + score)
+    + bloc("Terrain", "Qui tient la carte, et pourquoi on la lâche.", terrain + controle)
+    + bloc("Ouverture", "Les premières secondes, celles qu'une strat prépare.", debut + carte)
+    + bloc("Duels", "Les échanges, adversaire par adversaire.", duel + bilanD)
+    + bloc("Joueurs", "Le détail individuel, à lire avec le rôle de chacun.", joueurs);
 
   /* Un canvas ne se remplit pas par innerHTML : on trace apres coup, et de
      nouveau a chaque changement de filtre. La couleur suit le tag du pseudo et
