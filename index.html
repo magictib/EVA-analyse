@@ -2579,7 +2579,14 @@ function drawAna(){
       if(!c) return "#e9eef5";
       return c.alliance>=c.rebels ? "#ff9d3c" : "#4db8ff";
     };
-    const couleur=t=>teinte(tagT(t));
+    /* Un trajet dont le nom n'est pas sur garde un camp sur : il vient de la
+       couleur du marqueur, pas d'une lecture de chiffre. On remonte donc du camp
+       a l'equipe, ce qui lui rend sa couleur et le laisse passer les filtres. */
+    const tagDuCamp={};
+    for(const g in camps)
+      tagDuCamp[camps[g].alliance>=camps[g].rebels?"alliance":"rebels"]=g;
+    const campT=t=>t.slot!=null ? tagT(t) : (tagDuCamp[t.sorte]||"");
+    const couleur=t=>teinte(campT(t));
     const fond=new Image();
     const trace=()=>{
       ctx.clearRect(0,0,cv.width,cv.height);
@@ -2601,36 +2608,82 @@ function drawAna(){
         ctx.stroke();
       }
 
-      const tenues=[];
-      ctx.lineJoin="round"; ctx.lineCap="round";
-      for(const t of sp.trajets){
+      /* Par JOUEUR et non par piste. Une trajectoire que la detection coupe en
+         deux morceaux donnait deux entrees — le meme joueur apparaissait deux
+         fois — et un joueur dont chaque morceau est trop court disparaissait
+         entierement. Ce qu'on veut lire est une sortie d'equipe : un trace par
+         joueur, du lancement jusqu'a sa derniere position. */
+      const parJoueur=new Map();
+      let anonymes=0;
+      for(const k in sp.trajets){
+        const t=sp.trajets[k];
         /* Les marqueurs de morts sont poses au spawn : ils ne disent rien d'un
-           deplacement et encombreraient la lecture de l'ouverture. */
+           deplacement. La derniere position VIVANTE, elle, est l'endroit ou le
+           joueur est tombe — c'est elle qui compte. */
         if(t.sorte==="mort") continue;
-        if(eq && tagT(t)!==eq) continue;
+        if(eq && campT(t)!==eq) continue;
         if(qui && String(t.slot)!==qui) continue;
         const pts=t.points.filter(p=>p[0]<=fin);
-        if(pts.length<2) continue;
-        ctx.strokeStyle=couleur(t); ctx.lineWidth=1.8;
-        ctx.globalAlpha=(qui||eq)?0.95:0.7;
-        ctx.beginPath();
-        pts.forEach((p,k)=>k?ctx.lineTo(p[1],p[2]):ctx.moveTo(p[1],p[2]));
-        ctx.stroke();
-        const d=pts[pts.length-1];
-        tenues.push({t,d,n:noms[t.slot]||("casque "+t.slot)});
+        if(!pts.length) continue;
+        /* Les trajets dont le nom n'est pas sur restent SEPARES : les fondre
+           dans un joueur lui preterait une course qui n'est peut-etre pas la
+           sienne. Ils sont traces en pointille, sans nom — pour une sortie
+           d'equipe, savoir qu'un joueur de ce camp est passe la vaut mieux
+           qu'un trou, et deux des huit manquaient a l'appel. */
+        const cle = t.slot!=null ? "j"+t.slot : "a"+k;
+        if(!parJoueur.has(cle))
+          parJoueur.set(cle,{slot:t.slot, sur:t.slot!=null, t, pts:[]});
+        parJoueur.get(cle).pts.push(...pts);
+        if(t.slot==null) anonymes++;
       }
-      /* Les positions tenues par-dessus tout le reste : c'est ce qu'on vient
-         comparer a la strat, donc ce qui doit se voir en premier. */
-      for(const {t,d} of tenues){
-        ctx.globalAlpha=1; ctx.fillStyle=couleur(t);
-        ctx.strokeStyle="rgba(11,15,20,.85)"; ctx.lineWidth=1.2;
-        ctx.beginPath(); ctx.arc(d[1],d[2],3.4,0,6.284); ctx.fill(); ctx.stroke();
+
+      /* Mort pendant la fenetre ? Le bandeau le dit, et c'est une source
+         independante de la minimap. Une sortie se solde par le controle, la
+         prise du point, ou la mort : il faut distinguer la derniere position
+         d'un joueur encore debout de celle d'un joueur tombe. */
+      const morts=new Set((a.evenements||[])
+        .filter(e=>e.type==="mort" && e.image<=fin).map(e=>e.slot));
+
+      const tenues=[];
+      ctx.lineJoin="round"; ctx.lineCap="round";
+      for(const j of parJoueur.values()){
+        j.pts.sort((x,y)=>x[0]-y[0]);
+        if(j.pts.length<2) continue;
+        ctx.strokeStyle=couleur(j.t); ctx.lineWidth=j.sur?1.8:1.3;
+        ctx.globalAlpha=j.sur?((qui||eq)?0.95:0.75):0.4;
+        ctx.setLineDash(j.sur?[]:[3,3]);
+        ctx.beginPath();
+        j.pts.forEach((p,k)=>k?ctx.lineTo(p[1],p[2]):ctx.moveTo(p[1],p[2]));
+        ctx.stroke();
+        ctx.setLineDash([]);
+        if(j.sur) tenues.push({t:j.t, d:j.pts[j.pts.length-1],
+                               n:noms[j.slot]||("casque "+j.slot),
+                               mort:morts.has(j.slot)});
+      }
+      /* Les fins de trace par-dessus le reste : c'est ce qu'on compare a la
+         strat, donc ce qui doit se voir en premier. */
+      for(const {t,d,mort} of tenues){
+        ctx.globalAlpha=1; ctx.strokeStyle=couleur(t); ctx.lineWidth=1.6;
+        if(mort){                       // tombe ici : une croix, pas un disque
+          ctx.beginPath();
+          ctx.moveTo(d[1]-3.5,d[2]-3.5); ctx.lineTo(d[1]+3.5,d[2]+3.5);
+          ctx.moveTo(d[1]+3.5,d[2]-3.5); ctx.lineTo(d[1]-3.5,d[2]+3.5);
+          ctx.stroke();
+        }else{
+          ctx.fillStyle=couleur(t);
+          ctx.beginPath(); ctx.arc(d[1],d[2],3.4,0,6.284); ctx.fill();
+          ctx.strokeStyle="rgba(11,15,20,.85)"; ctx.lineWidth=1.2; ctx.stroke();
+        }
       }
       ctx.globalAlpha=1;
-      if(leg) leg.innerHTML = tenues.length
-        ? tenues.sort((x,y)=>x.n.localeCompare(y.n)).map(({t,n})=>
-            `<s style="border-color:${couleur(t)}">${sansTag(n)}</s>`).join("")
-        : `<s class="vide">personne sur cette fenêtre</s>`;
+      if(leg){
+        const chips = tenues.sort((x,y)=>x.n.localeCompare(y.n)).map(({t,n,mort})=>
+          `<s style="border-color:${couleur(t)}">${sansTag(n)}${mort?" ✕":""}</s>`);
+        if(anonymes) chips.push(`<s class="vide">${anonymes} trajet(s) sans nom sûr,`
+          + ` en pointillé</s>`);
+        leg.innerHTML = chips.length ? chips.join("")
+                                     : `<s class="vide">personne sur cette fenêtre</s>`;
+      }
     };
     fond.onload=trace; fond.src=sp.fond;
     el.querySelectorAll(`.ccFen[data-i="${i}"],.ccEq[data-i="${i}"],.ccQui[data-i="${i}"]`)
