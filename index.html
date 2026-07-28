@@ -2629,14 +2629,20 @@ function revenge(lot, fenetre=20){
 function parJoueurAna(lot){
   const g=new Map();
   const prendre=nom=>{ if(!g.has(nom)) g.set(nom,{morts:0,ausol:0,sejours:0,
-    retours:0,accompagnes:0,subies:0,rendues:0,duree:0}); return g.get(nom); };
+    retours:0,accompagnes:0,subies:0,rendues:0,duree:0,imputes:0}); return g.get(nom); };
   for(const a of lot){
     const mien=monCamp(a);
     /* Duree de la partie, pour rapporter le temps a terre a quelque chose.
-       En valeur absolue, « 166 s hors jeu » ne dit rien : c'est long ou court
-       selon que la partie a dure quatre minutes ou dix. */
+       En valeur absolue, « 166 s a terre » ne dit rien : c'est long ou court
+       selon que la partie a dure quatre minutes ou dix.
+
+       La vraie duree est celle des IMAGES, pas celle des evenements : ces
+       derniers vont de la premiere mort au dernier retour, ce qui amputait la
+       partie de ses premieres secondes — 448 s au lieu de 455 sur Atlantis. */
     const ins=(a.evenements||[]).map(e=>e.instant).filter(x=>x!=null);
-    const duree=ins.length?Math.max(...ins)-Math.min(...ins):0;
+    const duree=(a.spatial && a.spatial.fin>a.spatial.debut)
+      ? a.spatial.fin-a.spatial.debut
+      : (ins.length?Math.max(...ins)-Math.min(...ins):0);
     for(const k of mien) prendre(nomDe(a,k)).duree+=duree;
     for(const e of (a.evenements||[])){
       if(!mien.includes(e.slot)) continue;
@@ -2646,6 +2652,20 @@ function parJoueurAna(lot){
     for(const s of (a.sejours||[])){
       if(!mien.includes(s.slot)) continue;
       const o=prendre(nomDe(a,s.slot)); o.ausol+=s.duree; o.sejours++;
+    }
+    /* Une mort dont la reapparition n'a pas ete vue comptait ZERO seconde a
+       terre. Le biais depend du joueur, donc il ne s'annule pas : CROMx avait
+       deux morts non appariees sur dix et paraissait meilleur que Tchernobyl
+       pour cette seule raison. Le compte des morts, lui, est fiable — c'est la
+       detection primaire. On impute donc le delai median aux morts orphelines.
+       C'est une estimation, et elle est signalee comme telle sous le tableau. */
+    const med=(delaiRetour([a])||{}).mediane || 17;
+    for(const k of mien){
+      const o=prendre(nomDe(a,k));
+      const orphelines=Math.max(0,
+        (a.evenements||[]).filter(e=>e.type==="mort"&&e.slot===k).length
+        - (a.sejours||[]).filter(x=>x.slot===k).length);
+      o.ausol+=orphelines*med; o.imputes+=orphelines;
     }
     /* Retour accompagne : un coequipier revient a moins de six secondes. */
     const ret=(a.evenements||[]).filter(e=>e.type==="reapparition"&&mien.includes(e.slot));
@@ -2814,8 +2834,9 @@ function drawAna(){
       + `<s>${ech?o.rendues:"—"}</s></div>`).join("")
     + `</div><p class="note"><b>Part à terre</b> — sur 10 minutes de jeu, combien de minutes
        ce joueur a passées mort. À 30 %, il manque un tiers du temps : l'équipe joue à trois
-       contre quatre pendant ce tiers. Remplace un cumul en secondes, qui ne disait rien de
-       plus que la colonne « morts » d'à côté.<br>
+       contre quatre pendant ce tiers. Mesuré sur les séjours relevés ; quand une
+       réapparition n'a pas été vue, la mort est comptée au délai médian plutôt qu'à zéro —
+       sans quoi un joueur mal observé passerait pour plus présent qu'il ne l'était.<br>
        <b>Retour moyen</b> — combien de temps dure UNE attente de réapparition.<br>
        <b>Revient seul</b> — quand il réapparaît, personne d'autre ne revient dans les six
        secondes qui suivent. Il repart donc seul dans une carte tenue par l'adversaire, et
