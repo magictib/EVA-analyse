@@ -335,6 +335,7 @@
   .mdet+.mdet,.mdet+.mtr,.mtr+.mdet{border-top:1px solid var(--rule)}
   /* Tableaux a six colonnes : effectif d'equipe, ou l'on veut voir le score. */
   .mtab6 .mth,.mtab6 .mtr{grid-template-columns:1.6fr repeat(5,1fr)}
+  .mtab7 .mth,.mtab7 .mtr{grid-template-columns:1.5fr repeat(6,1fr)}
   /* Fiches par carte. Le fond est le calque des murs, pas le rendu couleur : il
      pese 2 ko au lieu de 100, et la silhouette du plan suffit a identifier la
      carte d'un coup d'oeil. */
@@ -2691,15 +2692,14 @@ function parJoueurAna(lot){
         && f.instant<e.instant && f.instant>=e.instant-FEN);
       const remort=(a.frags||[]).find(f=>f.victime===e.slot
         && f.instant<e.instant && f.instant>=e.instant-FEN);
-      /* Le tueur de la mort qui precede ce retour : venger, c'est le reprendre
-         lui, pas n'importe qui. */
-      const mortAvant=(a.frags||[]).filter(f=>f.victime===e.slot && f.instant>e.instant)
-        .sort((x,y)=>x.instant-y.instant)[0];
-      if(sien.length){
-        o.retFrag++;
-        if(mortAvant && sien.some(f=>f.victime===mortAvant.tueur)) o.retRevenge++;
-      }else if(remort){ o.retMort++; }
-      else{ o.retRien++; }
+      /* On ne qualifie PAS de « revenge » le fait de reprendre plus tard celui
+         qui vous avait tue : en EVA la revenge est instantanee et le fait d'un
+         coequipier, et l'assist revient a qui a entame sans finir — ou est mort
+         avant, puisque seule la derniere balle donne le frag. Employer le mot
+         pour autre chose brouillerait le debrief. */
+      if(sien.length) o.retFrag++;
+      else if(remort) o.retMort++;
+      else o.retRien++;
     }
   }
   return [...g.entries()].sort((x,y)=>y[1].morts-x[1].morts);
@@ -2846,14 +2846,14 @@ function drawAna(){
 
   /* --- 3. par joueur --- */
   const pj=parJoueurAna(lot);
-  const joueurs=!pj.length?"":`<h4>Par joueur</h4><div class="mtab mtab6">
+  const joueurs=!pj.length?"":`<h4>Par joueur</h4><div class="mtab mtab7">
       <div class="mth"><s>joueur</s><s>morts</s><s>% du match mort</s>`
-    + `<s>retour qui frag</s><s>revient seul</s><s>frags</s></div>`
+    + `<s>retour qui frag</s><s>retour qui remeurt</s><s>revient seul</s><s>frags</s></div>`
     + pj.map(([n,o])=>`<div class="mtr"><b>${sansTag(n)}${tagDe(n)?`<em>${tagDe(n)}</em>`:""}</b>`
       + `<s>${o.morts}</s>`
       + `<s>${o.duree?Math.round(o.ausol/o.duree*100)+" %":"—"}</s>`
-      + `<s>${o.retours?Math.round(o.retFrag/o.retours*100)+" %"
-           +(o.retRevenge?` <i>dont ${o.retRevenge} rev.</i>`:""):"—"}</s>`
+      + `<s>${o.retours?Math.round(o.retFrag/o.retours*100)+" %":"—"}</s>`
+      + `<s>${o.retours?Math.round(o.retMort/o.retours*100)+" %":"—"}</s>`
       + `<s>${o.retours?Math.round((o.retours-o.accompagnes)/o.retours*100)+" %":"—"}</s>`
       + `<s>${ech?o.rendues:"—"}</s></div>`).join("")
     + `</div><p class="note"><b>% du match mort</b> — la part de la partie que ce joueur
@@ -2861,10 +2861,12 @@ function drawAna(){
        cinq, et l'équipe joue à trois pendant ce temps-là. Quand une réapparition n'a pas été
        vue, la mort est comptée au délai médian plutôt qu'à zéro : sans quoi un joueur mal
        observé passerait pour plus présent qu'il ne l'était.<br>
-       <b>Retour qui frag</b> — sur ses réapparitions, la part suivie d'un frag dans les
-       vingt secondes. « rev. » compte celles où il reprend précisément celui qui venait de
-       le tuer. Remplace la durée moyenne d'attente, qui était la même pour tout le monde
-       puisque le délai est fixe, et ne disait donc rien.<br>
+       <b>Retour qui frag</b> et <b>retour qui remeurt</b> — sur ses réapparitions, la part
+       suivie d'un frag, et la part suivie d'une mort sans avoir fragé, dans les vingt
+       secondes. Remplacent la durée moyenne d'attente, qui était la même pour tout le monde
+       puisque le délai est fixé par le jeu, et ne distinguait donc personne. La capture
+       n'y figure pas : l'emprise se mesure au niveau de l'équipe, rien ne permet de
+       l'attribuer au joueur qui rentre.<br>
        <b>Revient seul</b> — quand il réapparaît, aucun coéquipier ne revient dans les six
        secondes. Il repart donc seul face à une carte tenue. <b>Ce n'est pas un reproche</b> :
        revenir seul est parfois le bon choix — reprendre un angle, gêner une capture — et
@@ -3506,7 +3508,7 @@ function drawMat(){
   /* ---------- 1. l'equipe ---------- */
   const nd=LOT.filter(m=>sbOk(m).length).length;
   const eff=parCamp();
-  const effTab=(titre,L,note)=>!L.length?"":`<h3>${titre}</h3><div class="mtab mtab6">
+  const effTab=(titre,L,note)=>!L.length?"":`<h3>${titre}</h3><div class="mtab mtab7">
       <div class="mth"><s>joueur</s><s>parties</s><s>K/D</s><s>(K+A)/mort</s><s>score moyen</s><s>MVP</s></div>`
     + L.map(([nm,o])=>`<div class="mtr"><b>${sansTag(nm)}${tagDe(nm)?`<em>${tagDe(nm)}</em>`:""}</b>`
       + `<s>${o.n}</s><s>${fr(o.k/Math.max(o.m,1),2)}</s><s>${fr((o.k+o.a)/Math.max(o.m,1),2)}</s>`
