@@ -18,6 +18,10 @@
   .mcopt label{display:flex;gap:5px;align-items:center;cursor:pointer}
   .mcarte canvas{width:100%;max-width:920px;height:auto;display:block;
     border-radius:8px;background:#0B0F14;image-rendering:pixelated}
+  .mcleg{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;max-width:920px}
+  .mcleg s{text-decoration:none;font-size:.82em;padding:2px 8px;border-radius:999px;
+    border:1px solid;opacity:.9}
+  .mcleg s.vide{border-color:#2A3644;opacity:.6}
   :root{
     --void:#0B0F14;
     --panel:#141A22;
@@ -2512,26 +2516,37 @@ function drawAna(){
                                  && Array.isArray(a.spatial.trajets));
   let carte = "";
   if(spatiales.length){
-    carte = `<h3>Sur la carte</h3>` + spatiales.map((a,i)=>{
+    carte = `<h3>Ouverture et placement</h3>` + spatiales.map((a,i)=>{
       const sp=a.spatial, noms=a.noms||{};
       const slots=[...new Set(sp.trajets.map(t=>t.slot))].sort((x,y)=>x-y);
+      const tags=[...new Set(Object.values(noms).map(tagDe).filter(Boolean))].sort();
       const q=a.partie||{};
       return `<div class="mcarte">
         <div class="mcopt">
-          <b>${q.carte||"carte"} · ${q.dt||""} ${q.h||""}</b>
+          <b>${q.carte||"carte"}</b>
+          <select class="ccFen" data-i="${i}">
+            <option value="20">sortie de spawn · 20 s</option>
+            <option value="30" selected>ouverture · 30 s</option>
+            <option value="45">ouverture longue · 45 s</option>
+            <option value="0">toute la partie</option>
+          </select>
+          <select class="ccEq" data-i="${i}">
+            <option value="">les deux équipes</option>
+            ${tags.map(t=>`<option value="${t}">${t}</option>`).join("")}
+          </select>
           <select class="ccQui" data-i="${i}">
             <option value="">tout le monde</option>
             ${slots.map(s=>`<option value="${s}">${noms[s]||("casque "+s)}</option>`).join("")}
           </select>
-          <label><input type="checkbox" class="ccSpawn" data-i="${i}"> montrer les attentes au spawn</label>
         </div>
         <canvas class="ccCv" data-i="${i}" width="${sp.largeur}" height="${sp.hauteur}"></canvas>
+        <div class="mcleg" data-i="${i}"></div>
       </div>`;
     }).join("");
-    carte += `<p class="note">Une position par seconde, relevee sur la minimap. Le fond est la
-      carte videe de ses joueurs, au meme pixel que les trajets. Attention a une lecture :
-      le marqueur d'un joueur mort reste pose sur son spawn, donc les amas aux deux
-      extremites sont des attentes de reapparition et non des lieux de mort.</p>`;
+    carte += `<p class="note">Sur une fenêtre de temps depuis le lancement, chaque joueur trace
+      sa <b>sortie de spawn</b>, et le disque marque la <b>position tenue</b> au bout de la
+      fenêtre — celle à comparer à la strat prévue. Les croix sont les deux spawns, déduits de
+      l'endroit où les joueurs attendent leur réapparition. Une position par seconde.</p>`;
   }
 
   el.innerHTML = importe + global + duel + joueurs + carte;
@@ -2544,36 +2559,81 @@ function drawAna(){
     const cv=el.querySelector(`.ccCv[data-i="${i}"]`);
     if(!cv || !cv.getContext) return;
     const sp=a.spatial, noms=a.noms||{}, ctx=cv.getContext("2d");
-    const tags=[...new Set(Object.values(noms).map(tagDe).filter(Boolean))].sort();
-    const teinte=t=>{ const k=tags.indexOf(t); return k<0?"#e9eef5":["#ff9d3c","#4db8ff"][k%2]; };
-    const couleur=t=>t.sorte==="suivi"?"#ffe14d":teinte(tagDe(noms[t.slot]||""));
+    const leg=el.querySelector(`.mcleg[data-i="${i}"]`);
+    const tagT=t=>tagDe(noms[t.slot]||"")||"";
+    /* La couleur d'une equipe est celle qu'elle porte EN JEU, lue sur les
+       marqueurs — alliance en orange, rebels en bleu. Elle etait tiree de
+       l'ordre alphabetique des tags : BVS passait avant GUN et heritait de
+       l'orange, alors qu'il joue en bleu sur Atlantis. La carte montrait donc
+       des trajets orange partant du spawn bleu, et se contredisait elle-meme.
+       Le camp change d'une carte a l'autre, jamais le deduire du nom. */
+    const camps={};
+    for(const t of sp.trajets){
+      const g=tagT(t);
+      if(!g || (t.sorte!=="alliance" && t.sorte!=="rebels")) continue;
+      camps[g]=camps[g]||{alliance:0,rebels:0};
+      camps[g][t.sorte]++;
+    }
+    const teinte=g=>{
+      const c=camps[g];
+      if(!c) return "#e9eef5";
+      return c.alliance>=c.rebels ? "#ff9d3c" : "#4db8ff";
+    };
+    const couleur=t=>teinte(tagT(t));
     const fond=new Image();
     const trace=()=>{
       ctx.clearRect(0,0,cv.width,cv.height);
       if(fond.complete && fond.naturalWidth) ctx.drawImage(fond,0,0,cv.width,cv.height);
+      const fen=+el.querySelector(`.ccFen[data-i="${i}"]`).value;
+      const eq=el.querySelector(`.ccEq[data-i="${i}"]`).value;
       const qui=el.querySelector(`.ccQui[data-i="${i}"]`).value;
-      const spawn=el.querySelector(`.ccSpawn[data-i="${i}"]`).checked;
-      ctx.lineWidth=1.6; ctx.lineJoin="round"; ctx.lineCap="round";
-      for(const t of sp.trajets){
-        if(t.sorte==="mort" && !spawn) continue;
-        if(qui && String(t.slot)!==qui) continue;
-        ctx.strokeStyle=t.sorte==="mort"?"rgba(255,90,90,.75)":couleur(t);
-        ctx.globalAlpha=qui?0.95:0.6;
+      /* Une image par seconde : la fenetre en secondes est un nombre d'images. */
+      const fin=fen?(sp.debut+fen):Infinity;
+
+      /* Les spawns d'abord, sous les trajets : ils servent de repere, pas de
+         donnee a lire. */
+      for(const [tag,p] of Object.entries(sp.spawns||{})){
+        if(eq && tag!==eq) continue;
+        ctx.strokeStyle=teinte(tag); ctx.globalAlpha=.9; ctx.lineWidth=1.4;
         ctx.beginPath();
-        t.points.forEach((p,k)=>k?ctx.lineTo(p[1],p[2]):ctx.moveTo(p[1],p[2]));
+        ctx.moveTo(p[0]-4,p[1]-4); ctx.lineTo(p[0]+4,p[1]+4);
+        ctx.moveTo(p[0]+4,p[1]-4); ctx.lineTo(p[0]-4,p[1]+4);
         ctx.stroke();
-        /* Un point plein sur la derniere position : pour un vivant, c'est la ou
-           la piste se rompt, donc l'endroit ou il est mort a une seconde pres. */
-        if(t.sorte!=="mort" && t.points.length){
-          const d=t.points[t.points.length-1];
-          ctx.globalAlpha=1; ctx.fillStyle=couleur(t);
-          ctx.beginPath(); ctx.arc(d[1],d[2],2.4,0,6.284); ctx.fill();
-        }
+      }
+
+      const tenues=[];
+      ctx.lineJoin="round"; ctx.lineCap="round";
+      for(const t of sp.trajets){
+        /* Les marqueurs de morts sont poses au spawn : ils ne disent rien d'un
+           deplacement et encombreraient la lecture de l'ouverture. */
+        if(t.sorte==="mort") continue;
+        if(eq && tagT(t)!==eq) continue;
+        if(qui && String(t.slot)!==qui) continue;
+        const pts=t.points.filter(p=>p[0]<=fin);
+        if(pts.length<2) continue;
+        ctx.strokeStyle=couleur(t); ctx.lineWidth=1.8;
+        ctx.globalAlpha=(qui||eq)?0.95:0.7;
+        ctx.beginPath();
+        pts.forEach((p,k)=>k?ctx.lineTo(p[1],p[2]):ctx.moveTo(p[1],p[2]));
+        ctx.stroke();
+        const d=pts[pts.length-1];
+        tenues.push({t,d,n:noms[t.slot]||("casque "+t.slot)});
+      }
+      /* Les positions tenues par-dessus tout le reste : c'est ce qu'on vient
+         comparer a la strat, donc ce qui doit se voir en premier. */
+      for(const {t,d} of tenues){
+        ctx.globalAlpha=1; ctx.fillStyle=couleur(t);
+        ctx.strokeStyle="rgba(11,15,20,.85)"; ctx.lineWidth=1.2;
+        ctx.beginPath(); ctx.arc(d[1],d[2],3.4,0,6.284); ctx.fill(); ctx.stroke();
       }
       ctx.globalAlpha=1;
+      if(leg) leg.innerHTML = tenues.length
+        ? tenues.sort((x,y)=>x.n.localeCompare(y.n)).map(({t,n})=>
+            `<s style="border-color:${couleur(t)}">${sansTag(n)}</s>`).join("")
+        : `<s class="vide">personne sur cette fenêtre</s>`;
     };
     fond.onload=trace; fond.src=sp.fond;
-    el.querySelectorAll(`.ccQui[data-i="${i}"],.ccSpawn[data-i="${i}"]`)
+    el.querySelectorAll(`.ccFen[data-i="${i}"],.ccEq[data-i="${i}"],.ccQui[data-i="${i}"]`)
       .forEach(c=>c.addEventListener("input",trace));
     trace();
   /* La carte est un ajout : si elle echoue, elle doit s'effacer seule et laisser
