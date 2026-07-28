@@ -58,8 +58,22 @@
     background:var(--signal);opacity:.55}
   .mbig b:hover{border-color:var(--ink-faint)}
   .mtab{border-radius:10px;overflow:hidden}
-  .mtr s,.mtr b{font-variant-numeric:tabular-nums}
-  .mtr:hover{background:var(--panel-2)}
+  .mtr s,.mtr b,.mtr4 s,.mtr4 b{font-variant-numeric:tabular-nums}
+  .mtr:hover,.mtr4:hover{background:var(--panel-2)}
+
+  /* Tableau des duels : quatre colonnes, et une jauge derriere le chiffre.
+     Un nombre seul ne se compare pas d'une ligne a l'autre sans effort ; la
+     barre donne l'ordre de grandeur avant meme qu'on lise. */
+  .mtab4 .mth,.mtr4{display:grid;grid-template-columns:1.6fr 1fr 1fr .7fr;gap:8px;
+    padding:7px 10px;align-items:center;font-size:13px}
+  .mtr4{border-top:1px solid var(--rule)}
+  .mtr4 b{font-weight:600;color:var(--ink)}
+  .mtr4 b em{display:block;font-style:normal;font-size:10.5px;color:var(--ink-dim);
+    letter-spacing:.06em}
+  .mtr4 s{text-decoration:none;position:relative;text-align:right;padding:2px 6px}
+  .mtr4 s .jauge{position:absolute;left:0;top:2px;bottom:2px;width:var(--p);
+    background:var(--c);opacity:.16;border-radius:3px;display:block}
+  .mtr4 s.pos{color:var(--live)} .mtr4 s.neg{color:var(--dead)}
 
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
@@ -2306,6 +2320,95 @@ function effectifDansLeTemps(lot){
   return total?{paliers,total}:null;
 }
 
+/* Effectif des DEUX camps, seconde par seconde : superiorite, egalite,
+   inferiorite.
+
+   `effectifDansLeTemps` ne compte que le notre, ce qui dit combien nous sommes
+   mais pas si nous dominons : quatre vivants contre quatre n'est pas quatre
+   contre deux. C'est ce differentiel qui explique une partie — on gagne le
+   temps ou l'on est plus nombreux. */
+function differentiel(lot){
+  const part={sup:0, eg:0, inf:0};
+  let total=0, pire=0, meilleur=0;
+  for(const a of lot){
+    const mien=monCamp(a), tous=(a.partie&&a.partie.slots)||[];
+    const eux=tous.filter(s=>!mien.includes(s));
+    if(!mien.length || !eux.length || !a.evenements) continue;
+    const ev=[...a.evenements].filter(e=>e.type==="mort"||e.type==="reapparition")
+      .sort((x,y)=>y.instant-x.instant);
+    if(!ev.length) continue;
+    const etat={}; for(const k of tous) etat[k]=true;
+    let i=0;
+    for(let t=ev[0].instant; t>=ev[ev.length-1].instant; t--){
+      while(i<ev.length && ev[i].instant===t){
+        etat[ev[i].slot] = ev[i].type==="reapparition"; i++;
+      }
+      const n=mien.filter(s=>etat[s]).length, e=eux.filter(s=>etat[s]).length;
+      part[n>e?"sup":(n===e?"eg":"inf")]++; total++;
+      if(e-n>pire) pire=e-n;
+      if(n-e>meilleur) meilleur=n-e;
+    }
+  }
+  return total?{...part, total, pire, meilleur}:null;
+}
+
+/* Bilan duel par duel, adversaire par adversaire.
+
+   « Qui nous tue » et « ce qu'on rend » existaient deja, mais en deux listes
+   separees — or ce qui se decide en debrief, c'est le SOLDE : un adversaire qui
+   nous prend huit frags et nous en rend huit n'est pas le meme probleme que
+   celui qui en prend huit et n'en rend qu'un. */
+function bilanDuels(lot){
+  const g=new Map();
+  const prendre=n=>{ if(!g.has(n)) g.set(n,{pris:0,rendu:0}); return g.get(n); };
+  let attribuees=0;
+  for(const a of lot){
+    for(const f of (a.frags||[])){
+      if(f.tueur===null || f.tueur===undefined) continue;
+      attribuees++;
+      if(estMien(a,f.victime)) prendre(nomDe(a,f.tueur)).pris++;
+      else if(estMien(a,f.tueur)) prendre(nomDe(a,f.victime)).rendu++;
+    }
+  }
+  if(!attribuees) return null;
+  return [...g.entries()].map(([n,o])=>({n, ...o, solde:o.rendu-o.pris}))
+    .sort((x,y)=>x.solde-y.solde || (y.pris-x.pris));   // le plus couteux d'abord
+}
+
+/* L'ouverture, chiffree : qui tombe le premier, et le bilan des premieres
+   secondes. C'est la partie de la partie qu'une strat prepare vraiment.
+
+   Le temps ecoule se lit sur `instant`, qui decompte : dans un meme fichier
+   `image + instant` est constant, donc l'instant du lancement se retrouve sans
+   rien supposer de la duree du mode. */
+function ouverture(lot, fenetre=60){
+  let pour=0, contre=0, parties=0, premiereSubie=0, delais=[];
+  for(const a of lot){
+    const ev=(a.evenements||[]).filter(e=>e.instant!=null && e.image!=null);
+    const fr=(a.frags||[]);
+    if(!ev.length || !fr.length) continue;
+    const C=ev[0].image+ev[0].instant;            // image + instant = constante
+    /* Le lancement est la premiere image de la partie, pas le premier
+       evenement : la premiere mort tombe plusieurs secondes apres le depart.
+       Seule l'analyse spatiale connait cette image ; sans elle on ne date pas
+       le premier contact, et on prefere ne rien afficher a afficher zero. */
+    const img0 = a.spatial && a.spatial.debut!=null ? a.spatial.debut : null;
+    const depart = img0!=null ? C-img0 : C-Math.min(...ev.map(e=>e.image));
+    parties++;
+    const premier=fr.reduce((b,f)=>f.instant>b.instant?f:b, fr[0]);
+    if(img0!=null) delais.push(depart-premier.instant);
+    if(estMien(a,premier.victime)) premiereSubie++;
+    for(const f of fr){
+      if(depart-f.instant>fenetre) continue;
+      if(estMien(a,f.victime)) contre++; else pour++;
+    }
+  }
+  if(!parties) return null;
+  delais.sort((x,y)=>x-y);
+  return {pour, contre, parties, premiereSubie, fenetre,
+          premierContact: delais.length?delais[Math.floor(delais.length/2)]:null};
+}
+
 /* Delai de reapparition : la mediane des sejours complets. */
 function delaiRetour(lot){
   const d=[];
@@ -2458,6 +2561,7 @@ function drawAna(){
 
   /* --- 1. global --- */
   const eff=effectifDansLeTemps(lot), ret=delaiRetour(lot), rev=revenge(lot), ech=echanges(lot);
+  const dif=differentiel(lot), duels=bilanDuels(lot), ouv=ouverture(lot);
   const nMorts=lot.reduce((a,x)=>a+(x.evenements||[]).filter(e=>e.type==="mort").length,0);
 
   /* La vue d'ensemble ne parle que de NOUS. Elle affichait les morts des deux
@@ -2585,7 +2689,55 @@ function drawAna(){
       l'endroit où les joueurs attendent leur réapparition. Une position par seconde.</p>`;
   }
 
-  el.innerHTML = importe + global + duel + joueurs + carte;
+  /* --- 4. controle du temps --- */
+  let controle="";
+  if(dif){
+    const pc=n=>Math.round(n/dif.total*100);
+    controle=`<h3>Contrôle du temps</h3><div class="mbig">
+      <b>${pc(dif.sup)} %<em>en supériorité</em></b>
+      <b>${pc(dif.eg)} %<em>à égalité</em></b>
+      <b>${pc(dif.inf)} %<em>en infériorité</em></b>
+      ${dif.pire?`<b>−${dif.pire}<em>pire écart subi</em></b>`:""}
+      ${dif.meilleur?`<b>+${dif.meilleur}<em>meilleur écart</em></b>`:""}
+      </div>
+      <p class="note">L'effectif seul dit combien nous sommes, pas si nous dominons :
+        quatre contre quatre n'est pas quatre contre deux. C'est ce différentiel qui
+        explique une partie, parce qu'on gagne le temps où l'on est plus nombreux.
+        Mesuré seconde par seconde sur ${dif.total} s.</p>`;
+  }
+
+  /* --- 5. l'ouverture --- */
+  let debut="";
+  if(ouv){
+    const solde=ouv.pour-ouv.contre;
+    debut=`<h3>Ouverture</h3><div class="mbig">
+      ${ouv.premierContact!=null
+        ?`<b>${ouv.premierContact} s<em>avant le premier frag</em></b>`:""}
+      <b>${ouv.pour} / ${ouv.contre}<em>frags les ${ouv.fenetre} premières s</em></b>
+      <b>${solde>0?"+":""}${solde}<em>solde d'ouverture</em></b>
+      <b>${Math.round(ouv.premiereSubie/ouv.parties*100)} %<em>premier mort chez nous</em></b>
+      </div>
+      <p class="note">Ce que la strat prépare vraiment. « Premier mort chez nous » dit
+        qui prend le premier contact : au-dessus de 50 %, on subit l'ouverture adverse
+        plus souvent qu'on ne l'impose.</p>`;
+  }
+
+  /* --- 6. duels --- */
+  let bilanD="";
+  if(duels && duels.length){
+    const m=Math.max(1,...duels.map(d=>Math.max(d.pris,d.rendu)));
+    bilanD=`<h3>Duels, adversaire par adversaire</h3><div class="mtab mtab4">
+      <div class="mth"><s>adversaire</s><s>nous prend</s><s>on lui rend</s><s>solde</s></div>`
+      + duels.map(d=>`<div class="mtr4"><b>${sansTag(d.n)}${tagDe(d.n)?`<em>${tagDe(d.n)}</em>`:""}</b>`
+        + `<s><i class="jauge" style="--p:${Math.round(d.pris/m*100)}%;--c:var(--dead)"></i>${d.pris}</s>`
+        + `<s><i class="jauge" style="--p:${Math.round(d.rendu/m*100)}%;--c:var(--live)"></i>${d.rendu}</s>`
+        + `<s class="${d.solde<0?"neg":(d.solde>0?"pos":"")}">${d.solde>0?"+":""}${d.solde}</s></div>`).join("")
+      + `</div><p class="note">Le solde, et non deux listes séparées : un adversaire qui nous
+         prend huit frags et nous en rend huit n'est pas le même problème que celui qui en
+         prend huit et n'en rend qu'un. Trié du plus coûteux au moins coûteux.</p>`;
+  }
+
+  el.innerHTML = importe + global + controle + debut + duel + bilanD + joueurs + carte;
 
   /* Un canvas ne se remplit pas par innerHTML : on trace apres coup, et de
      nouveau a chaque changement de filtre. La couleur suit le tag du pseudo et
