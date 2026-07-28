@@ -347,6 +347,7 @@
   /* Tableaux a six colonnes : effectif d'equipe, ou l'on veut voir le score. */
   .mtab6 .mth,.mtab6 .mtr{grid-template-columns:1.6fr repeat(5,1fr)}
   .mtab7 .mth,.mtab7 .mtr{grid-template-columns:1.5fr repeat(6,1fr)}
+  .mtab8 .mth,.mtab8 .mtr{grid-template-columns:1.4fr repeat(7,1fr)}
   /* Fiches par carte. Le fond est le calque des murs, pas le rendu couleur : il
      pese 2 ko au lieu de 100, et la silhouette du plan suffit a identifier la
      carte d'un coup d'oeil. */
@@ -2385,7 +2386,13 @@ async function chargeMatchsEnLigne(){
        retroactivement. Le tag d'une partie appartient a sa date. */
     lignes = await sbFetch("matchs?select=id,dt,h,carte,mode,resultat,notre_tag,"
       + "adverse_tag,colleur_k,colleur_d,colleur_a,pct_nous,pct_eux&order=dt.desc,h.desc");
-    scores = await sbFetch("scores_match?select=match_id,nom,kills,morts,assists,score");
+    /* `notre_equipe` est relu, alors qu'il ne l'etait pas. La base range les
+       pseudos SANS leur tag — « CROMx », pas « BVSxCROMx » — et porte le camp
+       dans cette colonne. Le site, lui, decoupait les camps sur le tag : faute
+       de tag, tout le monde sauf toi basculait chez l'adversaire, et l'effectif
+       de ton equipe se reduisait a une ligne. Le drapeau de la base fait foi ;
+       le tag ne sert plus que de secours pour les parties collees a la main. */
+    scores = await sbFetch("scores_match?select=match_id,nom,kills,morts,assists,score,notre_equipe");
     EVA_SB_OK = true;
   }catch(e){ EVA_SB_OK = false; return; }
   if(!Array.isArray(lignes) || !lignes.length) return;
@@ -2394,7 +2401,9 @@ async function chargeMatchsEnLigne(){
   for(const s of scores || []){
     if(!parMatch.has(s.match_id)) parMatch.set(s.match_id, []);
     parMatch.get(s.match_id).push({n:s.nom, k:s.kills, m:s.morts,
-                                   a:s.assists, s:s.score});
+                                   a:s.assists, s:s.score,
+                                   mien:s.notre_equipe===null||s.notre_equipe===undefined
+                                        ? undefined : !!s.notre_equipe});
   }
   const vus = new Set(MATCHS.map(m => `${m.dt||""} ${m.h||""}`));
   /* Les parties collees ici portent une carte normalisee (`cle`), sur laquelle
@@ -2725,9 +2734,17 @@ function revenge(lot, fenetre=20){
 function parJoueurAna(lot){
   const g=new Map();
   const prendre=nom=>{ if(!g.has(nom)) g.set(nom,{morts:0,ausol:0,sejours:0,
-    retours:0,accompagnes:0,subies:0,rendues:0,duree:0,imputes:0,retFrag:0,retRevenge:0,retMort:0,retRien:0}); return g.get(nom); };
+    retours:0,accompagnes:0,subies:0,rendues:0,duree:0,imputes:0,retFrag:0,retRevenge:0,retMort:0,retRien:0,
+    retAttrib:0}); return g.get(nom); };
   for(const a of lot){
     const mien=monCamp(a);
+    /* « Retour qui frag » a besoin de savoir QUI a tue : sans attribution, il
+       vaut zero pour tout le monde — et un zero se lit « ne frage jamais en
+       rentrant » quand il veut dire « on l'ignore ». On compte donc a part les
+       retours sur lesquels la question pouvait etre tranchee, et l'affichage
+       s'abstient quand ce compte est nul. « Retour qui remeurt », lui, n'a besoin
+       que de la mort, presente meme sans tueur : il reste valable partout. */
+    const aAttrib=(a.frags||[]).some(f=>f.tueur!=null);
     /* Duree de la partie, pour rapporter le temps a terre a quelque chose.
        En valeur absolue, « 166 s a terre » ne dit rien : c'est long ou court
        selon que la partie a dure quatre minutes ou dix.
@@ -2769,6 +2786,7 @@ function parJoueurAna(lot){
     for(const e of ret){
       if(ret.some(f=>f!==e && Math.abs(f.instant-e.instant)<=6))
         prendre(nomDe(a,e.slot)).accompagnes++;
+      if(aAttrib) prendre(nomDe(a,e.slot)).retAttrib++;
     }
     for(const f of (a.frags||[])){
       if(f.tueur===null||f.tueur===undefined) continue;
@@ -2801,6 +2819,36 @@ function parJoueurAna(lot){
 }
 
 
+
+/* Kills, morts et assists de NOTRE camp, pris sur les tableaux de fin de partie.
+
+   L'onglet Analyse ne montrait que des frags issus de l'attribution manuelle des
+   tueurs, faite sur une seule partie : la colonne etait vide partout ailleurs, et
+   disparaissait meme entierement selon le tri. Or le tableau de fin est saisi
+   pour les DIX-NEUF parties, et il porte deja les trois chiffres.
+
+   Les deux sources se recoupent, ce qui vaut controle : sur les neuf parties
+   contre GUN, la video compte 248 morts de notre cote et les tableaux 242 —
+   Tchernobyl 70 contre 70, LiX 59 contre 59, Tibco 55 contre 54. Seul CROMx
+   s'ecarte, 64 contre 59. Deux mesures independantes qui tombent a 2,5 % pres :
+   c'est la meilleure validation dont dispose la detection, et l'ecart restant
+   designe ou chercher.
+
+   Le rapprochement se fait sur le pseudo SANS son tag : les tableaux sont saisis
+   « Tchernobyl » quand la video lit « BVSxTchernobyl ». */
+function scoresDuTri(){
+  const g=new Map();
+  for(const m of LOT){
+    const c=camps(m);
+    for(const p of (c.mien||[])){
+      const k=sansTag(p.n).toLowerCase();
+      const o=g.get(k)||{n:0,k:0,m:0,a:0};
+      o.n++; o.k+=p.k||0; o.m+=p.m||0; o.a+=p.a||0;
+      g.set(k,o);
+    }
+  }
+  return g;
+}
 
 /* Une SEANCE : toutes les parties d'une meme date contre une meme equipe.
 
@@ -2935,37 +2983,49 @@ function drawAna(){
      comptait qui. Un tableau de bord d'equipe donne les chiffres de l'equipe. */
   const nous=parJoueurAna(lot);
   const nosMorts=nous.reduce((s,[,o])=>s+o.morts,0);
-  /* Nos frags et nos morts ne se comptent PAS sur le meme ensemble de parties.
-     Les morts viennent de la detection, qui tourne partout ; les frags viennent
-     de l'attribution des tueurs, qui reste manuelle et n'a ete faite que sur
-     certaines parties. Diviser l'un par l'autre melangeait donc un numerateur
-     partiel et un denominateur complet : avec dix-neuf parties analysees dont une
-     seule attribuee, le site annoncait 0,06 frag par mort la ou le rapport vaut
-     0,83 — de quoi lire une deroute dans un bilan correct.
+  /* Ne JAMAIS diviser deux mesures qui ne portent pas sur les memes parties.
+     C'est l'erreur qui a ete faite ici : les morts venaient de la detection, qui
+     tourne partout, et les frags de l'attribution des tueurs, manuelle et faite
+     sur une seule partie. Le rapport annoncait 0,06 frag par mort la ou il valait
+     0,83 — de quoi lire une deroute dans un bilan correct. Le K/D affiche vient
+     desormais des tableaux de fin, ou les deux termes sont saisis ensemble.
 
-     Le ratio se calcule donc sur les seules parties attribuees, des deux cotes de
-     la division, et l'entete dit sur combien de parties il porte. */
+     `lotAttrib` ne sert plus qu'a dater ce qui depend encore de l'attribution. */
   const lotAttrib=lot.filter(a=>(a.frags||[]).some(f=>f.tueur!=null));
-  const nousA=lotAttrib.length?parJoueurAna(lotAttrib):null;
-  const nosFrags=nousA?nousA.reduce((s,[,o])=>s+o.rendues,0):null;
-  const mortsA=nousA?nousA.reduce((s,[,o])=>s+o.morts,0):0;
-  const ratio=(nosFrags!==null&&mortsA)?nosFrags/mortsA:null;
   const parPartie=n=>lot.length?Math.round(n/lot.length*10)/10:0;
-  const parAttrib=n=>lotAttrib.length?Math.round(n/lotAttrib.length*10)/10:0;
   const surN=lotAttrib.length<lot.length
     ? ` — sur ${lotAttrib.length} partie${lotAttrib.length>1?"s":""} attribuée${lotAttrib.length>1?"s":""}` : "";
 
+  /* Le bilan se lit sur les TABLEAUX DE FIN, saisis pour chaque partie.
+
+     Il se lisait auparavant sur les tueurs attribues a la main, faits sur une
+     seule partie : les tuiles « frags », « frags par mort » et « revenge »
+     disparaissaient donc purement et simplement des qu'on triait sur une equipe
+     dont aucune partie n'avait ete depouillee — trois tuiles contre six selon le
+     tri, sans que rien n'explique la difference. Une mesure absente doit se dire,
+     pas s'evaporer.
+
+     Les trois chiffres viennent maintenant d'une source unique et complete, donc
+     comparables entre eux et d'un tri a l'autre. La revenge, elle, dependra
+     toujours de l'attribution : elle porte sa mention plutot que de s'effacer. */
+  const scG=scoresDuTri();
+  let sK=0, sM=0, sA=0, nLignes=0;
+  for(const [,o] of scG){ sK+=o.k; sM+=o.m; sA+=o.a; nLignes+=o.n; }
+  const kd=sM?sK/sM:null;
+
   let global=`<h4>Notre bilan${(FCARTE||FADV)?", sur ce tri":""}</h4><div class="mbig">
-    ${nosFrags!==null?`<b>${nosFrags}<em>frags — ${parAttrib(nosFrags)} par partie${surN}</em></b>`:""}
-    <b>${nosMorts}<em>morts — ${parPartie(nosMorts)} par partie</em></b>
-    ${ratio!==null?`<b>${(Math.round(ratio*100)/100).toFixed(2)}<em>frags par mort${surN}</em></b>`:""}
+    ${nLignes?`<b>${sK}<em>kills — ${parPartie(sK)} par partie</em></b>`:""}
+    <b>${nLignes?sM:nosMorts}<em>morts — ${parPartie(nLignes?sM:nosMorts)} par partie</em></b>
+    ${nLignes?`<b>${sA}<em>assists — ${parPartie(sA)} par partie</em></b>`:""}
+    ${kd!==null?`<b>${(Math.round(kd*100)/100).toFixed(2)}<em>K/D d'équipe</em></b>`:""}
     ${ret?`<b>${fr(ret.mediane)} s<em>retour médian</em></b>`:""}
     ${eff?`<b>${Math.round(eff.paliers[4]/eff.total*100)} %<em>équipe au complet</em></b>`:""}
-    ${rev?`<b>${Math.round(rev.taux*100)} %<em>revenge${surN}</em></b>`:""}
+    <b>${rev?Math.round(rev.taux*100)+" %":"—"}<em>revenge${rev?surN:" — aucune partie attribuée sur ce tri"}</em></b>
     </div>
     <p class="note">${lot.length} partie${lot.length>1?"s":""} analysée${lot.length>1?"s":""},
-      ${nMorts} morts relevées sur les deux camps. Tous les chiffres ci-dessus ne
-      comptent que <b>notre équipe</b>.</p>`;
+      ${nMorts} morts relevées sur les deux camps par la vidéo. Les chiffres ci-dessus ne
+      comptent que <b>notre équipe</b> ; kills, morts et assists viennent des tableaux de fin
+      de partie, le reste de la vidéo.</p>`;
 
   if(eff){
     const l=["à terre","1 vivant","2 vivants","3 vivants","complète"];
@@ -3009,24 +3069,45 @@ function drawAna(){
 
   /* --- 3. par joueur --- */
   const pj=parJoueurAna(lot);
-  const joueurs=!pj.length?"":`<h4>Par joueur</h4><div class="mtab mtab7">
-      <div class="mth"><s>joueur</s><s>morts</s><s>% du match mort</s>`
-    + `<s>retour qui frag</s><s>retour qui remeurt</s><s>revient seul</s><s>frags</s></div>`
-    + pj.map(([n,o])=>`<div class="mtr"><b>${sansTag(n)}${tagDe(n)?`<em>${tagDe(n)}</em>`:""}</b>`
-      + `<s>${o.morts}</s>`
+  /* Le K/D/A vient des tableaux de fin, saisis pour toutes les parties, et non
+     des frags attribues a la main sur une seule : la colonne « frags » etait vide
+     partout ailleurs, et se retrouvait seule a l'extremite droite du tableau,
+     detachee des chiffres auxquels elle se rapporte. Kills, morts et assists sont
+     desormais groupes en tete, dans cet ordre, comme un K/D/A se lit. */
+  const sc=scoresDuTri();
+  const li=n=>sc.get(sansTag(n).toLowerCase())||null;
+  const vus=pj.map(([n])=>li(n)).filter(Boolean);
+  const mortsTab=vus.reduce((s,o)=>s+o.m,0);
+  const mortsVid=pj.reduce((s,[,o])=>s+o.morts,0);
+  const joueurs=!pj.length?"":`<h4>Par joueur</h4><div class="mtab mtab8">
+      <div class="mth"><s>joueur</s><s>kills</s><s>morts</s><s>assists</s><s>% du match mort</s>`
+    + `<s>retour qui frag</s><s>retour qui remeurt</s><s>revient seul</s></div>`
+    + pj.map(([n,o])=>{ const q=li(n); return `<div class="mtr"><b>${sansTag(n)}${tagDe(n)?`<em>${tagDe(n)}</em>`:""}</b>`
+      + `<s>${q?q.k:"—"}</s>`
+      + `<s>${q?q.m:o.morts}</s>`
+      + `<s>${q?q.a:"—"}</s>`
       + `<s>${o.duree?Math.round(o.ausol/o.duree*100)+" %":"—"}</s>`
-      + `<s>${o.retours?Math.round(o.retFrag/o.retours*100)+" %":"—"}</s>`
+      + `<s>${o.retAttrib?Math.round(o.retFrag/o.retAttrib*100)+" %":"—"}</s>`
       + `<s>${o.retours?Math.round(o.retMort/o.retours*100)+" %":"—"}</s>`
-      + `<s>${o.retours?Math.round((o.retours-o.accompagnes)/o.retours*100)+" %":"—"}</s>`
-      + `<s>${ech?o.rendues:"—"}</s></div>`).join("")
-    + `</div><p class="note"><b>% du match mort</b> — la part de la partie que ce joueur
+      + `<s>${o.retours?Math.round((o.retours-o.accompagnes)/o.retours*100)+" %":"—"}</s></div>`; }).join("")
+    + `</div><p class="note"><b>Kills, morts et assists</b> viennent des tableaux de fin de
+       partie, saisis pour chaque partie — pas de l'attribution des tueurs, qui reste
+       manuelle. ${mortsTab?`La vidéo compte les morts de son côté, sans rien savoir de ces
+       tableaux : <b>${mortsVid}</b> contre <b>${mortsTab}</b> sur ce tri, soit
+       ${Math.round(Math.abs(mortsVid-mortsTab)/Math.max(mortsTab,1)*100)} % d'écart. Deux
+       mesures indépendantes qui se confirment ; là où elles divergent, c'est la détection
+       qu'il faut aller regarder.`:""}<br>
+       <b>% du match mort</b> — la part de la partie que ce joueur
        a passée à terre, en attente de réapparition. À 40 %, il est absent deux minutes sur
        cinq, et l'équipe joue à trois pendant ce temps-là. Quand une réapparition n'a pas été
        vue, la mort est comptée au délai médian plutôt qu'à zéro : sans quoi un joueur mal
        observé passerait pour plus présent qu'il ne l'était.<br>
        <b>Retour qui frag</b> et <b>retour qui remeurt</b> — sur ses réapparitions, la part
        suivie d'un frag, et la part suivie d'une mort sans avoir fragé, dans les vingt
-       secondes. Remplacent la durée moyenne d'attente, qui était la même pour tout le monde
+       secondes. La première demande de savoir qui a tué : sur un tri sans partie
+       attribuée elle affiche « — » plutôt que zéro, un zéro se lisant « ne frage jamais en
+       rentrant » quand il veut dire « on l'ignore ». La seconde n'a besoin que de la mort,
+       relevée partout, et reste donc valable sur tous les tris. Remplacent la durée moyenne d'attente, qui était la même pour tout le monde
        puisque le délai est fixé par le jeu, et ne distinguait donc personne. La capture
        n'y figure pas : l'emprise se mesure au niveau de l'équipe, rien ne permet de
        l'attribuer au joueur qui rentre.<br>
@@ -3575,6 +3656,17 @@ function migreV2(){
 function camps(m){
   const sb=sbOk(m), me=monPseudo();
   const monTag=(m&&m.tagN)||tagDe(me);
+  /* Si la partie porte le camp explicitement — c'est le cas de tout ce qui vient
+     de la base, ou la colonne `notre_equipe` le dit —, on s'en sert et on ne
+     devine rien. Le tag ne peut pas servir la : la base range les pseudos sans
+     leur tag, et un decoupage par tag y renverrait toute l'equipe en face. */
+  if(sb.some(p=>p.mien!==undefined)){
+    const mien=sb.filter(p=>p.mien), adv=sb.filter(p=>!p.mien);
+    const cnt=new Map();
+    for(const p of adv){ const t=tagDe(p.n); if(t) cnt.set(t,(cnt.get(t)||0)+1); }
+    const top=[...cnt.entries()].sort((a,b)=>b[1]-a[1])[0];
+    return {mien, adv, tagAdv:(m&&m.tagA)||(top?top[0]:null)};
+  }
   if(!me && !monTag){
     /* Sans pseudo ni tag, on ne SAIT pas qui est de quel cote. Tout mettre de
        notre cote ferait passer l'adversaire pour un coequipier ; on rend deux
