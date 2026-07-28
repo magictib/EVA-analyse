@@ -50,10 +50,15 @@
     --dead:#ff4d5e;
     --live:#5ddc8a;
 
-    /* Textes — contraste vise AA sur le fond anthracite. */
+    /* Textes — contraste vise AA sur le fond anthracite, et desormais MESURE :
+       ink 15,6:1, ink-dim 7,7:1, ink-faint 4,6:1, tous au-dessus des 4,5:1 exiges
+       pour un texte courant. `--ink-faint` valait #71717a, soit 4,09:1 : il
+       passait pour discret alors qu'il etait simplement sous le seuil, et c'est
+       lui qui porte les mentions de methode sous les tableaux — le texte qu'on
+       lit justement quand on doute d'un chiffre. */
     --ink:#e4e4e6;
     --ink-dim:#a1a1aa;
-    --ink-faint:#71717a;
+    --ink-faint:#7f7f89;
     --dim:#a1a1aa;
 
     --titre:"Rajdhani","Chakra Petch",var(--ui);
@@ -1529,6 +1534,36 @@ function selfTest(){
     "Les deux camps se séparent par leur tag",
     `${cc.mien.length} avec toi · ${cc.adv.length} en face · adversaire ${cc.tagAdv}`);
 
+  /* Notre camp se lit sur le TAG, jamais sur la place des cartes a l'ecran.
+     Contre GUN nos joueurs tenaient les quatre derniers emplacements, contre FXC
+     les quatre premiers : prendre les derniers echangeait nos statistiques et
+     celles de l'adversaire sur dix parties, sans qu'aucun total ne bronche. */
+  const anaFXC={partie:{dt:"2026-07-23",h:"18:48",slots:[1,2,3,4,6,7,8,9],
+      camps:{BVS:[1,2,3,4],FXC:[6,7,8,9]},notre_tag:"BVS",adverse_tag:"FXC"},
+    noms:{1:"BVSxTibco",2:"BVSxCROMx",3:"BVSxLiX",4:"BVSxTchernobyl",
+          6:"FXCxParziRahl",7:"FXCxSky",8:"FXCxNoxis",9:"FXCxValtor"},evenements:[]};
+  const anaGUN={partie:{dt:"2026-07-21",h:"19:03",slots:[1,2,3,4,6,7,8,9]},
+    noms:{1:"GUNxHippocampe",2:"GUNxRhino",3:"GUNxRabitte",4:"GUNxPhasme",
+          6:"BVSxLiX",7:"BVSxTchernobyl",8:"BVSxCROMx",9:"BVSxTibco"},evenements:[]};
+  const sv1=PSEUDO; PSEUDO="BVSxTibco";
+  const cFXC=monCamp(anaFXC).join(","), cGUN=monCamp(anaGUN).join(",");
+  PSEUDO=sv1;
+  T(cFXC==="1,2,3,4" && cGUN==="6,7,8,9",
+    "Notre camp se lit sur le tag, pas sur la place des cartes",
+    `contre FXC : [${cFXC}] · contre GUN : [${cGUN}]`);
+
+  /* Et le tag d'une partie appartient a SA DATE. Il y a un mercato en fin
+     d'annee : redecouper d'anciennes parties avec le tag courant rangerait tes
+     anciens coequipiers du cote adverse, et retournerait tout l'historique. */
+  const vieille={res:"V", tagN:"BVS", tagA:"SLR",
+    sb:[{n:"BVSxTibco",k:9,m:2,a:4,s:80},{n:"BVSxAlex",k:3,m:5,a:1,s:40},
+        {n:"SLRxWire",k:6,m:6,a:2,s:55},{n:"SLRxGrom",k:4,m:7,a:0,s:35}]};
+  const sv2=PSEUDO; PSEUDO="G2xTibco";      /* mercato : parti chez G2 */
+  const cv=camps(vieille); PSEUDO=sv2;
+  T(cv.mien.length===2 && cv.tagAdv==="SLR",
+    "Après un mercato, les anciennes parties gardent leurs camps",
+    `${cv.mien.length} coéquipiers retrouvés · adversaire ${cv.tagAdv}`);
+
   /* Le catalogue doit couvrir toutes les cartes du jeu, et chacune avoir sa photo.
      Une carte ajoutee a NOMCARTE sans vignette passerait sinon inapercue. */
   const toutes=[...new Set(Object.values(NOMCARTE))];
@@ -1981,22 +2016,37 @@ async function chargeAnalysesDuDepot(){
   if(!Array.isArray(liste)) return;
   const vues=new Set(ANALYSES.map(cleAna));
   let ajout=0;
-  for(const f of liste){
+  /* Les fichiers sont demandes ensemble et non l'un apres l'autre. A une seule
+     analyse la difference ne se voyait pas ; a dix-neuf, une attente en file
+     ajoutait dix-neuf allers-retours bout a bout avant le premier affichage.
+     Le tri, lui, reste fait dans l'ordre de la liste et non dans celui des
+     reponses : deux ouvertures du site doivent retenir les memes analyses, or
+     c'est le premier arrive qui l'emporte en cas de doublon de date et d'heure —
+     le laisser dependre de la vitesse du reseau rendrait le resultat instable. */
+  const recues=await Promise.all(liste.map(async f=>{
     try{
       const rep=await fetch("analyses/"+f,{cache:"no-cache"});
-      if(!rep.ok) continue;
-      const x=await rep.json();
-      /* Meme controle qu'a l'import manuel : sans evenements ni date, l'analyse
-         ne se rattache a rien et n'apparaitrait dans aucun tri. */
-      if(!x || !Array.isArray(x.evenements) || !x.partie || !x.partie.dt || !x.partie.h) continue;
-      if(vues.has(cleAna(x))) continue;
-      x._depot=true;
-      ANALYSES.push(x); vues.add(cleAna(x)); ajout++;
-    }catch(e){}
+      return rep.ok ? await rep.json() : null;
+    }catch(e){ return null; }
+  }));
+  for(const x of recues){
+    /* Meme controle qu'a l'import manuel : sans evenements ni date, l'analyse
+       ne se rattache a rien et n'apparaitrait dans aucun tri. */
+    if(!x || !Array.isArray(x.evenements) || !x.partie || !x.partie.dt || !x.partie.h) continue;
+    if(vues.has(cleAna(x))) continue;
+    x._depot=true;
+    ANALYSES.push(x); vues.add(cleAna(x)); ajout++;
   }
   if(ajout && typeof drawAna==="function" && document.querySelector("#ana")) drawAna();
 }
-chargeAnalysesDuDepot();
+/* La lecture du depot est retenue pour que la lecture en ligne l'attende.
+   A partie egale c'est le PREMIER arrive qui reste, et les deux sources portent
+   l'Atlantis du 21/07 : celle du depot est complete — fond de carte, trajets,
+   emprise —, celle de la base est une version ancienne qui n'a que la
+   chronologie. Les laisser courir l'une contre l'autre faisait dependre le
+   contenu affiche de la latence du reseau, donc changer d'une ouverture a
+   l'autre sans raison visible. */
+const DEPOT_PRET = chargeAnalysesDuDepot();
 
 /* ---------------------------------------------------------- base en ligne
    Acces direct a PostgREST, sans le SDK Supabase : le site est un fichier unique
@@ -2060,6 +2110,12 @@ async function chargeAnalysesEnLigne(){
   let rows;
   try{ rows=await sbFetch("parties?select=brut&order=dt.desc"); EVA_SB_OK=true; }
   catch(e){ EVA_SB_OK=false; return; }
+  /* On attend le depot avant de decider quoi ajouter. Les deux sources se
+     recouvrent, et c'est le premier arrive qui reste : sans cette attente, la
+     version retenue dependait de la latence — le depot, complet, perdait parfois
+     contre une version ancienne de la base. La requete, elle, est deja partie :
+     on attend seulement pour comparer, pas pour demander. */
+  try{ await DEPOT_PRET; }catch(e){}
   const vues=new Set(ANALYSES.map(cleAna));
   let n=0;
   for(const r of rows||[]){
@@ -2315,8 +2371,14 @@ chargeAnalysesEnLigne();
 async function chargeMatchsEnLigne(){
   let lignes, scores;
   try{
-    lignes = await sbFetch("matchs?select=id,dt,h,carte,mode,resultat,"
-      + "colleur_k,colleur_d,colleur_a,pct_nous,pct_eux&order=dt.desc,h.desc");
+    /* `notre_tag` et `adverse_tag` sont relus, alors qu'ils ne l'etaient pas :
+       la base les portait, `syncMatchs` les ecrivait, et le site les ignorait
+       pour redecouper les camps avec le tag du pseudo COURANT. Or un mercato a
+       lieu en fin d'annee : changer d'equipe faisait alors basculer tout
+       l'historique, et les anciens coequipiers devenaient des adversaires
+       retroactivement. Le tag d'une partie appartient a sa date. */
+    lignes = await sbFetch("matchs?select=id,dt,h,carte,mode,resultat,notre_tag,"
+      + "adverse_tag,colleur_k,colleur_d,colleur_a,pct_nous,pct_eux&order=dt.desc,h.desc");
     scores = await sbFetch("scores_match?select=match_id,nom,kills,morts,assists,score");
     EVA_SB_OK = true;
   }catch(e){ EVA_SB_OK = false; return; }
@@ -2339,6 +2401,7 @@ async function chargeMatchsEnLigne(){
     if(!l.dt || !l.h || vus.has(cle)) continue;
     const p={dt:l.dt, h:l.h, carte:l.carte||"", cle:norm(l.carte),
              mode:l.mode||"", res:l.resultat||"",
+             tagN:l.notre_tag||null, tagA:l.adverse_tag||null,
              pctN:l.pct_nous, pctE:l.pct_eux,
              sb:parMatch.get(l.id) || [], _base:true};
     /* Ne poser k/m/a QUE s'ils existent. `maLigne` teste `m.k !== undefined`,
@@ -2371,7 +2434,33 @@ function analysesRetenues(){
   return ANALYSES.filter(a=>cles.has(cleAna(a)));
 }
 
-const monCamp = a => (a.partie&&a.partie.slots||[]).slice(4);
+/* Notre camp se lit sur le TAG des pseudos, pas sur la position des cartes.
+   La position paraissait sure — nos quatre cartes etaient les quatre dernieres —
+   mais elle ne l'est que dans un affrontement : contre GUN nous occupions les
+   emplacements 5 a 8, contre FXC les emplacements 1 a 4. Prendre les quatre
+   derniers aurait donc compte les statistiques de FXC comme les notres et les
+   notres comme celles de l'adversaire, sur les dix parties du 23 juillet, sans
+   qu'aucun total ne paraisse anormal — l'inversion est parfaitement silencieuse.
+
+   On ne retient le tag que s'il designe exactement quatre joueurs : un pseudo mal
+   lu ne doit pas fabriquer une equipe a trois. Sinon on retombe sur l'ancienne
+   regle, qui vaut pour les parties deja publiees. */
+const monCamp = a => {
+  const p=a.partie||{}, slots=p.slots||[], noms=a.noms||{};
+  const t=(notreTag()||"BVS").toUpperCase();
+  /* 1. Ce que l'analyse DECLARE. Les fichiers recents portent `camps`, qui dit
+        quel tag tient quels casques : rien a deduire, donc rien a deduire de
+        travers. */
+  if(p.camps && Array.isArray(p.camps[t]) && p.camps[t].length) return p.camps[t];
+  /* 2. Sinon le tag lu sur les pseudos, s'il designe exactement quatre joueurs —
+        un pseudo mal lu ne doit pas fabriquer une equipe a trois. */
+  const miens=slots.filter(s=>String(noms[String(s)]||"").toUpperCase().startsWith(t+"X"));
+  if(miens.length===4) return miens;
+  /* 3. En dernier recours seulement, la position des cartes. Elle valait contre
+        GUN, ou nous tenions les quatre dernieres, et pas contre FXC, ou nous
+        tenions les quatre premieres. */
+  return slots.slice(4);
+};
 const estMien = (a,slot) => monCamp(a).includes(slot);
 const nomDe   = (a,slot) => (a.noms&&a.noms[String(slot)]) || `slot ${slot}`;
 
@@ -2788,17 +2877,33 @@ function drawAna(){
      comptait qui. Un tableau de bord d'equipe donne les chiffres de l'equipe. */
   const nous=parJoueurAna(lot);
   const nosMorts=nous.reduce((s,[,o])=>s+o.morts,0);
-  const nosFrags=ech?nous.reduce((s,[,o])=>s+o.rendues,0):null;
-  const ratio=(nosFrags!==null&&nosMorts)?nosFrags/nosMorts:null;
-  const parPartie=n=>lot.length?Math.round(n/lot.length*10)/10:0;
+  /* Nos frags et nos morts ne se comptent PAS sur le meme ensemble de parties.
+     Les morts viennent de la detection, qui tourne partout ; les frags viennent
+     de l'attribution des tueurs, qui reste manuelle et n'a ete faite que sur
+     certaines parties. Diviser l'un par l'autre melangeait donc un numerateur
+     partiel et un denominateur complet : avec dix-neuf parties analysees dont une
+     seule attribuee, le site annoncait 0,06 frag par mort la ou le rapport vaut
+     0,83 — de quoi lire une deroute dans un bilan correct.
 
-  let global=`<h4>Notre bilan${(FCARTE||FADV)?", sur ce tri":""}</h3><div class="mbig">
-    ${nosFrags!==null?`<b>${nosFrags}<em>frags — ${parPartie(nosFrags)} par partie</em></b>`:""}
+     Le ratio se calcule donc sur les seules parties attribuees, des deux cotes de
+     la division, et l'entete dit sur combien de parties il porte. */
+  const lotAttrib=lot.filter(a=>(a.frags||[]).some(f=>f.tueur!=null));
+  const nousA=lotAttrib.length?parJoueurAna(lotAttrib):null;
+  const nosFrags=nousA?nousA.reduce((s,[,o])=>s+o.rendues,0):null;
+  const mortsA=nousA?nousA.reduce((s,[,o])=>s+o.morts,0):0;
+  const ratio=(nosFrags!==null&&mortsA)?nosFrags/mortsA:null;
+  const parPartie=n=>lot.length?Math.round(n/lot.length*10)/10:0;
+  const parAttrib=n=>lotAttrib.length?Math.round(n/lotAttrib.length*10)/10:0;
+  const surN=lotAttrib.length<lot.length
+    ? ` — sur ${lotAttrib.length} partie${lotAttrib.length>1?"s":""} attribuée${lotAttrib.length>1?"s":""}` : "";
+
+  let global=`<h4>Notre bilan${(FCARTE||FADV)?", sur ce tri":""}</h4><div class="mbig">
+    ${nosFrags!==null?`<b>${nosFrags}<em>frags — ${parAttrib(nosFrags)} par partie${surN}</em></b>`:""}
     <b>${nosMorts}<em>morts — ${parPartie(nosMorts)} par partie</em></b>
-    ${ratio!==null?`<b>${(Math.round(ratio*100)/100).toFixed(2)}<em>frags par mort</em></b>`:""}
+    ${ratio!==null?`<b>${(Math.round(ratio*100)/100).toFixed(2)}<em>frags par mort${surN}</em></b>`:""}
     ${ret?`<b>${fr(ret.mediane)} s<em>retour médian</em></b>`:""}
     ${eff?`<b>${Math.round(eff.paliers[4]/eff.total*100)} %<em>équipe au complet</em></b>`:""}
-    ${rev?`<b>${Math.round(rev.taux*100)} %<em>revenge</em></b>`:""}
+    ${rev?`<b>${Math.round(rev.taux*100)} %<em>revenge${surN}</em></b>`:""}
     </div>
     <p class="note">${lot.length} partie${lot.length>1?"s":""} analysée${lot.length>1?"s":""},
       ${nMorts} morts relevées sur les deux camps. Tous les chiffres ci-dessus ne
@@ -2963,14 +3068,20 @@ function drawAna(){
         + `<s class="${d.solde<0?"neg":(d.solde>0?"pos":"")}">${d.solde>0?"+":""}${d.solde}</s></div>`).join("")
       + `</div><p class="note">Le solde, et non deux listes séparées : un adversaire qui nous
          prend huit frags et nous en rend huit n'est pas le même problème que celui qui en
-         prend huit et n'en rend qu'un. Trié du plus coûteux au moins coûteux.</p>`;
+         prend huit et n'en rend qu'un. Trié du plus coûteux au moins coûteux.
+         ${lotAttrib.length<lot.length
+           ? `Ce tableau ne peut porter que sur les parties dont les tueurs ont été
+              attribués — <b>${lotAttrib.length}</b> sur les ${lot.length} du tri —, l'attribution
+              n'étant pas encore automatisée. Un adversaire absent d'ici n'est donc pas
+              inoffensif : il n'a simplement pas encore été dépouillé.`
+           : ""}</p>`;
   }
 
   /* --- 4bis. ecarts au score --- */
   let score="";
   if(ecarts){
     const u=ecarts.pts?" pts":"";
-    score=`<h4>Écarts au score${(FCARTE||FADV)?", sur ce tri":""}</h3><div class="mbig">
+    score=`<h4>Écarts au score${(FCARTE||FADV)?", sur ce tri":""}</h4><div class="mbig">
       ${ecarts.v!=null?`<b>+${ecarts.v}${u}<em>écart moyen en victoire</em></b>`:""}
       ${ecarts.d!=null?`<b>−${ecarts.d}${u}<em>écart moyen en défaite</em></b>`:""}
       <b>${ecarts.nv} / ${ecarts.nd}<em>victoires / défaites comptées</em></b>
@@ -3315,18 +3426,34 @@ function migreV2(){
   return {n:c};
 }
 
+/* Le decoupage en deux camps d'une partie.
+
+   Le tag retenu est celui que la PARTIE porte (`tagN`, ecrit le jour ou elle a
+   ete enregistree), et non celui du pseudo courant. La difference n'apparait
+   qu'apres un mercato — il y en a un en fin d'annee — mais elle est alors totale
+   et silencieuse : decouper d'anciennes parties avec un nouveau tag range tes
+   anciens coequipiers du cote adverse, et retourne d'un coup tout l'historique.
+   Le tag d'une partie appartient a sa date. */
 function camps(m){
-  const sb=sbOk(m), me=monPseudo(), monTag=tagDe(me);
-  if(!me) return {mien:sb.slice(),adv:[],tagAdv:null};
+  const sb=sbOk(m), me=monPseudo();
+  const monTag=(m&&m.tagN)||tagDe(me);
+  if(!me && !monTag){
+    /* Sans pseudo ni tag, on ne SAIT pas qui est de quel cote. Tout mettre de
+       notre cote ferait passer l'adversaire pour un coequipier ; on rend deux
+       camps vides, et l'appelant n'affiche rien plutot qu'un chiffre faux. */
+    return {mien:[],adv:[],tagAdv:null,inconnu:true};
+  }
   const mien=[], adv=[];
   for(const p of sb){
     const t=tagDe(p.n);
+    /* Toi, toujours de ton cote : si le tag enregistre sur la partie etait faux,
+       il ne doit pas te ranger chez l'adversaire. */
     if(p.n===me || (monTag && t===monTag)) mien.push(p); else adv.push(p);
   }
   const cnt=new Map();
   for(const p of adv){ const t=tagDe(p.n); if(t) cnt.set(t,(cnt.get(t)||0)+1); }
   const top=[...cnt.entries()].sort((a,b)=>b[1]-a[1])[0];
-  return {mien,adv,tagAdv:top?top[0]:null};
+  return {mien,adv,tagAdv:(m&&m.tagA)||(top?top[0]:null)};
 }
 /* Effectifs des deux camps, cumules sur toutes les parties detaillees. Cote
    adverse le "v" compte leurs victoires, donc tes defaites. */
