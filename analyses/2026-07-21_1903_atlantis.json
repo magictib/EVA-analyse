@@ -2108,6 +2108,8 @@
     "unite": "pixel de minimap",
     "debut": 13,
     "fin": 468,
+    "partie_debut": 12,
+    "partie_fin": 474,
     "spawns": {
       "GUN": [
         31.0,

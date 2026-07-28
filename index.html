@@ -2629,7 +2629,7 @@ function revenge(lot, fenetre=20){
 function parJoueurAna(lot){
   const g=new Map();
   const prendre=nom=>{ if(!g.has(nom)) g.set(nom,{morts:0,ausol:0,sejours:0,
-    retours:0,accompagnes:0,subies:0,rendues:0,duree:0,imputes:0}); return g.get(nom); };
+    retours:0,accompagnes:0,subies:0,rendues:0,duree:0,imputes:0,retFrag:0,retRevenge:0,retMort:0,retRien:0}); return g.get(nom); };
   for(const a of lot){
     const mien=monCamp(a);
     /* Duree de la partie, pour rapporter le temps a terre a quelque chose.
@@ -2640,9 +2640,10 @@ function parJoueurAna(lot){
        derniers vont de la premiere mort au dernier retour, ce qui amputait la
        partie de ses premieres secondes — 448 s au lieu de 455 sur Atlantis. */
     const ins=(a.evenements||[]).map(e=>e.instant).filter(x=>x!=null);
-    const duree=(a.spatial && a.spatial.fin>a.spatial.debut)
-      ? a.spatial.fin-a.spatial.debut
-      : (ins.length?Math.max(...ins)-Math.min(...ins):0);
+    const sp=a.spatial||{};
+    const duree=(sp.partie_fin>sp.partie_debut) ? sp.partie_fin-sp.partie_debut
+      : (sp.fin>sp.debut ? sp.fin-sp.debut
+        : (ins.length?Math.max(...ins)-Math.min(...ins):0));
     for(const k of mien) prendre(nomDe(a,k)).duree+=duree;
     for(const e of (a.evenements||[])){
       if(!mien.includes(e.slot)) continue;
@@ -2677,6 +2678,28 @@ function parJoueurAna(lot){
       if(f.tueur===null||f.tueur===undefined) continue;
       if(estMien(a,f.victime)) prendre(nomDe(a,f.victime)).subies++;
       if(estMien(a,f.tueur))   prendre(nomDe(a,f.tueur)).rendues++;
+    }
+
+    /* Ce qu'un retour PRODUIT, dans les vingt secondes qui suivent. « Retour
+       moyen » ne disait que la duree d'une attente, identique pour tous puisque
+       le delai est fixe — donc rien. Ce qui compte est ce qu'on en fait :
+       reprendre un frag, venger sa mort, ou retomber sans avoir tire. */
+    const FEN=20;
+    for(const e of ret){
+      const o=prendre(nomDe(a,e.slot));
+      const sien=(a.frags||[]).filter(f=>f.tueur===e.slot
+        && f.instant<e.instant && f.instant>=e.instant-FEN);
+      const remort=(a.frags||[]).find(f=>f.victime===e.slot
+        && f.instant<e.instant && f.instant>=e.instant-FEN);
+      /* Le tueur de la mort qui precede ce retour : venger, c'est le reprendre
+         lui, pas n'importe qui. */
+      const mortAvant=(a.frags||[]).filter(f=>f.victime===e.slot && f.instant>e.instant)
+        .sort((x,y)=>x.instant-y.instant)[0];
+      if(sien.length){
+        o.retFrag++;
+        if(mortAvant && sien.some(f=>f.victime===mortAvant.tueur)) o.retRevenge++;
+      }else if(remort){ o.retMort++; }
+      else{ o.retRien++; }
     }
   }
   return [...g.entries()].sort((x,y)=>y[1].morts-x[1].morts);
@@ -2824,23 +2847,29 @@ function drawAna(){
   /* --- 3. par joueur --- */
   const pj=parJoueurAna(lot);
   const joueurs=!pj.length?"":`<h4>Par joueur</h4><div class="mtab mtab6">
-      <div class="mth"><s>joueur</s><s>morts</s><s>part à terre</s><s>retour moyen</s>`
-    + `<s>revient seul</s><s>frags</s></div>`
+      <div class="mth"><s>joueur</s><s>morts</s><s>% du match mort</s>`
+    + `<s>retour qui frag</s><s>revient seul</s><s>frags</s></div>`
     + pj.map(([n,o])=>`<div class="mtr"><b>${sansTag(n)}${tagDe(n)?`<em>${tagDe(n)}</em>`:""}</b>`
       + `<s>${o.morts}</s>`
       + `<s>${o.duree?Math.round(o.ausol/o.duree*100)+" %":"—"}</s>`
-      + `<s>${o.sejours?fr(Math.round(o.ausol/o.sejours))+" s":"—"}</s>`
+      + `<s>${o.retours?Math.round(o.retFrag/o.retours*100)+" %"
+           +(o.retRevenge?` <i>dont ${o.retRevenge} rev.</i>`:""):"—"}</s>`
       + `<s>${o.retours?Math.round((o.retours-o.accompagnes)/o.retours*100)+" %":"—"}</s>`
       + `<s>${ech?o.rendues:"—"}</s></div>`).join("")
-    + `</div><p class="note"><b>Part à terre</b> — sur 10 minutes de jeu, combien de minutes
-       ce joueur a passées mort. À 30 %, il manque un tiers du temps : l'équipe joue à trois
-       contre quatre pendant ce tiers. Mesuré sur les séjours relevés ; quand une
-       réapparition n'a pas été vue, la mort est comptée au délai médian plutôt qu'à zéro —
-       sans quoi un joueur mal observé passerait pour plus présent qu'il ne l'était.<br>
-       <b>Retour moyen</b> — combien de temps dure UNE attente de réapparition.<br>
-       <b>Revient seul</b> — quand il réapparaît, personne d'autre ne revient dans les six
-       secondes qui suivent. Il repart donc seul dans une carte tenue par l'adversaire, et
-       s'y fait cueillir. Un chiffre haut se corrige en attendant un coéquipier au spawn.</p>`;
+    + `</div><p class="note"><b>% du match mort</b> — la part de la partie que ce joueur
+       a passée à terre, en attente de réapparition. À 40 %, il est absent deux minutes sur
+       cinq, et l'équipe joue à trois pendant ce temps-là. Quand une réapparition n'a pas été
+       vue, la mort est comptée au délai médian plutôt qu'à zéro : sans quoi un joueur mal
+       observé passerait pour plus présent qu'il ne l'était.<br>
+       <b>Retour qui frag</b> — sur ses réapparitions, la part suivie d'un frag dans les
+       vingt secondes. « rev. » compte celles où il reprend précisément celui qui venait de
+       le tuer. Remplace la durée moyenne d'attente, qui était la même pour tout le monde
+       puisque le délai est fixe, et ne disait donc rien.<br>
+       <b>Revient seul</b> — quand il réapparaît, aucun coéquipier ne revient dans les six
+       secondes. Il repart donc seul face à une carte tenue. <b>Ce n'est pas un reproche</b> :
+       revenir seul est parfois le bon choix — reprendre un angle, gêner une capture — et
+       c'est souvent subi, quand les autres sont morts à un autre moment. À lire comme une
+       exposition, pas comme une faute.</p>`;
 
   /* --- 4. sur la carte ---
      Les positions viennent de la chaine video (detect.py, trajets.py,
@@ -3687,7 +3716,7 @@ function drawCat(){
       ${cib.equipes.map(t=>`<option value="equipe|${t}"${CIBLE.t==="equipe"&&CIBLE.v===t?" selected":""}>équipe ${t}</option>`).join("")}
       ${cib.joueurs.map(n=>`<option value="joueur|${n}"${CIBLE.t==="joueur"&&CIBLE.v===n?" selected":""}>${n}</option>`).join("")}
     </select></div>`;
-  const fiches=sel+cles.map(c=>{
+  const fiches=cles.map(c=>{
     const M0=MAPS[c], ph=CIMG[c], o=bil.get(c), armes=catArmes(c), md=DPROF.med[c];
     const dim=M0?`${fr(M0.w/M0.ppm,1)} × ${fr(M0.h/M0.ppm,1)} m`:null;
     return `<div class="ccard">
@@ -3711,7 +3740,7 @@ function drawCat(){
         :`<button disabled>Plan indisponible</button>`}</div>
     </div>`;
   }).join("");
-  $("#cart").innerHTML = `<div class="cgrid">${fiches}</div>`;
+  $("#cart").innerHTML = sel + `<div class="cgrid">${fiches}</div>`;
 }
 
 function drawAcc(){
