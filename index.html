@@ -823,13 +823,18 @@
       <button data-tg="mov" aria-pressed="false" disabled>En mouvement</button>
     </div>
     <div class="seg" id="cone" role="group" aria-label="Lecture de l'angle de dispersion">
-      <button data-cone="half" aria-pressed="true">Angle = demi-cône</button>
-      <button data-cone="full" aria-pressed="false">Angle = cône total</button>
+      <button data-cone="half" aria-pressed="false">Angle = demi-cône</button>
+      <button data-cone="full" aria-pressed="true">Angle = cône total</button>
     </div>
     <p class="hypnote">EVA publie un angle de dispersion sans dire s'il désigne le demi-angle
-      du cône ou son ouverture totale. Lu comme cône total, les rayons sont divisés par deux
-      et les ratés commencent 4 à 5 m plus loin. Une rafale sur un mur à distance connue,
-      groupement mesuré, tranche la question.</p>
+      du cône ou son ouverture totale. La description du M12 Tactical relevée par Thibaud
+      (vidéo de wire_fps) tranche en faveur du <b>cône total</b> : le tir normal « projette une
+      gerbe complète formant un cône de dispersion circulaire global face au joueur », et
+      « conserve une logique de zone d'impact en cône et non une coupe en demi-cône ». C'est
+      donc la lecture retenue par défaut depuis le 29/07/2026 — les rayons sont divisés par
+      deux et les ratés commencent 4 à 5 m plus loin. L'autre lecture reste disponible ici.
+      Ce qu'une description ne remplace pas : une rafale sur un mur à distance connue,
+      groupement mesuré, qui donnerait l'angle réel plutôt que son récit.</p>
   </div>
 </details>
 
@@ -1020,10 +1025,23 @@ const DISP_MODEL = {
 };
 let DMODEL = "uniform";
 /* CONE : le chiffre publié est-il le demi-angle du cône, ou son ouverture totale ?
-   La question n'est pas tranchée et déplace le début des ratés de 4 à 5 m.
-   Un test en salle (rafale sur un mur à distance connue, mesure du groupement)
-   la tranche ; en attendant, elle est exposée comme une hypothèse réglable. */
-let CONE = "half";
+
+   **Tranché le 29/07/2026, en faveur de l'ouverture totale.** La description du
+   M12 Tactical relevée par Thibaud (vidéo de wire_fps) dit que le tir normal
+   « projette une gerbe complète — les 12 impacts — formant un cône de dispersion
+   circulaire GLOBAL face au joueur », et qu'il « conserve une logique de zone
+   d'impact en cône et non une coupe en demi-cône ». L'angle publié décrit donc
+   l'ouverture entière, et le demi-angle en vaut la moitié.
+
+   Ce que ça change : les rayons de groupement sont divisés par deux, donc les
+   ratés commencent 4 à 5 m plus loin et toutes les armes touchent davantage.
+   C'était l'hypothèse la plus lourde du modèle de dispersion ; elle reste
+   réglable — le bouton est toujours là — mais elle n'est plus arbitraire.
+
+   Ce qu'une source écrite ne remplace pas : un test en salle, rafale sur un mur
+   à distance connue et mesure du groupement, qui donnerait l'angle réel plutôt
+   que sa description. */
+let CONE = "full";
 function hitRate(w,x,z,moving){
   const deg = (moving && w.dmove!==undefined) ? w.dmove : w.disp;
   if(!deg || x<=0) return 1;
@@ -1187,9 +1205,19 @@ function drawCompo(){
   if(!c){ el.innerHTML=""; return; }
   const pc=x=>Math.round(x*100)+" %";
   const arme=w=>`<b>${w.n}</b><em>${w.c}</em>`;
+  /* La zone n'est pas un reglage d'affichage, c'est une composante du role : on
+     ne joue pas un sniper au torse. Quand la vue courante n'est pas la tete, on
+     montre ce que la tete changerait — sans l'imposer, faute de savoir a quelle
+     frequence chaque role la touche. */
+  let tete="";
+  if(Z!=="tete"){
+    const ct=compoConseillee(POND, role, "tete", 1);
+    if(ct && ct.paires.length) tete=`${ct.paires[0].a.n} + ${ct.paires[0].b.n}`;
+  }
   el.innerHTML=`
     <div class="rolerow">${ROLES.map(r=>
-      `<button data-role="${r.k}" aria-pressed="${r.k===ROLE}">${r.n}</button>`).join("")}</div>
+      `<button data-role="${r.k}" aria-pressed="${r.k===ROLE}" title="${r.off}">${r.n}</button>`).join("")}</div>
+    <p class="note" style="margin-top:0">Rôle officiel correspondant : <b>${role.off}</b>.</p>
     <p class="note">${role.quoi}<br>
       En <b>${role.n.toLowerCase()}</b> sur <b>${nomDeCle(POND)}</b>, la moitié des
       engagements tombe sous <b>${fr(c.med,1)} m</b> et 85 % sous <b>${fr(c.q3,1)} m</b> —
@@ -1226,7 +1254,14 @@ function drawCompo(){
       <b>Ce que ce calcul ignore :</b> le raté de <i>visée</i>. La dispersion modélisée est
       celle du cône de l'arme, et à trois mètres elle dit qu'on ne rate pas un torse — ce qui
       flatte exactement les armes qu'un raté punit le plus. D'où le coût d'un tir manqué,
-      affiché ci-dessus : à toi de juger si ta main vaut l'hypothèse.
+      affiché ci-dessus : à toi de juger si ta main vaut l'hypothèse. Un coup unique compte
+      d'ailleurs 0 ms : le modèle mesure l'intervalle entre la première et la dernière balle,
+      pas le temps de viser.
+      ${tete?`<br><b>Au tir à la tête</b>, la meilleure paire devient <b>${tete}</b>. C'est un
+        autre jeu et non un détail de réglage : l'Atlas tue en <b>une balle à toute distance</b>
+        — 3 m comme 30 —, quand le Striker passe de 6 balles à 3 m à 18 balles à 12 m. Un
+        sniper ne se juge pas au torse, et c'est pour ça qu'une équipe compétitive en aligne
+        presque toujours un.`:""}
       ${role.k==="soutien"?"Le soutien porte le sonar : c'est l'équipement qui le distingue du flex, pas ses distances.":""}</p>`;
 }
 
@@ -5529,14 +5564,24 @@ function ttkProfil(w,z,cle){
    Le teneur de ligne a volontairement deux bosses — sa ligne, et le contact des
    moments ou l'equipe pousse : c'est ce qui lui vaut une arme de chaque sorte. */
 const cloche=(d,c,l)=>Math.exp(-((d-c)/l)*((d-c)/l));
+/* Les noms d'equipe et les noms officiels ne se recouvrent pas exactement, et
+   c'est normal : la doctrine du jeu decrit trois roles — rusher en courte
+   portee, soutien polyvalent, support en longue portee —, l'equipe en distingue
+   quatre a l'usage. On affiche les deux plutot que d'en imposer un : le nom
+   officiel dit ce que le jeu prevoit, le votre ce que vous jouez, et la meta
+   deplace l'un sans deplacer l'autre. */
 const ROLES=[
-  {k:"ligne",  n:"Teneur de ligne", pref:d=>cloche(d,17,9)+0.30*cloche(d,2,3),
-   quoi:"Tient une ligne, pousse quand l'adversaire est réduit. Une arme pour la ligne, une pour le moment où l'on push."},
-  {k:"shield", n:"Shield",          pref:d=>cloche(d,1,5)+0.25*cloche(d,9,5),
-   quoi:"Rush le point, prend à revers, souvent au contact. Une arme de contact, une de moyenne portée pour l'approche."},
-  {k:"flex",   n:"Flex",            pref:d=>cloche(d,8,7),
-   quoi:"Tient une ligne et pousse plus souvent que le teneur. Correct partout plutôt qu'excellent quelque part."},
-  {k:"soutien",n:"Soutien",         pref:d=>cloche(d,8,7),
+  {k:"ligne",  n:"Teneur de ligne", off:"Support · longue portée",
+   pref:d=>cloche(d,17,9)+0.30*cloche(d,2,3),
+   quoi:"Tient une ligne, pousse quand l'adversaire est réduit. Une arme pour la ligne, une pour le moment où l'on push. La doctrine du jeu y met des armes de précision — MX-42, sniper."},
+  {k:"shield", n:"Shield",          off:"Rusher · courte portée",
+   pref:d=>cloche(d,1,5)+0.25*cloche(d,9,5),
+   quoi:"Rush le point, prend à revers, souvent au contact. Une arme de contact, une de moyenne portée pour l'approche. La doctrine du jeu y met MP-52 ou Spectre."},
+  {k:"flex",   n:"Flex",            off:"Soutien · polyvalent",
+   pref:d=>cloche(d,8,7),
+   quoi:"Tient une ligne et pousse plus souvent que le teneur. Correct partout plutôt qu'excellent quelque part — c'est le polyvalent de la doctrine."},
+  {k:"soutien",n:"Soutien",         off:"Soutien · polyvalent",
+   pref:d=>cloche(d,8,7),
    quoi:"Comble les trous, réorganise le contrôle, porte le sonar. Mêmes distances que le flex — c'est l'équipement qui change, pas le placement."},
 ];
 
