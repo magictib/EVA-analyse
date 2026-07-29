@@ -1559,6 +1559,23 @@ function selfTest(){
     "Notre camp se lit sur le tag, pas sur la place des cartes",
     `contre FXC : [${cFXC}] · contre GUN : [${cGUN}]`);
 
+  /* Une equipe peut porter PLUSIEURS tags. Le 28/07/2026, trois joueurs passent
+     de BVS a NT et le quatrieme n'en a pas le temps : l'equipe est NT, NT, NT,
+     BVS. Le camp declare doit alors l'emporter sur le tag, sinon le retardataire
+     compte pour l'adversaire — sur toutes ses statistiques, et sans que le
+     moindre total paraisse anormal. */
+  const anaNT={partie:{dt:"2026-07-28",h:"21:00",slots:[1,2,3,4,6,7,8,9],
+      nous:[1,2,3,4], notre_tag:"NT", adverse_tag:"END",
+      camps:{NT:[1,2,3],BVS:[4],END:[6,7,8,9]}},
+    noms:{1:"NTxTibco",2:"NTxCROMx",3:"NTxLiX",4:"BVSxTchernobyl",
+          6:"ENDxY4net",7:"ENDxBarou",8:"ENDxGodzi",9:"ENDxVikings"},evenements:[]};
+  const sv0=PSEUDO; PSEUDO="NTxTibco";
+  const cNT=monCamp(anaNT).join(",");
+  PSEUDO=sv0;
+  T(cNT==="1,2,3,4",
+    "Une équipe à deux tags reste une seule équipe",
+    `notre camp : [${cNT}] — Tchernobyl est encore BVS et compte avec nous`);
+
   /* Et le tag d'une partie appartient a SA DATE. Il y a un mercato en fin
      d'annee : redecouper d'anciennes parties avec le tag courant rangerait tes
      anciens coequipiers du cote adverse, et retournerait tout l'historique. */
@@ -2463,9 +2480,12 @@ function analysesRetenues(){
 const monCamp = a => {
   const p=a.partie||{}, slots=p.slots||[], noms=a.noms||{};
   const t=(notreTag()||"BVS").toUpperCase();
-  /* 1. Ce que l'analyse DECLARE. Les fichiers recents portent `camps`, qui dit
-        quel tag tient quels casques : rien a deduire, donc rien a deduire de
-        travers. */
+  /* 1. Le camp DECLARE, qui ne se discute pas. Il ne se confond pas avec le tag :
+        une equipe peut en porter plusieurs. Le 28/07, trois joueurs sont passes
+        de BVS a NT et le quatrieme n'en a pas eu le temps — decouper par tag
+        l'aurait range chez l'adversaire, sur toutes ses statistiques. */
+  if(Array.isArray(p.nous) && p.nous.length) return p.nous;
+  /* 2. Sinon la repartition par tag, valable tant que l'equipe n'en a qu'un. */
   if(p.camps && Array.isArray(p.camps[t]) && p.camps[t].length) return p.camps[t];
   /* 2. Sinon le tag lu sur les pseudos, s'il designe exactement quatre joueurs —
         un pseudo mal lu ne doit pas fabriquer une equipe a trois. */
