@@ -677,6 +677,32 @@
   .pondrow button s{text-decoration:none;font-family:var(--mono);font-size:11px;
     color:var(--ink-faint)}
   .pondrow button[aria-pressed="true"] s{color:var(--signal)}
+
+  /* ---------- compo conseillee ---------- */
+  .compobar{margin:10px 0 16px;padding:12px 14px;border:1px solid var(--rule);
+    border-radius:5px;background:var(--panel)}
+  .rolerow{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .rolerow button{background:var(--panel-2);border:1px solid var(--rule);
+    color:var(--ink-dim);padding:5px 11px;border-radius:4px;cursor:pointer;
+    font:600 12px/1 var(--ui);letter-spacing:.02em}
+  .rolerow button:hover{border-color:var(--ink-dim);color:var(--ink)}
+  .rolerow button[aria-pressed="true"]{border-color:var(--signal);color:var(--signal);
+    box-shadow:0 0 0 1px rgba(255,204,0,.18)}
+  .compolist{display:flex;flex-direction:column;gap:2px;margin:10px 0}
+  .compo1{display:grid;grid-template-columns:34px 1fr 1fr auto;gap:10px;
+    align-items:center;padding:8px 0;border-top:1px solid var(--rule)}
+  .compo1 s{text-decoration:none;font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+  .cpair{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .cpair b{font:700 14px/1.2 var(--ui);color:var(--ink)}
+  .cpair em{font:400 11px/1 var(--ui);color:var(--ink-faint);font-style:normal}
+  .cpair i{color:var(--signal);font-style:normal;font-weight:700}
+  .cpart{font:400 11px/1.35 var(--ui);color:var(--ink-dim)}
+  .ctk{font:700 15px/1 var(--mono);color:var(--signal);text-align:right}
+  .ctk em{display:block;font:400 10px/1.3 var(--ui);color:var(--dead);font-style:normal}
+  @media (max-width:720px){
+    .compo1{grid-template-columns:26px 1fr auto;row-gap:2px}
+    .cpart{grid-column:2/-1}
+  }
   /* La photo sert a reconnaitre la carte d'un coup d'oeil ; le voile garantit que le
      nom et la mediane restent lisibles, qui est l'information utile. */
   .pondimg{position:relative;background-size:cover;background-position:center;
@@ -754,6 +780,10 @@
   <span class="micro">Sur quelle carte joues-tu&nbsp;?</span>
   <div class="pondrow" id="pondrow"></div>
 </div>
+<!-- Le conseil de compo vit juste sous le choix de carte : c'est la meme
+     question posee autrement — « qu'est-ce que la geometrie de cette carte
+     favorise ? » —, et la reponse utile n'est pas une arme mais deux. -->
+<div class="compobar" id="compo" hidden></div>
 <div class="catbar" id="catbar">
   <select id="cat" aria-label="Catégorie d'arme">
     <option value="all">Toutes les armes</option>
@@ -1141,7 +1171,50 @@ function drawTicks(){
 }
 
 /* ---------- classement ---------- */
+let ROLE=(()=>{ try{ return localStorage.getItem("eva-role-v1")||"flex"; }catch(e){ return "flex"; } })();
+
+/* Le bandeau de compo, sous le choix de carte. Il ne s'affiche qu'une carte
+   choisie : sans carte il n'y a pas de distribution, et conseiller une paire
+   « en general » reviendrait a reintroduire la moyenne qu'on cherche a fuir. */
+function drawCompo(){
+  const el=$("#compo"); if(!el) return;
+  if(!POND || !DPROF.h[POND]){ el.innerHTML=""; el.hidden=true; return; }
+  el.hidden=false;
+  const role=ROLES.find(r=>r.k===ROLE)||ROLES[2];
+  const c=compoConseillee(POND, role, Z);
+  if(!c){ el.innerHTML=""; return; }
+  const pc=x=>Math.round(x*100)+" %";
+  const arme=w=>`<b>${w.n}</b><em>${w.c}</em>`;
+  el.innerHTML=`
+    <div class="rolerow">${ROLES.map(r=>
+      `<button data-role="${r.k}" aria-pressed="${r.k===ROLE}">${r.n}</button>`).join("")}</div>
+    <p class="note">${role.quoi}<br>
+      En <b>${role.n.toLowerCase()}</b> sur <b>${nomDeCle(POND)}</b>, la moitié des
+      engagements tombe sous <b>${fr(c.med,1)} m</b> et 85 % sous <b>${fr(c.q3,1)} m</b> —
+      c'est le croisement de ce que le rôle cherche avec ce que la carte offre.
+      ${c.dispo<0.9?`<b>Cette carte n'offre que ${pc(c.dispo)} des distances que ce rôle
+        recherche</b> : à jouer en connaissance de cause.`:""}
+      Les distances propres au rôle sont posées d'après sa description, <b>pas mesurées</b> :
+      les duels ne sont localisables que dans un cas sur cinq.</p>
+    <div class="compolist">${c.paires.map((p,i)=>{
+      const [x,y]=p.part[0]>=p.part[1]?[p.a,p.b]:[p.b,p.a];
+      const [px,py]=p.part[0]>=p.part[1]?p.part:[p.part[1],p.part[0]];
+      return `<div class="compo1"><s>${String(i+1).padStart(2,"0")}</s>
+        <div class="cpair">${arme(x)}<i>+</i>${arme(y)}</div>
+        <div class="cpart">${x.n} tient ${pc(px)} des lignes · ${y.n} ${pc(py)}</div>
+        <div class="ctk">${fr(Math.round(p.t))} ms${
+          p.couvert<0.999?`<em>${pc(1-p.couvert)} sans réponse</em>`:""}</div></div>`;
+    }).join("")}</div>
+    <p class="note">Temps à tuer moyen sur la distribution repondérée, l'arme la plus
+      rapide l'emportant à chaque distance — c'est ce minimum qui fait ressortir la
+      complémentarité, sans qu'on ait eu à la définir : deux armes de même profil ne
+      valent pas mieux qu'une seule. À titre de repère, la meilleure arme <b>seule</b>
+      sur ce profil est <b>${c.seule.w.n}</b> à ${fr(Math.round(c.seule.t))} ms.
+      ${role.k==="soutien"?"Le soutien porte le sonar : c'est l'équipement qui le distingue du flex, pas ses distances.":""}</p>`;
+}
+
 function drawRank(){
+  drawCompo();
   const rows = filteredW().map(w=>{
       if(POND){
         const q=ttkProfil(w,Z,POND);
@@ -5410,6 +5483,126 @@ function ttkProfil(w,z,cle){
   const quant=f=>{ let c=0; for(const [t,n] of pts){ c+=n; if(c>=vivant*f) return t; } return pts[pts.length-1][0]; };
   return {t:quant(.5), q3:quant(.75), mort:mort/tot};
 }
+/* ---------- compo conseillee : deux armes complementaires ----------
+
+   Le classement pondere par une carte rendait UNE valeur — la mediane du temps
+   a tuer sur ses lignes de vue —, et une mediane ecrase justement ce qui fait
+   choisir : Reef Point a des angles tres courts autour du point A ET de longues
+   lignes, et l'arme qui gagne au milieu ne gagne ni a l'un ni a l'autre bout.
+
+   On garde donc l'histogramme ENTIER, et l'on choisit une PAIRE : a chaque
+   distance, le joueur sort la meilleure de ses deux armes, donc la paire vaut
+   `min(ttk_A, ttk_B)`. C'est ce minimum qui fait apparaitre la complementarite
+   sans qu'on ait a la definir : deux armes au meme profil ne valent pas mieux
+   qu'une seule, la ou une courte et une longue se completent.
+
+   **Le role dit a quelle distance on VEUT se battre, la carte dit si ces
+   distances existent.** Les deux se multiplient, et c'est le seul assemblage qui
+   tienne. Un premier essai decoupait la carte en trois tiers et donnait au role
+   une part de chacun : sur Reef Point « long » commencait alors a 7 m et la
+   meme paire sortait sur douze cartes sur douze. La cause est dans la mesure
+   elle-meme — l'histogramme compte les lignes de vue EXISTANTES, tirees entre
+   points visibles au hasard, et la visibilite est locale : les lignes courtes y
+   ecrasent tout. Decouper cette distribution en tiers heritait de son biais.
+   La preference du role, elle, est en METRES et n'en depend pas.
+
+   Ces courbes sont posees d'apres la description des roles, **pas mesurees** :
+   les distances de duel ne sont localisables que dans un cas sur cinq. C'est une
+   hypothese explicite, corrigible ici en une ligne le jour ou l'on saura mesurer.
+   Le teneur de ligne a volontairement deux bosses — sa ligne, et le contact des
+   moments ou l'equipe pousse : c'est ce qui lui vaut une arme de chaque sorte. */
+const cloche=(d,c,l)=>Math.exp(-((d-c)/l)*((d-c)/l));
+const ROLES=[
+  {k:"ligne",  n:"Teneur de ligne", pref:d=>cloche(d,17,9)+0.30*cloche(d,2,3),
+   quoi:"Tient une ligne, pousse quand l'adversaire est réduit. Une arme pour la ligne, une pour le moment où l'on push."},
+  {k:"shield", n:"Shield",          pref:d=>cloche(d,1,5)+0.25*cloche(d,9,5),
+   quoi:"Rush le point, prend à revers, souvent au contact. Une arme de contact, une de moyenne portée pour l'approche."},
+  {k:"flex",   n:"Flex",            pref:d=>cloche(d,8,7),
+   quoi:"Tient une ligne et pousse plus souvent que le teneur. Correct partout plutôt qu'excellent quelque part."},
+  {k:"soutien",n:"Soutien",         pref:d=>cloche(d,8,7),
+   quoi:"Comble les trous, réorganise le contrôle, porte le sonar. Mêmes distances que le flex — c'est l'équipement qui change, pas le placement."},
+];
+
+/* L'histogramme de la carte, multiplie par la preference du role. Renvoie aussi
+   la distance MEDIANE de ce profil croise : c'est elle qu'il faut afficher, parce
+   qu'elle dit en metres ou ce role se bat REELLEMENT sur cette carte-la. */
+function profilRole(cle, role){
+  const h=DPROF.h[cle]; if(!h) return null;
+  const pref=(role&&role.pref)||(()=>1);
+  const w=h.map((n,d)=>n*pref(d+0.5));
+  const tot=w.reduce((a,b)=>a+b,0);
+  if(!tot) return null;
+  let c=0, med=h.length, q3=h.length;
+  for(let d=0; d<w.length; d++){
+    c+=w[d];
+    if(med===h.length && c>=tot*0.5) med=d+0.5;
+    if(q3===h.length && c>=tot*0.85){ q3=d+0.5; break; }
+  }
+  /* Part de la preference du role que la carte ne peut pas satisfaire : un
+     teneur de ligne sur une carte sans longue ligne doit le savoir. */
+  let veut=0, offert=0;
+  for(let d=0; d<h.length; d++){ veut+=pref(d+0.5); offert+=pref(d+0.5)*(h[d]?1:0); }
+  return {w, med, q3, tot, dispo:veut?offert/veut:1};
+}
+
+/* Note d'une paire : temps a tuer moyen pondere, l'arme la plus rapide gagnant
+   chaque distance. Une distance ou AUCUNE des deux ne tue est comptee au prix
+   fort plutot qu'ignoree — sinon un sniper inoffensif de pres passerait pour
+   parfait sur la moitie de la carte ou il ne peut rien. */
+const PRIX_MUET=3000;                     // ms : cout d'une distance sans reponse
+function noteCompo(a, b, prof, z){
+  let s=0, part=[0,0], couvert=0;
+  for(let d=0; d<prof.w.length; d++){
+    const p=prof.w[d]; if(!p) continue;
+    const ta=ttkR(a, d+0.5, z), tb=b?ttkR(b, d+0.5, z):null;
+    const va=ta===null?Infinity:ta, vb=tb===null?Infinity:tb;
+    const m=Math.min(va,vb);
+    s += p * (Number.isFinite(m) ? m : PRIX_MUET);
+    if(Number.isFinite(m)){
+      couvert += p;
+      part[va<=vb?0:1] += p;
+    }
+  }
+  const tot=prof.w.reduce((x,y)=>x+y,0) || 1;
+  return {t:s/tot, couvert:couvert/tot, part:[part[0]/tot, part[1]/tot]};
+}
+
+/* Les meilleures paires pour une carte et un role. On ecarte deux armes de meme
+   categorie : le minimum les departagerait a peine, et le joueur se retrouverait
+   avec deux fois la meme reponse. */
+const PART_MIN=0.15;      // part minimale de la seconde arme pour la dire utile
+function compoConseillee(cle, role, z, n=3){
+  const prof=profilRole(cle, role); if(!prof) return null;
+  const pool=W.filter(w=>w && w.n);
+  const out=[];
+  for(let i=0;i<pool.length;i++) for(let j=i+1;j<pool.length;j++){
+    if(pool[i].c===pool[j].c) continue;
+    const r=noteCompo(pool[i], pool[j], prof, z);
+    /* La seconde arme doit servir. Sans cette exigence, le meilleur couple est
+       presque toujours « la meilleure arme + n'importe quoi » : la premiere
+       gagne 99 % des distances et la seconde ne fait que suivre. C'est
+       arithmetiquement optimal et tactiquement vide — on demandait deux armes
+       COMPLEMENTAIRES, pas la meilleure arme accompagnee.
+       Le seuil est un choix, pas une mesure ; il est ici pour etre discute. */
+    if(Math.min(r.part[0], r.part[1]) < PART_MIN) continue;
+    out.push({a:pool[i], b:pool[j], ...r});
+  }
+  out.sort((x,y)=>x.t-y.t);
+  const med=prof.med, q3=prof.q3, dispo=prof.dispo;
+  /* Une meme arme domine souvent le haut du classement : on ne garde qu'une
+     paire par arme principale, sinon les trois propositions se ressemblent. */
+  const vus=new Set(), gardes=[];
+  for(const p of out){
+    const cle2=p.part[0]>=p.part[1] ? p.a.n : p.b.n;
+    if(vus.has(cle2)) continue;
+    vus.add(cle2); gardes.push(p);
+    if(gardes.length>=n) break;
+  }
+  return {paires:gardes, med, q3, dispo,
+          seule:pool.map(w=>({w, ...noteCompo(w, null, prof, z)}))
+                    .sort((x,y)=>x.t-y.t)[0]};
+}
+
 /* ---------- tirs de reference ----------
    Chaque retouche de masque peut changer une ligne de vue sans que rien ne le
    signale : c'est arrive plusieurs fois, et il fallait retracer a la main pour
@@ -6898,6 +7091,14 @@ $("#pondrow").addEventListener("click",e=>{
   POND = b.dataset.pond || null;
   try{ localStorage.setItem(PONDKEY, POND||""); }catch(e){}
   fillPond(); go(VIEW);
+});
+/* Le role se choisit dans le bandeau de compo lui-meme, et il survit au
+   rechargement : on joue le meme role d'une soiree a l'autre. */
+$("#compo").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-role]"); if(!b) return;
+  ROLE=b.dataset.role;
+  try{ localStorage.setItem("eva-role-v1", ROLE); }catch(e){}
+  drawCompo();
 });
 $$("#floorseg button").forEach(b=>b.addEventListener("click",()=>{
   FLOOR=+b.dataset.fl;
