@@ -2345,17 +2345,24 @@ function deuxPaquets(sb){
    des que les effectifs sont inegaux, ni le rang ni la position ne donnent son
    equipe. Le marquer adverse inventerait un adversaire dans le carnet. */
 const notreEquipe = (pseudo, tag, sb) => {
-  const t = sbTag(pseudo).toUpperCase();
+  /* 1. L'EFFECTIF, qui est un fait et non une convention. Un pseudo ne change
+        pas quand l'equipe se renomme, et Thibaud est sur de sa composition.
+        C'est le seul critere qui survit a un changement de tag partiel. */
+  if(typeof estDesNotres === "function" && NOTRE_EFFECTIF.length){
+    const connus = (sb || []).filter(p => estDesNotres(p.n)).length;
+    if(connus >= 2) return estDesNotres(pseudo);
+  }
+  /* 2. Le partage en deux paquets de meme taille, quand le nombre le permet. */
   const paquets = deuxPaquets(sb);
   if(paquets){
-    /* Notre paquet est celui qui porte le tag courant — ou, s'il a change, celui
-       qui contient mon propre pseudo. */
     const moi = (monPseudo() || "").toUpperCase();
     const mien = paquets.find(P => P.some(p =>
-      (sbTag(p.n) || "").toUpperCase() === tag
+      estDesNotres(p.n) || (sbTag(p.n) || "").toUpperCase() === tag
       || String(p.n).toUpperCase() === moi));
     if(mien) return mien.some(p => String(p.n) === String(pseudo));
   }
+  /* 3. Le tag, en dernier — valable tant que l'equipe n'en porte qu'un. */
+  const t = sbTag(pseudo).toUpperCase();
   return t ? (t === tag) : null;
 };
 const empreinteMatch = m => [m.dt, m.h, m.res, m.carte, m.mode, m.k, m.m, m.a,
@@ -3745,12 +3752,27 @@ function camps(m){
      de la base, ou la colonne `notre_equipe` le dit —, on s'en sert et on ne
      devine rien. Le tag ne peut pas servir la : la base range les pseudos sans
      leur tag, et un decoupage par tag y renverrait toute l'equipe en face. */
-  if(sb.some(p=>p.mien!==undefined)){
-    const mien=sb.filter(p=>p.mien), adv=sb.filter(p=>!p.mien);
+  const nommer = adv => {
     const cnt=new Map();
     for(const p of adv){ const t=tagDe(p.n); if(t) cnt.set(t,(cnt.get(t)||0)+1); }
     const top=[...cnt.entries()].sort((a,b)=>b[1]-a[1])[0];
-    return {mien, adv, tagAdv:(m&&m.tagA)||(top?top[0]:null)};
+    return (m&&m.tagA)||(top?top[0]:null);
+  };
+  /* L'EFFECTIF d'abord : un pseudo est un fait, un tag une convention. Il passe
+     meme devant le drapeau enregistre en base, parce que ce drapeau a pu etre
+     ecrit par l'ancienne regle — celle qui comparait a un seul tag et qui, le
+     28/07, a range trois des notres chez l'adversaire. Le site se corrige ainsi
+     tout seul sur les parties deja saisies de travers. */
+  if(typeof estDesNotres === "function"){
+    const miens=sb.filter(p=>estDesNotres(p.n));
+    if(miens.length>=2){
+      const adv=sb.filter(p=>!estDesNotres(p.n));
+      return {mien:miens, adv, tagAdv:nommer(adv)};
+    }
+  }
+  if(sb.some(p=>p.mien!==undefined)){
+    const mien=sb.filter(p=>p.mien), adv=sb.filter(p=>!p.mien);
+    return {mien, adv, tagAdv:nommer(adv)};
   }
   if(!me && !monTag){
     /* Sans pseudo ni tag, on ne SAIT pas qui est de quel cote. Tout mettre de
@@ -5057,6 +5079,17 @@ const tagEquipe = () => tagDe(PSEUDO) || "";
    libre. Ces quatre entrees l'amorcent. A tenir a jour si l'equipe bouge — le tag,
    lui, se deduit du pseudo et suit un renommage sans qu'on y touche. */
 const EFFECTIF=["BVSxTibco","BVSxLix","BVSxCromx","BVSxTchernobyl"];
+/* Les memes, SANS leur tag. C'est ce qui identifie l'equipe le plus surement :
+   un pseudo est un fait, un tag une convention qui change. Le 28/07/2026, trois
+   joueurs passent de BVS a NT et le quatrieme non ; le tag ne designe alors plus
+   l'equipe, le nom des joueurs si.
+
+   On garde volontairement la liste courte et ecrite a la main : Thibaud est sur
+   de la composition de SON equipe, et c'est le seul endroit ou cette certitude
+   existe. Pour les equipes adverses elle n'existe pas, et l'on retombe sur les
+   criteres suivants — le partage en deux paquets egaux, puis le tag. */
+const NOTRE_EFFECTIF = EFFECTIF.map(x => sansTag(x).toLowerCase());
+const estDesNotres = n => NOTRE_EFFECTIF.includes(sansTag(n).toLowerCase());
 /* Tous les pseudos vus portant le tag de l'equipe, plus ceux ecrits a la main. */
 function effectif(){
   const v=new Set(EFFECTIF);
