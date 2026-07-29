@@ -88,6 +88,28 @@
      Angles nets et filet d'un pixel, pas d'ombre floue : une ombre diffuse
      brouille les limites, quand cette interface doit se lire comme un plan. */
   .mtab,.mbig b,.mcarte canvas,.mform,.mbloc{border-radius:5px}
+
+  /* ---------- les quatre sujets ----------
+     Les blocs existaient mais ne se voyaient pas : meme fond, meme titre, meme
+     rythme que les sections a l'interieur. On lisait une longue colonne de
+     chiffres sans savoir ou l'on etait. Ils recoivent donc une barre d'accent,
+     un titre en capitales et un fond legerement distinct — assez pour separer,
+     pas assez pour decouper la page en boites. */
+  .mbloc{position:relative;margin:26px 0 0;padding:18px 0 4px 18px;
+    border-left:2px solid var(--signal);background:
+      linear-gradient(90deg,rgba(255,204,0,.045),transparent 340px)}
+  .mbloc + .mbloc{margin-top:34px}
+  .mbloc > h3{margin:0;font:700 13px/1 var(--titre);letter-spacing:.16em;
+    text-transform:uppercase;color:var(--signal)}
+  .mbloc > .msous{margin:5px 0 16px;font:400 13px/1.45 var(--ui);
+    color:var(--ink-dim);max-width:62ch}
+  .mbloc h4{margin:22px 0 8px;font:700 15px/1.2 var(--ui);color:var(--ink);
+    letter-spacing:.01em}
+  .mbloc > *:first-child + .msous + h4{margin-top:0}
+  @media (max-width:720px){
+    .mbloc{padding-left:12px;margin-top:20px}
+    .mbloc + .mbloc{margin-top:24px}
+  }
   .mbig b,.mtab,.mform{border:1px solid var(--rule);background:var(--panel)}
   .mbig b:hover,.mtab:hover,.mform:hover{border-color:var(--rule-vif)}
   .mtr:hover,.mtr4:hover{background:var(--panel-2)}
@@ -3588,13 +3610,35 @@ function drawAna(){
      L'onglet subissait ce tri sans l'afficher : on ne pouvait ni savoir sur
      quelles parties on lisait, ni le changer sans repasser par l'autre onglet.
      Place en tete, il ne decale rien quand on en change. */
+  /* Les echanges ne s'affichent QUE sur un tri par equipe, et c'est une
+     correction demandee par Thibaud apres l'avoir constate a l'ecran : sans
+     tri, ces tableaux ne montraient que des joueurs de GUN. Le tri etait
+     pourtant bien applique — c'est l'ATTRIBUTION des tueurs qui n'existe que
+     sur une partie, l'Atlantis du 21/07. L'affichage laissait donc croire a une
+     couverture qu'il n'avait pas, ce qui revient au meme qu'un bug.
+
+     Les montrer par equipe rend le cadre explicite : on lit « contre GUN », on
+     sait de quoi on parle. Un cumul toutes equipes confondues serait de toute
+     facon difficile a exploiter, l'adversaire changeant. */
+  const corpsAdv = FADV
+    ? duel + bilanD
+    : `<p class="note">Choisis une <b>équipe</b> dans le tri ci-dessus pour voir les
+       échanges. Sans tri, ces chiffres mêleraient des adversaires différents — et
+       l'attribution des tueurs n'étant faite que sur ${lotAttrib.length} partie(s)
+       sur ${lot.length}, ils donneraient une image partielle sans le dire.</p>`;
+
   el.innerHTML = importe + barreDeTri()
-    + bloc("Bilan", "Ce que la partie a donné, de notre côté seulement.", global + score)
-    + bloc("Terrain", "Qui tient la carte, et pourquoi on la lâche.", terrain + controle)
+    /* Quatre sujets, dans l'ordre ou l'on s'interroge apres une partie : ce que
+       l'equipe a produit, ce qui s'est passe sur le terrain, ce que chacun peut
+       corriger, et ce que l'adversaire nous a impose. */
+    + bloc("Équipe", "Ce que la partie a donné, de notre côté seulement.",
+           global + score + progres)
     /* La carte des trajets est retiree tant que la detection perd des joueurs
        sur les premieres secondes : une ouverture incomplete se lit comme une
        ouverture ratee. Le calcul reste, il suffira de remettre `+ carte`. */
-    + bloc("Ouverture", "Les premières secondes, celles qu'une strat prépare.", debut)
+    + bloc("Terrain", "Qui tient la carte, pourquoi on la lâche, et comment on en sort.",
+           terrain + controle + debut)
+    + bloc("Joueurs", "Le détail individuel, à lire avec le rôle de chacun.", joueurs)
     /* « Duels » etait un abus de langage, et il valait mieux le dire que le
        garder : un duel suppose que les deux joueurs se soient VUS et aient tire
        l'un sur l'autre, un seul l'emportant. Le bandeau de morts ne donne que le
@@ -3602,10 +3646,9 @@ function drawAna(){
        recu d'un adversaire qu'on n'avait pas vu. Ces tableaux comptent donc des
        FRAGS ECHANGES, ce qui est exact et deja utile ; le vrai duel demanderait
        de situer la mort, et seule une mort sur cinq est localisable aujourd'hui. */
-    + bloc("Échanges", "Qui prend l'ascendant sur qui, adversaire par adversaire.",
-           duel + bilanD)
-    + bloc("Progression", "Ce que la même équipe donne d'une rencontre à la suivante.", progres)
-    + bloc("Joueurs", "Le détail individuel, à lire avec le rôle de chacun.", joueurs);
+    + bloc("Adversaire",
+           FADV ? `Ce que ${FADV} nous impose, et ce qu'on lui rend.`
+                : "Ce que l'équipe d'en face nous impose.", corpsAdv);
   replieLesNotes(el);
 
   /* Un canvas ne se remplit pas par innerHTML : on trace apres coup, et de
