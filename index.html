@@ -2296,11 +2296,66 @@ const nb = v => {
   const n = Number(v);
   return Number.isFinite(n) ? n : null;
 };
+/* Les deux camps d'un tableau de fin, sans supposer qu'une equipe n'a qu'un tag.
+
+   Le tableau est trie par SCORE : le rang melange les deux equipes, la position
+   ne dit donc rien. Restait le tag — et comparer chaque joueur a un seul tag a
+   tenu jusqu'au 28/07/2026, ou trois joueurs passent de BVS a NT sans le
+   quatrieme. Trois tags apparaissent alors, comptes 4 / 3 / 1, et le
+   rapprochement au tag courant rangeait trois des notres chez l'adversaire :
+   une partie a un contre sept, que rien ne signalait.
+
+   Le nombre fait le reste, sans configuration : un match se joue a effectifs
+   egaux, et un seul regroupement des tags donne deux paquets de meme taille —
+   END(4) d'un cote, NT(3)+BVS(1) de l'autre. Le meme geste que partout ailleurs
+   dans ce projet : une contrainte connue reduit le probleme a une affectation.
+
+   Si aucun regroupement ne convient — effectifs inegaux, joueur sans tag — on
+   rend `null` plutot que de trancher : un adversaire invente dans le carnet coute
+   plus cher qu'une case vide. */
+function deuxPaquets(sb){
+  const g = new Map();
+  for(const p of sb || []){
+    const t = (sbTag(p.n) || "").toUpperCase();
+    if(!t) return null;                     // sans tag, aucun regroupement sur
+    if(!g.has(t)) g.set(t, []);
+    g.get(t).push(p);
+  }
+  const tags = [...g.keys()];
+  if(tags.length < 2 || (sb.length % 2)) return null;
+  if(tags.length === 2)
+    return g.get(tags[0]).length === g.get(tags[1]).length
+      ? [g.get(tags[0]), g.get(tags[1])] : null;
+  const moitie = sb.length / 2;
+  let trouve = null;
+  for(let m = 1; m < (1 << tags.length) - 1; m++){
+    let n = 0;
+    for(let i = 0; i < tags.length; i++) if(m & (1 << i)) n += g.get(tags[i]).length;
+    if(n !== moitie) continue;
+    if(trouve) return null;                 // deux partages possibles : on s'abstient
+    trouve = m;
+  }
+  if(trouve === null) return null;
+  const A = [], B = [];
+  tags.forEach((t, i) => ((trouve & (1 << i)) ? A : B).push(...g.get(t)));
+  return [A, B];
+}
+
 /* Trois etats, pas deux. Un joueur sans tag n'est pas forcement un adversaire :
    des que les effectifs sont inegaux, ni le rang ni la position ne donnent son
    equipe. Le marquer adverse inventerait un adversaire dans le carnet. */
-const notreEquipe = (pseudo, tag) => {
+const notreEquipe = (pseudo, tag, sb) => {
   const t = sbTag(pseudo).toUpperCase();
+  const paquets = deuxPaquets(sb);
+  if(paquets){
+    /* Notre paquet est celui qui porte le tag courant — ou, s'il a change, celui
+       qui contient mon propre pseudo. */
+    const moi = (monPseudo() || "").toUpperCase();
+    const mien = paquets.find(P => P.some(p =>
+      (sbTag(p.n) || "").toUpperCase() === tag
+      || String(p.n).toUpperCase() === moi));
+    if(mien) return mien.some(p => String(p.n) === String(pseudo));
+  }
   return t ? (t === tag) : null;
 };
 const empreinteMatch = m => [m.dt, m.h, m.res, m.carte, m.mode, m.k, m.m, m.a,
@@ -2362,7 +2417,7 @@ async function syncMatchs(){
         await sbFetch("scores_match?match_id=eq." + id, {method:"DELETE"});
         await sbFetch("scores_match", {method:"POST", body: JSON.stringify(
           sb.map((x, i) => ({match_id:id, tag:sbTag(x.n), nom:sbNom(x.n),
-            notre_equipe: notreEquipe(x.n, tag),
+            notre_equipe: notreEquipe(x.n, tag, sb),
             rang: i + 1, mvp: !!x.mvp, arme: x.arme || null,
             kills: nb(x.k), morts: nb(x.m), assists: nb(x.a), score: nb(x.s)})))});
       }catch(e){ continue; }   // le match est passe, pas son tableau : on reessaiera
