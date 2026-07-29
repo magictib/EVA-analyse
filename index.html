@@ -2826,15 +2826,29 @@ const nombreScore = s => {
 };
 function ecartsScore(matchs){
   const v=[], d=[];
+  /* Le SOCLE de la mesure, et non plus seulement son resultat.
+     La tuile annoncait « 7 / 2 victoires / defaites comptees » sur un historique
+     de vingt-sept parties, sans que rien ne dise que dix-huit n'avaient pas de
+     score d'en-tete en base. Un comptage exact d'un echantillon se lit comme un
+     bilan complet : c'est la meme faute que les tableaux d'echanges qui ne
+     montraient que GUN. On rend donc le denominateur, toujours. */
+  let vus=0, sans=0, autreUnite=0;
   for(const m of matchs||[]){
+    vus++;
     const a=nombreScore(m.sg), b=nombreScore(m.sd);
-    if(a===null || b===null) continue;
+    if(a===null || b===null){
+      /* Distinguer « pas de score » de « score dans une autre unite » : le
+         premier est un trou a combler, le second un choix de ne pas melanger. */
+      if(String(m.sg||"").trim() || String(m.sd||"").trim()) autreUnite++; else sans++;
+      continue;
+    }
     const e=Math.abs(a-b);
     if(m.res==="V") v.push(e); else if(m.res==="D") d.push(e);
   }
   if(!v.length && !d.length) return null;
   const moy=t=>t.length?Math.round(t.reduce((s,x)=>s+x,0)/t.length):null;
   return {v:moy(v), d:moy(d), nv:v.length, nd:d.length,
+          vus, sans, autreUnite,
           pts:(matchs||[]).some(m=>/%/.test(String(m.sg||"")))};
 }
 
@@ -3545,10 +3559,13 @@ function drawAna(){
       ${ecarts.d!=null?`<b>−${ecarts.d}${u}<em>écart moyen en défaite</em></b>`:""}
       <b>${ecarts.nv} / ${ecarts.nd}<em>victoires / défaites comptées</em></b>
       </div>
-      <p class="note">Sur les parties collées, analysées ou non — l'écart se lit sur le
-        tableau de fin, il ne demande aucun dépouillement vidéo. Les modes dont le score
-        ne s'écrit pas en points comparables (« 12/15 » en Jeu d'arme) sont écartés du
-        calcul plutôt que mélangés.</p>`;
+      <p class="note">Calculé sur <b>${ecarts.nv+ecarts.nd} des ${ecarts.vus} parties</b>
+        de ce tri.${ecarts.autreUnite?` ${ecarts.autreUnite} écartée${ecarts.autreUnite>1?"s":""}
+        faute d'un score comparable — « 12/15 » en Jeu d'arme ne se soustrait pas à un
+        pourcentage, et mieux vaut l'exclure que le mélanger.`:""}${ecarts.sans?`
+        <b>${ecarts.sans} sans score d'en-tête en base</b> : le chiffre est à retrouver sur
+        l'écran de fin de la vidéo, il n'est pas perdu.`:""}
+        L'écart se lit sur le tableau de fin et ne demande aucun dépouillement vidéo.</p>`;
   }
 
   /* --- emprise sur la carte --- */
