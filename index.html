@@ -1925,6 +1925,44 @@ function selfTest(){
   T(worse.length===0, "Les recharges ne peuvent qu'allonger le temps à tuer",
     worse.length?worse.map(w=>w.n).join(", "):"vérifié à 12 m sur les trois zones");
 
+  /* Le dernier vivant, sur une partie fabriquee dont on connait la reponse.
+     Quatre contre quatre ; les trois autres des notres tombent, il reste le
+     slot 1 face a trois vivants, il en sort un, puis meurt. Une sequence, un
+     frag, pas de survie. */
+  const bidon={partie:{slots:[1,2,3,4,5,6,7,8], nous:[1,2,3,4], notre_tag:"NT",
+                       dt:"2026-07-28", carte:"Atlantis"},
+               noms:{1:"NTxA",2:"NTxB",3:"NTxC",4:"NTxD",
+                     5:"XxE",6:"XxF",7:"XxG",8:"XxH"},
+               spatial:{par_seconde:1},
+               evenements:[{image:10,type:"mort",slot:2},{image:12,type:"mort",slot:3},
+                           {image:14,type:"mort",slot:4},   /* 1 contre 4 a l'image 14 */
+                           {image:16,type:"mort",slot:5},   /* il en sort un */
+                           {image:30,type:"mort",slot:1}]}; /* et tombe a l'image 30 */
+  const dvT=dernierVivant([bidon]);
+  T(!!dvT && dvT.n===1 && dvT.gagnes===1 && dvT.survecu===0 && Math.round(dvT.duree)===16,
+    "Le dernier vivant compte la séquence, son frag et sa chute",
+    dvT?`${dvT.n} séquence · ${dvT.gagnes} avec frag · ${fr(dvT.duree)} s · ${dvT.survecu} survie`
+       :"aucune séquence trouvée");
+
+  /* Une sequence trop courte ne doit pas etre retenue : deux morts qui se
+     croisent ne sont pas une situation jouee. */
+  const court={...bidon, evenements:[{image:10,type:"mort",slot:2},{image:11,type:"mort",slot:3},
+                                     {image:12,type:"mort",slot:4},{image:13,type:"mort",slot:1}]};
+  T(dernierVivant([court])===null, "Une infériorité d'une seconde n'est pas comptée",
+    "seuil à 2 s, sous lequel il s'agit d'un croisement de morts");
+
+  /* Le soutien est un RAPPORT : le meme placement a une echelle deux fois plus
+     grande doit donner exactement le meme chiffre. C'est toute la raison d'etre
+     de la mesure, et c'est donc ce qu'il faut verifier. */
+  const placer=k=>({...bidon, evenements:[], spatial:{par_seconde:1, trajets:[
+      {slot:1,points:[[1,0,0]]}, {slot:2,points:[[1,10*k,0]]},
+      {slot:5,points:[[1,40*k,0]]}, {slot:6,points:[[1,50*k,0]]}]}});
+  const s1=soutien([placer(1)]), s2=soutien([placer(2)]);
+  T(!!s1 && !!s2 && Math.abs(s1.med-s2.med)<1e-9,
+    "Le soutien ne dépend pas de l'échelle de la minimap",
+    s1&&s2?`${s1.med.toFixed(3)} à l'échelle 1, ${s2.med.toFixed(3)} à l'échelle 2`
+          :"mesure absente");
+
   return R;
 }
 function showSelfTest(){
@@ -2808,6 +2846,161 @@ function emprise(lot, seuil=0.01, fenetre=10){
           sansCombat:pertes.filter(p=>p.calme).length};
 }
 
+/* Le dernier vivant : ce qu'il advient quand on reste seul contre plusieurs.
+
+   Cette mesure ne demande PAS l'attribution des tueurs, et c'est ce qui la rend
+   disponible aujourd'hui sur toutes les parties : l'effectif vivant se lit sur
+   les morts et les reapparitions, que la detection donne partout.
+
+   A ne pas confondre avec le TAUX DE TRADE, qui a ete essaye et refute. « Une de
+   nos morts suivie d'une mort adverse sous dix secondes » donnait 52 % ; en
+   redistribuant nos morts au hasard sur la meme partie, on obtenait 52 % aussi,
+   et aucune fenetre entre une et quinze secondes ne creusait plus de deux points
+   d'ecart. Ce chiffre ne mesurait que la cadence des morts. La vengeance demande
+   de savoir QUI a tue, donc le bandeau — elle n'est pas ici.
+
+   Ici on ne compare rien au hasard : on compte des situations, pas des
+   coincidences. Une sequence est retenue au-dela de deux secondes, en deca il
+   s'agit d'un croisement de morts et non d'une situation jouee. */
+function dernierVivant(lot, minDuree=2){
+  const seqs=[]; let parties=0;
+  for(const a of lot){
+    const tous=(a.partie||{}).slots||[], mien=monCamp(a);
+    if(!tous.length || !mien.length) continue;
+    const adv=tous.filter(s=>!mien.includes(s));
+    if(!adv.length) continue;
+    const ps=(a.spatial&&a.spatial.par_seconde)||1;
+    const ev=[...(a.evenements||[])].filter(x=>x.type==="mort"||x.type==="reapparition")
+      .sort((x,y)=>x.image-y.image);
+    if(!ev.length) continue;
+    parties++;
+    const etat={}; for(const k of tous) etat[k]=true;
+    let cur=null;
+    for(const e of ev){
+      etat[e.slot]=e.type==="reapparition";
+      const nA=mien.filter(s=>etat[s]).length, nB=adv.filter(s=>etat[s]).length;
+      const seul = nA===1 && nB>=2;
+      if(seul && !cur){
+        cur={debut:e.image, qui:mien.find(s=>etat[s]), contre:nB, frags:0};
+      } else if(cur){
+        /* Le frag se compte AVANT de refermer : c'est justement la mort adverse
+           qui met fin a la sequence en ramenant l'ennemi a un seul vivant. */
+        if(e.type==="mort" && adv.includes(e.slot)) cur.frags++;
+        if(!seul){
+          cur.duree=(e.image-cur.debut)/ps;
+          cur.survit=!!etat[cur.qui];
+          if(cur.duree>=minDuree){
+            cur.nom=nomDe(a,cur.qui); cur.dt=(a.partie||{}).dt||"";
+            cur.carte=(a.partie||{}).carte||""; seqs.push(cur);
+          }
+          cur=null;
+        }
+      }
+    }
+  }
+  if(!seqs.length) return null;
+  const med=t=>t.length?[...t].sort((x,y)=>x-y)[t.length>>1]:null;
+  /* Groupe SANS le tag : BVSxTibco et NTxTibco sont le meme joueur, et le
+     changement de nom d'equipe ne doit pas couper un historique en deux. On
+     affiche le pseudo complet le plus recent, comme le tableau par joueur. */
+  const parJoueur=new Map();
+  for(const s of seqs){
+    const cle=sansTag(s.nom).toLowerCase();
+    const o=parJoueur.get(cle)||{nom:s.nom,dt:"",n:0,gagnes:0,frags:0};
+    if(s.dt>=o.dt){ o.nom=s.nom; o.dt=s.dt; }   // le pseudo du jour le plus recent
+    o.n++; o.frags+=s.frags; if(s.frags>0) o.gagnes++;
+    parJoueur.set(cle,o);
+  }
+  return {n:seqs.length, parties,
+          duree:med(seqs.map(s=>s.duree)),
+          gagnes:seqs.filter(s=>s.frags>0).length,
+          survecu:seqs.filter(s=>s.survit).length,
+          contre3:seqs.filter(s=>s.contre>=3).length,
+          joueurs:[...parJoueur.values()].sort((x,y)=>y.n-x.n)};
+}
+
+/* Se soutient-on, ou joue-t-on quatre parties solo cote a cote ?
+
+   Le piege est l'unite. Une distance en pixels de minimap ne se compare pas
+   d'une carte a l'autre — chaque minimap a son echelle, et sur les plans
+   rearranges (Lunar, Polaris) elle en a meme plusieurs. Un ecart moyen « toutes
+   cartes » n'aurait donc aucun sens.
+
+   D'ou un RAPPORT plutot qu'une distance : la distance au plus proche coequipier
+   DIVISEE par la distance au plus proche adversaire, mesurees sur la meme image
+   et donc a la meme echelle, quelle qu'elle soit. Le rapport est sans unite, il
+   se compare partout, et il se lit tout seul :
+
+     < 1  on est plus pres d'un coequipier que d'un ennemi — un mort peut etre venge
+     ~ 1  on rencontre l'ennemi aussi souvent que son binome
+     > 1  on est seul au contact, et la mort ne sera pas compensee
+
+   Seuls les joueurs VIVANTS comptent : un coequipier a terre n'est pas un
+   soutien, et le compter rapprocherait artificiellement l'equipe. */
+
+/* Les cartes dont la minimap n'est pas une projection mais un PLAN REARRANGE :
+   les niveaux y sont poses cote a cote, a des endroits qui ne correspondent pas
+   a leur position reelle. Releve par Thibaud, qui connait les cartes — sur Lunar
+   trois niveaux sont superposes, sur Polaris les ascenseurs du milieu sont
+   physiquement sous le point A quand la minimap les montre excentres.
+
+   Une distance mesuree entre deux marqueurs de regions differentes n'y est pas
+   approximative : elle est fausse, et rien dans le chiffre ne le signale. Le
+   rapport y est donc affiche avec sa reserve plutot que retire — les autres
+   mesures de ces parties restent bonnes. */
+const REARRANGEES=new Set(["lunar outpost","polaris"]);
+
+function soutien(lot){
+  const rapports=[], parCarte=new Map();
+  for(const a of lot){
+    const sp=a.spatial; if(!sp || !Array.isArray(sp.trajets)) continue;
+    const tous=(a.partie||{}).slots||[], mien=monCamp(a);
+    const adv=tous.filter(s=>!mien.includes(s));
+    if(mien.length<2 || !adv.length) continue;
+    const pos={};
+    for(const t of sp.trajets){
+      if(t.slot==null) continue;
+      for(const p of t.points){ (pos[p[0]]||(pos[p[0]]={}))[t.slot]=[p[1],p[2]]; }
+    }
+    const ev=[...(a.evenements||[])].filter(x=>x.type==="mort"||x.type==="reapparition")
+      .sort((x,y)=>x.image-y.image);
+    const etat={}; for(const k of tous) etat[k]=true;
+    let i=0;
+    const img=Object.keys(pos).map(Number).sort((x,y)=>x-y);
+    const dist=(u,v)=>Math.hypot(u[0]-v[0],u[1]-v[1]);
+    const locales=[];
+    for(const n of img){
+      while(i<ev.length && ev[i].image<=n){ etat[ev[i].slot]=ev[i].type==="reapparition"; i++; }
+      const v=pos[n];
+      const nous=mien.filter(s=>etat[s] && v[s]), eux=adv.filter(s=>etat[s] && v[s]);
+      if(nous.length<2 || !eux.length) continue;
+      /* Un rapport par joueur, puis la mediane de l'image : un seul joueur
+         parti au contact ne doit pas resumer la position de l'equipe. */
+      const r=nous.map(s=>{
+        const ami=Math.min(...nous.filter(o=>o!==s).map(o=>dist(v[s],v[o])));
+        const enn=Math.min(...eux.map(o=>dist(v[s],v[o])));
+        return enn>0 ? ami/enn : null;
+      }).filter(x=>x!==null).sort((x,y)=>x-y);
+      if(r.length) locales.push(r[r.length>>1]);
+    }
+    if(!locales.length) continue;
+    locales.sort((x,y)=>x-y);
+    const m=locales[locales.length>>1];
+    rapports.push(m);
+    const c=(a.partie||{}).carte||"?";
+    if(!parCarte.has(c)) parCarte.set(c,[]);
+    parCarte.get(c).push(m);
+  }
+  if(!rapports.length) return null;
+  const med=t=>[...t].sort((x,y)=>x-y)[t.length>>1];
+  return {n:rapports.length, med:med(rapports),
+          seul:rapports.filter(x=>x>1).length,
+          cartes:[...parCarte.entries()]
+                 .map(([c,L])=>({carte:c, n:L.length, med:med(L),
+                                 rearrangee:REARRANGEES.has(c.toLowerCase())}))
+                 .sort((x,y)=>y.med-x.med)};
+}
+
 /* Ecart au score, en victoire et en defaite.
 
    Le collage garde les deux scores d'en-tete tels que le jeu les ecrit (`sg` a
@@ -3264,6 +3457,7 @@ function drawAna(){
      `LOT` est le lot filtre — sans tri, c'est tout l'historique. */
   const ecarts=ecartsScore(LOT);
   const emp=emprise(lot);
+  const dv=dernierVivant(lot), sout=soutien(lot);
   const nMorts=lot.reduce((a,x)=>a+(x.evenements||[]).filter(e=>e.type==="mort").length,0);
 
   /* La vue d'ensemble ne parle que de NOUS. Elle affichait les morts des deux
@@ -3328,6 +3522,34 @@ function drawAna(){
   if(ret) global+=`<p class="note">Délai de réapparition : médiane ${fr(ret.mediane)} s
     sur ${ret.n} séjours complets, de ${fr(ret.min)} à ${fr(ret.max)} s. Un délai fixe et
     individuel — pas de vagues imposées par le jeu.</p>`;
+
+  /* Le dernier vivant. Range dans « Équipe » et non dans « Joueurs » : ce qui se
+     joue la est d'abord un etat de l'equipe — on y arrive parce que les trois
+     autres sont tombes — avant d'etre une performance individuelle. */
+  if(dv){
+    const pc=(a,b)=>Math.round(100*a/b);
+    global+=`<h4>Quand il n'en reste qu'un</h4><div class="mbig">
+      <b>${dv.n}<em>fois seul contre plusieurs</em></b>
+      <b>${fr(dv.duree)} s<em>durée médiane</em></b>
+      <b>${pc(dv.gagnes,dv.n)} %<em>avec au moins un frag</em></b>
+      <b>${pc(dv.survecu,dv.n)} %<em>où il s'en sort vivant</em></b>
+      <b>${dv.contre3}<em>à 1 contre 3 ou plus</em></b>
+      </div>`
+      + (dv.joueurs.length>1?`<div class="mtab mtab3"><div class="mth"><s>joueur</s>
+          <s>fois seul</s><s>dont avec frag</s></div>`
+        + dv.joueurs.map(j=>`<div class="mtr3"><b>${j.nom}</b><s>${j.n}</s>`
+          + `<s>${j.gagnes} — ${pc(j.gagnes,j.n)} %</s></div>`).join("")
+        + `</div>`:"")
+      + `<p class="note">Sur ${dv.parties} partie${dv.parties>1?"s":""} : cette mesure ne
+         demande <b>aucune attribution des tueurs</b>, l'effectif vivant se lisant sur les
+         morts et les réapparitions. Une séquence est retenue au-delà de 2 s — en deçà il
+         s'agit d'un croisement de morts, pas d'une situation jouée.
+         À ne pas confondre avec le <b>taux de trade</b>, qui a été essayé et écarté :
+         « une de nos morts suivie d'une mort adverse sous 10 s » donnait 52 %, mais en
+         redistribuant nos morts au hasard sur la même partie on obtenait 52 % aussi, et
+         aucune fenêtre de 1 à 15 s ne creusait plus de deux points. Ce chiffre ne mesurait
+         que la cadence des morts. La vengeance demande de savoir qui a tué.</p>`;
+  }
 
   /* --- 2. echanges --- */
   let duel;
@@ -3572,7 +3794,11 @@ function drawAna(){
   let terrain="";
   if(emp){
     const pc=n=>Math.round(n*100);
-    terrain=`<div class="mbig">
+    /* Ces tuiles n'avaient pas de titre : seules dans leur section, elles se
+       lisaient sous le sous-titre du bloc. Maintenant qu'une autre mesure les
+       suit dans le meme bloc, leur note se serait lue comme celle de la
+       suivante. */
+    terrain=`<h4>Emprise sur la carte</h4><div class="mbig">
       <b>${pc(emp.nous)} %<em>emprise à nous</em></b>
       <b>${pc(emp.dispute)} %<em>disputée</em></b>
       <b>${pc(emp.eux)} %<em>à eux</em></b>
@@ -3585,6 +3811,33 @@ function drawAna(){
         duels — mais <b>${emp.sansCombat}</b> surviennent à effectif égal ou supérieur
         <b>sans qu'un seul des nôtres tombe</b>. Celles-là ne se corrigent pas en jouant
         mieux les duels : la position a été lâchée, pas perdue.</p>`;
+  }
+
+  /* Le soutien : joue-t-on a quatre, ou a quatre solos cote a cote ? */
+  if(sout){
+    const d2=x=>x.toFixed(2).replace(".",",");
+    const verdict = sout.med<0.85 ? "l'équipe se tient"
+      : sout.med<=1.05 ? "on croise l'ennemi aussi souvent que son binôme"
+      : "on est plus souvent seul au contact qu'accompagné";
+    terrain+=`<h4>Soutien — est-on à portée d'un coéquipier ?</h4><div class="mbig">
+      <b>${d2(sout.med)}<em>plus proche coéquipier ÷ plus proche adversaire</em></b>
+      <b>${sout.seul} / ${sout.n}<em>parties au-dessus de 1</em></b>
+      </div>
+      <div class="mtab mtab3"><div class="mth"><s>carte</s><s>rapport</s><s>parties</s></div>`
+      + sout.cartes.map(c=>`<div class="mtr3"><b>${c.carte}${c.rearrangee
+          ?`<em>plan réarrangé — mesure peu fiable</em>`:""}</b>`
+        + `<s>${d2(c.med)}</s><s>${c.n}</s></div>`).join("")
+      + `</div>
+      <p class="note">Un <b>rapport</b>, pas une distance : une longueur en pixels de minimap
+        ne se compare pas d'une carte à l'autre, chaque minimap ayant sa propre échelle. En
+        divisant la distance au plus proche coéquipier par celle au plus proche adversaire,
+        mesurées sur la même image donc à la même échelle, le chiffre devient comparable
+        partout. <b>Sous 1</b> on est plus près d'un allié que d'un ennemi — une mort peut
+        être vengée ; <b>au-dessus</b>, on meurt hors de portée de tout secours.
+        Ici ${verdict}. Seuls les <b>vivants</b> comptent : un coéquipier à terre n'est pas
+        un soutien. Sur Lunar Outpost et Polaris la minimap range les étages côte à côte
+        plutôt que de les projeter, et deux marqueurs éloignés peuvent y être l'un au-dessus
+        de l'autre — le rapport y est indicatif, pas mesuré.</p>`;
   }
 
   /* Regroupement par theme. Une liste plate de dix sections obligeait a tout
