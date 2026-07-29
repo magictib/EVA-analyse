@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
@@ -1576,6 +1576,26 @@ function selfTest(){
     "Une équipe à deux tags reste une seule équipe",
     `notre camp : [${cNT}] — Tchernobyl est encore BVS et compte avec nous`);
 
+  /* Un renommage ne doit pas couper un joueur en deux. Nous avons joue BVS
+     contre GUN et FXC, puis NT contre END : si le cumul se fait sur le pseudo
+     entier, chacun apparait deux fois avec la moitie de ses morts, et le total
+     de saison ne totalise plus rien. */
+  const pAv={partie:{dt:"2026-07-21",h:"19:03",slots:[1,2,3,4,6,7,8,9],
+      nous:[6,7,8,9]}, noms:{6:"BVSxLiX",7:"BVSxTchernobyl",8:"BVSxCROMx",9:"BVSxTibco"},
+    evenements:[{image:1,instant:500,type:"mort",slot:9}]};
+  const pAp={partie:{dt:"2026-07-28",h:"19:02",slots:[1,2,3,4,6,7,8,9],
+      nous:[1,2,3,4]}, noms:{1:"NTxTibco",2:"NTxCROMx",3:"NTxLiX",4:"BVSxTchernobyl"},
+    evenements:[{image:1,instant:500,type:"mort",slot:1}]};
+  const sv3=PSEUDO; PSEUDO="NTxTibco";
+  const cumul=parJoueurAna([pAv,pAp]);
+  PSEUDO=sv3;
+  const tib=cumul.filter(([n])=>sansTag(n).toLowerCase()==="tibco");
+  T(tib.length===1 && tib[0][1].morts===2,
+    "Un changement de nom d'équipe ne coupe pas un joueur en deux",
+    tib.length===1
+      ? `une seule ligne « ${tib[0][0]} », ses ${tib[0][1].morts} morts réunies`
+      : `${tib.length} lignes pour Tibco : ${tib.map(([n])=>n).join(", ")}`);
+
   /* Et le tag d'une partie appartient a SA DATE. Il y a un mercato en fin
      d'annee : redecouper d'anciennes parties avec le tag courant rangerait tes
      anciens coequipiers du cote adverse, et retournerait tout l'historique. */
@@ -2820,9 +2840,23 @@ function revenge(lot, fenetre=20){
 /* Par joueur de mon camp : morts, temps au sol, retours accompagnes. */
 function parJoueurAna(lot){
   const g=new Map();
-  const prendre=nom=>{ if(!g.has(nom)) g.set(nom,{morts:0,ausol:0,sejours:0,
-    retours:0,accompagnes:0,subies:0,rendues:0,duree:0,imputes:0,retFrag:0,retRevenge:0,retMort:0,retRien:0,
-    retAttrib:0}); return g.get(nom); };
+  /* Un joueur est regroupe sur son PSEUDO SANS TAG, pas sur le pseudo entier.
+     Nous avons joue BVS contre GUN et FXC, puis NT contre END : garder le tag
+     dans la cle aurait coupe chacun de nous en deux lignes — « Tibco BVS » et
+     « Tibco NT » —, chacune avec la moitie de ses morts, et un cumul de saison
+     qui ne cumule rien. Le tag reste AFFICHE, celui de la partie la plus
+     recente, parce qu'il dit sous quel nom l'equipe joue aujourd'hui. */
+  const dateDe=a=>String((a.partie&&a.partie.dt)||"")+String((a.partie&&a.partie.h)||"");
+  const prendre=(nom,a)=>{
+    const k=sansTag(nom).toLowerCase();
+    if(!g.has(k)) g.set(k,{nom, vu:"", morts:0,ausol:0,sejours:0,
+      retours:0,accompagnes:0,subies:0,rendues:0,duree:0,imputes:0,retFrag:0,
+      retRevenge:0,retMort:0,retRien:0,retAttrib:0});
+    const o=g.get(k);
+    const d=a?dateDe(a):"";
+    if(d>=o.vu){ o.vu=d; o.nom=nom; }
+    return o;
+  };
   for(const a of lot){
     const mien=monCamp(a);
     /* « Retour qui frag » a besoin de savoir QUI a tue : sans attribution, il
@@ -2849,15 +2883,15 @@ function parJoueurAna(lot){
       : (sp.partie_fin>sp.partie_debut) ? sp.partie_fin-sp.partie_debut
       : (sp.fin>sp.debut ? sp.fin-sp.debut
         : (ins.length?Math.max(...ins)-Math.min(...ins):0));
-    for(const k of mien) prendre(nomDe(a,k)).duree+=duree;
+    for(const k of mien) prendre(nomDe(a,k),a).duree+=duree;
     for(const e of (a.evenements||[])){
       if(!mien.includes(e.slot)) continue;
-      if(e.type==="mort") prendre(nomDe(a,e.slot)).morts++;
-      if(e.type==="reapparition") prendre(nomDe(a,e.slot)).retours++;
+      if(e.type==="mort") prendre(nomDe(a,e.slot),a).morts++;
+      if(e.type==="reapparition") prendre(nomDe(a,e.slot),a).retours++;
     }
     for(const s of (a.sejours||[])){
       if(!mien.includes(s.slot)) continue;
-      const o=prendre(nomDe(a,s.slot)); o.ausol+=s.duree; o.sejours++;
+      const o=prendre(nomDe(a,s.slot),a); o.ausol+=s.duree; o.sejours++;
     }
     /* Une mort dont la reapparition n'a pas ete vue comptait ZERO seconde a
        terre. Le biais depend du joueur, donc il ne s'annule pas : CROMx avait
@@ -2867,7 +2901,7 @@ function parJoueurAna(lot){
        C'est une estimation, et elle est signalee comme telle sous le tableau. */
     const med=(delaiRetour([a])||{}).mediane || 17;
     for(const k of mien){
-      const o=prendre(nomDe(a,k));
+      const o=prendre(nomDe(a,k),a);
       const orphelines=Math.max(0,
         (a.evenements||[]).filter(e=>e.type==="mort"&&e.slot===k).length
         - (a.sejours||[]).filter(x=>x.slot===k).length);
@@ -2877,13 +2911,13 @@ function parJoueurAna(lot){
     const ret=(a.evenements||[]).filter(e=>e.type==="reapparition"&&mien.includes(e.slot));
     for(const e of ret){
       if(ret.some(f=>f!==e && Math.abs(f.instant-e.instant)<=6))
-        prendre(nomDe(a,e.slot)).accompagnes++;
-      if(aAttrib) prendre(nomDe(a,e.slot)).retAttrib++;
+        prendre(nomDe(a,e.slot),a).accompagnes++;
+      if(aAttrib) prendre(nomDe(a,e.slot),a).retAttrib++;
     }
     for(const f of (a.frags||[])){
       if(f.tueur===null||f.tueur===undefined) continue;
-      if(estMien(a,f.victime)) prendre(nomDe(a,f.victime)).subies++;
-      if(estMien(a,f.tueur))   prendre(nomDe(a,f.tueur)).rendues++;
+      if(estMien(a,f.victime)) prendre(nomDe(a,f.victime),a).subies++;
+      if(estMien(a,f.tueur))   prendre(nomDe(a,f.tueur),a).rendues++;
     }
 
     /* Ce qu'un retour PRODUIT, dans les vingt secondes qui suivent. « Retour
@@ -2892,7 +2926,7 @@ function parJoueurAna(lot){
        reprendre un frag, venger sa mort, ou retomber sans avoir tire. */
     const FEN=20;
     for(const e of ret){
-      const o=prendre(nomDe(a,e.slot));
+      const o=prendre(nomDe(a,e.slot),a);
       const sien=(a.frags||[]).filter(f=>f.tueur===e.slot
         && f.instant<e.instant && f.instant>=e.instant-FEN);
       const remort=(a.frags||[]).find(f=>f.victime===e.slot
@@ -2907,7 +2941,9 @@ function parJoueurAna(lot){
       else o.retRien++;
     }
   }
-  return [...g.entries()].sort((x,y)=>y[1].morts-x[1].morts);
+  /* On rend le pseudo COMPLET le plus recent comme etiquette, la cle interne
+     etant sans tag : l'appelant continue de lire un couple [pseudo, chiffres]. */
+  return [...g.values()].map(o=>[o.nom,o]).sort((x,y)=>y[1].morts-x[1].morts);
 }
 
 
