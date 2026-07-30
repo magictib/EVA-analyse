@@ -3178,6 +3178,20 @@ function creux(lot, minDuree=1){
    Seuls les joueurs VIVANTS comptent : un coequipier a terre n'est pas un
    soutien, et le compter rapprocherait artificiellement l'equipe. */
 
+/* L'etage sur lequel on pose un pion de strat.
+
+   Thibaud : « pour les strats on peut declarer si l'on met un joueur sur l'etage
+   ou au niveau 0, comme ca tu pourras vraiment comparer avec la mini map ».
+
+   C'est ce qui manquait pour rapprocher une strat d'une analyse. Sur une carte a
+   etages, la minimap ne superpose pas les niveaux : elle les pose cote a cote.
+   Un joueur place au meme endroit du plan cote apparait donc a DEUX endroits
+   differents de la minimap selon qu'il est au sol ou au-dessus. Sans le niveau,
+   la comparaison est impossible ; avec lui, elle devient directe.
+
+   Le bandeau existait deja dans la page mais n'etait branche sur rien. */
+let ETAGE=0;
+
 /* Les cartes dont la minimap n'est pas une projection mais un PLAN REARRANGE :
    les niveaux y sont poses cote a cote, a des endroits qui ne correspondent pas
    a leur position reelle. Releve par Thibaud, qui connait les cartes — sur Lunar
@@ -4378,8 +4392,7 @@ function drawAna(){
       </div>
       <div class="mtab mtab3"><div class="mth"><s>carte</s><s>le coéquipier le plus proche est…</s>
         <s>parties</s></div>`
-      + sout.cartes.map(c=>`<div class="mtr3"><b>${c.carte}${c.rearrangee
-          ?`<em>étages superposés — chiffre indicatif</em>`:""}</b>`
+      + sout.cartes.map(c=>`<div class="mtr3"><b>${c.carte}</b>`
         + `<s>${enClair(c.med)}<em>rapport ${d2(c.med)}</em></s><s>${c.n}</s></div>`).join("")
       + `</div>
       <p class="note">${verdict}
@@ -4390,9 +4403,11 @@ function drawAna(){
         pixels de minimap ne veut pas dire la même chose sur une petite carte et sur une
         grande — alors que « plus près que l'ennemi » se comprend partout pareil.
         Les coéquipiers <b>à terre</b> ne comptent pas : un mort n'est pas un soutien.
-        Sur Lunar Outpost et Polaris la minimap pose les étages côte à côte au lieu de les
-        superposer, donc deux joueurs qui paraissent loin peuvent être l'un au-dessus de
-        l'autre : le chiffre y est indicatif.</p>`;
+        <br><br>Sur Lunar Outpost et Polaris la minimap pose les étages côte à côte au lieu
+        de les superposer. Ce n'est pas une réserve : c'est <b>la minimap qui fait foi</b>,
+        puisque c'est elle que vous lisez en jouant et en ses termes que vous parlez de
+        positions. Deux joueurs éloignés sur la minimap sont éloignés, quoi qu'il en soit
+        dans l'arène.</p>`;
   }
 
   /* Regroupement par theme. Une liste plate de dix sections obligeait a tout
@@ -8162,13 +8177,27 @@ function drawEquip(){
       `<button data-eq="${k}"><i style="background:${e.col}"></i>${e.n}</button>`).join("") +
     `<button class="wipe" data-wipe="1">Tout effacer</button>`;
 }
+/* Le bandeau « Sol / Etage +1 » existait dans la page depuis le debut et
+   n'ecoutait rien : cliquer dessus ne faisait bouger que son propre aspect.
+   Il commande maintenant le niveau sur lequel les prochains pions se posent, et
+   grise ceux de l'autre niveau pour qu'on voie ou l'on travaille. */
+document.addEventListener("click", e=>{
+  const b=e.target.closest("#floorseg button[data-fl]"); if(!b) return;
+  ETAGE = +b.dataset.fl || 0;
+  document.querySelectorAll("#floorseg button[data-fl]").forEach(x=>
+    x.setAttribute("aria-pressed", String(+x.dataset.fl === ETAGE)));
+  if(typeof drawMap==="function") drawMap();
+});
+
 $("#equip").addEventListener("click",ev=>{
   const b=ev.target.closest("button"); if(!b) return;
   if(b.dataset.wipe){ ITEMS=[]; drawMap(); return; }
   const k=b.dataset.eq, map=M();
   /* posé sur le point de mesure s'il existe, sinon au centre : ensuite on le glisse */
   const at = {x:map.w/2, y:map.h/2};
-  ITEMS.push({k, x:at.x, y:at.y, a:0});
+  /* `lvl` accompagne desormais chaque pion : sans lui, une strat posee a
+     l'etage et une strat posee au sol se ressemblent trait pour trait. */
+  ITEMS.push({k, x:at.x, y:at.y, a:0, lvl:ETAGE});
   drawMap();
 });
 /* Ici vivait un ecouteur sur #pondsel, l'ancien menu deroulant de ponderation.
