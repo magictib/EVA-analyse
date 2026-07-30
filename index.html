@@ -1339,36 +1339,43 @@ function blocCompos(){
      droite, barre de longueur proportionnelle. La colonne de gauche se lit donc
      sans reapprendre a lire. */
   const barre=(v,max)=>`<i style="width:${Math.max(3,Math.round(100*v/(max||1)))}%"></i>`;
-  const tMax=Math.max(...C.principale.filter(o=>o.t!==null).map(o=>o.t), 1);
-  const gMax=Math.max(...C.secondaire.map(o=>Math.max(o.gain,0)), 1);
-  const colA=C.principale.slice(0,8).map((o,i)=>`<div class="cprow${i?"":" cpbest"}">
+  const col=(L,pris)=>{ const mx=Math.max(...L.map(o=>o.t),1);
+    return L.slice(0,8).map((o,i)=>`<div class="cprow${o.w===pris?" cpbest":""}">
       <div class="cprk">${String(i+1).padStart(2,"0")}</div>
       <div class="cpnm">${o.w.n}<em>${o.w.c}</em></div>
-      <div class="cpva">${Math.round(o.t)} ms<em>sur ${ou}</em></div>
-      <div class="cpbar">${barre(tMax-o.t+1, tMax)}</div></div>`).join("");
-  const colB=C.secondaire.slice(0,8).map((o,i)=>`<div class="cprow${i?"":" cpbest"}${o.utile?"":" cpfaible"}">
-      <div class="cprk">${String(i+1).padStart(2,"0")}</div>
-      <div class="cpnm">${o.w.n}<em>${o.w.c}</em></div>
-      <div class="cpva">${o.gain>0?"−"+Math.round(o.gain)+" ms":"—"}<em>${
-        o.utile?`prend ${pc(o.part)} des distances`:"couvre les mêmes distances"}</em></div>
-      <div class="cpbar">${barre(Math.max(o.gain,0), gMax)}</div></div>`).join("");
+      <div class="cpva">${o.t<1?"un seul tir":Math.round(o.t)+" ms"}<em>${
+        o.t<1?"la tête suffit, à cette portée":"utile jusqu'à "+fr(o.portee,0)+" m"}</em></div>
+      <div class="cpbar">${barre(mx-o.t+1, mx)}</div></div>`).join(""); };
   return `<div class="cpwrap"><h4>Quelles deux armes prendre</h4>
+    <p class="cpduo"><b>${C.pa.w.n}</b> + <b>${C.pb.w.n}</b>${C.gain>0
+      ? ` — ${Math.round(C.gain)} ms gagnés sur ${C.pa.w.n} seul` : ""}</p>
     <div class="cpcols">
-      <div><p class="cphd">Arme principale — celle qui tient le terrain</p>${colA}</div>
-      <div><p class="cphd">Arme secondaire — à côté du ${C.chef.n}</p>${colB}</div>
+      <div><p class="cphd">Tenir la ligne — au-delà de ${C.coupure} m</p>${col(C.longue,C.pa.w)}</div>
+      <div><p class="cphd">Gagner le contact — sous ${C.coupure} m</p>${col(C.courte,C.pb.w)}</div>
     </div>
     <p class="note">Pour le rôle <b>${role.n.toLowerCase()}</b>, en visant le
       <b>${Z==="tete"?"tête":Z==="torse"?"torse":Z}</b>, sur <b>${ou}</b>${
       POND?"":" — choisis une carte plus haut pour l'adapter"}.
-      <br><br>Les deux colonnes ne se classent pas sur le même critère, et c'est le but.
-      À <b>gauche</b>, le temps qu'il faut à l'arme pour tuer aux distances de la carte,
-      jouée seule : c'est elle qui doit tenir le gros du terrain.
-      À <b>droite</b>, ce que chaque arme apporte <b>en plus</b> du ${C.chef.n} — le temps
-      gagné par le couple. Une arme peut être excellente et n'apporter aucun gain parce
-      qu'elle couvre les mêmes distances : elle descend, ce qui est exactement ce qu'on veut
-      voir. Les grisées sont dans ce cas.
-      Une même arme peut donc être première à gauche et dernière à droite sans qu'aucun des
-      deux classements ne se trompe.</p>
+      <br><br>Deux <b>postes</b>, pas un classement coupé en deux. Chaque arme est notée sur
+      la bande qu'elle doit tenir, jamais sur l'autre : comparer un fusil à pompe et un
+      fusil d'assaut sur la carte entière revenait à demander lequel fait le mieux le
+      travail de l'autre — et comme les distances courtes dominent partout, le pompe
+      gagnait un classement où il n'avait rien à faire.
+      <br><br>La colonne de gauche n'accepte que les armes encore <b>utiles au-delà de
+      ${C.coupure} m</b>, c'est-à-dire qui y tuent en moins de 1,6 fois leur meilleur temps.
+      Celle de droite les accepte toutes : un fusil d'assaut peut très bien gagner le
+      contact, c'est l'inverse qu'il fallait interdire.
+      <br><br>Les temps sont calculés <b>tireur en mouvement</b>, ratés compris — le
+      conseil supposait jusqu'ici un tireur immobile, ce qui n'est pas la situation d'un
+      duel. Le poste, lui, vient de la <b>catégorie déclarée par le jeu</b> et non d'une
+      portée calculée : le modèle de dispersion prête au M12 100 % de balles au but à 10 m
+      et au sniper Atlas 4 % à 5 m, ce qui contredit le jeu. Tant que ce point n'est pas
+      tranché, aucune portée qu'il produit ne peut servir à ranger une arme.
+      ${(C.longue[0]&&C.longue[0].t<1)||(C.courte[0]&&C.courte[0].t<1)?`
+      <br><br>« Un seul tir » n'est pas un temps de zéro : c'est une arme qui tue d'une
+      balle à la tête. Le temps à tuer mesure l'intervalle entre la première et la dernière
+      balle — avec une seule, il n'y a pas d'intervalle. Ces armes ne se départagent donc
+      pas ici, et il faut lire leur cadence et leur maniabilité ailleurs.`:""}</p>
     </div>`;
 }
 
@@ -6192,10 +6199,93 @@ const PRIX_MUET=3000;                     // ms : cout d'une distance sans repon
    score s'appuie desormais dessus : c'est la meme mesure que la colonne
    « tirs reels » du classement, et non plus une hypothese de tir parfait qui
    flatte exactement les armes les plus punies par un rate. */
-function tempsReel(w, d, z){
-  const r = real(w, d, z, false);
+/* Le conseil de compo se calcule TIREUR EN MOUVEMENT, et ce n'est pas un
+   reglage d'affichage.
+
+   Le quatrieme argument de `real` etait `false` en dur : toute la recommandation
+   supposait un tireur immobile. Thibaud releve ce que cela produisait — « comment
+   le M12 peut-il etre a cote de fusils d'assaut alors qu'il faut etre pres de
+   l'adversaire pour tuer a cause de la dispersion, et en plus de ca lors
+   d'affrontement on bouge pas mal ». Il a raison sur les deux points, et le
+   second etait simplement absent du modele.
+
+   L'immobilite est une hypothese defendable pour COMPARER des armes sur un banc,
+   ou l'on veut isoler l'arme du joueur. Elle ne l'est pas pour CHOISIR ce qu'on
+   emporte en partie : on choisit pour les conditions reelles, et en duel on se
+   deplace. Les deux usages coexistent dans la page, ils n'ont pas a partager
+   la meme hypothese. */
+function tempsReel(w, d, z, bouge=true){
+  const r = real(w, d, z, bouge);
   if(r) return r.t + relMs(w, r.fired===null ? r.hits : r.fired);
   return ttkR(w, d, z);
+}
+
+/* Ou une arme cesse d'etre elle-meme.
+
+   Thibaud demande une structure et non une optimisation : « il faut une arme qui
+   puisse tirer a moyenne/longue distance sans perdre trop de degats et de
+   maniere efficace, et une arme proche type striker, spectre qui tue assez
+   bien. » C'est une contrainte de ROLE, pas un resultat a esperer d'un
+   classement — et tant qu'on ne l'impose pas, l'optimiseur rend deux armes qui
+   couvrent le meme terrain parce que c'est arithmetiquement meilleur.
+
+   La portee utile est la plus grande distance ou l'arme tue encore en moins de
+   `TOLERANCE` fois son meilleur temps. Au-dela, elle tire encore mais elle a
+   cesse d'etre competitive — ce que « sans perdre trop de degats » decrit. */
+/* Le POSTE d'une arme vient de sa categorie, pas d'un calcul.
+
+   J'ai d'abord voulu le deduire : portee ou l'arme garde son temps a tuer, puis
+   portee ou elle place encore la moitie de ses balles. Les deux ont echoue, et
+   la seconde a mis au jour un defaut du modele de dispersion qui depasse cette
+   section — `hitRate` rend 100 % pour le M12 a dix metres et 4 % pour le sniper
+   Atlas a cinq. C'est l'inverse de ce que Thibaud decrit et de ce que le jeu
+   fait. Tant que ce point n'est pas tranche, aucune portee deduite de ce modele
+   ne peut servir a classer.
+
+   La categorie, elle, est declaree par le jeu et Thibaud la reprend telle quelle
+   pour nommer le besoin : « une arme qui puisse tirer a moyenne/longue distance
+   sans perdre trop de degats, et une arme proche type striker, spectre ». Le
+   Striker et le Spectre sont des SMG ; le poste se lit donc directement.
+
+   Declare plutot que deduit — et ici, declare par la source qui fait autorite. */
+const POSTE={
+  "SMG":"courte", "Fusil à pompe":"courte", "Pistolet":"courte",
+  "Fusil d'assaut":"longue", "Marksman":"longue", "Sniper":"longue",
+  "LMG":"longue", "Rafale ×3":"longue", "Laser continu":"longue",
+};
+const posteDe = w => POSTE[w.c] || "longue";
+
+const TOLERANCE_PORTEE=1.3;   // « sans perdre trop de degats » : 30 %, pas 60
+const TOUCHE_MIN=0.55;        // en deca, on ne place plus la moitie de ses balles
+const COUPURE_M=10;       // bande courte 0-10 m, d'apres les bandes de duel
+                          // que Thibaud a posees : 0-5, 5-10, 10-25, 25+.
+function porteeUtile(w, z){
+  /* DEUX conditions, et la seconde est celle que Thibaud a nommee.
+
+     La premiere, le temps a tuer, ne suffisait pas : le M12 ressortait « utile
+     jusqu'a 13 m » et se retrouvait deuxieme du classement longue portee, ce
+     qu'aucun duel ne confirme. Un fusil a pompe garde en effet un temps a tuer
+     honnete tant qu'il touche — tout son probleme est qu'il ne touche plus.
+
+     La seconde condition lit donc directement la DISPERSION, tireur en
+     mouvement : au-dela de la distance ou l'arme ne place plus la moitie de ses
+     balles, elle a cesse d'etre une arme de cette portee, quel que soit ce
+     qu'elle ferait si elle touchait. */
+  let best=Infinity;
+  for(let d=0.5; d<=40; d+=0.5){
+    const t=tempsReel(w, d, z);
+    if(t!==null && t<best) best=t;
+  }
+  if(!Number.isFinite(best)) return 0;
+  let loin=0;
+  for(let d=0.5; d<=40; d+=0.5){
+    const t=tempsReel(w, d, z);
+    if(t===null || t>best*TOLERANCE_PORTEE) continue;
+    const hr=hitRate(w, d, z, true);
+    if(hr!==null && hr!==undefined && hr<TOUCHE_MIN) continue;
+    loin=d;
+  }
+  return loin;
 }
 function noteCompo(a, b, prof, z){
   let s=0, part=[0,0], couvert=0;
@@ -6288,19 +6378,47 @@ function classementsCompo(cle, role, z){
   const prof=profilRole(cle, role); if(!prof) return null;
   const pool=W.filter(w=>w && w.n);
   if(pool.length<2) return null;
-  const seules=pool.map(w=>({w, ...noteCompo(w, null, prof, z)}))
-                   .sort((a,b)=>a.t-b.t);
-  const chef=seules[0];
-  const seconds=pool.filter(w=>w!==chef.w).map(w=>{
-    const r=noteCompo(chef.w, w, prof, z);
-    /* La part que la seconde arme prend reellement. Sous le seuil, elle ne sert
-       qu'a accompagner : le couple est arithmetiquement bon et tactiquement
-       vide, et c'est le piege qu'on avait deja rencontre. */
-    const part=r.part[1];
-    return {w, t:r.t, part, gain:chef.t-r.t, utile:part>=PART_MIN};
-  }).sort((a,b)=>(b.utile-a.utile) || (a.t-b.t));
-  return {principale:seules, secondaire:seconds, chef:chef.w,
-          med:prof.med, q3:prof.q3, dispo:prof.dispo};
+
+  /* Chaque arme est jugee sur LA BANDE QU'ELLE DOIT TENIR, pas sur la carte
+     entiere. Comparer un fusil a pompe et un fusil d'assaut sur le meme profil
+     revenait a demander laquelle des deux fait le mieux le travail de l'autre —
+     et comme les distances courtes dominent toutes les cartes, le pompe gagnait
+     un classement ou il n'avait rien a faire. */
+  const surBande = (w, de, a) => {
+    let s=0, p=0;
+    for(let d=0; d<prof.w.length; d++){
+      const c=d+0.5;
+      if(c<de || c>=a) continue;
+      const q=prof.w[d]; if(!q) continue;
+      const t=tempsReel(w, c, z);
+      s += q * (t===null ? PRIX_MUET : t);
+      p += q;
+    }
+    return p ? {t:s/p, poids:p} : null;
+  };
+
+  const juge = (bande, garde) => pool.map(w=>{
+      const r=surBande(w, bande[0], bande[1]);
+      return r && {w, t:r.t, portee:porteeUtile(w, z)};
+    }).filter(o=>o && garde(o)).sort((a,b)=>a.t-b.t);
+
+  /* Chaque colonne ne recoit que les armes de son poste, declare par la
+     categorie. Un fusil a pompe ne concourt pas pour tenir une ligne, meme si
+     le modele lui prete un bon temps a tuer a dix metres — c'est precisement
+     l'anomalie que Thibaud a relevee. */
+  const longue = juge([COUPURE_M, 40], o=>posteDe(o.w)==="longue");
+  const courte = juge([0, COUPURE_M], o=>posteDe(o.w)==="courte");
+  if(!longue.length || !courte.length) return null;
+
+  /* La paire retenue : la meilleure de chaque colonne, sauf si c'est la meme
+     arme — auquel cas on descend d'un cran a courte portee, parce que c'est la
+     que la releve est la plus facile a trouver. */
+  const pa=longue[0];
+  const pb=courte.find(o=>o.w!==pa.w) || courte[0];
+  const seul=noteCompo(pa.w, null, prof, z).t;
+  const duo=noteCompo(pa.w, pb.w, prof, z);
+  return {longue, courte, pa, pb, gain:seul-duo.t, part:duo.part,
+          med:prof.med, q3:prof.q3, dispo:prof.dispo, coupure:COUPURE_M};
 }
 
 function tableauCompos(role, z){
