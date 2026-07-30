@@ -8195,17 +8195,39 @@ function setD(m){
    choisisse en connaissance : "helios (4,3 m)" dit tout de suite a quoi s'attendre.
    Les cartes non calibrees sont signalees, leur profil dependant d'un ppm faux. */
 function fillPond(){
-  /* Une pastille par carte dont on connait le profil de distances, la mediane
-     affichee dessous : c'est elle qui explique le classement obtenu, et la lire a
-     cote du nom evite d'avoir a se souvenir qu'Atlantis est une carte de contact.
-     « Toutes distances » revient au reglage manuel de la regle. */
-  const dispo=Object.keys(MAPS).filter(k=>DPROF.med[k]!==undefined)
-    .sort((a,b)=>DPROF.med[a]-DPROF.med[b]);
+  /* Une pastille par carte, et DEUX distances dessous plutot qu'une mediane.
+
+     Thibaud : « si on fait des moyennes de distances a 25 m et a 3 m ca fausse ;
+     par exemple si 50 % des duels se font a 6 m et 50 % a 17 m on aura peut-etre
+     une moyenne a 12 m en melangeant tout ». Il a raison, et la mediane affichee
+     ici faisait exactement cela — elle annoncait 4,3 m sur Helios en ecrasant
+     ensemble le contact et les lignes.
+
+     Une carte n'a pas une distance d'engagement, elle en a deux : sur Horizon,
+     « les bagarres qui se passent dans le bar sont a 5 m et moins, alors que
+     celles a l'exterieur sont a 13 m ». Aucun chiffre unique ne decrit cela.
+
+     Les deux modes viennent de `deuxModes`, deja utilise par les colonnes
+     d'armes — la pastille et le conseil disent donc la meme chose, ce qui n'etait
+     pas le cas quand l'une montrait une mediane et l'autre deux groupes. Le tri
+     se fait sur la distance de contact, celle qu'on rencontre le plus souvent. */
+  const role=ROLES.find(r=>r.k===ROLE)||ROLES[2];
+  const paires={};
+  for(const k of Object.keys(MAPS)){
+    if(DPROF.med[k]===undefined) continue;
+    const m=deuxModes(k, role);
+    if(m) paires[k]=m;
+  }
+  const dispo=Object.keys(paires).sort((a,b)=>paires[a].proche.d-paires[b].proche.d);
   $("#pondrow").innerHTML =
     `<button data-pond="" aria-pressed="${!POND}">Toutes distances</button>`
-    + dispo.map(k=>`<button data-pond="${k}" aria-pressed="${k===POND}"`
+    + dispo.map(k=>{ const m=paires[k];
+        return `<button data-pond="${k}" aria-pressed="${k===POND}"`
         + (CIMG[k]?` class="pondimg" style="background-image:url(${CIMG[k]})"`:"")
-        + `><span>${nomDeCle(k)}<s>${fr(DPROF.med[k],1)} m</s></span></button>`).join("");
+        + ` title="${nomDeCle(k)} : ${Math.round(m.proche.part*100)} % des engagements`
+        + ` vers ${fr(m.proche.d,1)} m, ${Math.round(m.loin.part*100)} % vers ${fr(m.loin.d,1)} m"`
+        + `><span>${nomDeCle(k)}<s>${fr(m.proche.d,1)} et ${fr(m.loin.d,1)} m</s></span></button>`;
+      }).join("");
 }
 function fillMaps(){
   $("#mapsel").innerHTML = Object.entries(MAPS).map(([k,m])=>
