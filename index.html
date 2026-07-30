@@ -4018,11 +4018,19 @@ function drawAna(){
       ${emp.pertes?`<b>${emp.sansCombat}<em>lâchées sans combat</em></b>`:""}
       </div>
       <p class="note">L'équipe qui tient le point colore la minimap ; c'est cette teinte
-        qu'on mesure, lissée. <b>Pourquoi on la perd</b> : ${emp.enInferiorite} des
-        ${emp.pertes} pertes arrivent en infériorité numérique — on avait déjà perdu les
-        duels — mais <b>${emp.sansCombat}</b> surviennent à effectif égal ou supérieur
-        <b>sans qu'un seul des nôtres tombe</b>. Celles-là ne se corrigent pas en jouant
-        mieux les duels : la position a été lâchée, pas perdue.</p>`;
+        qu'on mesure, lissée. Sur les ${emp.pertes} fois où l'emprise a changé de main,
+        ${emp.enInferiorite} arrivent <b>en infériorité numérique</b> — on avait déjà perdu
+        les duels — et <b>${emp.sansCombat}</b> à effectif égal ou supérieur, sans qu'un
+        seul des nôtres tombe.
+        <br><br><b>Ces ${emp.sansCombat}-là ne sont pas des fautes, et c'est une correction.</b>
+        La page les présentait comme des positions « lâchées plutôt que perdues ».
+        Thibaud rectifie : en Domination, une fois le point capturé <b>il faut en partir</b> —
+        pour couvrir des lignes, aller enfermer l'adversaire dans son spawn, ou se replier.
+        Rester dessus n'est nécessaire qu'en Hardpoint. Quitter le point est donc souvent
+        le bon jeu, et le compter comme une perte revenait à reprocher une intention.
+        Ce qui reste à regarder n'est pas le départ mais la <b>reprise adverse sans qu'on la
+        conteste</b> — et cela demande de savoir qui était où, pas seulement qui tenait
+        quoi.</p>`;
   }
 
   /* Le soutien : joue-t-on a quatre, ou a quatre solos cote a cote ? */
