@@ -6008,7 +6008,15 @@ function spawnPlayers(){
     for(let i=0;i<4;i++) out.push({
       id:base+i, team, name:"",
       x:x+w*(i%2?.66:.33), y:y+hh*(i<2?.30:.70),
-      w1:team==="o"?"AK-77":"MX-42", w2:"M12", acc:"DX3", path:null, a:team==="o"?0:180
+      w1:team==="o"?"AK-77":"MX-42", w2:"M12", acc:"DX3", path:null, a:team==="o"?0:180,
+      /* Le NIVEAU sur lequel ce joueur se tient. Thibaud le declare a la main —
+         « sur Helios j'ai mis les oranges au niveau 0 et les bleus a l'etage ».
+         Il part a zero et se change par le bandeau Sol / Etage +1.
+         Il vit sur le JOUEUR et non sur l'accessoire : Thibaud a demande que la
+         pose d'equipement soit ignoree dans les strats, « c'etait juste pour
+         visualiser l'effet d'action ». Ce sont les joueurs qu'on comparera a la
+         minimap, donc ce sont eux qui doivent porter leur etage. */
+      lvl:0
     });
   });
   return out;
@@ -8186,7 +8194,14 @@ document.addEventListener("click", e=>{
   ETAGE = +b.dataset.fl || 0;
   document.querySelectorAll("#floorseg button[data-fl]").forEach(x=>
     x.setAttribute("aria-pressed", String(+x.dataset.fl === ETAGE)));
+  /* Un joueur selectionne CHANGE d'etage ; sinon le bandeau ne fait que fixer
+     l'etage des prochaines poses. Les deux gestes sont naturels et ne se
+     genent pas : on selectionne pour deplacer, on deselectionne pour poser. */
+  const sel = typeof SEL!=="undefined" && SEL!==null
+    ? PLAYERS.find(q=>q.id===SEL) : null;
+  if(sel) sel.lvl = ETAGE;
   if(typeof drawMap==="function") drawMap();
+  if(typeof drawStratPanel==="function") drawStratPanel();
 });
 
 $("#equip").addEventListener("click",ev=>{
