@@ -2423,8 +2423,29 @@ async function chargeAnalysesDuDepot(){
     liste=await r.json();
   }catch(e){ return; }
   if(!Array.isArray(liste)) return;
+  /* LA PLUS COMPLETE GAGNE, et non la locale par principe.
+
+     La regle etait « un import local l'emporte sur le depot a partie egale »,
+     pour qu'une correction faite a la main ne soit pas effacee par la version
+     publiee. L'intention est bonne, l'effet de bord ne l'est pas : un import
+     ancien masque A JAMAIS la version corrigee, et le site affichait « ? » a la
+     place de l'adversaire longtemps apres que les camps aient ete reposes.
+     Thibaud l'a vu a l'ecran.
+
+     On compare donc ce que chacune PORTE, plutot que d'ou elle vient. Camps,
+     points de capture, croix de mort et attribution des tueurs sont des couches
+     qui s'ajoutent et ne se retirent jamais : celle qui en a le plus est la plus
+     recente, sans avoir besoin d'une date. A egalite la locale gagne toujours —
+     l'intention d'origine est respectee la ou elle s'applique. */
+  const richesse = a => {
+    const p=a.partie||{}, sp=a.spatial||{};
+    return (p.adverse_tag?1:0) + (p.camps?1:0)
+         + ((sp.points||{}).zones?1:0) + ((sp.morts_lieux||[]).length?1:0)
+         + ((a.frags||[]).some(f=>f.tueur!=null)?1:0);
+  };
+  const locale=new Map(ANALYSES.map(a=>[cleAna(a), a]));
   const vues=new Set(ANALYSES.map(cleAna));
-  let ajout=0;
+  let ajout=0, remplacees=0;
   /* Les fichiers sont demandes ensemble et non l'un apres l'autre. A une seule
      analyse la difference ne se voyait pas ; a dix-neuf, une attente en file
      ajoutait dix-neuf allers-retours bout a bout avant le premier affichage.
@@ -2442,9 +2463,14 @@ async function chargeAnalysesDuDepot(){
     /* Meme controle qu'a l'import manuel : sans evenements ni date, l'analyse
        ne se rattache a rien et n'apparaitrait dans aucun tri. */
     if(!x || !Array.isArray(x.evenements) || !x.partie || !x.partie.dt || !x.partie.h) continue;
-    if(vues.has(cleAna(x))) continue;
     x._depot=true;
-    ANALYSES.push(x); vues.add(cleAna(x)); ajout++;
+    const k=cleAna(x), dejala=locale.get(k);
+    if(dejala){
+      if(richesse(x) <= richesse(dejala)) continue;   // la locale vaut mieux ou autant
+      ANALYSES[ANALYSES.indexOf(dejala)] = x;         // le depot en sait plus
+      locale.set(k, x); remplacees++; continue;
+    }
+    ANALYSES.push(x); vues.add(k); locale.set(k, x); ajout++;
   }
   if(ajout && typeof drawAna==="function" && document.querySelector("#ana")) drawAna();
 }
