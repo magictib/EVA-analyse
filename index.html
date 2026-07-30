@@ -1340,38 +1340,40 @@ function blocCompos(){
      sans reapprendre a lire. */
   const barre=(v,max)=>`<i style="width:${Math.max(3,Math.round(100*v/(max||1)))}%"></i>`;
   const col=(L,pris)=>{ const mx=Math.max(...L.map(o=>o.t),1);
-    return L.slice(0,8).map((o,i)=>`<div class="cprow${o.w===pris?" cpbest":""}">
+    return L.slice(0,7).map((o,i)=>`<div class="cprow${o.w===pris?" cpbest":""}${
+      o.poste?" cppost":""}">
       <div class="cprk">${String(i+1).padStart(2,"0")}</div>
-      <div class="cpnm">${o.w.n}<em>${o.w.c}</em></div>
+      <div class="cpnm">${o.w.n}<em>${o.w.c}${o.poste
+        ?` · <b>à poste fixe</b> — ×${fr(o.cout,1)} plus lent en bougeant`:""}</em></div>
       <div class="cpva">${o.t<1?"un seul tir":Math.round(o.t)+" ms"}<em>${
-        o.t<1?"la tête suffit, à cette portée":"utile jusqu'à "+fr(o.portee,0)+" m"}</em></div>
+        o.t<1?"la tête suffit ici":"utile jusqu'à "+fr(o.portee,0)+" m"}</em></div>
       <div class="cpbar">${barre(mx-o.t+1, mx)}</div></div>`).join(""); };
+  const m=C.modes, pc2=x=>Math.round(x*100)+" %";
   return `<div class="cpwrap"><h4>Quelles deux armes prendre</h4>
     <p class="cpduo"><b>${C.pa.w.n}</b> + <b>${C.pb.w.n}</b>${C.gain>0
       ? ` — ${Math.round(C.gain)} ms gagnés sur ${C.pa.w.n} seul` : ""}</p>
     <div class="cpcols">
-      <div><p class="cphd">Tenir la ligne — au-delà de ${C.coupure} m</p>${col(C.longue,C.pa.w)}</div>
-      <div><p class="cphd">Gagner le contact — sous ${C.coupure} m</p>${col(C.courte,C.pb.w)}</div>
+      <div><p class="cphd">Au contact — autour de ${fr(m.proche.d,1)} m
+        · ${pc2(m.proche.part)} des échanges</p>${col(C.proche,C.pb.w)}</div>
+      <div><p class="cphd">À distance — autour de ${fr(m.loin.d,1)} m
+        · ${pc2(m.loin.part)} des échanges</p>${col(C.loin,C.pa.w)}</div>
     </div>
     <p class="note">Pour le rôle <b>${role.n.toLowerCase()}</b>, en visant le
       <b>${Z==="tete"?"tête":Z==="torse"?"torse":Z}</b>, sur <b>${ou}</b>${
       POND?"":" — choisis une carte plus haut pour l'adapter"}.
-      <br><br>Deux <b>postes</b>, pas un classement coupé en deux. Chaque arme est notée sur
-      la bande qu'elle doit tenir, jamais sur l'autre : comparer un fusil à pompe et un
-      fusil d'assaut sur la carte entière revenait à demander lequel fait le mieux le
-      travail de l'autre — et comme les distances courtes dominent partout, le pompe
-      gagnait un classement où il n'avait rien à faire.
-      <br><br>La colonne de gauche n'accepte que les armes encore <b>utiles au-delà de
-      ${C.coupure} m</b>, c'est-à-dire qui y tuent en moins de 1,6 fois leur meilleur temps.
-      Celle de droite les accepte toutes : un fusil d'assaut peut très bien gagner le
-      contact, c'est l'inverse qu'il fallait interdire.
-      <br><br>Les temps sont calculés <b>tireur en mouvement</b>, ratés compris — le
-      conseil supposait jusqu'ici un tireur immobile, ce qui n'est pas la situation d'un
-      duel. Le poste, lui, vient de la <b>catégorie déclarée par le jeu</b> et non d'une
-      portée calculée : le modèle de dispersion prête au M12 100 % de balles au but à 10 m
-      et au sniper Atlas 4 % à 5 m, ce qui contredit le jeu. Tant que ce point n'est pas
-      tranché, aucune portée qu'il produit ne peut servir à ranger une arme.
-      ${(C.longue[0]&&C.longue[0].t<1)||(C.courte[0]&&C.courte[0].t<1)?`
+      <br><br>Les colonnes sont les <b>deux distances de la carte</b>, pas deux tranches
+      fixes. Une carte n'a pas une distance d'engagement, elle en a deux — un intérieur et
+      des lignes — et leur moyenne ne décrit ni l'une ni l'autre. Sur Horizon, l'intérieur
+      du bar quand B est à prendre et le côté du point A sont deux jeux différents ; ici
+      elles sortent à <b>${fr(m.proche.d,1)} m</b> et <b>${fr(m.loin.d,1)} m</b>, et la
+      coupure entre les deux colonnes tombe à mi-chemin plutôt qu'à un seuil décidé.
+      <br><br><b>À poste fixe</b> signale les armes dont le temps à tuer s'effondre dès
+      qu'on bouge : la Fury place 70 % de ses balles à 3 m en mouvement, et 3 % à 14 m.
+      Excellente pour tenir un couloir, inutilisable pour rusher — et la page le dit au lieu
+      de la classer comme si les deux se valaient.
+      <br><br>Les temps sont calculés <b>tireur en mouvement</b>, ratés compris ; le conseil
+      supposait jusqu'ici un tireur immobile, ce qui n'est pas la situation d'un duel.
+      ${(C.loin[0]&&C.loin[0].t<1)||(C.proche[0]&&C.proche[0].t<1)?`
       <br><br>« Un seul tir » n'est pas un temps de zéro : c'est une arme qui tue d'une
       balle à la tête. Le temps à tuer mesure l'intervalle entre la première et la dernière
       balle — avec une seule, il n'y a pas d'intervalle. Ces armes ne se départagent donc
@@ -6255,6 +6257,67 @@ const POSTE={
 };
 const posteDe = w => POSTE[w.c] || "longue";
 
+/* Les DEUX distances d'une carte, et non sa distance moyenne.
+
+   Thibaud decrit ce que la moyenne detruit : « sur Horizon la partie a
+   l'interieur du bar lorsque le point B est a capturer, ce sont des duels
+   proches, alors que du cote du A on est plus loin. Donc on va etre sur deux
+   distances moyennes et donc deux armes complementaires. »
+
+   Une carte n'a pas une distance d'engagement, elle en a deux — un interieur et
+   des lignes —, et leur moyenne ne decrit aucune des deux. C'est la meme faute
+   que la mediane du temps a tuer corrigee plus haut, un cran plus tot : cette
+   fois c'est la carte qu'on ecrase, pas l'arme.
+
+   On coupe donc l'histogramme en deux groupes par la methode des k-moyennes a
+   une dimension, initialisee aux quartiles pour rester reproductible. Les deux
+   centres obtenus sont les deux distances a armer, et leur poids dit laquelle
+   compte le plus sur cette carte. */
+function deuxModes(cle, role){
+  const prof=profilRole(cle, role); if(!prof) return null;
+  const w=prof.w;
+  const val=d=>d+0.5;
+  let c=[3, 14];                       // depart : contact et ligne, ordres de grandeur
+  for(let it=0; it<40; it++){
+    const s=[0,0], p=[0,0];
+    for(let d=0; d<w.length; d++){
+      if(!w[d]) continue;
+      const k=Math.abs(val(d)-c[0])<=Math.abs(val(d)-c[1])?0:1;
+      s[k]+=w[d]*val(d); p[k]+=w[d];
+    }
+    const n=[p[0]?s[0]/p[0]:c[0], p[1]?s[1]/p[1]:c[1]];
+    if(Math.abs(n[0]-c[0])<1e-6 && Math.abs(n[1]-c[1])<1e-6){ c=n; break; }
+    c=n;
+  }
+  const p=[0,0];
+  for(let d=0; d<w.length; d++){
+    if(!w[d]) continue;
+    p[Math.abs(val(d)-c[0])<=Math.abs(val(d)-c[1])?0:1]+=w[d];
+  }
+  const tot=p[0]+p[1] || 1;
+  const A={d:c[0], part:p[0]/tot}, B={d:c[1], part:p[1]/tot};
+  return A.d<=B.d ? {proche:A, loin:B} : {proche:B, loin:A};
+}
+
+/* Combien une arme perd a etre jouee en mouvement, a une distance donnee.
+
+   Thibaud, sur la Fury : « si l'on n'est pas fixe alors la dispersion est
+   enorme, donc tres bien pour quelqu'un qui tient un couloir sur Atlantis en
+   etant fixe, mais pas pour rush ». Le modele le porte deja — la Fury a une
+   dispersion de 0,15 a l'arret et de 10 en mouvement, soit 70 % de balles au but
+   a trois metres et 3 % a quatorze. Il ne le DISAIT pas, et c'est ce qui manquait.
+
+   Une arme dont le temps a tuer double en bougeant est une arme de poste ; on
+   l'affiche comme telle plutot que de la classer comme si elle etait jouable en
+   avancant. */
+const SEUIL_POSTE=1.5;
+function coutDuMouvement(w, d, z){
+  const fixe=tempsReel(w, d, z, false), bouge=tempsReel(w, d, z, true);
+  if(fixe===null || fixe<=0) return null;
+  if(bouge===null) return Infinity;
+  return bouge/fixe;
+}
+
 const TOLERANCE_PORTEE=1.3;   // « sans perdre trop de degats » : 30 %, pas 60
 const TOUCHE_MIN=0.55;        // en deca, on ne place plus la moitie de ses balles
 const COUPURE_M=10;       // bande courte 0-10 m, d'apres les bandes de duel
@@ -6402,23 +6465,38 @@ function classementsCompo(cle, role, z){
       return r && {w, t:r.t, portee:porteeUtile(w, z)};
     }).filter(o=>o && garde(o)).sort((a,b)=>a.t-b.t);
 
-  /* Chaque colonne ne recoit que les armes de son poste, declare par la
-     categorie. Un fusil a pompe ne concourt pas pour tenir une ligne, meme si
-     le modele lui prete un bon temps a tuer a dix metres — c'est precisement
-     l'anomalie que Thibaud a relevee. */
-  const longue = juge([COUPURE_M, 40], o=>posteDe(o.w)==="longue");
-  const courte = juge([0, COUPURE_M], o=>posteDe(o.w)==="courte");
-  if(!longue.length || !courte.length) return null;
+  /* Les deux colonnes sont les DEUX DISTANCES DE LA CARTE, pas deux tranches
+     fixes. Sur Horizon l'interieur du bar et le cote du point A ne sont pas
+     « moins de dix metres » et « plus de dix metres » : ce sont deux distances
+     que la carte impose, et elles ne sont pas les memes ailleurs. */
+  const M=deuxModes(cle, role);
+  if(!M) return null;
+  const autour = (centre, autre) => {
+    /* Chaque arme est notee sur les distances qui appartiennent a ce mode, donc
+       plus pres de son centre que de l'autre. Pas de frontiere arbitraire. */
+    const lim=(centre+autre)/2;
+    return centre<autre ? [0, lim] : [lim, 40];
+  };
+  const juge2 = bande => pool.map(w=>{
+      const r=surBande(w, bande[0], bande[1]);
+      if(!r) return null;
+      const c=coutDuMouvement(w, (bande[0]+Math.min(bande[1],40))/2, z);
+      return {w, t:r.t, portee:porteeUtile(w, z),
+              poste:c!==null && c>=SEUIL_POSTE, cout:c};
+    }).filter(Boolean).sort((a,b)=>a.t-b.t);
 
-  /* La paire retenue : la meilleure de chaque colonne, sauf si c'est la meme
-     arme — auquel cas on descend d'un cran a courte portee, parce que c'est la
-     que la releve est la plus facile a trouver. */
-  const pa=longue[0];
-  const pb=courte.find(o=>o.w!==pa.w) || courte[0];
+  const proche = juge2(autour(M.proche.d, M.loin.d));
+  const loin   = juge2(autour(M.loin.d, M.proche.d));
+  if(!proche.length || !loin.length) return null;
+
+  /* La paire : la meilleure de chaque distance, et deux armes DIFFERENTES. Si
+     la meme gagne les deux, elle n'est pas complementaire d'elle-meme. */
+  const pb=proche[0];
+  const pa=loin.find(o=>o.w!==pb.w) || loin[0];
   const seul=noteCompo(pa.w, null, prof, z).t;
   const duo=noteCompo(pa.w, pb.w, prof, z);
-  return {longue, courte, pa, pb, gain:seul-duo.t, part:duo.part,
-          med:prof.med, q3:prof.q3, dispo:prof.dispo, coupure:COUPURE_M};
+  return {proche, loin, modes:M, pa, pb, gain:seul-duo.t, part:duo.part,
+          med:prof.med, q3:prof.q3, dispo:prof.dispo};
 }
 
 function tableauCompos(role, z){
