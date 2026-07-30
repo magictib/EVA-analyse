@@ -331,11 +331,16 @@
     padding:11px 0 9px;border-bottom:1px solid var(--panel-2);
     transition:opacity .18s;
   }
+  /* Sans la colonne des zones mortes, la grille tombe a quatre cellules : le nom
+     recupere la largeur au lieu de la laisser vide. */
+  .row.sansTrou{grid-template-columns:22px 1fr auto}
   .rk{font-family:var(--mono);font-size:11px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
   .rk em{font-style:normal;display:block;font-size:8px;letter-spacing:.06em;color:var(--signal);margin-top:2px}
   .nm{font-size:14.5px;font-weight:550;letter-spacing:-.005em}
   .nm em{font-style:normal;display:block;font-size:10.5px;color:var(--ink-faint);font-weight:400;letter-spacing:.01em}
   .sh{font-family:var(--mono);font-size:12px;color:var(--ink-dim);font-variant-numeric:tabular-nums;text-align:right}
+  /* Le trou est un defaut : il se lit en rouge, et il est seul sur la colonne. */
+  .sh b{color:var(--dead);font-weight:700}
   .tk{font-family:var(--mono);font-size:15px;color:var(--ink);font-variant-numeric:tabular-nums;text-align:right;min-width:64px}
   .tk em{
     font-style:normal;display:block;font-size:9.5px;letter-spacing:.03em;
@@ -1435,6 +1440,9 @@ function drawRank(){
   rows.forEach((r,i)=>{ const k=key(r); if(k!==prev){rk=i+1; prev=k;} r.rk = r.t===null?null:rk; });
   const best = rows.length ? key(rows[0]) : null;
   const tied = best!==null && rows.filter(r=>key(r)===best).length>1;
+  /* Y a-t-il au moins une arme avec une zone morte sur ce profil ? Sinon la
+     colonne qui l'annonce n'a rien a annoncer. */
+  const trous = rows.some(r=>r.prof && r.mort>0.005);
   $("#rank").innerHTML = blocCompos() + rows.map(r=>{
     const dead = r.t===null;
     const one  = !dead && r.w.f!=="continu" && r.s===1;
@@ -1445,10 +1453,21 @@ function drawRank(){
        ou l'arme ne tue pas — plutot que d'inventer un chiffre par tranche. */
     if(r.prof){
       const t=r.t===null;
-      return `<div class="row${t?" dead":""}${!t&&key(r)===best?" best":""}">
+      /* La colonne des zones mortes ne parle que quand il y a quelque chose a
+         dire. Elle repetait « letale partout » sur chaque ligne — seize fois sur
+         Atlantis pour une seule arme reellement trouee — et prenait un tiers de
+         la largeur pour cela. Releve par Thibaud a l'ecran.
+
+         « Letale partout » est l'etat NORMAL : il n'a pas a etre ecrit. Seule
+         l'exception merite un mot, et elle ressort d'autant mieux qu'elle est
+         seule. Si aucune arme de la liste n'a de trou, la colonne disparait tout
+         a fait et le nom recupere la place. */
+      return `<div class="row${t?" dead":""}${!t&&key(r)===best?" best":""}${
+        trous?"":" sansTrou"}">
         <div class="rk">${t?"—":String(r.rk).padStart(2,"0")}</div>
         <div class="nm">${r.w.n}<em>${r.w.c} · équip. ${fr(r.w.eq,1)} s</em></div>
-        <div class="sh">${r.mort>0.005?`sans solution sur ${Math.round(r.mort*100)} % du profil`:"létale partout"}</div>
+        ${trous?`<div class="sh">${r.mort>0.005
+          ?`<b>trou</b> sur ${Math.round(r.mort*100)} % du profil`:""}</div>`:""}
         <div class="tk">${t?"jamais létale"
           :fr(r.t)+` ms<em>médiane · 3ᵉ quartile ${fr(r.q3)} ms</em>`}</div>
         <div class="bar"><i style="width:${Math.round((1-(r.mort||0))*100)}%"></i></div>
