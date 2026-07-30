@@ -146,6 +146,11 @@
   .cpnm{font:700 14px/1.2 var(--ui);color:var(--ink)}
   .cpnm em{display:block;font-style:normal;font:400 11px/1.3 var(--ui);color:var(--dim);
     margin-top:2px}
+  /* La ligne de detail, rendue possible par la disparition du classement general :
+     ce qu'il faut savoir avant d'emporter l'arme, pas ce qui la classe. */
+  .cpnm i{display:block;font-style:normal;font:400 10.5px/1.4 var(--mono);
+    color:var(--ink-faint);margin-top:3px}
+  .cpcols{grid-template-columns:1fr 1fr;gap:34px}
   .cpva{font:700 14px/1.2 var(--mono);color:var(--ink);text-align:right}
   .cpva em{display:block;font-style:normal;font:400 10px/1.3 var(--ui);
     color:var(--ink-faint);margin-top:2px}
@@ -1373,7 +1378,11 @@ function blocCompos(){
       o.poste?" cppost":""}">
       <div class="cprk">${String(i+1).padStart(2,"0")}</div>
       <div class="cpnm">${o.w.n}<em>${o.w.c}${o.poste
-        ?` · <b>à poste fixe</b> — ×${fr(o.cout,1)} plus lent en bougeant`:""}</em></div>
+        ?` · <b>à poste fixe</b> — ×${fr(o.cout,1)} plus lent en bougeant`:""}</em>
+        <i>${o.balles?`${o.balles} balle${o.balles>1?"s":""} au but`:""}${
+          o.tirees&&o.tirees>o.balles?` · ${o.tirees} tirées`:""}${
+          o.mag?` · chargeur ${o.mag}`:""}${o.rel?` · recharge ${fr(o.rel,1)} s`:""}${
+          o.eq?` · sortie ${fr(o.eq,1)} s`:""}</i></div>
       <div class="cpva">${o.t<1?"un seul tir":Math.round(o.t)+" ms"}<em>${
         o.t<1?"la tête suffit ici":"utile jusqu'à "+fr(o.portee,0)+" m"}</em></div>
       <div class="cpbar">${barre(mx-o.t+1, mx)}</div></div>`).join(""); };
@@ -1443,6 +1452,19 @@ function drawRank(){
   /* Y a-t-il au moins une arme avec une zone morte sur ce profil ? Sinon la
      colonne qui l'annonce n'a rien a annoncer. */
   const trous = rows.some(r=>r.prof && r.mort>0.005);
+  /* Une carte choisie, le classement general disparait.
+
+     Thibaud : « elle fait doublon avec les 2 de gauche, et surtout le M12 en
+     premier alors que dans les maps il y a souvent des lignes a 20 m qui sont
+     tres serrees ne donnent pas raison a ce classement ». Les deux colonnes de
+     gauche classent deja ces memes armes, mais SUR LES DISTANCES DE LA CARTE ;
+     la liste de droite les reclasse sur une distance unique, et se contredit
+     donc a cote d'elle-meme. Deux classements du meme objet sur la meme page,
+     dont un moins informe, ne font pas deux avis : ils font un doute.
+
+     Sans carte choisie, la liste reste — c'est alors le seul classement possible,
+     et il ne double rien. */
+  if(POND && DPROF.h[POND]){ $("#rank").innerHTML = blocCompos(); return; }
   $("#rank").innerHTML = blocCompos() + rows.map(r=>{
     const dead = r.t===null;
     const one  = !dead && r.w.f!=="continu" && r.s===1;
@@ -6800,9 +6822,16 @@ function classementsCompo(cle, role, z){
   const juge2 = bande => pool.map(w=>{
       const r=surBande(w, bande[0], bande[1]);
       if(!r) return null;
-      const c=coutDuMouvement(w, (bande[0]+Math.min(bande[1],40))/2, z);
+      const mid=(bande[0]+Math.min(bande[1],40))/2;
+      const c=coutDuMouvement(w, mid, z);
+      /* Ce qu'il faut pour decider, une fois la place rendue par la disparition
+         du classement general : combien de balles, combien de chargeur, et ce
+         que coute une recharge au milieu de la bande. */
+      const b=shots(w, mid, z), rr=real(w, mid, z, true);
       return {w, t:r.t, portee:porteeUtile(w, z),
-              poste:c!==null && c>=SEUIL_POSTE, cout:c};
+              poste:c!==null && c>=SEUIL_POSTE, cout:c,
+              balles:b, tirees:rr?rr.fired:null, hr:rr?rr.hr:null,
+              mag:w.mag||null, rel:w.rel||null, eq:w.eq||null};
     }).filter(Boolean).sort((a,b)=>a.t-b.t);
 
   const proche = juge2(autour(M.proche.d, M.loin.d));
