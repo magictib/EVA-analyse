@@ -105,6 +105,15 @@
     color:var(--ink-dim);max-width:62ch}
   .mbloc h4{margin:22px 0 8px;font:700 15px/1.2 var(--ui);color:var(--ink);
     letter-spacing:.01em}
+
+  /* Le tableau des deux armes, en tete du classement. La ligne « toutes cartes »
+     et la carte ou l'on joue se detachent : ce sont les deux qu'on cherche. */
+  .cpwrap{margin:0 0 22px}
+  .cpwrap h4{margin:0 0 10px;font:700 15px/1.2 var(--ui);color:var(--ink)}
+  .cpgen{background:rgba(255,255,255,.035)}
+  .cpici{box-shadow:inset 2px 0 0 var(--signal)}
+  .cpwrap .mtr3 s em{display:block;font-style:normal;font-size:11px;
+    color:var(--ink-faint);margin-top:2px}
   .mbloc > *:first-child + .msous + h4{margin-top:0}
   @media (max-width:720px){
     .mbloc{padding-left:12px;margin-top:20px}
@@ -351,6 +360,12 @@
   .mtr b{font-weight:700}
   .mtr b em,.mtr em{font-style:normal;display:block;font-size:11px;color:var(--dim)}
   .mtr s,.mth s{text-decoration:none;font-family:var(--mono);text-align:right;color:var(--ink)}
+  /* Le PREMIER titre se cale a gauche, comme la premiere colonne de ses lignes.
+     Les lignes ouvrent sur un nom aligne a gauche — un joueur, une carte, un
+     effectif — quand l'en-tete ouvrait sur une cellule alignee a droite :
+     « EFFECTIF » se retrouvait pousse au milieu, loin de la colonne qu'il
+     annonce. Releve par Thibaud a l'ecran. Une regle, tous les tableaux. */
+  .mth s:first-child{text-align:left}
   .mdet>summary{list-style:none;cursor:pointer}
   .mdet>summary::-webkit-details-marker{display:none}
   .mdet>summary .mtr b::after{content:" ▸";color:var(--dim);font-size:11px}
@@ -1220,6 +1235,12 @@ let ROLE=(()=>{ try{ return localStorage.getItem("eva-role-v1")||"flex"; }catch(
    « en general » reviendrait a reintroduire la moyenne qu'on cherche a fuir. */
 function drawCompo(){
   const el=$("#compo"); if(!el) return;
+  /* Le choix de role ne vit que dans le Classement, et nulle part ailleurs.
+     Il suivait la page partout — jusque dans Matchs, Analyse et Cartes, ou il ne
+     pilote rien. Thibaud : « il doit apparaitre juste dans classement ». Le
+     bandeau de carte `#pondbar` etait deja tenu par la meme regle ; celui-ci lui
+     avait echappe parce qu'il se montre depuis son propre rendu. */
+  if(typeof VIEW==="string" && VIEW!=="rank"){ el.hidden=true; return; }
   if(!POND || !DPROF.h[POND]){ el.innerHTML=""; el.hidden=true; return; }
   el.hidden=false;
   const role=ROLES.find(r=>r.k===ROLE)||ROLES[2];
@@ -1287,6 +1308,37 @@ function drawCompo(){
       ${role.k==="soutien"?"Le soutien porte le sonar : c'est l'équipement qui le distingue du flex, pas ses distances.":""}</p>`;
 }
 
+/* Le tableau des paires, en tete du classement. Pose la plutot que dans le
+   bandeau de compo, qui ne s'affiche qu'une carte choisie : justement, on veut
+   pouvoir le lire AVANT de savoir sur quelle carte on tombe. */
+function blocCompos(){
+  const role=ROLES.find(r=>r.k===ROLE)||ROLES[2];
+  const L=tableauCompos(role, Z);
+  if(!L.length) return "";
+  const pc=x=>Math.round(x*100)+" %";
+  const ligne=o=>`<div class="mtr3${o.general?" cpgen":""}${o.cle===POND?" cpici":""}">
+      <b>${o.nom}${o.cle===POND?`<em>tu joues ici</em>`
+        :o.general?`<em>quand tu ne sais pas encore</em>`:""}</b>
+      <s>${o.a.n}<em>${o.a.c} · tient ${pc(o.pa)} des distances</em></s>
+      <s>${o.b.n}<em>${o.b.c} · tient ${pc(o.pb)}</em></s></div>`;
+  return `<div class="cpwrap"><h4>Les deux armes à prendre</h4>
+    <div class="mtab mtab3"><div class="mth"><s>carte</s><s>arme principale</s>
+      <s>arme secondaire</s></div>`
+    + L.filter(o=>o.general).map(ligne).join("")
+    + L.filter(o=>!o.general).map(ligne).join("")
+    + `</div>
+    <p class="note">Pour le rôle <b>${role.n.toLowerCase()}</b>, en visant le
+      <b>${Z==="tete"?"tête":Z==="torse"?"torse":Z}</b>. La <b>principale</b> est celle qui
+      couvre le plus de distances de la carte, la <b>secondaire</b> celle qui couvre le
+      reste — pas la deuxième meilleure, mais celle qui bouche le trou. Une arme peut donc
+      être principale sur une carte et secondaire sur une autre.
+      Change de rôle ci-dessus et le tableau entier change : c'est le même calcul appliqué
+      à d'autres distances recherchées.
+      La première ligne additionne les distances de toutes les cartes — utile tant qu'on ne
+      sait pas où l'on tombe, moins bonne que la ligne de la carte dès qu'on le sait.</p>
+    </div>`;
+}
+
 function drawRank(){
   drawCompo();
   const rows = filteredW().map(w=>{
@@ -1304,7 +1356,7 @@ function drawRank(){
   rows.forEach((r,i)=>{ const k=key(r); if(k!==prev){rk=i+1; prev=k;} r.rk = r.t===null?null:rk; });
   const best = rows.length ? key(rows[0]) : null;
   const tied = best!==null && rows.filter(r=>key(r)===best).length>1;
-  $("#rank").innerHTML = rows.map(r=>{
+  $("#rank").innerHTML = blocCompos() + rows.map(r=>{
     const dead = r.t===null;
     const one  = !dead && r.w.f!=="continu" && r.s===1;
     const miss = DISP && r.r && r.r.fired && r.r.fired>r.s;
@@ -2919,6 +2971,66 @@ function dernierVivant(lot, minDuree=2){
           joueurs:[...parJoueur.values()].sort((x,y)=>y.n-x.n)};
 }
 
+/* Les creux d'effectif : combien d'adversaires a terre EN MEME TEMPS.
+
+   Demande par Thibaud, et sa definition est la bonne : « un −4 indique que nous
+   sommes sans adversaire pendant quelques secondes car ils n'ont pas fini leur
+   reapparition ». Ce n'est donc pas un compte de frags rapproches mais un ETAT
+   du terrain — pendant ces secondes-la, le point est libre.
+
+   Cet etat se lit sans aucune attribution : il suffit de savoir qui est a terre,
+   ce que les morts et les reapparitions donnent sur les vingt-sept parties.
+
+   Le creux INDIVIDUEL — un seul joueur qui sort les quatre — demande en revanche
+   de savoir qui a tue, donc le bandeau. Il n'est pas ici, et la note le dit
+   plutot que de laisser croire que le chiffre d'equipe est celui-la.
+
+   On mesure les deux sens : le creux qu'on CREUSE chez eux, et celui qu'on
+   SUBIT. Le second est le meme evenement vu de l'autre cote, et le taire
+   reviendrait a ne publier que ce qui arrange. */
+function creux(lot, minDuree=1){
+  const pour={}, contre={};
+  let parties=0;
+  /* Un palier tenu moins d'une seconde n'est pas un creux mais deux morts qui
+     se croisent : le terrain n'a pas eu le temps d'etre libre. */
+  const compte=(sac,n,d)=>{ if(n<2 || d<minDuree) return;
+    const o=sac[n]||(sac[n]={n:0, duree:0}); o.n++; o.duree+=d; };
+  for(const a of lot){
+    const tous=(a.partie||{}).slots||[], mien=monCamp(a);
+    if(!tous.length || !mien.length) continue;
+    const adv=tous.filter(s=>!mien.includes(s));
+    if(!adv.length) continue;
+    const ps=(a.spatial&&a.spatial.par_seconde)||1;
+    const ev=[...(a.evenements||[])].filter(x=>x.type==="mort"||x.type==="reapparition")
+      .sort((x,y)=>x.image-y.image);
+    if(!ev.length) continue;
+    parties++;
+    const etat={}; for(const k of tous) etat[k]=true;
+    /* Un creux se referme des qu'UN adversaire revient : on suit donc le nombre
+       a terre entre deux evenements, et on cree une entree par palier tenu. */
+    let aTerreEux=0, aTerreNous=0, depuisEux=null, depuisNous=null;
+    for(const e of ev){
+      const avant=[aTerreEux, aTerreNous];
+      etat[e.slot]=e.type==="reapparition";
+      aTerreEux=adv.filter(s=>!etat[s]).length;
+      aTerreNous=mien.filter(s=>!etat[s]).length;
+      if(avant[0]!==aTerreEux){
+        if(depuisEux) compte(pour, avant[0], (e.image-depuisEux)/ps);
+        depuisEux=e.image;
+      }
+      if(avant[1]!==aTerreNous){
+        if(depuisNous) compte(contre, avant[1], (e.image-depuisNous)/ps);
+        depuisNous=e.image;
+      }
+    }
+  }
+  const range=sac=>[4,3,2].map(k=>({k, ...(sac[k]||{n:0,duree:0})}))
+    .map(o=>({...o, duree:Math.round(o.duree)}));
+  const total=sac=>Object.values(sac).reduce((s,o)=>s+o.n,0);
+  if(!total(pour) && !total(contre)) return null;
+  return {parties, pour:range(pour), contre:range(contre)};
+}
+
 /* Se soutient-on, ou joue-t-on quatre parties solo cote a cote ?
 
    Le piege est l'unite. Une distance en pixels de minimap ne se compare pas
@@ -3457,7 +3569,7 @@ function drawAna(){
      `LOT` est le lot filtre — sans tri, c'est tout l'historique. */
   const ecarts=ecartsScore(LOT);
   const emp=emprise(lot);
-  const dv=dernierVivant(lot), sout=soutien(lot);
+  const dv=dernierVivant(lot), sout=soutien(lot), cx=creux(lot);
   const nMorts=lot.reduce((a,x)=>a+(x.evenements||[]).filter(e=>e.type==="mort").length,0);
 
   /* La vue d'ensemble ne parle que de NOUS. Elle affichait les morts des deux
@@ -3511,13 +3623,19 @@ function drawAna(){
       de partie, le reste de la vidéo.</p>`;
 
   if(eff){
-    const l=["à terre","1 vivant","2 vivants","3 vivants","complète"];
-    global+=`<div class="mtab mtab3"><div class="mth"><s>effectif</s><s>durée</s><s>part du temps</s></div>`
+    const l=["les 4 à terre","1 seul debout","2 debout","3 debout","les 4 debout"];
+    global+=`<h4>Combien on est, et combien de temps</h4>
+      <div class="mtab mtab3"><div class="mth"><s>notre effectif</s>
+        <s>temps passé ainsi</s><s>part du temps</s></div>`
       + eff.paliers.map((v,i)=>`<div class="mtr3"><b>${l[i]}</b><s>${v} s</s>`
         + `<s>${Math.round(v/eff.total*100)} %</s></div>`).reverse().join("")
-      + `</div><p class="note">Des durées, pas des comptages : c'est ce qui rend cette mesure
-         solide même sur une seule partie, là où un pourcentage calculé sur cinq sorties de
-         spawn ne dirait rien.</p>`;
+      + `</div><p class="note">Combien de temps <b>notre équipe</b> a passé à chaque
+         effectif, tous matchs du tri additionnés — ce n'est pas le temps de survie d'un
+         joueur, mais l'état de l'équipe seconde par seconde. « Les 4 debout » est le moment
+         où l'on peut attaquer ; « 1 seul debout » celui où l'on subit.
+         On additionne des <b>durées</b> plutôt que de compter des évènements : c'est ce qui
+         rend le chiffre lisible même sur une seule partie, là où un pourcentage calculé sur
+         cinq sorties de spawn ne voudrait rien dire.</p>`;
   }
   if(ret) global+=`<p class="note">Délai de réapparition : médiane ${fr(ret.mediane)} s
     sur ${ret.n} séjours complets, de ${fr(ret.min)} à ${fr(ret.max)} s. Un délai fixe et
@@ -3528,27 +3646,55 @@ function drawAna(){
      autres sont tombes — avant d'etre une performance individuelle. */
   if(dv){
     const pc=(a,b)=>Math.round(100*a/b);
-    global+=`<h4>Quand il n'en reste qu'un</h4><div class="mbig">
-      <b>${dv.n}<em>fois seul contre plusieurs</em></b>
-      <b>${fr(dv.duree)} s<em>durée médiane</em></b>
-      <b>${pc(dv.gagnes,dv.n)} %<em>avec au moins un frag</em></b>
+    global+=`<h4>Dernier survivant</h4><div class="mbig">
+      <b>${dv.n}<em>fois dernier survivant</em></b>
+      <b>${fr(dv.duree)} s<em>tenu en moyenne avant que ça se règle</em></b>
+      <b>${pc(dv.gagnes,dv.n)} %<em>où il a quand même tué quelqu'un</em></b>
       <b>${pc(dv.survecu,dv.n)} %<em>où il s'en sort vivant</em></b>
-      <b>${dv.contre3}<em>à 1 contre 3 ou plus</em></b>
+      <b>${dv.contre3}<em>fois seul contre 3 ou 4</em></b>
       </div>`
       + (dv.joueurs.length>1?`<div class="mtab mtab3"><div class="mth"><s>joueur</s>
-          <s>fois seul</s><s>dont avec frag</s></div>`
+          <s>fois dernier survivant</s><s>dont il a tué au moins un adversaire</s></div>`
         + dv.joueurs.map(j=>`<div class="mtr3"><b>${j.nom}</b><s>${j.n}</s>`
           + `<s>${j.gagnes} — ${pc(j.gagnes,j.n)} %</s></div>`).join("")
         + `</div>`:"")
-      + `<p class="note">Sur ${dv.parties} partie${dv.parties>1?"s":""} : cette mesure ne
-         demande <b>aucune attribution des tueurs</b>, l'effectif vivant se lisant sur les
-         morts et les réapparitions. Une séquence est retenue au-delà de 2 s — en deçà il
-         s'agit d'un croisement de morts, pas d'une situation jouée.
-         À ne pas confondre avec le <b>taux de trade</b>, qui a été essayé et écarté :
-         « une de nos morts suivie d'une mort adverse sous 10 s » donnait 52 %, mais en
-         redistribuant nos morts au hasard sur la même partie on obtenait 52 % aussi, et
-         aucune fenêtre de 1 à 15 s ne creusait plus de deux points. Ce chiffre ne mesurait
-         que la cadence des morts. La vengeance demande de savoir qui a tué.</p>`;
+      + `<p class="note"><b>Dernier survivant</b> : tes trois coéquipiers sont à terre et il
+         reste au moins deux adversaires debout. La colonne de droite compte les fois où,
+         dans cette situation, le survivant a <b>emmené au moins un adversaire avec lui</b>
+         — qu'il s'en soit sorti ensuite ou non.
+         Mesuré sur ${dv.parties} partie${dv.parties>1?"s":""}, sans avoir besoin de savoir
+         qui a tué qui : il suffit de savoir qui est debout. On ne compte pas les situations
+         de moins de 2 secondes, où deux morts se croisent sans qu'il y ait vraiment eu
+         de situation à jouer.
+         <br><br>Le <b>taux de vengeance</b> — « quand l'un de nous tombe, son agresseur
+         tombe-t-il juste après » — a été essayé et retiré. Il donnait 52 %, mais en tirant
+         nos morts au hasard dans la même partie on obtenait aussi 52 % : le chiffre ne
+         mesurait que le fait qu'il meurt beaucoup de monde, pas qu'on se venge. Il
+         reviendra quand on saura qui a tué qui.</p>`;
+  }
+
+  /* Les creux d'effectif, demandes par Thibaud. Ranges avec le dernier survivant
+     parce que c'est la meme chose vue de l'autre cote : on est seul quand
+     l'adversaire a creuse, et l'adversaire est absent quand c'est nous. */
+  if(cx){
+    const ligne=(o,sens)=>`<div class="mtr3"><b>−${o.k}<em>${sens}</em></b>`
+      + `<s>${o.n} fois</s><s>${o.duree} s au total</s></div>`;
+    global+=`<h4>Quand un camp est à terre</h4>
+      <div class="mtab mtab3"><div class="mth"><s>situation</s><s>combien de fois</s>
+        <s>durée cumulée</s></div>`
+      + cx.pour.map(o=>ligne(o,"adversaires au sol en même temps")).join("")
+      + cx.contre.map(o=>ligne(o,"des nôtres au sol en même temps")).join("")
+      + `</div>
+      <p class="note">Un <b>−4</b> veut dire que les quatre adversaires sont à terre en même
+        temps : pendant ces secondes-là il n'y a plus personne en face, le point est libre et
+        c'est le moment le plus rentable de la partie. Un <b>−2</b> ou un <b>−3</b>, c'est la
+        même chose en plus court. Les lignes du bas sont l'inverse : les fois où c'est
+        <b>nous</b> qui étions au sol.
+        On ne compte que ce qui dure au moins une seconde — sinon deux morts qui se croisent
+        passeraient pour un trou dans la défense adverse.
+        <br><br>Ceci compte les creux de l'<b>équipe</b>. Savoir si c'est <b>une seule
+        personne</b> qui a sorti les quatre demande de savoir qui a tué qui : ce chiffre-là
+        viendra avec la lecture du bandeau.</p>`;
   }
 
   /* --- 2. echanges --- */
@@ -3775,7 +3921,10 @@ function drawAna(){
   /* --- 4bis. ecarts au score --- */
   let score="";
   if(ecarts){
-    const u=ecarts.pts?" pts":"";
+    /* L'unite etait inversee : un score en pourcentage donnait « pts ». En
+       Domination le score EST un pourcentage, l'ecart se compte donc en points
+       de pourcentage et s'ecrit « % ». Releve par Thibaud a l'ecran. */
+    const u=ecarts.pts?" %":" pts";
     score=`<h4>Écarts au score${(FCARTE||FADV)?", sur ce tri":""}</h4><div class="mbig">
       ${ecarts.v!=null?`<b>+${ecarts.v}${u}<em>écart moyen en victoire</em></b>`:""}
       ${ecarts.d!=null?`<b>−${ecarts.d}${u}<em>écart moyen en défaite</em></b>`:""}
@@ -3815,29 +3964,39 @@ function drawAna(){
 
   /* Le soutien : joue-t-on a quatre, ou a quatre solos cote a cote ? */
   if(sout){
+    /* Le rapport brut ne se lisait pas. On le traduit d'abord en phrase — « ton
+       binôme est 19 % plus près que l'ennemi » —, le nombre venant ensuite pour
+       ceux qui veulent le detail. Thibaud : « le rapport n'est pas assez clair a
+       la premiere lecture ». */
     const d2=x=>x.toFixed(2).replace(".",",");
-    const verdict = sout.med<0.85 ? "l'équipe se tient"
-      : sout.med<=1.05 ? "on croise l'ennemi aussi souvent que son binôme"
-      : "on est plus souvent seul au contact qu'accompagné";
-    terrain+=`<h4>Soutien — est-on à portée d'un coéquipier ?</h4><div class="mbig">
-      <b>${d2(sout.med)}<em>plus proche coéquipier ÷ plus proche adversaire</em></b>
-      <b>${sout.seul} / ${sout.n}<em>parties au-dessus de 1</em></b>
+    const enClair=r=>r<1 ? `${Math.round((1-r)*100)} % plus près qu'un ennemi`
+                         : `${Math.round((r-1)*100)} % plus loin qu'un ennemi`;
+    const verdict = sout.med<0.85
+      ? "L'équipe se tient : en général, quelqu'un est à portée pour venger une mort."
+      : sout.med<=1.05
+      ? "On croise l'ennemi à peu près aussi souvent que son binôme — les morts partent rarement vengées."
+      : "On est plus souvent seul au contact qu'accompagné : les morts ne peuvent pas être compensées.";
+    terrain+=`<h4>A-t-on quelqu'un à portée quand ça tire ?</h4><div class="mbig">
+      <b>${enClair(sout.med)}<em>ton coéquipier le plus proche, en général</em></b>
+      <b>${sout.seul} / ${sout.n}<em>parties où c'est l'inverse</em></b>
       </div>
-      <div class="mtab mtab3"><div class="mth"><s>carte</s><s>rapport</s><s>parties</s></div>`
+      <div class="mtab mtab3"><div class="mth"><s>carte</s><s>le coéquipier le plus proche est…</s>
+        <s>parties</s></div>`
       + sout.cartes.map(c=>`<div class="mtr3"><b>${c.carte}${c.rearrangee
-          ?`<em>plan réarrangé — mesure peu fiable</em>`:""}</b>`
-        + `<s>${d2(c.med)}</s><s>${c.n}</s></div>`).join("")
+          ?`<em>étages superposés — chiffre indicatif</em>`:""}</b>`
+        + `<s>${enClair(c.med)}<em>rapport ${d2(c.med)}</em></s><s>${c.n}</s></div>`).join("")
       + `</div>
-      <p class="note">Un <b>rapport</b>, pas une distance : une longueur en pixels de minimap
-        ne se compare pas d'une carte à l'autre, chaque minimap ayant sa propre échelle. En
-        divisant la distance au plus proche coéquipier par celle au plus proche adversaire,
-        mesurées sur la même image donc à la même échelle, le chiffre devient comparable
-        partout. <b>Sous 1</b> on est plus près d'un allié que d'un ennemi — une mort peut
-        être vengée ; <b>au-dessus</b>, on meurt hors de portée de tout secours.
-        Ici ${verdict}. Seuls les <b>vivants</b> comptent : un coéquipier à terre n'est pas
-        un soutien. Sur Lunar Outpost et Polaris la minimap range les étages côte à côte
-        plutôt que de les projeter, et deux marqueurs éloignés peuvent y être l'un au-dessus
-        de l'autre — le rapport y est indicatif, pas mesuré.</p>`;
+      <p class="note">${verdict}
+        <br><br>Comment c'est mesuré : à chaque instant, on regarde à quelle distance est ton
+        coéquipier le plus proche, et à quelle distance est l'adversaire le plus proche. Si
+        l'allié est deux fois plus près, tu es couvert ; s'il est deux fois plus loin, tu es
+        seul. On compare les deux au lieu de donner une distance parce qu'une distance en
+        pixels de minimap ne veut pas dire la même chose sur une petite carte et sur une
+        grande — alors que « plus près que l'ennemi » se comprend partout pareil.
+        Les coéquipiers <b>à terre</b> ne comptent pas : un mort n'est pas un soutien.
+        Sur Lunar Outpost et Polaris la minimap pose les étages côte à côte au lieu de les
+        superposer, donc deux joueurs qui paraissent loin peuvent être l'un au-dessus de
+        l'autre : le chiffre y est indicatif.</p>`;
   }
 
   /* Regroupement par theme. Une liste plate de dix sections obligeait a tout
@@ -4071,11 +4230,17 @@ function drawAna(){
    les tuiles, l'effectif, les fiches et les tableaux parlent tous du meme lot.
    devinePseudo, fauxJoueurs et le controle des doublons gardent MATCHS : ils
    portent sur tes donnees entieres, pas sur ce que tu regardes. */
-let LOT=[], FCARTE="", FADV="";
+let LOT=[], FCARTE="", FADV="", FMODE="";
 const cleDe = m => m.cle || m.carte || "";
 const advDe = m => camps(m).tagAdv;
+/* Le mode change ce que les chiffres veulent dire, et pas qu'un peu : en Jeu
+   d'arme le score s'ecrit « 12/15 » et ne se soustrait pas, en Domination c'est
+   un pourcentage. Melanger vingt-cinq Domination avec un Jeu d'arme passe encore
+   inapercu ; l'inverse ne passerait pas. */
+const modeDe = m => m.mode || "";
 function filtre(){
-  return MATCHS.filter(m => (!FCARTE || cleDe(m)===FCARTE) && (!FADV || advDe(m)===FADV));
+  return MATCHS.filter(m => (!FCARTE || cleDe(m)===FCARTE)
+    && (!FADV || advDe(m)===FADV) && (!FMODE || modeDe(m)===FMODE));
 }
 /* La barre de tri, ecrite une fois et posee dans les deux onglets.
 
@@ -4090,13 +4255,17 @@ function barreDeTri(){
   const cartesVues=[...new Set(MATCHS.map(cleDe).filter(Boolean))]
     .map(c=>[c,nomDeCle(c)||c]).sort((a,b)=>a[1].localeCompare(b[1],"fr"));
   const advVus=[...new Set(MATCHS.map(advDe).filter(Boolean))].sort();
+  const modesVus=[...new Set(MATCHS.map(modeDe).filter(Boolean))].sort();
   const n=filtre().length, tot=MATCHS.length;
   return `<div class="mfg mtri">
       <div><label>Carte</label><select data-flt="carte"><option value="">Toutes</option>
         ${cartesVues.map(([c,nm])=>`<option value="${c}"${c===FCARTE?" selected":""}>${nm}</option>`).join("")}</select></div>
       <div><label>Équipe rencontrée</label><select data-flt="adv"><option value="">Toutes</option>
         ${advVus.map(t=>`<option value="${t}"${t===FADV?" selected":""}>${t}</option>`).join("")}</select></div>
-    </div>${(FCARTE||FADV)?`<p class="note">${n} partie${n>1?"s":""} sur ${tot} retenue${n>1?"s":""}.
+      ${modesVus.length>1?`<div><label>Mode de jeu</label><select data-flt="mode">
+        <option value="">Tous</option>
+        ${modesVus.map(t=>`<option value="${t}"${t===FMODE?" selected":""}>${t}</option>`).join("")}</select></div>`:""}
+    </div>${(FCARTE||FADV||FMODE)?`<p class="note">${n} partie${n>1?"s":""} sur ${tot} retenue${n>1?"s":""}.
       <button class="mlink" data-act="mflt0">Tout afficher</button></p>`:""}`;
 }
 function agrege(cle){
@@ -4473,12 +4642,22 @@ function drawMat(){
       + `<s>${o.n}</s><s>${fr(o.k/Math.max(o.m,1),2)}</s><s>${fr((o.k+o.a)/Math.max(o.m,1),2)}</s>`
       + `<s>${o.s?fr(Math.round(o.s/o.n)):"—"}</s><s>${o.mvp||"—"}</s></div>`).join("")
     + `</div>${note?`<p class="note">${note}</p>`:""}`;
+  /* « Notre équipe » et jamais le tag du moment.
+
+     Thibaud : « on va surement changer de pseudo car nous n'avons pas acté de
+     maniere definitive donc on va se retrouver avec plein de nom de team qui
+     pourrait porter a confusion ». BVS est deja devenu NT en cours d'annee, avec
+     Tchernobyl reste en arriere — afficher un tag revient a dater l'affichage et
+     a suggerer trois equipes la ou il n'y en a qu'une. Les tags restent en base,
+     ou ils servent a reconnaitre les camps ; ils ne servent pas a nous nommer. */
   const equipe = !nd
-    ? `<h3>Ton équipe</h3><p class="note">Colle le détail d'une partie pour alimenter cette
+    ? `<h3>Notre équipe</h3><p class="note">Colle le détail d'une partie pour alimenter cette
        section : c'est le tableau du jeu qui porte les coéquipiers, les adversaires et les scores.</p>`
-    : effTab(monTag?`Ton équipe · ${monTag}`:"Ton camp",eff.mien,
+    : effTab("Notre équipe",eff.mien,
         `Sur ${nd} partie${nd>1?"s":""} détaillée${nd>1?"s":""} sur ${n}. Classement par score moyen :
-         c'est le seul indicateur du jeu qui tienne compte des objectifs et pas seulement des frags.`);
+         c'est le seul indicateur du jeu qui tienne compte des objectifs et pas seulement des frags.
+         ${monTag?`Le tag du moment est ${monTag}, mais il a déjà changé une fois et changera
+         encore : c'est l'effectif qui fait l'équipe, pas le nom.`:""}`);
 
   /* ---------- 2. le bilan global ---------- */
   /* Les tuiles ne comptent que les parties ou tu figures : sur des donnees partagees,
@@ -4488,7 +4667,21 @@ function drawMat(){
   const V=mes.filter(x=>x.m.res==="V").length;
   const K=mes.reduce((a,x)=>a+(x.q.k||0),0), M=mes.reduce((a,x)=>a+(x.q.m||0),0), A=mes.reduce((a,x)=>a+(x.q.a||0),0);
   const mvp=mes.filter(x=>x.q.mvp).length;
-  const bilan=`<h3>Toi${(FCARTE||FADV)?", sur ce tri":""}</h3><div class="mbig">
+  /* Le bilan d'EQUIPE d'abord, le tien ensuite.
+
+     Demande par Thibaud : « le bilan doit etre de base sur notre equipe ». Ce
+     que l'on debriefe est une equipe ; ton K/D personnel est une precision, pas
+     l'entree en matiere. Les deux restent la, l'ordre change. */
+  const eq=eff.mien.reduce((a,[,o])=>({k:a.k+o.k, m:a.m+o.m, a:a.a+o.a,
+                                       mvp:a.mvp+(o.mvp||0)}), {k:0,m:0,a:0,mvp:0});
+  const Veq=LOT.filter(m=>m.res==="V").length;
+  const bilanEq=`<h3>Notre équipe${(FCARTE||FADV||FMODE)?", sur ce tri":""}</h3><div class="mbig">
+      <b>${n}<em>matchs</em></b>
+      <b>${Veq} · ${Math.round(Veq/Math.max(n,1)*100)} %<em>victoires</em></b>
+      <b>${fr(eq.k/Math.max(eq.m,1),2)}<em>K/D d'équipe</em></b>
+      <b>${fr((eq.k+eq.a)/Math.max(eq.m,1),2)}<em>(K+A)/mort</em></b>
+      <b>${eff.mien.length}<em>joueurs vus</em></b></div>`;
+  const bilan=bilanEq+`<h3>Toi${(FCARTE||FADV||FMODE)?", sur ce tri":""}</h3><div class="mbig">
       <b>${mes.length}${mes.length!==n?`<i> / ${n}</i>`:""}<em>matchs</em></b><b>${V} · ${Math.round(V/np*100)} %<em>victoires</em></b>
       <b>${fr(K/Math.max(M,1),2)}<em>K/D</em></b><b>${fr((K+A)/Math.max(M,1),2)}<em>(K+A)/mort</em></b>
       <b>${mvp}<em>fois MVP</em></b></div>`;
@@ -5901,6 +6094,22 @@ const ROLES=[
 /* L'histogramme de la carte, multiplie par la preference du role. Renvoie aussi
    la distance MEDIANE de ce profil croise : c'est elle qu'il faut afficher, parce
    qu'elle dit en metres ou ce role se bat REELLEMENT sur cette carte-la. */
+/* Le profil « toutes cartes » : la somme des histogrammes.
+
+   On ADDITIONNE les distributions plutot que de moyenner les conseils par carte.
+   Moyenner des conseils reviendrait a donner une voix egale a une carte jouee
+   une fois et a une carte jouee dix fois ; additionner les distances compte
+   chaque engagement une fois, ce qui est le bon poids.
+
+   Ce profil general n'est pas un ideal : c'est ce que l'on rencontre quand on ne
+   sait pas encore sur quelle carte on tombera. La ligne par carte reste
+   meilleure des qu'on le sait, et c'est bien pourquoi les deux sont affichees
+   cote a cote. */
+const CLE_TOUTES="__toutes";
+DPROF.h[CLE_TOUTES]=Object.entries(DPROF.h)
+  .filter(([k])=>k!==CLE_TOUTES)
+  .reduce((s,[,h])=>h.map((n,i)=>(s[i]||0)+n), []);
+
 function profilRole(cle, role){
   const h=DPROF.h[cle]; if(!h) return null;
   const pref=(role&&role.pref)||(()=>1);
@@ -5998,6 +6207,37 @@ function compoConseillee(cle, role, z, n=3){
   return {paires:gardes, med, q3, dispo,
           seule:pool.map(w=>({w, ...noteCompo(w, null, prof, z)}))
                     .sort((x,y)=>x.t-y.t)[0]};
+}
+
+/* Le tableau des deux armes a prendre : general d'abord, puis carte par carte.
+
+   Demande par Thibaud — « un classement general et par carte en deux colonnes
+   avec arme principale et secondaire, ou ca nous permet de voir rapidement le
+   classement des 2 armes a prendre et si ce qu'on joue est bien ou non ». Le
+   conseil existait deja mais seulement pour la carte choisie, une carte a la
+   fois : impossible de comparer, donc impossible de decider avant de savoir sur
+   quoi l'on tombe.
+
+   PRINCIPALE et SECONDAIRE ne sont pas « la meilleure » et « la deuxieme » :
+   c'est celle qui couvre la plus grande part des distances de la carte, et celle
+   qui couvre le reste. Une arme peut etre principale ici et secondaire ailleurs
+   sans que rien ne se contredise. */
+function tableauCompos(role, z){
+  const lignes=[];
+  for(const cle of [CLE_TOUTES, ...Object.keys(DPROF.h).filter(k=>k!==CLE_TOUTES)]){
+    const c=compoConseillee(cle, role, z, 1);
+    if(!c || !c.paires.length) continue;
+    const p=c.paires[0];
+    /* La principale est celle qui tient le plus de distances, pas la premiere
+       de la paire : l'ordre dans le couple n'a aucun sens en soi. */
+    const inv=p.part[1]>p.part[0];
+    lignes.push({cle, nom:cle===CLE_TOUTES?"Toutes cartes":(nomDeCle(cle)||cle),
+                 general:cle===CLE_TOUTES,
+                 a:inv?p.b:p.a, b:inv?p.a:p.b,
+                 pa:inv?p.part[1]:p.part[0], pb:inv?p.part[0]:p.part[1],
+                 med:c.med, dispo:c.dispo});
+  }
+  return lignes;
 }
 
 /* ---------- tirs de reference ----------
@@ -7063,7 +7303,7 @@ function onTool(b){
   }
   /* Le tri est partage : le remettre a zero doit redessiner les deux onglets,
      sinon celui qu'on ne regarde pas garde l'ancien affichage. */
-  if(a==="mflt0"){ FCARTE=""; FADV="";
+  if(a==="mflt0"){ FCARTE=""; FADV=""; FMODE="";
     if(typeof drawMat==="function") drawMat();
     if(typeof drawAna==="function") drawAna();
     return; }
@@ -7216,7 +7456,8 @@ $("#cart").addEventListener("click",e=>{
    ne regarde pas garderait l'ancien tri affiche et mentirait au retour. */
 function surTri(e){
   const s=e.target.closest("select[data-flt]"); if(!s) return;
-  if(s.dataset.flt==="carte") FCARTE=s.value; else FADV=s.value;
+  const f=s.dataset.flt;
+  if(f==="carte") FCARTE=s.value; else if(f==="mode") FMODE=s.value; else FADV=s.value;
   if(typeof drawMat==="function") drawMat();
   if(typeof drawAna==="function") drawAna();
 }
@@ -7404,6 +7645,8 @@ function go(v){
   /* le selecteur de ponderation n'a de sens que la ou un classement est affiche ;
      ailleurs il encombrait la page sans rien piloter. */
   $("#pondbar").hidden = v!=="rank";
+  /* Meme regle pour le bandeau de compo, qui porte le choix de role. */
+  if($("#compo")) $("#compo").hidden = v!=="rank" || !POND;
   if(v==="rank" && POND) $("#ruler").hidden = true;
   if(v==="acc"){ drawAcc(); return; }
   if(v==="mat"){ drawMat(); return; }
