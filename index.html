@@ -108,12 +108,29 @@
 
   /* Le tableau des deux armes, en tete du classement. La ligne « toutes cartes »
      et la carte ou l'on joue se detachent : ce sont les deux qu'on cherche. */
-  .cpwrap{margin:0 0 22px}
-  .cpwrap h4{margin:0 0 10px;font:700 15px/1.2 var(--ui);color:var(--ink)}
-  .cpgen{background:rgba(255,255,255,.035)}
-  .cpici{box-shadow:inset 2px 0 0 var(--signal)}
-  .cpwrap .mtr3 s em{display:block;font-style:normal;font-size:11px;
+  .cpwrap{margin:0 0 26px}
+  .cpwrap h4{margin:0 0 12px;font:700 15px/1.2 var(--ui);color:var(--ink)}
+  .cpcols{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .cphd{margin:0 0 8px;font:700 11px/1.3 var(--mono);letter-spacing:.06em;
+    text-transform:uppercase;color:var(--dim)}
+  /* Meme grille que le classement de droite : rang, nom, valeur, puis une barre
+     qui court sous la ligne. On ne reapprend pas a lire d'une colonne a l'autre. */
+  .cprow{display:grid;grid-template-columns:2.2em 1fr auto;gap:8px;
+    align-items:baseline;padding:7px 0 9px;border-bottom:1px solid var(--rule);
+    position:relative}
+  .cprk{font:400 11px/1 var(--mono);color:var(--dim)}
+  .cpnm{font:700 14px/1.2 var(--ui);color:var(--ink)}
+  .cpnm em{display:block;font-style:normal;font:400 11px/1.3 var(--ui);color:var(--dim);
+    margin-top:2px}
+  .cpva{font:700 14px/1.2 var(--mono);color:var(--ink);text-align:right}
+  .cpva em{display:block;font-style:normal;font:400 10px/1.3 var(--ui);
     color:var(--ink-faint);margin-top:2px}
+  .cpbar{grid-column:1/-1;height:2px;background:transparent;margin-top:6px}
+  .cpbar i{display:block;height:2px;background:var(--rule-vif)}
+  .cpbest .cpva{color:var(--signal)}
+  .cpbest .cpbar i{background:var(--signal)}
+  .cpfaible{opacity:.45}
+  @media (max-width:760px){ .cpcols{grid-template-columns:1fr;gap:18px} }
   .mbloc > *:first-child + .msous + h4{margin-top:0}
   @media (max-width:720px){
     .mbloc{padding-left:12px;margin-top:20px}
@@ -1313,29 +1330,45 @@ function drawCompo(){
    pouvoir le lire AVANT de savoir sur quelle carte on tombe. */
 function blocCompos(){
   const role=ROLES.find(r=>r.k===ROLE)||ROLES[2];
-  const L=tableauCompos(role, Z);
-  if(!L.length) return "";
+  const cle=POND||CLE_TOUTES;
+  const C=classementsCompo(cle, role, Z);
+  if(!C) return "";
+  const ou=cle===CLE_TOUTES?"toutes cartes confondues":nomDeCle(cle)||cle;
   const pc=x=>Math.round(x*100)+" %";
-  const ligne=o=>`<div class="mtr3${o.general?" cpgen":""}${o.cle===POND?" cpici":""}">
-      <b>${o.nom}${o.cle===POND?`<em>tu joues ici</em>`
-        :o.general?`<em>quand tu ne sais pas encore</em>`:""}</b>
-      <s>${o.a.n}<em>${o.a.c} · tient ${pc(o.pa)} des distances</em></s>
-      <s>${o.b.n}<em>${o.b.c} · tient ${pc(o.pb)}</em></s></div>`;
-  return `<div class="cpwrap"><h4>Les deux armes à prendre</h4>
-    <div class="mtab mtab3"><div class="mth"><s>carte</s><s>arme principale</s>
-      <s>arme secondaire</s></div>`
-    + L.filter(o=>o.general).map(ligne).join("")
-    + L.filter(o=>!o.general).map(ligne).join("")
-    + `</div>
+  /* Meme dessin que le classement de droite — rang, nom, categorie, chiffre a
+     droite, barre de longueur proportionnelle. La colonne de gauche se lit donc
+     sans reapprendre a lire. */
+  const barre=(v,max)=>`<i style="width:${Math.max(3,Math.round(100*v/(max||1)))}%"></i>`;
+  const tMax=Math.max(...C.principale.filter(o=>o.t!==null).map(o=>o.t), 1);
+  const gMax=Math.max(...C.secondaire.map(o=>Math.max(o.gain,0)), 1);
+  const colA=C.principale.slice(0,8).map((o,i)=>`<div class="cprow${i?"":" cpbest"}">
+      <div class="cprk">${String(i+1).padStart(2,"0")}</div>
+      <div class="cpnm">${o.w.n}<em>${o.w.c}</em></div>
+      <div class="cpva">${Math.round(o.t)} ms<em>sur ${ou}</em></div>
+      <div class="cpbar">${barre(tMax-o.t+1, tMax)}</div></div>`).join("");
+  const colB=C.secondaire.slice(0,8).map((o,i)=>`<div class="cprow${i?"":" cpbest"}${o.utile?"":" cpfaible"}">
+      <div class="cprk">${String(i+1).padStart(2,"0")}</div>
+      <div class="cpnm">${o.w.n}<em>${o.w.c}</em></div>
+      <div class="cpva">${o.gain>0?"−"+Math.round(o.gain)+" ms":"—"}<em>${
+        o.utile?`prend ${pc(o.part)} des distances`:"couvre les mêmes distances"}</em></div>
+      <div class="cpbar">${barre(Math.max(o.gain,0), gMax)}</div></div>`).join("");
+  return `<div class="cpwrap"><h4>Quelles deux armes prendre</h4>
+    <div class="cpcols">
+      <div><p class="cphd">Arme principale — celle qui tient le terrain</p>${colA}</div>
+      <div><p class="cphd">Arme secondaire — à côté du ${C.chef.n}</p>${colB}</div>
+    </div>
     <p class="note">Pour le rôle <b>${role.n.toLowerCase()}</b>, en visant le
-      <b>${Z==="tete"?"tête":Z==="torse"?"torse":Z}</b>. La <b>principale</b> est celle qui
-      couvre le plus de distances de la carte, la <b>secondaire</b> celle qui couvre le
-      reste — pas la deuxième meilleure, mais celle qui bouche le trou. Une arme peut donc
-      être principale sur une carte et secondaire sur une autre.
-      Change de rôle ci-dessus et le tableau entier change : c'est le même calcul appliqué
-      à d'autres distances recherchées.
-      La première ligne additionne les distances de toutes les cartes — utile tant qu'on ne
-      sait pas où l'on tombe, moins bonne que la ligne de la carte dès qu'on le sait.</p>
+      <b>${Z==="tete"?"tête":Z==="torse"?"torse":Z}</b>, sur <b>${ou}</b>${
+      POND?"":" — choisis une carte plus haut pour l'adapter"}.
+      <br><br>Les deux colonnes ne se classent pas sur le même critère, et c'est le but.
+      À <b>gauche</b>, le temps qu'il faut à l'arme pour tuer aux distances de la carte,
+      jouée seule : c'est elle qui doit tenir le gros du terrain.
+      À <b>droite</b>, ce que chaque arme apporte <b>en plus</b> du ${C.chef.n} — le temps
+      gagné par le couple. Une arme peut être excellente et n'apporter aucun gain parce
+      qu'elle couvre les mêmes distances : elle descend, ce qui est exactement ce qu'on veut
+      voir. Les grisées sont dans ce cas.
+      Une même arme peut donc être première à gauche et dernière à droite sans qu'aucun des
+      deux classements ne se trompe.</p>
     </div>`;
 }
 
@@ -6230,6 +6263,46 @@ function compoConseillee(cle, role, z, n=3){
    c'est celle qui couvre la plus grande part des distances de la carte, et celle
    qui couvre le reste. Une arme peut etre principale ici et secondaire ailleurs
    sans que rien ne se contredise. */
+/* Deux CLASSEMENTS et non un tableau : les meilleures armes principales d'un
+   cote, les meilleures secondaires de l'autre.
+
+   Thibaud, capture a l'appui : « il faut un classement comme pour la colonne de
+   droite mais en 2 colonnes avec arme principale et la deuxieme arme secondaire
+   ou un tri de distance et complementarite est fait. » Le tableau par carte
+   repondait a une autre question — « que prendre sur telle carte » — et pas a
+   celle-la : « quelles sont les bonnes armes, et dans quel ordre ».
+
+   Les deux colonnes ne se classent PAS sur le meme critere, et c'est tout le
+   point :
+
+     PRINCIPALE   son temps a tuer sur les distances de la carte, seule. C'est
+                  l'arme qui doit tenir le gros du terrain.
+     SECONDAIRE   ce qu'elle apporte A COTE de la principale retenue — le gain
+                  du couple par rapport a la principale jouee seule. Une arme
+                  excellente mais qui couvre les memes distances n'apporte rien
+                  et descend, ce qui est exactement ce qu'on veut lire.
+
+   Une arme peut donc etre premiere a gauche et derniere a droite sans qu'aucun
+   des deux classements ne se trompe. */
+function classementsCompo(cle, role, z){
+  const prof=profilRole(cle, role); if(!prof) return null;
+  const pool=W.filter(w=>w && w.n);
+  if(pool.length<2) return null;
+  const seules=pool.map(w=>({w, ...noteCompo(w, null, prof, z)}))
+                   .sort((a,b)=>a.t-b.t);
+  const chef=seules[0];
+  const seconds=pool.filter(w=>w!==chef.w).map(w=>{
+    const r=noteCompo(chef.w, w, prof, z);
+    /* La part que la seconde arme prend reellement. Sous le seuil, elle ne sert
+       qu'a accompagner : le couple est arithmetiquement bon et tactiquement
+       vide, et c'est le piege qu'on avait deja rencontre. */
+    const part=r.part[1];
+    return {w, t:r.t, part, gain:chef.t-r.t, utile:part>=PART_MIN};
+  }).sort((a,b)=>(b.utile-a.utile) || (a.t-b.t));
+  return {principale:seules, secondaire:seconds, chef:chef.w,
+          med:prof.med, q3:prof.q3, dispo:prof.dispo};
+}
+
 function tableauCompos(role, z){
   const lignes=[];
   for(const cle of [CLE_TOUTES, ...Object.keys(DPROF.h).filter(k=>k!==CLE_TOUTES)]){
