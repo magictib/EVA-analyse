@@ -2949,6 +2949,7 @@ const nomDe   = (a,slot) => (a.noms&&a.noms[String(slot)]) || `slot ${slot}`;
 /* Effectif vivant seconde par seconde, cote BVS. Une duree, pas un comptage :
    c'est ce qui rend la mesure solide sur une seule partie. */
 function effectifDansLeTemps(lot){
+  let vues=0;
   const paliers=[0,0,0,0,0];
   let total=0;
   for(const a of lot){
@@ -2967,8 +2968,14 @@ function effectifDansLeTemps(lot){
       }
       paliers[Object.values(etat).filter(Boolean).length]++; total++;
     }
+    vues++;
   }
-  return total?{paliers,total}:null;
+  /* Combien de parties CONTRIBUENT reellement. Une mesure disponible sur
+     vingt-six parties ne se presente pas comme une mesure sur vingt-sept : c'est
+     la faute qui avait produit le « 7 / 2 victoires comptees ». Chaque agregat
+     porte donc son denominateur, meme quand il est complet — surtout quand il
+     est complet, puisque c'est la seule facon de le savoir. */
+  return total?{paliers,total,parties:vues,vues:lot.length}:null;
 }
 
 /* Emprise sur la carte, et POURQUOI on la perd.
@@ -4031,7 +4038,8 @@ function drawAna(){
         <s>temps passé ainsi</s><s>part du temps</s></div>`
       + eff.paliers.map((v,i)=>`<div class="mtr3"><b>${l[i]}</b><s>${v} s</s>`
         + `<s>${Math.round(v/eff.total*100)} %</s></div>`).reverse().join("")
-      + `</div><p class="note">Combien de temps <b>notre équipe</b> a passé à chaque
+      + `</div><p class="note">Sur <b>${eff.parties} des ${eff.vues} parties</b> du tri.
+         Combien de temps <b>notre équipe</b> a passé à chaque
          effectif, tous matchs du tri additionnés — ce n'est pas le temps de survie d'un
          joueur, mais l'état de l'équipe seconde par seconde. « Les 4 debout » est le moment
          où l'on peut attaquer ; « 1 seul debout » celui où l'on subit.
@@ -4389,6 +4397,7 @@ function drawAna(){
     terrain+=`<h4>A-t-on quelqu'un à portée quand ça tire ?</h4><div class="mbig">
       <b>${enClair(sout.med)}<em>ton coéquipier le plus proche, en général</em></b>
       <b>${sout.seul} / ${sout.n}<em>parties où c'est l'inverse</em></b>
+      ${sout.n<lot.length?`<b>${sout.n} / ${lot.length}<em>parties mesurables</em></b>`:""}
       </div>
       <div class="mtab mtab3"><div class="mth"><s>carte</s><s>le coéquipier le plus proche est…</s>
         <s>parties</s></div>`
@@ -4396,6 +4405,9 @@ function drawAna(){
         + `<s>${enClair(c.med)}<em>rapport ${d2(c.med)}</em></s><s>${c.n}</s></div>`).join("")
       + `</div>
       <p class="note">${verdict}
+        ${sout.n<lot.length?`<br><b>${lot.length-sout.n} partie(s) hors mesure</b> : la
+        détection n'y situe jamais deux des nôtres et un adversaire au même instant, donc
+        aucun rapport n'y est calculable. Ce n'est pas un zéro, c'est une absence.`:""}
         <br><br>Comment c'est mesuré : à chaque instant, on regarde à quelle distance est ton
         coéquipier le plus proche, et à quelle distance est l'adversaire le plus proche. Si
         l'allié est deux fois plus près, tu es couvert ; s'il est deux fois plus loin, tu es
