@@ -3292,7 +3292,15 @@ function revenge(lot, fenetre=20){
     for(const f of fr){
       if(!estMien(a,f.victime)) continue;
       exam++;
+      /* Le vengeur doit etre UN AUTRE que la victime. Thibaud precise la
+         definition : « le revenge est lorsque l'on tue le tueur d'un coequipier
+         dans les secondes qui suivent. Ce n'est pas le fait de tuer la personne
+         qui nous a tue. » La nuance n'est pas de vocabulaire — se retrouver face
+         a son tueur apres avoir reapparu est un duel ordinaire, tandis que
+         venger un coequipier suppose d'etre la, de voir sa mort et d'y repondre.
+         C'est un fait d'equipe, et c'est pour cela qu'on le mesure. */
       const vengeur=fr.find(g=>g.victime===f.tueur && estMien(a,g.tueur)
+                              && g.tueur!==f.victime
                               && g.instant<f.instant && f.instant-g.instant<=fenetre);
       if(vengeur) vengees++;
       else { const n=nomDe(a,f.tueur); impunis.set(n,(impunis.get(n)||0)+1); }
