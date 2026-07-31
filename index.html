@@ -160,6 +160,8 @@
   /* Les trois etats du point, dans l'ordre et aux couleurs du dessin. Le milieu
      etait reste au jaune translucide alors que « libre » est passe au gris : la
      pastille annoncait une couleur qui n'apparaissait plus sur la frise. */
+  .frk[data-c=eng]{background:linear-gradient(90deg,var(--ok) 0 50%,var(--dead) 50% 100%)}
+  .frk[data-c=conv]{background:var(--signal);opacity:.55}
   .frk[data-c=pt]{background:linear-gradient(90deg,var(--ok) 0 33%,
     #3f3f46 33% 67%,var(--dead) 67%)}
   .frk[data-c=sig]{background:var(--signal);width:3px;border-radius:0}
@@ -3614,6 +3616,79 @@ function scoreSerie(f, SF){
   return {nous:cumN.map(v=>SF.nous*v/(cn||1)), eux:cumE.map(v=>SF.eux*v/(ce||1))};
 }
 
+/* LES ENGAGEMENTS : une grappe de morts rapprochees, avec son solde.
+
+   Ce que cela ajoute. Les deux aires disent l'ETAT — combien de joueurs debout —
+   et non l'EVENEMENT. On y voit une aire descendre sans savoir qu'il y a eu un
+   combat, ni qui l'a gagne. Un coach revise des echanges, pas des effectifs.
+
+   LE SEUIL EST ANCRE SUR LE JEU, faute de coupure naturelle : la distribution des
+   ecarts entre morts consecutives est continue (mediane 3,8 s, q80 9,8 s), donc
+   aucune valeur ne se detache d'elle-meme. Ce qui se detache, en revanche, c'est
+   le DELAI DE REAPPARITION, mesure sur 1 384 couples mort/retour : 17 s de
+   mediane, mode a 17, plancher a 15. Un calme de 10 s termine donc un combat sans
+   ambiguite — personne n'est encore revenu, donc l'echange a cesse et n'a pas
+   simplement marque une pause en attendant des renforts.
+
+   LA DUREE DU COMBAT EST RENDUE, et c'est la troisieme lecture demandee. Perdre
+   quatre joueurs en 3 s est un combat perdu ; les perdre en 25 s, c'est s'etre
+   fait manger un par un. Les deux ont aujourd'hui la meme allure sur la frise et
+   appellent des corrections opposees. */
+const CALME=10;
+function engagements(a, f){
+  const mien=monCamp(a), ps=(a.spatial||{}).par_seconde||1;
+  const morts=(a.evenements||[]).filter(e=>e.type==="mort" && e.slot!=null)
+    .map(e=>({t:(e.image-f.n0)/ps, mien:mien.includes(e.slot)}))
+    .sort((u,v)=>u.t-v.t);
+  if(!morts.length) return [];
+  const gr=[]; let g=[morts[0]];
+  for(let i=1;i<morts.length;i++){
+    if(morts[i].t-g[g.length-1].t<=CALME) g.push(morts[i]);
+    else { gr.push(g); g=[morts[i]]; }
+  }
+  gr.push(g);
+  return gr.filter(g=>g.length>=2).map(g=>{
+    const perdus=g.filter(m=>m.mien).length;
+    return {t0:g[0].t, t1:g[g.length-1].t, perdus, pris:g.length-perdus,
+            solde:g.length-perdus-perdus};
+  });
+}
+
+/* LES FENETRES D'AVANTAGE, et ce qu'elles ont rapporte.
+
+   C'est la question que pose un coach — « on gagne les combats mais on ne
+   convertit pas » — et elle etait invérifiable tant que le score etait une
+   repartition au prorata. Il est desormais LU, donc mesurable.
+
+   On ne compte que les avantages TENUS : un ecart d'effectif qui dure moins de
+   trois secondes n'a laisse le temps de rien faire, et le compter diluerait la
+   mesure dans du bruit.
+
+   Le gain est rapporte au maximum theorique. La loi du mode a ete mesuree le
+   31/07 : le plein controle fait monter le score de 0,556 %/s (100 % en 180 s).
+   Une fenetre de 14 s vaut donc au mieux 7,8 points, et dire « +3 % » ne se lit
+   pas sans ce denominateur — c'est la lecon du projet sur les mesures sans
+   denominateur, appliquee ici. */
+const PLEIN_CONTROLE=0.556;
+function avantages(f, SS, mini=3){
+  const out=[]; let i=0;
+  while(i<f.t.length){
+    const d=Math.sign(f.nous[i]-f.eux[i]);
+    if(!d){ i++; continue; }
+    let j=i;
+    while(j+1<f.t.length && Math.sign(f.nous[j+1]-f.eux[j+1])===d) j++;
+    const duree=f.t[j]-f.t[i];
+    if(duree>=mini){
+      const g=SS?(d>0?SS.nous[j]-SS.nous[i]:SS.eux[j]-SS.eux[i]):null;
+      out.push({t0:f.t[i], t1:f.t[j], duree, notre:d>0,
+                ecart:Math.abs(f.nous[i]-f.eux[i]), gain:g,
+                max:duree*PLEIN_CONTROLE});
+    }
+    i=j+1;
+  }
+  return out;
+}
+
 /* La frise dessinee. Une seule echelle de temps, trois lectures empilees :
    l'effectif des deux camps, la progression du score, et qui tient le point.
 
@@ -3641,8 +3716,10 @@ function friseSVG(a, moments){
        temps — fidele, et sans information.
      La serie `f.point` reste calculee : `scoreSerie` s'en sert pour son repli au
      prorata, sur les parties dont le score n'a pas pu etre lu. */
+  const ENG=engagements(a, f), AV=avantages(f, SS);
   const Y={eux:8, nous:AXE+2, temps:AXE+2+HB+14, sc:AXE+2+HB+30};
-  const H=Y.sc+(SS?HS+16:0)+4, L=1000, mg=6;
+  Y.eng=Y.sc+(SS?HS+16:0);
+  const H=Y.eng+(ENG.length?22:0)+4, L=1000, mg=6;
   const x=t=>mg+(L-2*mg)*t/Math.max(f.duree,1);
   const der=f.t[f.t.length-1];
 
@@ -3673,6 +3750,26 @@ function friseSVG(a, moments){
   /* La possession, en bande pleine et non plus en filet de 10 px. Trois etats,
      et « libre » cesse d'etre un jaune transparent qu'on confondait avec les
      reperes : c'est desormais un gris franc, donc une absence visible. */
+  /* L'ombrage des fenetres d'avantage, DERRIERE les aires d'effectif : il qualifie
+     ce qu'on y voit deja, il ne s'ajoute pas a cote. Vert quand l'avantage est le
+     notre et qu'il a rapporte au moins un tiers de son maximum, jaune quand il
+     n'a rien rapporte. Un avantage adverse non converti n'est pas notre affaire :
+     on ne teinte que les notres, pour que la frise reste lisible. */
+  const ombres=AV.filter(v=>v.notre).map(v=>{
+    const converti = v.gain!=null && v.gain >= v.max/3;
+    const c = v.gain==null ? "var(--ink-faint)" : (converti?"var(--ok)":"var(--signal)");
+    return `<rect x="${fr2(x(v.t0))}" y="8" width="${fr2(Math.max(1,x(v.t1)-x(v.t0)))}"
+      height="${2*HB+2}" fill="${c}" fill-opacity="${v.gain==null?".05":(converti?".10":".16")}"/>`;
+  }).join("");
+
+  /* Les engagements : un bloc par combat, sa LARGEUR etant sa duree — c'est elle
+     qui distingue un combat perdu net d'un effritement joueur par joueur. */
+  const eng=ENG.map(e=>{
+    const c = e.solde>0?"var(--ok)":(e.solde<0?"var(--dead)":"var(--ink-faint)");
+    return `<rect x="${fr2(x(e.t0))}" y="${Y.eng}" width="${
+      fr2(Math.max(1.5,x(e.t1)-x(e.t0)))}" height="12" rx="1.5"
+      fill="${c}" fill-opacity="${e.solde?".85":".45"}"/>`;
+  }).join("");
   const pt="";
 
   /* Les deux courbes de score, en trait plein : une progression est continue,
@@ -3713,25 +3810,28 @@ function friseSVG(a, moments){
     + (SS?`<span class="t" style="top:${vh(Y.sc+HS/2)}%">score</span>`
         + `<span class="v" style="top:${vh(Y.sc)}%">100 %</span>`
         + `<span class="v" style="top:${vh(Y.sc+HS)}%">0 %</span>`:"")
-;
+    + (ENG.length?`<span class="t" style="top:${vh(Y.eng+6)}%">combats</span>`:"");
 
   /* Les series pour le survol. Une globale plutot qu'un attribut `data` : la
      serie fait plusieurs milliers de valeurs et n'a rien a faire dans le DOM. */
   FRISE={t:f.t, nous:f.nous, eux:f.eux, point:f.point, duree:f.duree,
-         sn:SS?SS.nous:null, se:SS?SS.eux:null, cale:!!SS, lu:!!LU};
+         sn:SS?SS.nous:null, se:SS?SS.eux:null, cale:!!SS, lu:!!LU,
+         eng:ENG, av:AV};
   return `<div class="frwrap"><div class="frbox" data-frise>
       <div class="frgut">${gut}</div><div class="frin">
       <svg viewBox="0 0 ${L} ${H}" class="frise" style="height:${Math.round(H*1.15)}px"
         preserveAspectRatio="none" role="img"
         aria-label="Effectif des deux camps et progression du score">
-        ${filets}<line x1="${mg}" x2="${L-mg}" y1="${AXE}" y2="${AXE}"
+        ${ombres}${filets}<line x1="${mg}" x2="${L-mg}" y1="${AXE}" y2="${AXE}"
           stroke="var(--ink-faint)" stroke-opacity=".5"/>
         ${bande(f.eux, AXE, -1, "var(--dead)")}
         ${bande(f.nous, Y.nous, 1, "var(--ok)")}
-        ${grad}${sc}${pt}${reperes}</svg>
+        ${grad}${sc}${pt}${eng}${reperes}</svg>
       ${lab}<div class="frcur"></div><div class="frtip"></div></div></div>
     <p class="frleg"><span class="frk" data-c="ok"></span>nous debout
       <span class="frk" data-c="dead"></span>eux debout
+      ${ENG.length?`<span class="frk" data-c="eng"></span>combats (largeur = durée)`:""}
+      ${AV.some(v=>v.notre)?`<span class="frk" data-c="conv"></span>avantage non converti`:""}
       ${SS?`<span class="frk" data-c="sc"></span>score (calé sur le score final)`:""}
 
       <span class="frk" data-c="sig"></span>moment à revoir</p></div>`;
@@ -4233,6 +4333,34 @@ function drawAna(){
         </select></div>`:""}
       ${friseSVG(choisie, M)}${(()=>{
         fScore=!!(FRISE&&FRISE.cale); fLu=!!(FRISE&&FRISE.lu); return "";})()}
+      ${(()=>{
+        /* LE BILAN EN TROIS NOMBRES, qui est ce qu'un coach regarde avant le
+           detail. Chacun porte son denominateur : « 5 combats gagnes » ne veut
+           rien dire sans le total, et « +12 % pendant nos avantages » ne veut
+           rien dire sans les 34 % qui etaient realisables. C'est la lecon du
+           projet sur les mesures sans denominateur, appliquee ici. */
+        const E=(FRISE&&FRISE.eng)||[], A=((FRISE&&FRISE.av)||[]).filter(v=>v.notre);
+        if(!E.length) return "";
+        const g=E.filter(e=>e.solde>0).length, p=E.filter(e=>e.solde<0).length;
+        const n=E.reduce((u,e)=>u+e.solde,0);
+        /* L'EFFRITEMENT EXIGE QUE LE COMBAT SOIT PERDU. Sans cette condition,
+           on comptait aussi les combats gagnes ou l'on encaisse trois morts —
+           78 cas sur les 27 parties au lieu de 44 —, et le reproche tombait a
+           cote : perdre trois joueurs en gagnant l'echange n'est pas se faire
+           manger un par un. */
+        const longs=E.filter(e=>e.solde<0 && e.perdus>=3 && e.t1-e.t0>=15).length;
+        const av=A.filter(v=>v.gain!=null);
+        const gain=av.reduce((u,v)=>u+v.gain,0), max=av.reduce((u,v)=>u+v.max,0);
+        const secs=A.reduce((u,v)=>u+v.duree,0);
+        return `<p class="note"><b>Le match en trois nombres.</b>
+          <b>Échanges</b> — ${E.length} combats, ${g} gagnés / ${p} perdus, solde ${
+            n>0?"+":""}${n}.${longs?` Dont <b>${longs}</b> où l'on perd trois joueurs
+          ou plus en plus de 15 s : ce n'est pas un combat perdu, c'est un
+          effritement.`:""}
+          <b>Conversion</b> — ${Math.round(secs)} s passées en supériorité${
+            av.length?`, ${gain.toFixed(0)} % marqués sur ${max.toFixed(0)} réalisables
+            (<b>${max?Math.round(100*gain/max):0} %</b>)`:` — score non lu sur cette
+            partie, la conversion n'est pas mesurable`}.</p>`;})()}
       ${M.length?M.map(m=>`<div class="mom"><time>${hms(m.t)}</time>
           <div><b>${m.titre}</b><span>${m.quoi}</span></div></div>`).join("")
         :`<p class="note">Aucun moment saillant sur cette partie — ni effondrement, ni
@@ -4240,7 +4368,12 @@ function drawAna(){
       <p class="note"><b>Ce que ça dit.</b> Les deux aires sont les effectifs debout,
         déployées en miroir de part et d'autre de l'axe : le nôtre vers le bas en vert,
         le leur vers le haut en rouge. Un filet par joueur permet de lire le nombre, et
-        les traits jaunes marquent les passages à revoir${
+        les traits jaunes marquent les passages à revoir. La bande du bas découpe la
+        partie en <b>combats</b> — une grappe de morts rapprochées — colorés par leur
+        solde, et <i>leur largeur est leur durée</i> : perdre trois joueurs en 4 s et
+        les perdre en 25 s sont deux fautes différentes. Les plages teintées derrière
+        les effectifs sont vos <b>supériorités numériques</b> ; elles virent au jaune
+        quand elles n'ont rien rapporté au score${
           fScore?`, et les deux courbes de score montent tant que le camp tient la zone`:""}.
         <br><b>Passez la souris sur la frise</b> pour lire l'instant exact : effectifs,
         score des deux camps et possession à cette seconde.
@@ -8465,6 +8598,18 @@ function surFrise(e){
     + (FRISE.sn?`<br><span class="pn">score nous</span><u class="pn">${
         FRISE.sn[i].toFixed(0)} %</u><br><span class="pe">score eux</span><u class="pe">${
         FRISE.se[i].toFixed(0)} %</u>`:"")
+    + (()=>{ const t=FRISE.t[i];
+        const e=(FRISE.eng||[]).find(v=>t>=v.t0-1 && t<=v.t1+1);
+        const v=(FRISE.av||[]).find(w=>w.notre && t>=w.t0 && t<=w.t1);
+        let o="";
+        /* Le solde est ecrit avec sa DUREE : « -3 en 4 s » et « -3 en 22 s » sont
+           deux fautes differentes, l'une un combat perdu, l'autre un effritement. */
+        if(e) o+=`<br><i>combat</i><u class="${e.solde>0?"pn":(e.solde<0?"pe":"")}">${
+          e.solde>0?"+":""}${e.solde} en ${Math.round(e.t1-e.t0)} s</u>`;
+        /* Et le gain avec son maximum : « +3 % » ne se lit pas sans denominateur. */
+        if(v) o+=`<br><i>avantage</i><u>${v.ecart>0?"+":""}${v.ecart} · ${
+          v.gain==null?"score non lu":`${v.gain.toFixed(0)} % sur ${v.max.toFixed(0)}`}</u>`;
+        return o; })()
     ;
   /* L'infobulle suit la souris mais ne sort jamais du cadre : au-dela des trois
      quarts elle passe a gauche du curseur. */
