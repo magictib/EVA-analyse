@@ -3719,7 +3719,7 @@ function friseSVG(a, moments){
   const ENG=engagements(a, f), AV=avantages(f, SS);
   const Y={eux:8, nous:AXE+2, temps:AXE+2+HB+14, sc:AXE+2+HB+30};
   Y.eng=Y.sc+(SS?HS+16:0);
-  const H=Y.eng+(ENG.length?22:0)+4, L=1000, mg=6;
+  const H=Y.eng+(ENG.length?32:0)+4, L=1000, mg=6;
   const x=t=>mg+(L-2*mg)*t/Math.max(f.duree,1);
   const der=f.t[f.t.length-1];
 
@@ -3762,14 +3762,33 @@ function friseSVG(a, moments){
       height="${2*HB+2}" fill="${c}" fill-opacity="${v.gain==null?".05":(converti?".10":".16")}"/>`;
   }).join("");
 
-  /* Les engagements : un bloc par combat, sa LARGEUR etant sa duree — c'est elle
-     qui distingue un combat perdu net d'un effritement joueur par joueur. */
+  /* Les combats, en barres SIGNEES de part et d'autre d'un axe.
+
+     Premiere version rejetee : des blocs de meme hauteur, colores par le solde.
+     Thibaud : « la partie combat n'est pas hyper comprehensive et on peut se
+     perdre ». Il avait raison, et la faute est claire — la hauteur ne portait
+     RIEN, alors que c'est elle qu'on lit d'abord sur une frise. Le solde n'etait
+     donne que par une nuance de couleur, et son AMPLEUR pas du tout : un +1 et un
+     +3 se ressemblaient.
+
+     Ici la hauteur est le solde et le sens dit qui l'emporte, dans la meme
+     convention que les effectifs juste au-dessus — eux vers le haut, nous vers le
+     bas. La largeur reste la duree. Trois grandeurs, trois dimensions distinctes,
+     et plus aucune n'est portee par une teinte. */
+  const HE=13, SOLDE_MAX=4, AXE_E=Y.eng+1+HE;
   const eng=ENG.map(e=>{
-    const c = e.solde>0?"var(--ok)":(e.solde<0?"var(--dead)":"var(--ink-faint)");
-    return `<rect x="${fr2(x(e.t0))}" y="${Y.eng}" width="${
-      fr2(Math.max(1.5,x(e.t1)-x(e.t0)))}" height="12" rx="1.5"
-      fill="${c}" fill-opacity="${e.solde?".85":".45"}"/>`;
-  }).join("");
+    const h=Math.max(2, HE*Math.min(Math.abs(e.solde),SOLDE_MAX)/SOLDE_MAX);
+    /* NOTRE COTE EST LE BAS, comme pour les effectifs juste au-dessus : un combat
+       gagne descend, un combat perdu monte. Deux conventions differentes dans une
+       meme figure se paient toujours, et c'est celle-la qui est deja installee. */
+    const y=e.solde? (e.solde>0?AXE_E:AXE_E-h) : AXE_E-1;
+    const c=e.solde? (e.solde>0?"var(--ok)":"var(--dead)") : "var(--ink-faint)";
+    return `<rect x="${fr2(x(e.t0))}" y="${fr2(y)}" width="${
+      fr2(Math.max(1.5,x(e.t1)-x(e.t0)))}" height="${fr2(e.solde?h:2)}" rx="1"
+      fill="${c}" fill-opacity="${e.solde?".9":".5"}"/>`;
+  }).join("")
+    + `<line x1="${mg}" x2="${L-mg}" y1="${AXE_E}" y2="${AXE_E}"
+        stroke="var(--ink-faint)" stroke-opacity=".55"/>`;
   const pt="";
 
   /* Les deux courbes de score, en trait plein : une progression est continue,
@@ -3810,7 +3829,9 @@ function friseSVG(a, moments){
     + (SS?`<span class="t" style="top:${vh(Y.sc+HS/2)}%">score</span>`
         + `<span class="v" style="top:${vh(Y.sc)}%">100 %</span>`
         + `<span class="v" style="top:${vh(Y.sc+HS)}%">0 %</span>`:"")
-    + (ENG.length?`<span class="t" style="top:${vh(Y.eng+6)}%">combats</span>`:"");
+    + (ENG.length?`<span class="t" style="top:${vh(Y.eng+14)}%">combats</span>`
+        + `<span class="v" style="top:${vh(Y.eng+3)}%">−${SOLDE_MAX}</span>`
+        + `<span class="v" style="top:${vh(Y.eng+2*HE)}%">+${SOLDE_MAX}</span>`:"");
 
   /* Les series pour le survol. Une globale plutot qu'un attribut `data` : la
      serie fait plusieurs milliers de valeurs et n'a rien a faire dans le DOM. */
@@ -3830,9 +3851,11 @@ function friseSVG(a, moments){
       ${lab}<div class="frcur"></div><div class="frtip"></div></div></div>
     <p class="frleg"><span class="frk" data-c="ok"></span>nous debout
       <span class="frk" data-c="dead"></span>eux debout
-      ${ENG.length?`<span class="frk" data-c="eng"></span>combats (largeur = durée)`:""}
+      ${ENG.length?`<span class="frk" data-c="ok"></span>combat gagné (vers le bas)
+      <span class="frk" data-c="dead"></span>perdu (vers le haut) · hauteur = solde,
+      largeur = durée`:""}
       ${AV.some(v=>v.notre)?`<span class="frk" data-c="conv"></span>avantage non converti`:""}
-      ${SS?`<span class="frk" data-c="sc"></span>score (calé sur le score final)`:""}
+      ${SS?`<span class="frk" data-c="sc"></span>score ${LU?"lu sur l'écran":"(calé sur le score final)"}`:""}
 
       <span class="frk" data-c="sig"></span>moment à revoir</p></div>`;
 }
