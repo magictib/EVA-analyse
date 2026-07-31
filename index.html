@@ -3539,6 +3539,60 @@ function scoreFinal(a){
    score reel a la fin — et c'est la FORME qui est mesuree, c'est-a-dire QUAND
    chacun a marque. C'est ce qu'on veut lire sur une frise, et l'interface le dit
    pour qu'on ne prenne pas la courbe pour un calcul. */
+/* LE SCORE LU DANS LE HUD, quand l'analyse le porte. Il remplace la repartition
+   au prorata decrite ci-dessus : le jeu ECRIT le score en haut de chaque image, il
+   n'y a plus de raison de le deduire.
+
+   L'ALIGNEMENT SE FAIT PAR NUMERO D'IMAGE. Le lecteur sait aussi rendre un temps de
+   jeu absolu, mais le raccorder a l'axe de la frise demanderait de relier deux
+   referentiels, et ce projet a deja paye ce genre de raccord. Les numeros d'image
+   sont LES MEMES des deux cotes — les deux couches lisent les memes fichiers
+   extraits —, donc on convertit ici comme partout ailleurs.
+
+   LE CAMP N'EST PAS ECRIT DANS LE FICHIER, et il ne pouvait pas l'etre : le HUD dit
+   ALLIANCE et REBELS, nous disons nous et eux, et rien dans l'image ne relie les
+   deux. C'est le RESULTAT qui l'apprend, par la regle du mode — le vainqueur finit
+   toujours a 100 %, donc le camp dont la courbe finit le plus haut est le vainqueur,
+   et `res` dit si c'est nous. C'est le meme raisonnement que `scoreFinal` pour
+   orienter `sg`/`sd`.
+
+   ON NE BOUCHE PAS LES TROUS PAR EN BAS. Une image sans lecture n'est pas un score
+   de zero : on reporte la derniere valeur lue, le score de Domination ne
+   redescendant jamais. Avant la premiere lecture, la courbe vaut zero, ce qui est
+   vrai — une manche commence a zero. */
+function scoreLu(a, f){
+  const sp=a.spatial||{}, s=sp.score_lu;
+  if(!s || !s.img || !s.img.length || !f || !f.t) return null;
+  const res=(a.partie||{}).res;
+  if(res!=="V" && res!=="D") return null;
+  const der=k=>{ for(let i=s[k].length-1;i>=0;i--) if(s[k][i]!==null) return s[k][i]; return null; };
+  const fa=der("alliance"), fr=der("rebels");
+  if(fa===null || fr===null) return null;
+  /* Le vainqueur est celui qui finit le plus haut ; `res` dit si c'est nous. */
+  const gagnant = fa>=fr ? "alliance" : "rebels";
+  const kNous = (res==="V") ? gagnant : (gagnant==="alliance"?"rebels":"alliance");
+  const kEux  = kNous==="alliance" ? "rebels" : "alliance";
+  const ps=sp.par_seconde||1, deb=sp.partie_debut||0;
+  /* Chaque lecture, ramenee a la seconde de partie. */
+  const pts=[];
+  for(let i=0;i<s.img.length;i++){
+    const t=(s.img[i]-deb)/ps;
+    pts.push({t, nous:s[kNous][i], eux:s[kEux][i]});
+  }
+  pts.sort((p,q)=>p.t-q.t);
+  const out={nous:[], eux:[]};
+  let i=0, vn=0, ve=0, vu=false;
+  for(const t of f.t){
+    while(i<pts.length && pts[i].t<=t){
+      if(pts[i].nous!==null){ vn=pts[i].nous; vu=true; }
+      if(pts[i].eux!==null){ ve=pts[i].eux; vu=true; }
+      i++;
+    }
+    out.nous.push(vn); out.eux.push(ve);
+  }
+  return vu ? out : null;
+}
+
 function scoreSerie(f, SF){
   if(!f.point || !SF) return null;
   let cn=0, ce=0;
@@ -3562,7 +3616,8 @@ function scoreSerie(f, SF){
    numerique se voit sans compter et que le nombre se lit sur les filets. */
 function friseSVG(a, moments){
   const f=frise(a, 1); if(!f) return "";
-  const SF=scoreFinal(a), SS=scoreSerie(f, SF);
+  /* Le score LU d'abord, la repartition au prorata seulement a defaut. */
+  const SF=scoreFinal(a), LU=scoreLu(a, f), SS=LU||scoreSerie(f, SF);
   /* Le decoupage vertical, en une seule table pour que rien ne se chevauche. */
   const HB=64, AXE=8+HB, HS=58;
   const Y={eux:8, nous:AXE+2, temps:AXE+2+HB+14,
@@ -3654,7 +3709,7 @@ function friseSVG(a, moments){
   /* Les series pour le survol. Une globale plutot qu'un attribut `data` : la
      serie fait plusieurs milliers de valeurs et n'a rien a faire dans le DOM. */
   FRISE={t:f.t, nous:f.nous, eux:f.eux, point:f.point, duree:f.duree,
-         sn:SS?SS.nous:null, se:SS?SS.eux:null, cale:!!SS};
+         sn:SS?SS.nous:null, se:SS?SS.eux:null, cale:!!SS, lu:!!LU};
   return `<div class="frwrap"><div class="frbox" data-frise>
       <div class="frgut">${gut}</div><div class="frin">
       <svg viewBox="0 0 ${L} ${H}" class="frise" style="height:${Math.round(H*1.15)}px"
@@ -4159,7 +4214,7 @@ function drawAna(){
        On le relevait en redessinant la frise une seconde fois pour y chercher une
        sous-chaine ; c'etait couteux, fragile, et cela ecrasait les series du
        survol. `friseSVG` le declare maintenant. */
-    let fPoint=false, fScore=false;
+    let fPoint=false, fScore=false, fLu=false;
     revue=`<h4>La partie, minute par minute</h4>
       ${dispo.length>1?`<div class="revsel"><label>Partie</label>
         <select data-rev>${dispo.map(a=>{const q=a.partie||{};
@@ -4168,7 +4223,7 @@ function drawAna(){
             q.res?` · ${q.res==="V"?"victoire":"défaite"}`:""}</option>`;}).join("")}
         </select></div>`:""}
       ${friseSVG(choisie, M)}${(()=>{fPoint=!!(FRISE&&FRISE.point);
-        fScore=!!(FRISE&&FRISE.cale); return "";})()}
+        fScore=!!(FRISE&&FRISE.cale); fLu=!!(FRISE&&FRISE.lu); return "";})()}
       ${M.length?M.map(m=>`<div class="mom"><time>${hms(m.t)}</time>
           <div><b>${m.titre}</b><span>${m.quoi}</span></div></div>`).join("")
         :`<p class="note">Aucun moment saillant sur cette partie — ni effondrement, ni
@@ -4184,12 +4239,19 @@ function drawAna(){
         <br><b>À quoi ça sert.</b> Retrouver en un coup d'œil si on démarre mal et finit
         bien, ou l'inverse — et savoir quelles minutes rejouer plutôt que de scruter la
         vidéo entière.${fScore?`
-        <br><b>Comment le score est obtenu.</b> Il n'est pas calculé dans l'absolu : la
-        règle du mode fait monter le pourcentage tant qu'on tient la zone, mais prédire
-        un taux échoue — 13 points d'erreur médiane sur le score du perdant, et jusqu'à
-        plus de 100 sur une partie. On répartit donc le score final, lu sur le tableau de
-        fin, au prorata de la possession mesurée : le début et la fin sont exacts, et
-        c'est le <i>moment</i> où chacun a marqué qui est l'information.`:""}
+        <br><b>Comment le score est obtenu.</b> ${fLu?`Il est <b>lu sur l'écran</b> :
+        le jeu affiche en permanence le pourcentage des deux camps en haut de l'image, et
+        c'est cette valeur-là qui est tracée. La courbe n'est donc plus une estimation.
+        Elle comporte des trous — une image sur laquelle la lecture hésite est écartée
+        plutôt que devinée — et le palier tient jusqu'à la lecture suivante. Un détail du
+        jeu à connaître : <b>100 % n'est jamais affiché</b>, la manche s'arrêtant à
+        l'instant où il est atteint, si bien que le vainqueur culmine à 99 %.`:`Il n'est
+        pas calculé dans l'absolu : la règle du mode fait monter le pourcentage tant qu'on
+        tient la zone, mais prédire un taux échoue — 13 points d'erreur médiane sur le
+        score du perdant, et jusqu'à plus de 100 sur une partie. On répartit donc le score
+        final, lu sur le tableau de fin, au prorata de la possession mesurée : le début et
+        la fin sont exacts, et c'est le <i>moment</i> où chacun a marqué qui est
+        l'information.`}`:""}
         <br><b>Comment c'est choisi.</b> Un moment est retenu quand il dure assez pour
         avoir été joué : un creux d'au moins trois adversaires au sol tenu 3 s, trois des
         nôtres qui tombent en moins de 12 s, ou l'un de nous seul contre plusieurs pendant
