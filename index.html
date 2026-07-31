@@ -112,17 +112,59 @@
 
   /* Le tableau des deux armes, en tete du classement. La ligne « toutes cartes »
      et la carte ou l'on joue se detachent : ce sont les deux qu'on cherche. */
-  /* ---------- la frise de partie ---------- */
+  /* ---------- la frise de partie ----------
+     Le SVG est etire en largeur (`preserveAspectRatio: none`) pour occuper toute
+     la place : un texte place DEDANS s'etirerait avec lui. Toutes les etiquettes
+     sont donc en HTML par-dessus, positionnees en pourcentage — meme repere, sans
+     deformation. */
   .frwrap{margin:10px 0 4px}
-  .frise{width:100%;height:150px;display:block}
+  /* Une GOUTTIERE a gauche pour les etiquettes de rangee. Sans elle, « eux debout »
+     se posait sur l'aire rouge, « score » sur son propre « 100 % » et le « 0′ » des
+     minutes sur « nous debout » : quatre textes sur les donnees qu'ils nomment. */
+  .frbox{display:flex;align-items:stretch;gap:0}
+  .frgut{flex:0 0 58px;position:relative}
+  .frgut span{position:absolute;right:8px;text-align:right;white-space:nowrap;
+    pointer-events:none;transform:translateY(-50%)}
+  .frgut .t{font:600 9px/1.15 var(--ui);letter-spacing:.05em;text-transform:uppercase;
+    color:var(--ink-dim)}
+  .frgut .v{font:400 9px/1 var(--mono);color:var(--ink-faint)}
+  .frin{position:relative;flex:1 1 auto;min-width:0}
+  /* La hauteur est posee EN LIGNE par `friseSVG`, proportionnelle au viewBox : une
+     partie sans possession ni score dessine moins de rangees, et une hauteur fixe
+     l'aurait etiree verticalement pour remplir la place. Ici, le defaut. */
+  .frise{width:100%;height:300px;display:block}
+  .frlab{position:absolute;font:400 10px/1 var(--mono);color:var(--ink-faint);
+    transform:translateX(-50%);pointer-events:none;white-space:nowrap}
+  /* Le curseur de survol et son infobulle. `pointer-events:none` sur les deux :
+     sinon le curseur passe sous la souris et coupe le mousemove. */
+  .frcur{position:absolute;top:0;bottom:0;width:1px;background:var(--signal);
+    opacity:0;pointer-events:none;transition:opacity .08s}
+  .frbox.on .frcur{opacity:.85}
+  .frtip{position:absolute;top:0;z-index:3;min-width:150px;padding:7px 9px;
+    background:var(--panel-2);border:1px solid var(--rule-vif);border-radius:6px;
+    font:400 11px/1.5 var(--ui);color:var(--ink);pointer-events:none;opacity:0;
+    box-shadow:0 6px 20px rgba(0,0,0,.55)}
+  .frbox.on .frtip{opacity:1}
+  .frtip b{font:600 12px/1.4 var(--mono);color:var(--signal);display:block;
+    margin-bottom:3px}
+  .frtip i{font-style:normal;color:var(--ink-dim)}
+  .frtip u{text-decoration:none;float:right;font-variant-numeric:tabular-nums;
+    font-family:var(--mono)}
+  .frtip .pn{color:var(--ok)} .frtip .pe{color:var(--dead)}
   .frleg{margin:4px 0 0;font:400 11px/1.6 var(--ui);color:var(--dim)}
   .frk{display:inline-block;width:10px;height:10px;border-radius:2px;
     margin:0 5px 0 14px;vertical-align:-1px}
   .frleg .frk:first-child{margin-left:0}
   .frk[data-c=ok]{background:var(--ok)}
   .frk[data-c=dead]{background:var(--dead)}
-  .frk[data-c=pt]{background:linear-gradient(90deg,var(--ok),var(--rule-vif),var(--dead))}
+  /* Les trois etats du point, dans l'ordre et aux couleurs du dessin. Le milieu
+     etait reste au jaune translucide alors que « libre » est passe au gris : la
+     pastille annoncait une couleur qui n'apparaissait plus sur la frise. */
+  .frk[data-c=pt]{background:linear-gradient(90deg,var(--ok) 0 33%,
+    #3f3f46 33% 67%,var(--dead) 67%)}
   .frk[data-c=sig]{background:var(--signal);width:3px;border-radius:0}
+  .frk[data-c=sc]{background:none;border-top:2px solid var(--ink);height:0;
+    border-radius:0;width:14px}
   /* Un moment : l'heure a gauche, en gros, parce que c'est ce qu'on cherche
      quand on rejoue la video. Le reste suit. */
   .mom{display:grid;grid-template-columns:5.2em 1fr;gap:12px;padding:10px 0;
@@ -3450,50 +3492,183 @@ function momentsDe(a){
   return gardes.sort((x,y)=>x.t-y.t);
 }
 
-/* La frise dessinee. Trois bandes empilees, une seule echelle de temps :
-   l'effectif des deux camps, et la possession du point quand on l'a. */
+/* Les series de la frise actuellement dessinee, pour le survol. Remplie par
+   `friseSVG`, lue par l'ecouteur de `#ana` : le survol n'a ainsi rien a
+   recalculer, et le DOM ne porte pas quelques milliers de valeurs. */
+let FRISE=null;
+
+/* Le score final de la partie, oriente. En Domination le score s'ecrit en
+   pourcentage et le VAINQUEUR est toujours a 100 % — c'est la regle du mode :
+   la premiere equipe a 100 % l'emporte sur le champ.
+   Cela resout un probleme qui paraissait insoluble : `sg` est le score de GAUCHE
+   et rien dans le collage ne dit lequel des deux est le notre. Le resultat le
+   dit, lui, sans qu'on ait a deviner. */
+function scoreFinal(a){
+  const p=a.partie||{}, k=`${p.dt||""} ${p.h||""}`;
+  const m=(typeof MATCHS!=="undefined"?MATCHS:[]).find(x=>`${x.dt||""} ${x.h||""}`===k);
+  if(!m) return null;
+  /* Seul le pourcentage se cumule. « 20 » frags ou « 12/15 » de progression ne
+     decrivent pas une course a 100 % : on s'abstient plutot que de convertir. */
+  if(!/%/.test(String(m.sg||"")) && !/%/.test(String(m.sd||""))) return null;
+  const g=nombreScore(m.sg), d=nombreScore(m.sd);
+  if(g===null || d===null) return null;
+  const res=m.res || p.res;
+  if(res!=="V" && res!=="D") return null;
+  const hi=Math.max(g,d), lo=Math.min(g,d);
+  return res==="V" ? {nous:hi, eux:lo} : {nous:lo, eux:hi};
+}
+
+/* La progression du score, DERIVEE de la possession et CALEE sur le score final.
+
+   Regle du mode, donnee par Thibaud : le pourcentage monte passivement tant qu'on
+   tient la zone — sans avoir a y rester —, il s'arrete des qu'un adversaire y
+   entre, et la premiere equipe a 100 % gagne.
+
+   POURQUOI CALER PLUTOT QUE CALCULER. On a essaye de predire le score a partir du
+   seul temps de possession, taux calibre sur le vainqueur puis applique au
+   perdant : l'erreur mediane sur le score du perdant est de 13 points, avec des
+   cas a plus de 100 points d'ecart (Helios : 127 % predits pour 21 % reels).
+   Retirer les secondes contestees — un adversaire present dans la zone — n'y
+   change presque rien : 12 points au lieu de 13, la contestation ne pesant que
+   5 a 7 % du temps de possession, sans doute parce que les trajets ne suivent pas
+   tous les joueurs en continu.
+
+   Un taux absolu serait donc faux. Ce qui est SU, en revanche, c'est le score
+   final des deux camps, lu sur le tableau de fin. On repartit donc ce total au
+   prorata de la possession : les deux extremites sont exactes — 0 au debut, le
+   score reel a la fin — et c'est la FORME qui est mesuree, c'est-a-dire QUAND
+   chacun a marque. C'est ce qu'on veut lire sur une frise, et l'interface le dit
+   pour qu'on ne prenne pas la courbe pour un calcul. */
+function scoreSerie(f, SF){
+  if(!f.point || !SF) return null;
+  let cn=0, ce=0;
+  const cumN=[], cumE=[];
+  for(let i=0;i<f.point.length;i++){
+    if(f.point[i]==="nous") cn++; else if(f.point[i]==="eux") ce++;
+    cumN.push(cn); cumE.push(ce);
+  }
+  if(!cn && !ce) return null;
+  return {nous:cumN.map(v=>SF.nous*v/(cn||1)), eux:cumE.map(v=>SF.eux*v/(ce||1))};
+}
+
+/* La frise dessinee. Une seule echelle de temps, trois lectures empilees :
+   l'effectif des deux camps, la progression du score, et qui tient le point.
+
+   L'EFFECTIF SE LIT EN MIROIR, et c'est le changement qui compte. Les deux aires
+   etaient empilees et montaient toutes deux vers le haut : on croyait a un
+   dos-a-dos, donc on comparait des epaisseurs qui ne partaient pas du meme bord.
+   Elles se deploient maintenant de part et d'autre d'un axe central — eux vers le
+   haut, nous vers le bas —, avec un filet par joueur, si bien que l'avantage
+   numerique se voit sans compter et que le nombre se lit sur les filets. */
 function friseSVG(a, moments){
   const f=frise(a, 1); if(!f) return "";
-  const L=1000, H=118, mg=6;
+  const SF=scoreFinal(a), SS=scoreSerie(f, SF);
+  /* Le decoupage vertical, en une seule table pour que rien ne se chevauche. */
+  const HB=64, AXE=8+HB, HS=58;
+  const Y={eux:8, nous:AXE+2, temps:AXE+2+HB+14,
+           sc:AXE+2+HB+30, pt:AXE+2+HB+30+(SS?HS+16:0)};
+  const H=Y.pt+18, L=1000, mg=6;
   const x=t=>mg+(L-2*mg)*t/Math.max(f.duree,1);
-  const bande=(vals,y0,h,couleur)=>{
-    /* Une aire en escalier : l'effectif ne varie pas continument, il saute. */
-    let d=`M${fr2(x(f.t[0]))},${y0+h}`;
+  const der=f.t[f.t.length-1];
+
+  /* Une aire en escalier : l'effectif ne varie pas continument, il saute.
+     `sens` vaut -1 pour celle qui monte, +1 pour celle qui descend. */
+  const bande=(vals,base,sens,couleur)=>{
+    let d=`M${fr2(x(f.t[0]))},${base}`;
     for(let i=0;i<vals.length;i++){
-      const yy=y0+h-h*vals[i]/4;
+      const yy=base+sens*HB*vals[i]/4;
       d+=`L${fr2(x(f.t[i]))},${fr2(yy)}`;
       if(i+1<vals.length) d+=`L${fr2(x(f.t[i+1]))},${fr2(yy)}`;
     }
-    d+=`L${fr2(x(f.t[f.t.length-1]))},${y0+h}Z`;
-    return `<path d="${d}" fill="${couleur}" fill-opacity=".33" stroke="${couleur}"
-      stroke-width="1" stroke-opacity=".8"/>`;
+    d+=`L${fr2(x(der))},${base}Z`;
+    return `<path d="${d}" fill="${couleur}" fill-opacity=".3" stroke="${couleur}"
+      stroke-width="1.2" stroke-opacity=".95"/>`;
   };
+  /* Un filet par joueur : c'est lui qui rend l'effectif LISIBLE plutot que
+     seulement comparable. Le 4e est plus marque, c'est l'equipe au complet. */
+  let filets="";
+  for(let k=1;k<=4;k++){
+    const o=k===4?".3":".14";
+    filets+=`<line x1="${mg}" x2="${L-mg}" y1="${AXE-HB*k/4}" y2="${AXE-HB*k/4}"
+        stroke="var(--dead)" stroke-opacity="${o}" stroke-dasharray="3 4"/>
+      <line x1="${mg}" x2="${L-mg}" y1="${Y.nous+HB*k/4}" y2="${Y.nous+HB*k/4}"
+        stroke="var(--ok)" stroke-opacity="${o}" stroke-dasharray="3 4"/>`;
+  }
+
+  /* La possession, en bande pleine et non plus en filet de 10 px. Trois etats,
+     et « libre » cesse d'etre un jaune transparent qu'on confondait avec les
+     reperes : c'est desormais un gris franc, donc une absence visible. */
   let pt="";
   if(f.point){
-    const coul={nous:"var(--ok)", eux:"var(--dead)", libre:"var(--rule-vif)"};
+    const coul={nous:"var(--ok)", eux:"var(--dead)", libre:"#3f3f46"};
     let i=0;
     while(i<f.point.length){
       let j=i; while(j+1<f.point.length && f.point[j+1]===f.point[i]) j++;
-      if(f.point[i]) pt+=`<rect x="${fr2(x(f.t[i]))}" y="96" width="${
-        fr2(Math.max(1,x(f.t[j])-x(f.t[i])))}" height="10" fill="${coul[f.point[i]]}"
-        fill-opacity=".85"/>`;
+      if(f.point[i]) pt+=`<rect x="${fr2(x(f.t[i]))}" y="${Y.pt}" width="${
+        fr2(Math.max(.8,x(f.t[Math.min(j+1,f.t.length-1)])-x(f.t[i])))}" height="14"
+        fill="${coul[f.point[i]]}" fill-opacity="${f.point[i]==="libre"?".55":".9"}"/>`;
       i=j+1;
     }
   }
-  const reperes=(moments||[]).map(m=>`<line x1="${fr2(x(m.t))}" y1="4" x2="${fr2(x(m.t))}"
-      y2="${f.point?106:92}" stroke="var(--signal)" stroke-width="1.2" stroke-opacity=".9"/>`).join("");
+
+  /* Les deux courbes de score, en trait plein : une progression est continue,
+     contrairement a un effectif. Le remplissage reste leger pour que le
+     croisement des deux se voie. */
+  let sc="";
+  if(SS){
+    const ys=v=>Y.sc+HS-HS*Math.max(0,Math.min(100,v))/100;
+    for(let k=0;k<=1;k++){
+      const S=k?SS.eux:SS.nous, c=k?"var(--dead)":"var(--ok)";
+      let d=`M${fr2(x(f.t[0]))},${fr2(ys(S[0]))}`;
+      for(let i=1;i<S.length;i++) d+=`L${fr2(x(f.t[i]))},${fr2(ys(S[i]))}`;
+      sc+=`<path d="${d}" fill="none" stroke="${c}" stroke-width="1.8"
+        stroke-opacity=".95"/>`;
+    }
+    sc+=`<line x1="${mg}" x2="${L-mg}" y1="${Y.sc}" y2="${Y.sc}"
+        stroke="var(--rule-vif)" stroke-dasharray="2 3"/>
+      <line x1="${mg}" x2="${L-mg}" y1="${Y.sc+HS/2}" y2="${Y.sc+HS/2}"
+        stroke="var(--rule)" stroke-dasharray="2 3"/>`;
+  }
+
+  const reperes=(moments||[]).map(m=>`<line x1="${fr2(x(m.t))}" y1="8"
+      x2="${fr2(x(m.t))}" y2="${Y.pt+14}" stroke="var(--signal)" stroke-width="1"
+      stroke-opacity=".55"/>`).join("");
   const min=Math.floor(f.duree/60);
-  const grad=[...Array(min+1)].map((_,k)=>`<line x1="${fr2(x(k*60))}" y1="88" x2="${
-      fr2(x(k*60))}" y2="92" stroke="var(--dim)"/><text x="${fr2(x(k*60))}" y="86"
-      fill="var(--dim)" font-size="9" text-anchor="middle">${k}′</text>`).join("");
-  return `<div class="frwrap"><svg viewBox="0 0 ${L} ${H}" class="frise"
-      preserveAspectRatio="none" role="img"
-      aria-label="Effectif des deux camps et possession du point au fil de la partie">
-      ${bande(f.eux, 4, 40, "var(--dead)")}
-      ${bande(f.nous, 46, 40, "var(--ok)")}
-      ${grad}${pt}${reperes}</svg>
+  const grad=[...Array(min+1)].map((_,k)=>`<line x1="${fr2(x(k*60))}"
+      y1="${AXE+HB+4}" x2="${fr2(x(k*60))}" y2="${AXE+HB+9}"
+      stroke="var(--ink-faint)"/>`).join("");
+  const pc=t=>(100*x(t)/L).toFixed(3);
+  const vh=u=>(100*u/H).toFixed(2);
+  /* Les etiquettes de temps en HTML : le SVG etant etire en largeur, un texte
+     place dedans le serait aussi. Meme repere, en pourcentage. */
+  const lab=[...Array(min+1)].map((_,k)=>`<span class="frlab" style="left:${
+      pc(k*60)}%;top:${vh(AXE+HB+11)}%">${k}′</span>`).join("");
+  /* La gouttiere : ce que chaque rangee montre, hors du dessin. */
+  const gut=`<span class="t" style="top:${vh(Y.eux+HB/2)}%">eux<br>debout</span>`
+    + `<span class="t" style="top:${vh(Y.nous+HB/2)}%">nous<br>debout</span>`
+    + (SS?`<span class="t" style="top:${vh(Y.sc+HS/2)}%">score</span>`
+        + `<span class="v" style="top:${vh(Y.sc)}%">100 %</span>`
+        + `<span class="v" style="top:${vh(Y.sc+HS)}%">0 %</span>`:"")
+    + (f.point?`<span class="t" style="top:${vh(Y.pt+7)}%">point</span>`:"");
+
+  /* Les series pour le survol. Une globale plutot qu'un attribut `data` : la
+     serie fait plusieurs milliers de valeurs et n'a rien a faire dans le DOM. */
+  FRISE={t:f.t, nous:f.nous, eux:f.eux, point:f.point, duree:f.duree,
+         sn:SS?SS.nous:null, se:SS?SS.eux:null, cale:!!SS};
+  return `<div class="frwrap"><div class="frbox" data-frise>
+      <div class="frgut">${gut}</div><div class="frin">
+      <svg viewBox="0 0 ${L} ${H}" class="frise" style="height:${Math.round(H*1.15)}px"
+        preserveAspectRatio="none" role="img"
+        aria-label="Effectif des deux camps, progression du score et possession du point">
+        ${filets}<line x1="${mg}" x2="${L-mg}" y1="${AXE}" y2="${AXE}"
+          stroke="var(--ink-faint)" stroke-opacity=".5"/>
+        ${bande(f.eux, AXE, -1, "var(--dead)")}
+        ${bande(f.nous, Y.nous, 1, "var(--ok)")}
+        ${grad}${sc}${pt}${reperes}</svg>
+      ${lab}<div class="frcur"></div><div class="frtip"></div></div></div>
     <p class="frleg"><span class="frk" data-c="ok"></span>nous debout
       <span class="frk" data-c="dead"></span>eux debout
+      ${SS?`<span class="frk" data-c="sc"></span>score (calé sur le score final)`:""}
       ${f.point?`<span class="frk" data-c="pt"></span>possession du point`:""}
       <span class="frk" data-c="sig"></span>moment à revoir</p></div>`;
 }
@@ -3978,6 +4153,13 @@ function drawAna(){
     const M=momentsDe(choisie);
     const hms=t=>`${Math.floor(t/60)}:${String(Math.round(t%60)).padStart(2,"0")}`;
     const p=choisie.partie||{};
+    /* Quelles couches la frise porte-t-elle ? La note qui suit doit decrire ce qui
+       est REELLEMENT dessine — la possession n'existe que sur les parties
+       redepouillees, et le score qu'a partir d'un tableau de fin en pourcentage.
+       On le relevait en redessinant la frise une seconde fois pour y chercher une
+       sous-chaine ; c'etait couteux, fragile, et cela ecrasait les series du
+       survol. `friseSVG` le declare maintenant. */
+    let fPoint=false, fScore=false;
     revue=`<h4>La partie, minute par minute</h4>
       ${dispo.length>1?`<div class="revsel"><label>Partie</label>
         <select data-rev>${dispo.map(a=>{const q=a.partie||{};
@@ -3985,17 +4167,29 @@ function drawAna(){
             jj(q.dt)} ${q.h} · ${q.carte||"?"} · ${q.adverse_tag||"?"}${
             q.res?` · ${q.res==="V"?"victoire":"défaite"}`:""}</option>`;}).join("")}
         </select></div>`:""}
-      ${friseSVG(choisie, M)}
+      ${friseSVG(choisie, M)}${(()=>{fPoint=!!(FRISE&&FRISE.point);
+        fScore=!!(FRISE&&FRISE.cale); return "";})()}
       ${M.length?M.map(m=>`<div class="mom"><time>${hms(m.t)}</time>
           <div><b>${m.titre}</b><span>${m.quoi}</span></div></div>`).join("")
         :`<p class="note">Aucun moment saillant sur cette partie — ni effondrement, ni
           creux d'effectif tenu, ni situation à un contre plusieurs.</p>`}
-      <p class="note"><b>Ce que ça dit.</b> Les deux courbes sont les effectifs debout,
-        le nôtre en vert, le leur en rouge ; les traits jaunes marquent les passages à
-        revoir${friseSVG(choisie,[]).includes("96")?", et la bande du bas dit qui tient le point":""}.
+      <p class="note"><b>Ce que ça dit.</b> Les deux aires sont les effectifs debout,
+        déployées en miroir de part et d'autre de l'axe : le nôtre vers le bas en vert,
+        le leur vers le haut en rouge. Un filet par joueur permet de lire le nombre, et
+        les traits jaunes marquent les passages à revoir${
+          fPoint?`. La bande du bas dit qui tient le point`:""}${
+          fScore?`, et les deux courbes de score montent tant que le camp tient la zone`:""}.
+        <br><b>Passez la souris sur la frise</b> pour lire l'instant exact : effectifs,
+        score des deux camps et possession à cette seconde.
         <br><b>À quoi ça sert.</b> Retrouver en un coup d'œil si on démarre mal et finit
         bien, ou l'inverse — et savoir quelles minutes rejouer plutôt que de scruter la
-        vidéo entière.
+        vidéo entière.${fScore?`
+        <br><b>Comment le score est obtenu.</b> Il n'est pas calculé dans l'absolu : la
+        règle du mode fait monter le pourcentage tant qu'on tient la zone, mais prédire
+        un taux échoue — 13 points d'erreur médiane sur le score du perdant, et jusqu'à
+        plus de 100 sur une partie. On répartit donc le score final, lu sur le tableau de
+        fin, au prorata de la possession mesurée : le début et la fin sont exacts, et
+        c'est le <i>moment</i> où chacun a marqué qui est l'information.`:""}
         <br><b>Comment c'est choisi.</b> Un moment est retenu quand il dure assez pour
         avoir été joué : un creux d'au moins trois adversaires au sol tenu 3 s, trois des
         nôtres qui tombent en moins de 12 s, ou l'un de nous seul contre plusieurs pendant
@@ -8165,6 +8359,58 @@ function surTri(e){
 }
 $("#mat").addEventListener("change",surTri);
 $("#ana").addEventListener("change",surTri);
+
+/* ---------- le survol de la frise ----------
+   Lire une frise a l'oeil donne la FORME ; le chiffre exact d'un instant precis,
+   lui, demandait de compter des pixels. On le donne donc au survol.
+
+   L'ecouteur est DELEGUE sur `#ana` et non pose sur la frise : elle est redessinee
+   a chaque changement de partie ou de tri, et un ecouteur attache au noeud
+   disparaitrait avec lui. */
+function surFrise(e){
+  const box=e.target.closest?e.target.closest("[data-frise]"):null;
+  if(!box || !FRISE) return;
+  /* On mesure `.frin` et non `.frbox` : la gouttiere des etiquettes occupe 58 px
+     a gauche, et s'en servir comme origine decalerait le curseur d'autant. */
+  const in_=box.querySelector(".frin"); if(!in_) return;
+  const r=in_.getBoundingClientRect();
+  if(!r.width) return;
+  /* Le SVG garde 6 unites de marge sur 1000 de chaque cote : on lit le temps dans
+     le meme repere, sinon le curseur derive d'un demi-pourcent aux extremites. */
+  const u=(e.clientX-r.left)/r.width*1000;
+  const t=Math.max(0, Math.min(FRISE.duree,
+    (u-6)/(1000-12)*Math.max(FRISE.duree,1)));
+  let i=0, d=Infinity;
+  for(let k=0;k<FRISE.t.length;k++){
+    const w=Math.abs(FRISE.t[k]-t); if(w<d){ d=w; i=k; } else if(FRISE.t[k]>t) break;
+  }
+  const cur=box.querySelector(".frcur"), tip=box.querySelector(".frtip");
+  if(!cur||!tip) return;
+  const px=(6+(1000-12)*FRISE.t[i]/Math.max(FRISE.duree,1))/1000*r.width;
+  cur.style.left=px+"px";
+  const hms=s=>`${Math.floor(s/60)}:${String(Math.round(s%60)).padStart(2,"0")}`;
+  const qui={nous:'<span class="pn">nous</span>', eux:'<span class="pe">eux</span>',
+             libre:'<i>libre</i>'};
+  const P=FRISE.point?FRISE.point[i]:null;
+  tip.innerHTML=`<b>${hms(FRISE.t[i])}</b>`
+    + `<span class="pn">nous debout</span><u class="pn">${FRISE.nous[i]}</u><br>`
+    + `<span class="pe">eux debout</span><u class="pe">${FRISE.eux[i]}</u>`
+    + (FRISE.sn?`<br><span class="pn">score nous</span><u class="pn">${
+        FRISE.sn[i].toFixed(0)} %</u><br><span class="pe">score eux</span><u class="pe">${
+        FRISE.se[i].toFixed(0)} %</u>`:"")
+    + (FRISE.point?`<br><i>point</i><u>${P?qui[P]:"—"}</u>`:"");
+  /* L'infobulle suit la souris mais ne sort jamais du cadre : au-dela des trois
+     quarts elle passe a gauche du curseur. */
+  const w=tip.offsetWidth||160;
+  tip.style.left=Math.max(0, Math.min(r.width-w, px+(px>r.width*.75?-w-12:12)))+"px";
+  box.classList.add("on");
+}
+$("#ana").addEventListener("mousemove",surFrise);
+$("#ana").addEventListener("mouseleave",e=>{
+  document.querySelectorAll("[data-frise].on").forEach(b=>b.classList.remove("on")); });
+$("#ana").addEventListener("mouseout",e=>{
+  const box=e.target.closest?e.target.closest("[data-frise]"):null;
+  if(box && !box.contains(e.relatedTarget)) box.classList.remove("on"); });
 $("#share").addEventListener("click",e=>{
   const b=e.target.closest("button[data-act]"); if(b) onTool(b); });
 
