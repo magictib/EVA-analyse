@@ -3568,6 +3568,15 @@ function scoreLu(a, f){
   const der=k=>{ for(let i=s[k].length-1;i>=0;i--) if(s[k][i]!==null) return s[k][i]; return null; };
   const fa=der("alliance"), fr=der("rebels");
   if(fa===null || fr===null) return null;
+  /* DEUX FINS TROP PROCHES N'ORIENTENT RIEN, et l'on prefere alors le provisoire.
+     L'orientation repose sur « le vainqueur finit le plus haut » ; encore faut-il
+     que l'ecart depasse ce que la lecture peut se tromper. La lecture est parfois
+     courte dans les hauts pourcentages — sur une seance entiere elle plafonne a 88
+     alors que le vainqueur est a 99 —, et ce raccourcissement ne frappe pas les
+     deux camps egalement. Polaris du 28/07 finit ainsi a 88 contre 87 : orienter
+     la-dessus serait tirer a pile ou face, et une inversion de camps ne se voit sur
+     aucun total. C'est la faute que ce projet a deja payee plusieurs fois. */
+  if(Math.abs(fa-fr) < 8) return null;
   /* Le vainqueur est celui qui finit le plus haut ; `res` dit si c'est nous. */
   const gagnant = fa>=fr ? "alliance" : "rebels";
   const kNous = (res==="V") ? gagnant : (gagnant==="alliance"?"rebels":"alliance");
