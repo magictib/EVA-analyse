@@ -3629,9 +3629,20 @@ function friseSVG(a, moments){
   const SF=scoreFinal(a), LU=scoreLu(a, f), SS=LU||scoreSerie(f, SF);
   /* Le decoupage vertical, en une seule table pour que rien ne se chevauche. */
   const HB=64, AXE=8+HB, HS=58;
-  const Y={eux:8, nous:AXE+2, temps:AXE+2+HB+14,
-           sc:AXE+2+HB+30, pt:AXE+2+HB+30+(SS?HS+16:0)};
-  const H=Y.pt+18, L=1000, mg=6;
+  /* LA RANGEE « POSSESSION DU POINT » A ETE RETIREE, le 31/07. Elle servait a
+     EXPLIQUER le score : on y lisait qui tenait la zone, donc pourquoi le
+     pourcentage montait. Trois raisons cumulees l'ont perimee.
+     - Elle ne montrait QU'UN point. Les cartes a trois (Atlantis, Engine,
+       Helios, Lunar) n'en avaient qu'un de detecte, si bien qu'elle ne pouvait
+       pas expliquer le score meme lorsqu'elle etait juste.
+     - Sa raison d'etre a disparu : le score est desormais LU sur l'ecran et non
+       plus deduit de la possession. Il n'a plus a etre justifie.
+     - Sur les cartes ou le point change peu de mains, elle etait grise 86 % du
+       temps — fidele, et sans information.
+     La serie `f.point` reste calculee : `scoreSerie` s'en sert pour son repli au
+     prorata, sur les parties dont le score n'a pas pu etre lu. */
+  const Y={eux:8, nous:AXE+2, temps:AXE+2+HB+14, sc:AXE+2+HB+30};
+  const H=Y.sc+(SS?HS+16:0)+4, L=1000, mg=6;
   const x=t=>mg+(L-2*mg)*t/Math.max(f.duree,1);
   const der=f.t[f.t.length-1];
 
@@ -3662,18 +3673,7 @@ function friseSVG(a, moments){
   /* La possession, en bande pleine et non plus en filet de 10 px. Trois etats,
      et « libre » cesse d'etre un jaune transparent qu'on confondait avec les
      reperes : c'est desormais un gris franc, donc une absence visible. */
-  let pt="";
-  if(f.point){
-    const coul={nous:"var(--ok)", eux:"var(--dead)", libre:"#3f3f46"};
-    let i=0;
-    while(i<f.point.length){
-      let j=i; while(j+1<f.point.length && f.point[j+1]===f.point[i]) j++;
-      if(f.point[i]) pt+=`<rect x="${fr2(x(f.t[i]))}" y="${Y.pt}" width="${
-        fr2(Math.max(.8,x(f.t[Math.min(j+1,f.t.length-1)])-x(f.t[i])))}" height="14"
-        fill="${coul[f.point[i]]}" fill-opacity="${f.point[i]==="libre"?".55":".9"}"/>`;
-      i=j+1;
-    }
-  }
+  const pt="";
 
   /* Les deux courbes de score, en trait plein : une progression est continue,
      contrairement a un effectif. Le remplissage reste leger pour que le
@@ -3695,7 +3695,7 @@ function friseSVG(a, moments){
   }
 
   const reperes=(moments||[]).map(m=>`<line x1="${fr2(x(m.t))}" y1="8"
-      x2="${fr2(x(m.t))}" y2="${Y.pt+14}" stroke="var(--signal)" stroke-width="1"
+      x2="${fr2(x(m.t))}" y2="${H-4}" stroke="var(--signal)" stroke-width="1"
       stroke-opacity=".55"/>`).join("");
   const min=Math.floor(f.duree/60);
   const grad=[...Array(min+1)].map((_,k)=>`<line x1="${fr2(x(k*60))}"
@@ -3713,7 +3713,7 @@ function friseSVG(a, moments){
     + (SS?`<span class="t" style="top:${vh(Y.sc+HS/2)}%">score</span>`
         + `<span class="v" style="top:${vh(Y.sc)}%">100 %</span>`
         + `<span class="v" style="top:${vh(Y.sc+HS)}%">0 %</span>`:"")
-    + (f.point?`<span class="t" style="top:${vh(Y.pt+7)}%">point</span>`:"");
+;
 
   /* Les series pour le survol. Une globale plutot qu'un attribut `data` : la
      serie fait plusieurs milliers de valeurs et n'a rien a faire dans le DOM. */
@@ -3723,7 +3723,7 @@ function friseSVG(a, moments){
       <div class="frgut">${gut}</div><div class="frin">
       <svg viewBox="0 0 ${L} ${H}" class="frise" style="height:${Math.round(H*1.15)}px"
         preserveAspectRatio="none" role="img"
-        aria-label="Effectif des deux camps, progression du score et possession du point">
+        aria-label="Effectif des deux camps et progression du score">
         ${filets}<line x1="${mg}" x2="${L-mg}" y1="${AXE}" y2="${AXE}"
           stroke="var(--ink-faint)" stroke-opacity=".5"/>
         ${bande(f.eux, AXE, -1, "var(--dead)")}
@@ -3733,7 +3733,7 @@ function friseSVG(a, moments){
     <p class="frleg"><span class="frk" data-c="ok"></span>nous debout
       <span class="frk" data-c="dead"></span>eux debout
       ${SS?`<span class="frk" data-c="sc"></span>score (calé sur le score final)`:""}
-      ${f.point?`<span class="frk" data-c="pt"></span>possession du point`:""}
+
       <span class="frk" data-c="sig"></span>moment à revoir</p></div>`;
 }
 
@@ -4223,7 +4223,7 @@ function drawAna(){
        On le relevait en redessinant la frise une seconde fois pour y chercher une
        sous-chaine ; c'etait couteux, fragile, et cela ecrasait les series du
        survol. `friseSVG` le declare maintenant. */
-    let fPoint=false, fScore=false, fLu=false;
+    let fScore=false, fLu=false;
     revue=`<h4>La partie, minute par minute</h4>
       ${dispo.length>1?`<div class="revsel"><label>Partie</label>
         <select data-rev>${dispo.map(a=>{const q=a.partie||{};
@@ -4231,7 +4231,7 @@ function drawAna(){
             jj(q.dt)} ${q.h} · ${q.carte||"?"} · ${q.adverse_tag||"?"}${
             q.res?` · ${q.res==="V"?"victoire":"défaite"}`:""}</option>`;}).join("")}
         </select></div>`:""}
-      ${friseSVG(choisie, M)}${(()=>{fPoint=!!(FRISE&&FRISE.point);
+      ${friseSVG(choisie, M)}${(()=>{
         fScore=!!(FRISE&&FRISE.cale); fLu=!!(FRISE&&FRISE.lu); return "";})()}
       ${M.length?M.map(m=>`<div class="mom"><time>${hms(m.t)}</time>
           <div><b>${m.titre}</b><span>${m.quoi}</span></div></div>`).join("")
@@ -4241,7 +4241,6 @@ function drawAna(){
         déployées en miroir de part et d'autre de l'axe : le nôtre vers le bas en vert,
         le leur vers le haut en rouge. Un filet par joueur permet de lire le nombre, et
         les traits jaunes marquent les passages à revoir${
-          fPoint?`. La bande du bas dit qui tient le point`:""}${
           fScore?`, et les deux courbes de score montent tant que le camp tient la zone`:""}.
         <br><b>Passez la souris sur la frise</b> pour lire l'instant exact : effectifs,
         score des deux camps et possession à cette seconde.
@@ -8460,16 +8459,13 @@ function surFrise(e){
   const px=(6+(1000-12)*FRISE.t[i]/Math.max(FRISE.duree,1))/1000*r.width;
   cur.style.left=px+"px";
   const hms=s=>`${Math.floor(s/60)}:${String(Math.round(s%60)).padStart(2,"0")}`;
-  const qui={nous:'<span class="pn">nous</span>', eux:'<span class="pe">eux</span>',
-             libre:'<i>libre</i>'};
-  const P=FRISE.point?FRISE.point[i]:null;
   tip.innerHTML=`<b>${hms(FRISE.t[i])}</b>`
     + `<span class="pn">nous debout</span><u class="pn">${FRISE.nous[i]}</u><br>`
     + `<span class="pe">eux debout</span><u class="pe">${FRISE.eux[i]}</u>`
     + (FRISE.sn?`<br><span class="pn">score nous</span><u class="pn">${
         FRISE.sn[i].toFixed(0)} %</u><br><span class="pe">score eux</span><u class="pe">${
         FRISE.se[i].toFixed(0)} %</u>`:"")
-    + (FRISE.point?`<br><i>point</i><u>${P?qui[P]:"—"}</u>`:"");
+    ;
   /* L'infobulle suit la souris mais ne sort jamais du cadre : au-dela des trois
      quarts elle passe a gauche du curseur. */
   const w=tip.offsetWidth||160;
