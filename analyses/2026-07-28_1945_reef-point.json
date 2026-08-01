@@ -49881,6 +49881,9 @@
     "k_inconnu": 2,
     "m_eux": 0,
     "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
     "vus": 983,
     "vus_eux": 177
    },
@@ -49892,6 +49895,9 @@
     "k_inconnu": 0,
     "m_eux": 1,
     "m_nous": 1,
+    "m_eux_seul": 1,
+    "m_eux_impunie": 1,
+    "m_eux_seul_impunie": 1,
     "vus": 506,
     "vus_eux": 184
    },
@@ -49903,6 +49909,9 @@
     "k_inconnu": 9,
     "m_eux": 1,
     "m_nous": 1,
+    "m_eux_seul": 1,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
     "vus": 535,
     "vus_eux": 27
    },
@@ -49914,6 +49923,9 @@
     "k_inconnu": 6,
     "m_eux": 1,
     "m_nous": 1,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 1,
+    "m_eux_seul_impunie": 0,
     "vus": 388,
     "vus_eux": 105
    },
@@ -49925,6 +49937,9 @@
     "k_inconnu": 2,
     "m_eux": 0,
     "m_nous": 2,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
     "vus": 370,
     "vus_eux": 265
    },
@@ -49936,6 +49951,9 @@
     "k_inconnu": 4,
     "m_eux": 1,
     "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
     "vus": 708,
     "vus_eux": 537
    },
@@ -49947,6 +49965,9 @@
     "k_inconnu": 8,
     "m_eux": 0,
     "m_nous": 1,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
     "vus": 535,
     "vus_eux": 425
    },
@@ -49958,6 +49979,9 @@
     "k_inconnu": 2,
     "m_eux": 1,
     "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
     "vus": 773,
     "vus_eux": 684
    }
