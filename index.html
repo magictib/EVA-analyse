@@ -3422,7 +3422,7 @@ function momentsDe(a){
     let j=i; while(j<f.t.length && f.eux[j]<=f.eux[i]) j++;
     const duree=f.t[Math.min(j,f.t.length-1)]-f.t[i];
     if(duree>=3) out.push({t:f.t[i], duree, poids:bas*duree, type:"creux",
-      titre:`${bas} adversaires au sol pendant ${Math.round(duree)} s`,
+      titre:`${bas} adversaires HS pendant ${Math.round(duree)} s`,
       quoi:"le terrain est libre — qu'a-t-on pris ?"});
   }
   /* 2. Une cascade : on s'effondre, on ne se releve pas un par un. */
@@ -3473,7 +3473,7 @@ function momentsDe(a){
   /* Deux moments a moins de dix secondes l'un de l'autre sont le meme moment.
 
      Et DEUX PAR REGLE AU PLUS : sans cette limite, la regle la mieux notee prend
-     toute la liste — sur Atlantis, quatre « adversaires au sol » sur six. Un
+     toute la liste — sur Atlantis, quatre « adversaires HS » sur six. Un
      debrief qui repete six fois la meme observation ne fait pas six points, il
      en fait un. On prefere la variete a la severite du classement. */
   const gardes=[], parType={};
@@ -4440,7 +4440,7 @@ function drawAna(){
         la fin sont exacts, et c'est le <i>moment</i> où chacun a marqué qui est
         l'information.`}`:""}
         <br><b>Comment c'est choisi.</b> Un moment est retenu quand il dure assez pour
-        avoir été joué : un creux d'au moins trois adversaires au sol tenu 3 s, trois des
+        avoir été joué : un creux d'au moins trois adversaires HS tenu 3 s, trois des
         nôtres qui tombent en moins de 12 s, ou l'un de nous seul contre plusieurs pendant
         3 s. Deux par règle au plus, pour que la liste ne répète pas six fois la même
         observation.
@@ -4556,19 +4556,22 @@ function drawAna(){
      parce que c'est la meme chose vue de l'autre cote : on est seul quand
      l'adversaire a creuse, et l'adversaire est absent quand c'est nous. */
   if(cx){
-    const ligne=(o,sens)=>`<div class="mtr3"><b>−${o.k}<em>${sens}</em></b>`
+    /* « HS » et non « au sol » : c'est le mot employe en jeu, et le site doit
+       parler la langue de l'equipe. L'espace avant le <em> est ecrit en dur —
+       sans lui les deux collent, « −4adversaires ». */
+    const ligne=(o,sens)=>`<div class="mtr3"><b>−${o.k} <em>${sens}</em></b>`
       + `<s>${o.n} fois</s><s>${o.duree} s au total</s></div>`;
     global+=`<h4>Quand un camp est à terre</h4>
       <div class="mtab mtab3"><div class="mth"><s>situation</s><s>combien de fois</s>
         <s>durée cumulée</s></div>`
-      + cx.pour.map(o=>ligne(o,"adversaires au sol en même temps")).join("")
-      + cx.contre.map(o=>ligne(o,"des nôtres au sol en même temps")).join("")
+      + cx.pour.map(o=>ligne(o,"adversaires HS en même temps")).join("")
+      + cx.contre.map(o=>ligne(o,"des nôtres HS en même temps")).join("")
       + `</div>
-      <p class="note">Un <b>−4</b> veut dire que les quatre adversaires sont à terre en même
+      <p class="note">Un <b>−4</b> veut dire que les quatre adversaires sont HS en même
         temps : pendant ces secondes-là il n'y a plus personne en face, le point est libre et
         c'est le moment le plus rentable de la partie. Un <b>−2</b> ou un <b>−3</b>, c'est la
         même chose en plus court. Les lignes du bas sont l'inverse : les fois où c'est
-        <b>nous</b> qui étions au sol.
+        <b>nous</b> qui étions HS.
         On ne compte que ce qui dure au moins une seconde — sinon deux morts qui se croisent
         passeraient pour un trou dans la défense adverse.
         <br><br>Ceci compte les creux de l'<b>équipe</b>. Savoir si c'est <b>une seule
