@@ -27944,7 +27944,8 @@
   "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",
   "joueurs": [
    {
-    "nom": "GUNxHippocampe",
+    "nom": "Hippocampe",
+    "tag": "GUN",
     "notre": false,
     "k_eux": 2,
     "k_nous": 2,
@@ -27954,11 +27955,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 11,
+    "k_total": 12,
     "vus": 286,
     "vus_eux": 236
    },
    {
-    "nom": "GUNxRhino",
+    "nom": "Rhino",
+    "tag": "GUN",
     "notre": false,
     "k_eux": 0,
     "k_nous": 0,
@@ -27968,11 +27972,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 11,
+    "k_total": 13,
     "vus": 149,
     "vus_eux": 149
    },
    {
-    "nom": "GUNxRabitte",
+    "nom": "Rabitte",
+    "tag": "GUN",
     "notre": false,
     "k_eux": 0,
     "k_nous": 1,
@@ -27982,11 +27989,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 13,
+    "k_total": 8,
     "vus": 95,
     "vus_eux": 86
    },
    {
-    "nom": "GUNxPhasme",
+    "nom": "Phasme",
+    "tag": "GUN",
     "notre": false,
     "k_eux": 0,
     "k_nous": 0,
@@ -27996,11 +28006,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 8,
+    "k_total": 7,
     "vus": 261,
     "vus_eux": 175
    },
    {
-    "nom": "BVSxLiX",
+    "nom": "LiX",
+    "tag": "BVS",
     "notre": true,
     "k_eux": 2,
     "k_nous": 1,
@@ -28010,11 +28023,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 10,
+    "k_total": 9,
     "vus": 157,
     "vus_eux": 69
    },
    {
-    "nom": "BVSxTchernobyl",
+    "nom": "Tchernobyl",
+    "tag": "BVS",
     "notre": true,
     "k_eux": 1,
     "k_nous": 0,
@@ -28024,11 +28040,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 11,
+    "k_total": 8,
     "vus": 35,
     "vus_eux": 12
    },
    {
-    "nom": "BVSxCROMx",
+    "nom": "CROMx",
+    "tag": "BVS",
     "notre": true,
     "k_eux": 0,
     "k_nous": 5,
@@ -28038,11 +28057,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 9,
+    "k_total": 20,
     "vus": 248,
     "vus_eux": 30
    },
    {
-    "nom": "BVSxTibco",
+    "nom": "Tibco",
+    "tag": "BVS",
     "notre": true,
     "k_eux": 1,
     "k_nous": 0,
@@ -28052,6 +28074,8 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 10,
+    "k_total": 6,
     "vus": 307,
     "vus_eux": 67
    }

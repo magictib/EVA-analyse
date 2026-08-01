@@ -39155,7 +39155,8 @@
   "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",
   "joueurs": [
    {
-    "nom": "BVSxTibco",
+    "nom": "Tibco",
+    "tag": "BVS",
     "notre": true,
     "k_eux": 1,
     "k_nous": 2,
@@ -39165,11 +39166,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 5,
+    "k_total": 4,
     "vus": 352,
     "vus_eux": 162
    },
    {
-    "nom": "BVSxCROMx",
+    "nom": "CROMx",
+    "tag": "BVS",
     "notre": true,
     "k_eux": 1,
     "k_nous": 2,
@@ -39179,11 +39183,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 0,
+    "m_total": 5,
+    "k_total": 3,
     "vus": 235,
     "vus_eux": 55
    },
    {
-    "nom": "BVSxLiX",
+    "nom": "LiX",
+    "tag": "BVS",
     "notre": true,
     "k_eux": 0,
     "k_nous": 3,
@@ -39193,11 +39200,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 3,
+    "k_total": 5,
     "vus": 302,
     "vus_eux": 17
    },
    {
-    "nom": "BVSxTchernobyl",
+    "nom": "Tchernobyl",
+    "tag": "BVS",
     "notre": true,
     "k_eux": 0,
     "k_nous": 1,
@@ -39207,11 +39217,14 @@
     "m_eux_seul": 3,
     "m_eux_impunie": 3,
     "m_eux_seul_impunie": 3,
+    "m_total": 9,
+    "k_total": 1,
     "vus": 430,
     "vus_eux": 90
    },
    {
-    "nom": "FXCxParziRahl",
+    "nom": "ParziRahl",
+    "tag": "FXC",
     "notre": false,
     "k_eux": 4,
     "k_nous": 0,
@@ -39221,11 +39234,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 1,
+    "k_total": 8,
     "vus": 536,
     "vus_eux": 475
    },
    {
-    "nom": "FXCxSky",
+    "nom": "Sky",
+    "tag": "FXC",
     "notre": false,
     "k_eux": 1,
     "k_nous": 2,
@@ -39235,11 +39251,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 3,
+    "k_total": 5,
     "vus": 335,
     "vus_eux": 264
    },
    {
-    "nom": "FXCxNoxis",
+    "nom": "Noxis",
+    "tag": "FXC",
     "notre": false,
     "k_eux": 0,
     "k_nous": 0,
@@ -39249,11 +39268,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 4,
+    "k_total": 1,
     "vus": 318,
     "vus_eux": 232
    },
    {
-    "nom": "FXCxValtor",
+    "nom": "Valtor",
+    "tag": "FXC",
     "notre": false,
     "k_eux": 2,
     "k_nous": 2,
@@ -39263,6 +39285,8 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 5,
+    "k_total": 8,
     "vus": 575,
     "vus_eux": 441
    }

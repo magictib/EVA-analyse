@@ -49874,7 +49874,8 @@
   "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",
   "joueurs": [
    {
-    "nom": "NTxTibco",
+    "nom": "Tibco",
+    "tag": "NT",
     "notre": true,
     "k_eux": 0,
     "k_nous": 2,
@@ -49884,11 +49885,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 5,
+    "k_total": 4,
     "vus": 983,
     "vus_eux": 106
    },
    {
-    "nom": "NTxCROMx",
+    "nom": "CROMx",
+    "tag": "NT",
     "notre": true,
     "k_eux": 1,
     "k_nous": 1,
@@ -49898,11 +49902,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 0,
+    "m_total": 7,
+    "k_total": 2,
     "vus": 506,
     "vus_eux": 200
    },
    {
-    "nom": "NTxLiX",
+    "nom": "LiX",
+    "tag": "NT",
     "notre": true,
     "k_eux": 0,
     "k_nous": 4,
@@ -49912,11 +49919,14 @@
     "m_eux_seul": 1,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 9,
+    "k_total": 13,
     "vus": 535,
     "vus_eux": 36
    },
    {
-    "nom": "BVSxTchernobyl",
+    "nom": "Tchernobyl",
+    "tag": "BVS",
     "notre": true,
     "k_eux": 0,
     "k_nous": 2,
@@ -49926,11 +49936,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 0,
+    "m_total": 9,
+    "k_total": 8,
     "vus": 388,
     "vus_eux": 115
    },
    {
-    "nom": "ENDxY4net",
+    "nom": "Y4net",
+    "tag": "END",
     "notre": false,
     "k_eux": 1,
     "k_nous": 0,
@@ -49940,11 +49953,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 8,
+    "k_total": 3,
     "vus": 370,
     "vus_eux": 274
    },
    {
-    "nom": "ENDxBarou",
+    "nom": "Barou",
+    "tag": "END",
     "notre": false,
     "k_eux": 1,
     "k_nous": 2,
@@ -49954,11 +49970,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 7,
+    "k_total": 7,
     "vus": 708,
     "vus_eux": 533
    },
    {
-    "nom": "ENDxGodzi",
+    "nom": "Godzi",
+    "tag": "END",
     "notre": false,
     "k_eux": 1,
     "k_nous": 3,
@@ -49968,11 +49987,14 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 5,
+    "k_total": 12,
     "vus": 535,
     "vus_eux": 401
    },
    {
-    "nom": "ENDxVikings",
+    "nom": "Vikings",
+    "tag": "END",
     "notre": false,
     "k_eux": 6,
     "k_nous": 0,
@@ -49982,6 +50004,8 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
+    "m_total": 7,
+    "k_total": 8,
     "vus": 773,
     "vus_eux": 694
    }
