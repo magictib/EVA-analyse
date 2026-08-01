@@ -161,7 +161,7 @@
      etait reste au jaune translucide alors que « libre » est passe au gris : la
      pastille annoncait une couleur qui n'apparaissait plus sur la frise. */
   .frk[data-c=eng]{background:linear-gradient(90deg,var(--ok) 0 50%,var(--dead) 50% 100%)}
-  .frk[data-c=conv]{background:var(--signal);opacity:.55}
+  .frk[data-c=conv]{background:var(--dead);opacity:.5}
   .frk[data-c=pt]{background:linear-gradient(90deg,var(--ok) 0 33%,
     #3f3f46 33% 67%,var(--dead) 67%)}
   .frk[data-c=sig]{background:var(--signal);width:3px;border-radius:0}
@@ -3703,7 +3703,10 @@ function friseSVG(a, moments){
   /* Le score LU d'abord, la repartition au prorata seulement a defaut. */
   const SF=scoreFinal(a), LU=scoreLu(a, f), SS=LU||scoreSerie(f, SF);
   /* Le decoupage vertical, en une seule table pour que rien ne se chevauche. */
-  const HB=64, AXE=8+HB, HS=58;
+  /* Hauteurs rééquilibrées le 01/08. Le score portait 58 px quand chaque effectif
+     en avait 64, alors que c'est lui qui porte le plus : deux courbes, la teinte
+     de conversion, et la grandeur qu'on vient chercher. */
+  const HB=54, AXE=8+HB, HS=76;
   /* LA RANGEE « POSSESSION DU POINT » A ETE RETIREE, le 31/07. Elle servait a
      EXPLIQUER le score : on y lisait qui tenait la zone, donc pourquoi le
      pourcentage montait. Trois raisons cumulees l'ont perimee.
@@ -3750,16 +3753,27 @@ function friseSVG(a, moments){
   /* La possession, en bande pleine et non plus en filet de 10 px. Trois etats,
      et « libre » cesse d'etre un jaune transparent qu'on confondait avec les
      reperes : c'est desormais un gris franc, donc une absence visible. */
-  /* L'ombrage des fenetres d'avantage, DERRIERE les aires d'effectif : il qualifie
-     ce qu'on y voit deja, il ne s'ajoute pas a cote. Vert quand l'avantage est le
-     notre et qu'il a rapporte au moins un tiers de son maximum, jaune quand il
-     n'a rien rapporte. Un avantage adverse non converti n'est pas notre affaire :
-     on ne teinte que les notres, pour que la frise reste lisible. */
-  const ombres=AV.filter(v=>v.notre).map(v=>{
+  /* L'OMBRAGE DES AVANTAGES A CHANGE DE RANGEE, et c'est une correction.
+
+     Il courait d'abord sur toute la hauteur des effectifs. Deux defauts, tous
+     deux signales par Thibaud sur une capture. Il couvrait presque toute la
+     largeur, si bien qu'il rivalisait avec les aires qu'il devait qualifier. Et
+     il etait JAUNE — la couleur des « moments a revoir », qui sont des traits
+     verticaux : deux choses sans rapport portaient la meme teinte, et rien ne
+     les distinguait.
+
+     Il vit maintenant DANS la rangee du score, et c'est sa place : la question
+     qu'il pose — « on avait l'avantage, le score a-t-il bouge ? » — se lit sur la
+     courbe, pas sur les effectifs. Le lecteur a les deux sous les yeux d'un coup.
+     Et sa couleur est le ROUGE sourd de l'adversaire quand rien n'est venu, ce
+     qui se lit sans legende : une plage rouge sur le score est une occasion
+     perdue. Le jaune reste aux seuls moments a revoir. */
+  const ombres=!SS?"":AV.filter(v=>v.notre).map(v=>{
     const converti = v.gain!=null && v.gain >= v.max/3;
-    const c = v.gain==null ? "var(--ink-faint)" : (converti?"var(--ok)":"var(--signal)");
-    return `<rect x="${fr2(x(v.t0))}" y="8" width="${fr2(Math.max(1,x(v.t1)-x(v.t0)))}"
-      height="${2*HB+2}" fill="${c}" fill-opacity="${v.gain==null?".05":(converti?".10":".16")}"/>`;
+    if(v.gain==null) return "";
+    return `<rect x="${fr2(x(v.t0))}" y="${Y.sc}" width="${fr2(Math.max(1,x(v.t1)-x(v.t0)))}"
+      height="${HS}" fill="${converti?"var(--ok)":"var(--dead)"}"
+      fill-opacity="${converti?".10":".14"}"/>`;
   }).join("");
 
   /* Les combats, en barres SIGNEES de part et d'autre d'un axe.
@@ -3814,6 +3828,13 @@ function friseSVG(a, moments){
       x2="${fr2(x(m.t))}" y2="${H-4}" stroke="var(--signal)" stroke-width="1"
       stroke-opacity=".55"/>`).join("");
   const min=Math.floor(f.duree/60);
+  /* Les minutes traversent TOUTE la figure, et pas seulement l'axe des temps.
+     Sans elles on ne peut pas relier une chute d'effectif a l'endroit ou le score
+     s'est arrete : l'oeil doit redescendre chercher la graduation, puis remonter.
+     Elles sont posees SOUS les donnees et tres pales, pour ne rien disputer. */
+  const grille=[...Array(min+1)].map((_,k)=>`<line x1="${fr2(x(k*60))}" y1="8"
+      x2="${fr2(x(k*60))}" y2="${H-4}" stroke="var(--ink-faint)"
+      stroke-opacity=".16"/>`).join("");
   const grad=[...Array(min+1)].map((_,k)=>`<line x1="${fr2(x(k*60))}"
       y1="${AXE+HB+4}" x2="${fr2(x(k*60))}" y2="${AXE+HB+9}"
       stroke="var(--ink-faint)"/>`).join("");
@@ -3828,6 +3849,7 @@ function friseSVG(a, moments){
     + `<span class="t" style="top:${vh(Y.nous+HB/2)}%">nous<br>debout</span>`
     + (SS?`<span class="t" style="top:${vh(Y.sc+HS/2)}%">score</span>`
         + `<span class="v" style="top:${vh(Y.sc)}%">100 %</span>`
+        + `<span class="v" style="top:${vh(Y.sc+HS/2)}%">50 %</span>`
         + `<span class="v" style="top:${vh(Y.sc+HS)}%">0 %</span>`:"")
     + (ENG.length?`<span class="t" style="top:${vh(Y.eng+14)}%">combats</span>`
         + `<span class="v" style="top:${vh(Y.eng+3)}%">−${SOLDE_MAX}</span>`
@@ -3843,18 +3865,19 @@ function friseSVG(a, moments){
       <svg viewBox="0 0 ${L} ${H}" class="frise" style="height:${Math.round(H*1.15)}px"
         preserveAspectRatio="none" role="img"
         aria-label="Effectif des deux camps et progression du score">
-        ${ombres}${filets}<line x1="${mg}" x2="${L-mg}" y1="${AXE}" y2="${AXE}"
+        ${grille}${filets}<line x1="${mg}" x2="${L-mg}" y1="${AXE}" y2="${AXE}"
           stroke="var(--ink-faint)" stroke-opacity=".5"/>
         ${bande(f.eux, AXE, -1, "var(--dead)")}
         ${bande(f.nous, Y.nous, 1, "var(--ok)")}
-        ${grad}${sc}${pt}${eng}${reperes}</svg>
+        ${grad}${ombres}${sc}${pt}${eng}${reperes}</svg>
       ${lab}<div class="frcur"></div><div class="frtip"></div></div></div>
     <p class="frleg"><span class="frk" data-c="ok"></span>nous debout
       <span class="frk" data-c="dead"></span>eux debout
       ${ENG.length?`<span class="frk" data-c="ok"></span>combat gagné (vers le bas)
       <span class="frk" data-c="dead"></span>perdu (vers le haut) · hauteur = solde,
       largeur = durée`:""}
-      ${AV.some(v=>v.notre)?`<span class="frk" data-c="conv"></span>avantage non converti`:""}
+      ${SS&&AV.some(v=>v.notre&&v.gain!=null)?`<span class="frk" data-c="conv"></span>supériorité
+      numérique : le fond du score vire au rouge quand elle n'a rien rapporté`:""}
       ${SS?`<span class="frk" data-c="sc"></span>score ${LU?"lu sur l'écran":"(calé sur le score final)"}`:""}
 
       <span class="frk" data-c="sig"></span>moment à revoir</p></div>`;
