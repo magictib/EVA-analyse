@@ -4486,7 +4486,7 @@ function drawAna(){
   for(const [,o] of scG){ sK+=o.k; sM+=o.m; sA+=o.a; nLignes+=o.n; }
   const kd=sM?sK/sM:null;
 
-  let global=`<h4>Notre bilan${(FCARTE||FADV)?", sur ce tri":""}</h4><div class="mbig">
+  let global=`<h4>Notre bilan${(FCARTE||FADV||FMODE||FPARTIE)?", sur ce tri":""}</h4><div class="mbig">
     ${nLignes?`<b>${sK}<em>kills — ${parPartie(sK)} par partie</em></b>`:""}
     <b>${nLignes?sM:nosMorts}<em>morts — ${parPartie(nLignes?sM:nosMorts)} par partie</em></b>
     ${nLignes?`<b>${sA}<em>assists — ${parPartie(sA)} par partie</em></b>`:""}
@@ -4804,7 +4804,7 @@ function drawAna(){
        Domination le score EST un pourcentage, l'ecart se compte donc en points
        de pourcentage et s'ecrit « % ». Releve par Thibaud a l'ecran. */
     const u=ecarts.pts?" %":" pts";
-    score=`<h4>Écarts au score${(FCARTE||FADV)?", sur ce tri":""}</h4><div class="mbig">
+    score=`<h4>Écarts au score${(FCARTE||FADV||FMODE||FPARTIE)?", sur ce tri":""}</h4><div class="mbig">
       ${ecarts.v!=null?`<b>+${ecarts.v}${u}<em>écart moyen en victoire</em></b>`:""}
       ${ecarts.d!=null?`<b>−${ecarts.d}${u}<em>écart moyen en défaite</em></b>`:""}
       <b>${ecarts.nv} / ${ecarts.nd}<em>victoires / défaites comptées</em></b>
@@ -5123,7 +5123,7 @@ function drawAna(){
    les tuiles, l'effectif, les fiches et les tableaux parlent tous du meme lot.
    devinePseudo, fauxJoueurs et le controle des doublons gardent MATCHS : ils
    portent sur tes donnees entieres, pas sur ce que tu regardes. */
-let LOT=[], FCARTE="", FADV="", FMODE="";
+let LOT=[], FCARTE="", FADV="", FMODE="", FPARTIE="";
 /* La partie ouverte dans la revue, designee par `cleAna` — date et heure. Cette
    cle survit a un redepouillement, un index de tableau non. */
 let AREVUE="";
@@ -5134,9 +5134,16 @@ const advDe = m => camps(m).tagAdv;
    un pourcentage. Melanger vingt-cinq Domination avec un Jeu d'arme passe encore
    inapercu ; l'inverse ne passerait pas. */
 const modeDe = m => m.mode || "";
+/* UNE PARTIE PRECISE. La revue montrait une partie pendant que tout le reste de
+   l'onglet — tuiles, tableaux, agregats — parlait de l'ensemble : on lisait donc
+   « Outlaw du 28/07 contre END » au-dessus de chiffres qui portaient sur vingt-sept
+   parties. Demande par Thibaud le 01/08, et la cle existait deja : c'est celle qui
+   rattache une analyse a son match, la date et l'heure. */
+const cleMatch = m => `${m.dt||""} ${m.h||""}`;
 function filtre(){
   return MATCHS.filter(m => (!FCARTE || cleDe(m)===FCARTE)
-    && (!FADV || advDe(m)===FADV) && (!FMODE || modeDe(m)===FMODE));
+    && (!FADV || advDe(m)===FADV) && (!FMODE || modeDe(m)===FMODE)
+    && (!FPARTIE || cleMatch(m)===FPARTIE));
 }
 /* La barre de tri, ecrite une fois et posee dans les deux onglets.
 
@@ -5147,11 +5154,30 @@ function filtre(){
 
    Les listes ne proposent que ce qui existe : une carte jamais jouee ou une
    equipe jamais croisee n'a rien a filtrer. */
+/* Une partie se designe comme dans la revue : la date, l'heure, la carte,
+   l'adversaire et l'issue. Rien de plus court ne suffit — deux parties de la
+   meme carte contre la meme equipe s'enchainent dans une soiree. */
+function etiquettePartie(m){
+  const jj=d=>String(d||"").split("-").reverse().join("/");
+  const c=nomDeCle(cleDe(m))||cleDe(m)||"?";
+  return `${jj(m.dt)} ${m.h||""} · ${c} · ${advDe(m)||"?"}`
+    + (m.res?` · ${m.res==="V"?"victoire":"défaite"}`:"");
+}
 function barreDeTri(){
   const cartesVues=[...new Set(MATCHS.map(cleDe).filter(Boolean))]
     .map(c=>[c,nomDeCle(c)||c]).sort((a,b)=>a[1].localeCompare(b[1],"fr"));
   const advVus=[...new Set(MATCHS.map(advDe).filter(Boolean))].sort();
   const modesVus=[...new Set(MATCHS.map(modeDe).filter(Boolean))].sort();
+  /* La liste des parties ne propose que celles que les AUTRES filtres laissent
+     passer : choisir une carte doit reduire la liste, pas la laisser mentir. La
+     partie retenue y figure toujours, meme si elle sort du lot — sinon le select
+     afficherait autre chose que ce qui est filtre. */
+  const parties=MATCHS.filter(m => (!FCARTE || cleDe(m)===FCARTE)
+      && (!FADV || advDe(m)===FADV) && (!FMODE || modeDe(m)===FMODE))
+    .sort((a,b)=>String(cleMatch(b)).localeCompare(String(cleMatch(a))));
+  if(FPARTIE && !parties.some(m=>cleMatch(m)===FPARTIE)){
+    const p=MATCHS.find(m=>cleMatch(m)===FPARTIE); if(p) parties.unshift(p);
+  }
   const n=filtre().length, tot=MATCHS.length;
   return `<div class="mfg mtri">
       <div><label>Carte</label><select data-flt="carte"><option value="">Toutes</option>
@@ -5161,7 +5187,11 @@ function barreDeTri(){
       ${modesVus.length>1?`<div><label>Mode de jeu</label><select data-flt="mode">
         <option value="">Tous</option>
         ${modesVus.map(t=>`<option value="${t}"${t===FMODE?" selected":""}>${t}</option>`).join("")}</select></div>`:""}
-    </div>${(FCARTE||FADV||FMODE)?`<p class="note">${n} partie${n>1?"s":""} sur ${tot} retenue${n>1?"s":""}.
+      <div><label>Partie</label><select data-flt="partie"><option value="">Toutes</option>
+        ${parties.map(m=>{const k=cleMatch(m);
+          return `<option value="${k}"${k===FPARTIE?" selected":""}>${etiquettePartie(m)}</option>`;
+        }).join("")}</select></div>
+    </div>${(FCARTE||FADV||FMODE||FPARTIE)?`<p class="note">${n} partie${n>1?"s":""} sur ${tot} retenue${n>1?"s":""}.
       <button class="mlink" data-act="mflt0">Tout afficher</button></p>`:""}`;
 }
 function agrege(cle){
@@ -5571,13 +5601,13 @@ function drawMat(){
   const eq=eff.mien.reduce((a,[,o])=>({k:a.k+o.k, m:a.m+o.m, a:a.a+o.a,
                                        mvp:a.mvp+(o.mvp||0)}), {k:0,m:0,a:0,mvp:0});
   const Veq=LOT.filter(m=>m.res==="V").length;
-  const bilanEq=`<h3>Notre équipe${(FCARTE||FADV||FMODE)?", sur ce tri":""}</h3><div class="mbig">
+  const bilanEq=`<h3>Notre équipe${(FCARTE||FADV||FMODE||FPARTIE)?", sur ce tri":""}</h3><div class="mbig">
       <b>${n}<em>matchs</em></b>
       <b>${Veq} · ${Math.round(Veq/Math.max(n,1)*100)} %<em>victoires</em></b>
       <b>${fr(eq.k/Math.max(eq.m,1),2)}<em>K/D d'équipe</em></b>
       <b>${fr((eq.k+eq.a)/Math.max(eq.m,1),2)}<em>(K+A)/mort</em></b>
       <b>${eff.mien.length}<em>joueurs vus</em></b></div>`;
-  const bilan=bilanEq+`<h3>Toi${(FCARTE||FADV||FMODE)?", sur ce tri":""}</h3><div class="mbig">
+  const bilan=bilanEq+`<h3>Toi${(FCARTE||FADV||FMODE||FPARTIE)?", sur ce tri":""}</h3><div class="mbig">
       <b>${mes.length}${mes.length!==n?`<i> / ${n}</i>`:""}<em>matchs</em></b><b>${V} · ${Math.round(V/np*100)} %<em>victoires</em></b>
       <b>${fr(K/Math.max(M,1),2)}<em>K/D</em></b><b>${fr((K+A)/Math.max(M,1),2)}<em>(K+A)/mort</em></b>
       <b>${mvp}<em>fois MVP</em></b></div>`;
@@ -8441,7 +8471,7 @@ function onTool(b){
   }
   /* Le tri est partage : le remettre a zero doit redessiner les deux onglets,
      sinon celui qu'on ne regarde pas garde l'ancien affichage. */
-  if(a==="mflt0"){ FCARTE=""; FADV=""; FMODE="";
+  if(a==="mflt0"){ FCARTE=""; FADV=""; FMODE=""; FPARTIE=""; AREVUE="";
     if(typeof drawMat==="function") drawMat();
     if(typeof drawAna==="function") drawAna();
     return; }
@@ -8599,10 +8629,15 @@ function surTri(e){
   if(r){ AREVUE=r.value; if(typeof drawAna==="function") drawAna(); return; }
   const s=e.target.closest("select[data-flt]"); if(!s) return;
   const f=s.dataset.flt;
-  if(f==="carte") FCARTE=s.value; else if(f==="mode") FMODE=s.value; else FADV=s.value;
+  if(f==="carte") FCARTE=s.value;
+  else if(f==="mode") FMODE=s.value;
+  else if(f==="partie") FPARTIE=s.value;
+  else FADV=s.value;
   /* Changer de tri peut retirer du lot la partie ouverte dans la revue : on la
-     relache plutot que d'afficher une frise qui ne correspond plus au tri. */
-  AREVUE="";
+     relache plutot que d'afficher une frise qui ne correspond plus au tri.
+     Choisir UNE partie fait l'inverse : la revue s'ouvre dessus, pour que la
+     frise et les chiffres parlent enfin de la meme chose. */
+  AREVUE = f==="partie" ? s.value : "";
   if(typeof drawMat==="function") drawMat();
   if(typeof drawAna==="function") drawAna();
 }
