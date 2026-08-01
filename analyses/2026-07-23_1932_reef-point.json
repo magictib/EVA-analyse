@@ -39166,7 +39166,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 352,
-    "vus_eux": 163
+    "vus_eux": 162
    },
    {
     "nom": "BVSxCROMx",
@@ -39194,7 +39194,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 302,
-    "vus_eux": 19
+    "vus_eux": 17
    },
    {
     "nom": "BVSxTchernobyl",
@@ -39208,7 +39208,7 @@
     "m_eux_impunie": 3,
     "m_eux_seul_impunie": 3,
     "vus": 430,
-    "vus_eux": 91
+    "vus_eux": 90
    },
    {
     "nom": "FXCxParziRahl",
@@ -39222,7 +39222,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 536,
-    "vus_eux": 483
+    "vus_eux": 475
    },
    {
     "nom": "FXCxSky",
@@ -39236,7 +39236,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 335,
-    "vus_eux": 262
+    "vus_eux": 264
    },
    {
     "nom": "FXCxNoxis",
@@ -39250,7 +39250,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 318,
-    "vus_eux": 221
+    "vus_eux": 232
    },
    {
     "nom": "FXCxValtor",
@@ -39264,18 +39264,18 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 575,
-    "vus_eux": 451
+    "vus_eux": 441
    }
   ],
   "ensemble": {
-   "0": 720,
+   "0": 722,
    "1": 217,
-   "2": 54,
+   "2": 52,
    "3": 1,
    "4": 0
   },
   "images_vues": 992,
-  "part_nous_chez_eux": 0.249,
-  "part_eux_chez_eux": 0.803
+  "part_nous_chez_eux": 0.246,
+  "part_eux_chez_eux": 0.8
  }
 }

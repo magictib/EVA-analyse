@@ -67936,8 +67936,8 @@
    {
     "nom": "BVSxTibco",
     "notre": true,
-    "k_eux": 2,
-    "k_nous": 3,
+    "k_eux": 1,
+    "k_nous": 4,
     "k_inconnu": 2,
     "m_eux": 0,
     "m_nous": 4,
@@ -67945,7 +67945,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 1050,
-    "vus_eux": 137
+    "vus_eux": 138
    },
    {
     "nom": "BVSxCROMx",
@@ -67959,7 +67959,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 676,
-    "vus_eux": 194
+    "vus_eux": 191
    },
    {
     "nom": "BVSxLiX",
@@ -67973,7 +67973,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 549,
-    "vus_eux": 270
+    "vus_eux": 268
    },
    {
     "nom": "BVSxTchernobyl",
@@ -67987,13 +67987,13 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 658,
-    "vus_eux": 9
+    "vus_eux": 13
    },
    {
     "nom": "FXCxParziRahl",
     "notre": false,
-    "k_eux": 4,
-    "k_nous": 1,
+    "k_eux": 5,
+    "k_nous": 0,
     "k_inconnu": 3,
     "m_eux": 1,
     "m_nous": 0,
@@ -68001,13 +68001,13 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 1045,
-    "vus_eux": 883
+    "vus_eux": 866
    },
    {
     "nom": "FXCxSky",
     "notre": false,
-    "k_eux": 4,
-    "k_nous": 0,
+    "k_eux": 3,
+    "k_nous": 1,
     "k_inconnu": 3,
     "m_eux": 5,
     "m_nous": 0,
@@ -68015,7 +68015,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 1305,
-    "vus_eux": 1051
+    "vus_eux": 1026
    },
    {
     "nom": "FXCxNoxis",
@@ -68029,7 +68029,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 899,
-    "vus_eux": 742
+    "vus_eux": 741
    },
    {
     "nom": "FXCxValtor",
@@ -68043,18 +68043,18 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 891,
-    "vus_eux": 716
+    "vus_eux": 704
    }
   ],
   "ensemble": {
-   "0": 1168,
-   "1": 366,
-   "2": 122,
+   "0": 1172,
+   "1": 358,
+   "2": 126,
    "3": 0,
    "4": 0
   },
   "images_vues": 1656,
   "part_nous_chez_eux": 0.208,
-  "part_eux_chez_eux": 0.819
+  "part_eux_chez_eux": 0.806
  }
 }

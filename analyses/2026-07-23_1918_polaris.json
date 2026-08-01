@@ -6197,7 +6197,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 104,
-    "vus_eux": 1
+    "vus_eux": 2
    },
    {
     "nom": "BVSxLiX",
@@ -6211,7 +6211,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 90,
-    "vus_eux": 22
+    "vus_eux": 26
    },
    {
     "nom": "BVSxTchernobyl",
@@ -6225,7 +6225,7 @@
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 1,
     "vus": 35,
-    "vus_eux": 1
+    "vus_eux": 0
    },
    {
     "nom": "FXCxParziRahl",
@@ -6267,7 +6267,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 31,
-    "vus_eux": 19
+    "vus_eux": 20
    },
    {
     "nom": "FXCxValtor",
@@ -6281,18 +6281,18 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 38,
-    "vus_eux": 27
+    "vus_eux": 28
    }
   ],
   "ensemble": {
-   "0": 228,
-   "1": 24,
+   "0": 224,
+   "1": 28,
    "2": 0,
    "3": 0,
    "4": 0
   },
   "images_vues": 252,
-  "part_nous_chez_eux": 0.084,
-  "part_eux_chez_eux": 0.667
+  "part_nous_chez_eux": 0.098,
+  "part_eux_chez_eux": 0.696
  }
 }

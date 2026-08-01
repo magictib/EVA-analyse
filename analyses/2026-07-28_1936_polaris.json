@@ -28669,7 +28669,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 215,
-    "vus_eux": 9
+    "vus_eux": 19
    },
    {
     "nom": "NTxCROMx",
@@ -28683,7 +28683,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 212,
-    "vus_eux": 60
+    "vus_eux": 64
    },
    {
     "nom": "NTxLiX",
@@ -28697,7 +28697,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 251,
-    "vus_eux": 45
+    "vus_eux": 76
    },
    {
     "nom": "BVSxTchernobyl",
@@ -28711,7 +28711,7 @@
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 1,
     "vus": 304,
-    "vus_eux": 26
+    "vus_eux": 47
    },
    {
     "nom": "ENDxY4net",
@@ -28739,7 +28739,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 322,
-    "vus_eux": 228
+    "vus_eux": 176
    },
    {
     "nom": "ENDxGodzi",
@@ -28753,7 +28753,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 141,
-    "vus_eux": 86
+    "vus_eux": 106
    },
    {
     "nom": "ENDxVikings",
@@ -28767,18 +28767,18 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 345,
-    "vus_eux": 268
+    "vus_eux": 257
    }
   ],
   "ensemble": {
-   "0": 694,
-   "1": 140,
-   "2": 0,
+   "0": 635,
+   "1": 192,
+   "2": 7,
    "3": 0,
    "4": 0
   },
   "images_vues": 834,
-  "part_nous_chez_eux": 0.143,
-  "part_eux_chez_eux": 0.727
+  "part_nous_chez_eux": 0.21,
+  "part_eux_chez_eux": 0.676
  }
 }

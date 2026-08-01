@@ -104832,7 +104832,7 @@
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 1,
     "vus": 1556,
-    "vus_eux": 273
+    "vus_eux": 271
    },
    {
     "nom": "NTxCROMx",
@@ -104874,7 +104874,7 @@
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 1,
     "vus": 997,
-    "vus_eux": 92
+    "vus_eux": 86
    },
    {
     "nom": "ENDxY4net",
@@ -104902,7 +104902,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 1472,
-    "vus_eux": 1242
+    "vus_eux": 1240
    },
    {
     "nom": "ENDxGodzi",
@@ -104916,7 +104916,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 1634,
-    "vus_eux": 1566
+    "vus_eux": 1565
    },
    {
     "nom": "ENDxVikings",
@@ -104930,18 +104930,18 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 1206,
-    "vus_eux": 911
+    "vus_eux": 912
    }
   ],
   "ensemble": {
-   "0": 1787,
-   "1": 474,
-   "2": 44,
+   "0": 1792,
+   "1": 472,
+   "2": 41,
    "3": 0,
    "4": 0
   },
   "images_vues": 2305,
-  "part_nous_chez_eux": 0.12,
-  "part_eux_chez_eux": 0.849
+  "part_nous_chez_eux": 0.118,
+  "part_eux_chez_eux": 0.848
  }
 }

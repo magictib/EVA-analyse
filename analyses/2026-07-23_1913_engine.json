@@ -63931,16 +63931,16 @@
    {
     "nom": "BVSxTibco",
     "notre": true,
-    "k_eux": 1,
-    "k_nous": 2,
+    "k_eux": 0,
+    "k_nous": 3,
     "k_inconnu": 4,
     "m_eux": 4,
     "m_nous": 0,
-    "m_eux_seul": 0,
+    "m_eux_seul": 1,
     "m_eux_impunie": 3,
-    "m_eux_seul_impunie": 0,
+    "m_eux_seul_impunie": 1,
     "vus": 830,
-    "vus_eux": 197
+    "vus_eux": 126
    },
    {
     "nom": "BVSxCROMx",
@@ -63954,7 +63954,7 @@
     "m_eux_impunie": 2,
     "m_eux_seul_impunie": 0,
     "vus": 518,
-    "vus_eux": 255
+    "vus_eux": 240
    },
    {
     "nom": "BVSxLiX",
@@ -63968,21 +63968,21 @@
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 0,
     "vus": 799,
-    "vus_eux": 236
+    "vus_eux": 294
    },
    {
     "nom": "BVSxTchernobyl",
     "notre": true,
-    "k_eux": 0,
-    "k_nous": 4,
+    "k_eux": 1,
+    "k_nous": 3,
     "k_inconnu": 1,
-    "m_eux": 1,
-    "m_nous": 2,
-    "m_eux_seul": 1,
+    "m_eux": 2,
+    "m_nous": 1,
+    "m_eux_seul": 2,
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 1,
     "vus": 582,
-    "vus_eux": 100
+    "vus_eux": 84
    },
    {
     "nom": "FXCxParziRahl",
@@ -63990,13 +63990,13 @@
     "k_eux": 1,
     "k_nous": 1,
     "k_inconnu": 4,
-    "m_eux": 2,
-    "m_nous": 0,
+    "m_eux": 1,
+    "m_nous": 1,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 597,
-    "vus_eux": 397
+    "vus_eux": 318
    },
    {
     "nom": "FXCxSky",
@@ -64010,7 +64010,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 538,
-    "vus_eux": 472
+    "vus_eux": 473
    },
    {
     "nom": "FXCxNoxis",
@@ -64024,7 +64024,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 496,
-    "vus_eux": 347
+    "vus_eux": 370
    },
    {
     "nom": "FXCxValtor",
@@ -64032,24 +64032,24 @@
     "k_eux": 3,
     "k_nous": 0,
     "k_inconnu": 2,
-    "m_eux": 2,
-    "m_nous": 0,
+    "m_eux": 1,
+    "m_nous": 1,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 715,
-    "vus_eux": 564
+    "vus_eux": 520
    }
   ],
   "ensemble": {
-   "0": 1054,
-   "1": 510,
-   "2": 127,
-   "3": 8,
+   "0": 1043,
+   "1": 570,
+   "2": 84,
+   "3": 2,
    "4": 0
   },
   "images_vues": 1699,
-  "part_nous_chez_eux": 0.289,
-  "part_eux_chez_eux": 0.759
+  "part_nous_chez_eux": 0.273,
+  "part_eux_chez_eux": 0.717
  }
 }

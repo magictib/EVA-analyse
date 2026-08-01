@@ -59859,11 +59859,11 @@
     "k_inconnu": 4,
     "m_eux": 2,
     "m_nous": 0,
-    "m_eux_seul": 0,
+    "m_eux_seul": 1,
     "m_eux_impunie": 2,
-    "m_eux_seul_impunie": 0,
+    "m_eux_seul_impunie": 1,
     "vus": 842,
-    "vus_eux": 79
+    "vus_eux": 88
    },
    {
     "nom": "BVSxCROMx",
@@ -59877,21 +59877,21 @@
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 1,
     "vus": 510,
-    "vus_eux": 161
+    "vus_eux": 151
    },
    {
     "nom": "BVSxLiX",
     "notre": true,
-    "k_eux": 2,
-    "k_nous": 7,
+    "k_eux": 1,
+    "k_nous": 8,
     "k_inconnu": 3,
-    "m_eux": 0,
-    "m_nous": 1,
-    "m_eux_seul": 0,
-    "m_eux_impunie": 0,
-    "m_eux_seul_impunie": 0,
+    "m_eux": 1,
+    "m_nous": 0,
+    "m_eux_seul": 1,
+    "m_eux_impunie": 1,
+    "m_eux_seul_impunie": 1,
     "vus": 802,
-    "vus_eux": 119
+    "vus_eux": 111
    },
    {
     "nom": "BVSxTchernobyl",
@@ -59899,13 +59899,13 @@
     "k_eux": 0,
     "k_nous": 3,
     "k_inconnu": 1,
-    "m_eux": 1,
-    "m_nous": 0,
+    "m_eux": 0,
+    "m_nous": 1,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 833,
-    "vus_eux": 96
+    "vus_eux": 78
    },
    {
     "nom": "FXCxParziRahl",
@@ -59919,7 +59919,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 607,
-    "vus_eux": 492
+    "vus_eux": 488
    },
    {
     "nom": "FXCxSky",
@@ -59961,18 +59961,18 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 660,
-    "vus_eux": 588
+    "vus_eux": 590
    }
   ],
   "ensemble": {
-   "0": 1323,
-   "1": 385,
-   "2": 32,
+   "0": 1343,
+   "1": 372,
+   "2": 25,
    "3": 2,
    "4": 0
   },
   "images_vues": 1742,
-  "part_nous_chez_eux": 0.152,
+  "part_nous_chez_eux": 0.143,
   "part_eux_chez_eux": 0.819
  }
 }

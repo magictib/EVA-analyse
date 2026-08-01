@@ -19340,8 +19340,8 @@
    {
     "nom": "NTxCROMx",
     "notre": true,
-    "k_eux": 0,
-    "k_nous": 1,
+    "k_eux": 1,
+    "k_nous": 0,
     "k_inconnu": 1,
     "m_eux": 0,
     "m_nous": 1,
@@ -19349,21 +19349,21 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 137,
-    "vus_eux": 11
+    "vus_eux": 28
    },
    {
     "nom": "NTxLiX",
     "notre": true,
-    "k_eux": 2,
-    "k_nous": 0,
+    "k_eux": 0,
+    "k_nous": 2,
     "k_inconnu": 3,
-    "m_eux": 2,
-    "m_nous": 1,
-    "m_eux_seul": 2,
-    "m_eux_impunie": 1,
-    "m_eux_seul_impunie": 1,
+    "m_eux": 1,
+    "m_nous": 2,
+    "m_eux_seul": 1,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
     "vus": 191,
-    "vus_eux": 33
+    "vus_eux": 0
    },
    {
     "nom": "BVSxTchernobyl",
@@ -19377,7 +19377,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 45,
-    "vus_eux": 0
+    "vus_eux": 8
    },
    {
     "nom": "ENDxY4net",
@@ -19391,7 +19391,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 137,
-    "vus_eux": 94
+    "vus_eux": 116
    },
    {
     "nom": "ENDxBarou",
@@ -19399,19 +19399,19 @@
     "k_eux": 0,
     "k_nous": 0,
     "k_inconnu": 1,
-    "m_eux": 1,
-    "m_nous": 2,
+    "m_eux": 3,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 139,
-    "vus_eux": 139
+    "vus_eux": 110
    },
    {
     "nom": "ENDxGodzi",
     "notre": false,
-    "k_eux": 2,
-    "k_nous": 0,
+    "k_eux": 0,
+    "k_nous": 2,
     "k_inconnu": 1,
     "m_eux": 1,
     "m_nous": 0,
@@ -19419,13 +19419,13 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 168,
-    "vus_eux": 168
+    "vus_eux": 138
    },
    {
     "nom": "ENDxVikings",
     "notre": false,
-    "k_eux": 1,
-    "k_nous": 1,
+    "k_eux": 0,
+    "k_nous": 2,
     "k_inconnu": 0,
     "m_eux": 1,
     "m_nous": 0,
@@ -19433,18 +19433,18 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 270,
-    "vus_eux": 210
+    "vus_eux": 148
    }
   ],
   "ensemble": {
-   "0": 348,
-   "1": 44,
+   "0": 356,
+   "1": 36,
    "2": 0,
    "3": 0,
    "4": 0
   },
   "images_vues": 392,
-  "part_nous_chez_eux": 0.108,
-  "part_eux_chez_eux": 0.856
+  "part_nous_chez_eux": 0.088,
+  "part_eux_chez_eux": 0.717
  }
 }

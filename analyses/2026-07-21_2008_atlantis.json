@@ -67975,7 +67975,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 746,
-    "vus_eux": 485
+    "vus_eux": 484
    },
    {
     "nom": "GUNxRabitte",
@@ -68003,7 +68003,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 816,
-    "vus_eux": 767
+    "vus_eux": 766
    },
    {
     "nom": "GUNxRhino",
@@ -68045,7 +68045,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 869,
-    "vus_eux": 86
+    "vus_eux": 87
    },
    {
     "nom": "BVSxCROMx",
@@ -68059,7 +68059,7 @@
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 1,
     "vus": 1072,
-    "vus_eux": 79
+    "vus_eux": 80
    },
    {
     "nom": "BVSxTibco",
@@ -68077,14 +68077,14 @@
    }
   ],
   "ensemble": {
-   "0": 1647,
-   "1": 224,
+   "0": 1645,
+   "1": 226,
    "2": 12,
    "3": 0,
    "4": 0
   },
   "images_vues": 1883,
   "part_nous_chez_eux": 0.077,
-  "part_eux_chez_eux": 0.8
+  "part_eux_chez_eux": 0.799
  }
 }

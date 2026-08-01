@@ -94985,7 +94985,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 1554,
-    "vus_eux": 1487
+    "vus_eux": 1485
    },
    {
     "nom": "GUNxRabitte",
@@ -94999,7 +94999,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 1204,
-    "vus_eux": 844
+    "vus_eux": 845
    },
    {
     "nom": "GUNxPhasme",
@@ -95013,7 +95013,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 906,
-    "vus_eux": 580
+    "vus_eux": 583
    },
    {
     "nom": "BVSxLiX",
@@ -95027,7 +95027,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 1134,
-    "vus_eux": 62
+    "vus_eux": 63
    },
    {
     "nom": "BVSxTchernobyl",
@@ -95041,7 +95041,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 1077,
-    "vus_eux": 183
+    "vus_eux": 185
    },
    {
     "nom": "BVSxCROMx",
@@ -95055,7 +95055,7 @@
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 1,
     "vus": 1071,
-    "vus_eux": 354
+    "vus_eux": 357
    },
    {
     "nom": "BVSxTibco",
@@ -95069,18 +95069,18 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 886,
-    "vus_eux": 124
+    "vus_eux": 126
    }
   ],
   "ensemble": {
-   "0": 1422,
+   "0": 1418,
    "1": 485,
-   "2": 119,
+   "2": 123,
    "3": 0,
    "4": 0
   },
   "images_vues": 2026,
-  "part_nous_chez_eux": 0.173,
-  "part_eux_chez_eux": 0.82
+  "part_nous_chez_eux": 0.175,
+  "part_eux_chez_eux": 0.821
  }
 }

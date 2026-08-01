@@ -15357,7 +15357,7 @@
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 1,
     "vus": 185,
-    "vus_eux": 21
+    "vus_eux": 22
    },
    {
     "nom": "BVSxCROMx",
@@ -15371,7 +15371,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 67,
-    "vus_eux": 0
+    "vus_eux": 1
    },
    {
     "nom": "BVSxLiX",
@@ -15413,7 +15413,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 97,
-    "vus_eux": 79
+    "vus_eux": 80
    },
    {
     "nom": "FXCxSky",
@@ -15441,13 +15441,13 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 58,
-    "vus_eux": 7
+    "vus_eux": 10
    },
    {
     "nom": "FXCxValtor",
     "notre": false,
-    "k_eux": 3,
-    "k_nous": 1,
+    "k_eux": 2,
+    "k_nous": 2,
     "k_inconnu": 5,
     "m_eux": 0,
     "m_nous": 1,
@@ -15455,18 +15455,18 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 297,
-    "vus_eux": 266
+    "vus_eux": 243
    }
   ],
   "ensemble": {
-   "0": 439,
-   "1": 56,
+   "0": 437,
+   "1": 58,
    "2": 7,
    "3": 0,
    "4": 0
   },
   "images_vues": 502,
-  "part_nous_chez_eux": 0.12,
-  "part_eux_chez_eux": 0.803
+  "part_nous_chez_eux": 0.123,
+  "part_eux_chez_eux": 0.766
  }
 }

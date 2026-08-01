@@ -45121,5 +45121,132 @@
    "points": 1,
    "accord_points": 1.0
   }
+ },
+ "terrain": {
+  "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",
+  "joueurs": [
+   {
+    "nom": "BVSxTibco",
+    "notre": true,
+    "k_eux": 0,
+    "k_nous": 0,
+    "k_inconnu": 0,
+    "m_eux": 0,
+    "m_nous": 3,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "vus": 251,
+    "vus_eux": 12
+   },
+   {
+    "nom": "BVSxCROMx",
+    "notre": true,
+    "k_eux": 1,
+    "k_nous": 1,
+    "k_inconnu": 1,
+    "m_eux": 0,
+    "m_nous": 1,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "vus": 400,
+    "vus_eux": 81
+   },
+   {
+    "nom": "BVSxLiX",
+    "notre": true,
+    "k_eux": 0,
+    "k_nous": 3,
+    "k_inconnu": 2,
+    "m_eux": 1,
+    "m_nous": 3,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 1,
+    "m_eux_seul_impunie": 0,
+    "vus": 387,
+    "vus_eux": 0
+   },
+   {
+    "nom": "BVSxTchernobyl",
+    "notre": true,
+    "k_eux": 0,
+    "k_nous": 1,
+    "k_inconnu": 0,
+    "m_eux": 1,
+    "m_nous": 1,
+    "m_eux_seul": 1,
+    "m_eux_impunie": 1,
+    "m_eux_seul_impunie": 1,
+    "vus": 718,
+    "vus_eux": 9
+   },
+   {
+    "nom": "FXCxParziRahl",
+    "notre": false,
+    "k_eux": 0,
+    "k_nous": 0,
+    "k_inconnu": 1,
+    "m_eux": 1,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "vus": 0,
+    "vus_eux": 0
+   },
+   {
+    "nom": "FXCxSky",
+    "notre": false,
+    "k_eux": 4,
+    "k_nous": 0,
+    "k_inconnu": 0,
+    "m_eux": 1,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "vus": 927,
+    "vus_eux": 839
+   },
+   {
+    "nom": "FXCxNoxis",
+    "notre": false,
+    "k_eux": 2,
+    "k_nous": 1,
+    "k_inconnu": 1,
+    "m_eux": 4,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "vus": 423,
+    "vus_eux": 190
+   },
+   {
+    "nom": "FXCxValtor",
+    "notre": false,
+    "k_eux": 4,
+    "k_nous": 0,
+    "k_inconnu": 2,
+    "m_eux": 0,
+    "m_nous": 1,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "vus": 815,
+    "vus_eux": 799
+   }
+  ],
+  "ensemble": {
+   "0": 837,
+   "1": 98,
+   "2": 2,
+   "3": 0,
+   "4": 0
+  },
+  "images_vues": 937,
+  "part_nous_chez_eux": 0.058,
+  "part_eux_chez_eux": 0.844
  }
 }

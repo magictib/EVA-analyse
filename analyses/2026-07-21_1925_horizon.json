@@ -53366,7 +53366,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 643,
-    "vus_eux": 617
+    "vus_eux": 618
    },
    {
     "nom": "GUNxRhino",
@@ -53394,7 +53394,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 1005,
-    "vus_eux": 874
+    "vus_eux": 875
    },
    {
     "nom": "GUNxPhasme",
@@ -53422,7 +53422,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 334,
-    "vus_eux": 90
+    "vus_eux": 91
    },
    {
     "nom": "BVSxTchernobyl",
@@ -53464,18 +53464,18 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 782,
-    "vus_eux": 197
+    "vus_eux": 198
    }
   ],
   "ensemble": {
-   "0": 1183,
-   "1": 273,
+   "0": 1181,
+   "1": 275,
    "2": 28,
    "3": 0,
    "4": 0
   },
   "images_vues": 1484,
-  "part_nous_chez_eux": 0.14,
-  "part_eux_chez_eux": 0.927
+  "part_nous_chez_eux": 0.141,
+  "part_eux_chez_eux": 0.928
  }
 }

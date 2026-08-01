@@ -24237,8 +24237,8 @@
    {
     "nom": "GUNxHippocampe",
     "notre": false,
-    "k_eux": 1,
-    "k_nous": 2,
+    "k_eux": 3,
+    "k_nous": 0,
     "k_inconnu": 2,
     "m_eux": 0,
     "m_nous": 0,
@@ -24246,13 +24246,13 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 170,
-    "vus_eux": 125
+    "vus_eux": 146
    },
    {
     "nom": "GUNxRhino",
     "notre": false,
-    "k_eux": 3,
-    "k_nous": 1,
+    "k_eux": 2,
+    "k_nous": 2,
     "k_inconnu": 7,
     "m_eux": 1,
     "m_nous": 0,
@@ -24260,13 +24260,13 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 274,
-    "vus_eux": 259
+    "vus_eux": 247
    },
    {
     "nom": "GUNxRabitte",
     "notre": false,
-    "k_eux": 1,
-    "k_nous": 2,
+    "k_eux": 2,
+    "k_nous": 1,
     "k_inconnu": 3,
     "m_eux": 0,
     "m_nous": 1,
@@ -24274,13 +24274,13 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 447,
-    "vus_eux": 351
+    "vus_eux": 425
    },
    {
     "nom": "GUNxPhasme",
     "notre": false,
-    "k_eux": 1,
-    "k_nous": 0,
+    "k_eux": 0,
+    "k_nous": 1,
     "k_inconnu": 4,
     "m_eux": 1,
     "m_nous": 1,
@@ -24288,13 +24288,13 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 61,
-    "vus_eux": 41
+    "vus_eux": 47
    },
    {
     "nom": "BVSxLiX",
     "notre": true,
-    "k_eux": 2,
-    "k_nous": 1,
+    "k_eux": 0,
+    "k_nous": 3,
     "k_inconnu": 1,
     "m_eux": 0,
     "m_nous": 0,
@@ -24302,13 +24302,13 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 186,
-    "vus_eux": 53
+    "vus_eux": 27
    },
    {
     "nom": "BVSxTchernobyl",
     "notre": true,
-    "k_eux": 0,
-    "k_nous": 3,
+    "k_eux": 1,
+    "k_nous": 2,
     "k_inconnu": 0,
     "m_eux": 0,
     "m_nous": 1,
@@ -24316,7 +24316,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 134,
-    "vus_eux": 0
+    "vus_eux": 1
    },
    {
     "nom": "BVSxCROMx",
@@ -24324,13 +24324,13 @@
     "k_eux": 0,
     "k_nous": 2,
     "k_inconnu": 2,
-    "m_eux": 2,
-    "m_nous": 0,
-    "m_eux_seul": 2,
-    "m_eux_impunie": 2,
-    "m_eux_seul_impunie": 2,
+    "m_eux": 1,
+    "m_nous": 1,
+    "m_eux_seul": 1,
+    "m_eux_impunie": 1,
+    "m_eux_seul_impunie": 1,
     "vus": 101,
-    "vus_eux": 2
+    "vus_eux": 1
    },
    {
     "nom": "BVSxTibco",
@@ -24344,18 +24344,18 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "vus": 247,
-    "vus_eux": 36
+    "vus_eux": 52
    }
   ],
   "ensemble": {
-   "0": 481,
-   "1": 91,
+   "0": 491,
+   "1": 81,
    "2": 0,
    "3": 0,
    "4": 0
   },
   "images_vues": 572,
-  "part_nous_chez_eux": 0.136,
-  "part_eux_chez_eux": 0.815
+  "part_nous_chez_eux": 0.121,
+  "part_eux_chez_eux": 0.909
  }
 }
