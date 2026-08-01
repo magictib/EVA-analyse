@@ -68326,5 +68326,108 @@
    "points": 1,
    "accord_points": 0.983
   }
+ },
+ "terrain": {
+  "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",
+  "joueurs": [
+   {
+    "nom": "NTxTibco",
+    "notre": true,
+    "k_eux": 0,
+    "k_nous": 3,
+    "k_inconnu": 2,
+    "m_eux": 1,
+    "m_nous": 4,
+    "vus": 1072,
+    "vus_eux": 132
+   },
+   {
+    "nom": "NTxCROMx",
+    "notre": true,
+    "k_eux": 3,
+    "k_nous": 2,
+    "k_inconnu": 1,
+    "m_eux": 1,
+    "m_nous": 1,
+    "vus": 974,
+    "vus_eux": 282
+   },
+   {
+    "nom": "NTxLiX",
+    "notre": true,
+    "k_eux": 3,
+    "k_nous": 5,
+    "k_inconnu": 1,
+    "m_eux": 0,
+    "m_nous": 2,
+    "vus": 927,
+    "vus_eux": 232
+   },
+   {
+    "nom": "BVSxTchernobyl",
+    "notre": true,
+    "k_eux": 0,
+    "k_nous": 4,
+    "k_inconnu": 1,
+    "m_eux": 1,
+    "m_nous": 2,
+    "vus": 910,
+    "vus_eux": 194
+   },
+   {
+    "nom": "ENDxY4net",
+    "notre": false,
+    "k_eux": 3,
+    "k_nous": 0,
+    "k_inconnu": 2,
+    "m_eux": 1,
+    "m_nous": 4,
+    "vus": 478,
+    "vus_eux": 476
+   },
+   {
+    "nom": "ENDxBarou",
+    "notre": false,
+    "k_eux": 3,
+    "k_nous": 3,
+    "k_inconnu": 0,
+    "m_eux": 4,
+    "m_nous": 0,
+    "vus": 899,
+    "vus_eux": 579
+   },
+   {
+    "nom": "ENDxGodzi",
+    "notre": false,
+    "k_eux": 5,
+    "k_nous": 1,
+    "k_inconnu": 0,
+    "m_eux": 0,
+    "m_nous": 2,
+    "vus": 1037,
+    "vus_eux": 877
+   },
+   {
+    "nom": "ENDxVikings",
+    "notre": false,
+    "k_eux": 4,
+    "k_nous": 0,
+    "k_inconnu": 0,
+    "m_eux": 3,
+    "m_nous": 2,
+    "vus": 971,
+    "vus_eux": 797
+   }
+  ],
+  "ensemble": {
+   "0": 1163,
+   "1": 364,
+   "2": 70,
+   "3": 60,
+   "4": 39
+  },
+  "images_vues": 1696,
+  "part_nous_chez_eux": 0.216,
+  "part_eux_chez_eux": 0.806
  }
 }

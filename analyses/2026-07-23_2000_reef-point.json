@@ -59847,5 +59847,108 @@
    "points": null,
    "accord_points": 0.763
   }
+ },
+ "terrain": {
+  "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",
+  "joueurs": [
+   {
+    "nom": "BVSxTibco",
+    "notre": true,
+    "k_eux": 1,
+    "k_nous": 5,
+    "k_inconnu": 4,
+    "m_eux": 2,
+    "m_nous": 0,
+    "vus": 842,
+    "vus_eux": 79
+   },
+   {
+    "nom": "BVSxCROMx",
+    "notre": true,
+    "k_eux": 1,
+    "k_nous": 5,
+    "k_inconnu": 4,
+    "m_eux": 4,
+    "m_nous": 2,
+    "vus": 510,
+    "vus_eux": 161
+   },
+   {
+    "nom": "BVSxLiX",
+    "notre": true,
+    "k_eux": 2,
+    "k_nous": 7,
+    "k_inconnu": 3,
+    "m_eux": 0,
+    "m_nous": 1,
+    "vus": 802,
+    "vus_eux": 119
+   },
+   {
+    "nom": "BVSxTchernobyl",
+    "notre": true,
+    "k_eux": 0,
+    "k_nous": 3,
+    "k_inconnu": 1,
+    "m_eux": 1,
+    "m_nous": 0,
+    "vus": 833,
+    "vus_eux": 96
+   },
+   {
+    "nom": "FXCxParziRahl",
+    "notre": false,
+    "k_eux": 4,
+    "k_nous": 0,
+    "k_inconnu": 3,
+    "m_eux": 2,
+    "m_nous": 1,
+    "vus": 607,
+    "vus_eux": 492
+   },
+   {
+    "nom": "FXCxSky",
+    "notre": false,
+    "k_eux": 3,
+    "k_nous": 3,
+    "k_inconnu": 1,
+    "m_eux": 2,
+    "m_nous": 1,
+    "vus": 790,
+    "vus_eux": 637
+   },
+   {
+    "nom": "FXCxNoxis",
+    "notre": false,
+    "k_eux": 2,
+    "k_nous": 0,
+    "k_inconnu": 2,
+    "m_eux": 1,
+    "m_nous": 1,
+    "vus": 612,
+    "vus_eux": 470
+   },
+   {
+    "nom": "FXCxValtor",
+    "notre": false,
+    "k_eux": 2,
+    "k_nous": 0,
+    "k_inconnu": 3,
+    "m_eux": 3,
+    "m_nous": 0,
+    "vus": 660,
+    "vus_eux": 588
+   }
+  ],
+  "ensemble": {
+   "0": 1323,
+   "1": 385,
+   "2": 32,
+   "3": 2,
+   "4": 0
+  },
+  "images_vues": 1742,
+  "part_nous_chez_eux": 0.152,
+  "part_eux_chez_eux": 0.819
  }
 }

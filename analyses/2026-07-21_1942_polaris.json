@@ -27939,5 +27939,108 @@
    "points": 1,
    "accord_points": 0.841
   }
+ },
+ "terrain": {
+  "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",
+  "joueurs": [
+   {
+    "nom": "GUNxHippocampe",
+    "notre": false,
+    "k_eux": 2,
+    "k_nous": 2,
+    "k_inconnu": 8,
+    "m_eux": 1,
+    "m_nous": 0,
+    "vus": 286,
+    "vus_eux": 235
+   },
+   {
+    "nom": "GUNxRhino",
+    "notre": false,
+    "k_eux": 0,
+    "k_nous": 0,
+    "k_inconnu": 13,
+    "m_eux": 0,
+    "m_nous": 0,
+    "vus": 149,
+    "vus_eux": 149
+   },
+   {
+    "nom": "GUNxRabitte",
+    "notre": false,
+    "k_eux": 0,
+    "k_nous": 1,
+    "k_inconnu": 7,
+    "m_eux": 1,
+    "m_nous": 0,
+    "vus": 95,
+    "vus_eux": 86
+   },
+   {
+    "nom": "GUNxPhasme",
+    "notre": false,
+    "k_eux": 0,
+    "k_nous": 0,
+    "k_inconnu": 7,
+    "m_eux": 0,
+    "m_nous": 0,
+    "vus": 261,
+    "vus_eux": 174
+   },
+   {
+    "nom": "BVSxLiX",
+    "notre": true,
+    "k_eux": 2,
+    "k_nous": 1,
+    "k_inconnu": 6,
+    "m_eux": 0,
+    "m_nous": 0,
+    "vus": 157,
+    "vus_eux": 71
+   },
+   {
+    "nom": "BVSxTchernobyl",
+    "notre": true,
+    "k_eux": 1,
+    "k_nous": 0,
+    "k_inconnu": 7,
+    "m_eux": 0,
+    "m_nous": 0,
+    "vus": 35,
+    "vus_eux": 11
+   },
+   {
+    "nom": "BVSxCROMx",
+    "notre": true,
+    "k_eux": 1,
+    "k_nous": 4,
+    "k_inconnu": 15,
+    "m_eux": 0,
+    "m_nous": 0,
+    "vus": 248,
+    "vus_eux": 46
+   },
+   {
+    "nom": "BVSxTibco",
+    "notre": true,
+    "k_eux": 1,
+    "k_nous": 0,
+    "k_inconnu": 5,
+    "m_eux": 0,
+    "m_nous": 0,
+    "vus": 307,
+    "vus_eux": 88
+   }
+  ],
+  "ensemble": {
+   "0": 492,
+   "1": 192,
+   "2": 12,
+   "3": 0,
+   "4": 0
+  },
+  "images_vues": 696,
+  "part_nous_chez_eux": 0.289,
+  "part_eux_chez_eux": 0.814
  }
 }
