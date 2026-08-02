@@ -1224,14 +1224,44 @@ const ACC = [
 /* Équipements posables sur la carte. r = [rayon plein, rayon limite] en mètres.
    La largeur du Shield n'est pas publiée : 2 m est une estimation, signalée comme telle. */
 const EQ = {
-  dx3:    {n:"DX3",    col:"#F5A524", r:[2,4], info:"100 dég. · 3,5 s · recharge 45 s"},
-  sticky: {n:"Sticky", col:"#E0475B", r:[3,5], info:"95 dég. · 2,5 s · recharge 20 s"},
+  dx3:    {n:"DX3",    col:"#F5A524", r:[2,4], fuse:3.5, info:"100 dég. · 3,5 s · recharge 45 s"},
+  sticky: {n:"Sticky", col:"#E0475B", r:[3,5], fuse:2.5, info:"95 dég. · 2,5 s · recharge 20 s"},
   sonar:  {n:"Sonar",  col:"#4CC9F0", r:[8],   info:"détection à travers les murs · 40 s", det:true},
   shield: {n:"Shield", col:"#7BD389", bar:2,   info:"400 PV · 10 s · largeur estimée"},
   /* Echo : 5 km/h pendant 10 s = 13,9 m de trajet théorique, arrêté par le premier
      obstacle. La distance affichée est celle réellement parcourue sur la carte. */
-  echo:   {n:"Echo",   col:"#C084FC", ray:5/3.6*10, info:"clone 60 PV · 10 s · 5 km/h"},
+  echo:   {n:"Echo",   col:"#C084FC", ray:5/3.6*10, v:5/3.6, info:"clone 60 PV · 10 s · 5 km/h"},
 };
+
+/* UNE GRENADE POSÉE SUR L'ÉCHO PART AVEC LUI, et son point d'explosion se calcule
+   au lieu de se deviner : l'Écho avance à vitesse connue (5 km/h) et la grenade
+   explose après un délai connu (2,5 s pour la Sticky, 3,5 s pour le DX3). Elle
+   parcourt donc 3,5 m ou 4,9 m le long du trajet — sauf si un mur arrête l'Écho
+   avant, auquel cas elle explose là où il s'est arrêté.
+
+   C'est le seul cas où le point d'explosion ne coïncide pas avec le point de pose,
+   et c'est aussi le seul usage qui demandait un calcul : tout le reste de la
+   panoplie était déjà posable et déjà mesuré.
+
+   ACCROCHE est en mètres : on considère la grenade embarquée si elle est posée
+   sur le pion de l'Écho. Deux mètres, c'est le geste « je la dépose dessus » sans
+   exiger une précision au pixel. */
+const ACCROCHE = 2;
+
+function echoPorteur(it){
+  return ITEMS.find(o => o!==it && EQ[o.k].ray && px2m(dpx(it,o)) <= ACCROCHE) || null;
+}
+
+/* Le point où la grenade embarquée explose, et ce qui l'y a menée. */
+function pointExplosion(it, porteur){
+  const e=EQ[it.k], p=EQ[porteur.k];
+  const chemin = echoPath(porteur);              // arrêté par le premier obstacle
+  const voulu  = m2px(p.v * e.fuse);             // ce que l'Écho parcourt en `fuse`
+  const d = Math.min(voulu, chemin.d);
+  const a = (porteur.a||0)*Math.PI/180;
+  return {x: porteur.x+Math.cos(a)*d, y: porteur.y+Math.sin(a)*d, d,
+          coupe: chemin.d < voulu};
+}
 
 /* Grenades en tant qu'ouverture ou finisseur. Les dégâts entre le rayon plein
    et le rayon limite ne sont pas publiés : on interpole linéairement, hypothèse
@@ -7779,17 +7809,27 @@ function drawDyn(){
         <path d="M${rh.x-5},${rh.y+4} a6,6 0 1,1 9,-2" fill="none" stroke="${e.col}" stroke-width="2"/>`);
     } else {
       const [r1,r2]=[e.r[0], e.r[1]||e.r[0]];
+      /* LA ZONE SE DESSINE OU LA GRENADE EXPLOSE, pas où on l'a posée. Embarquée
+         sur l'Écho, elle part avec lui : la souffler au point de pose montrerait
+         une menace qui n'aura jamais lieu là. */
+      const porteur = e.fuse ? echoPorteur(it) : null;
+      const b = porteur ? pointExplosion(it, porteur) : it;
+      if(porteur){
+        g.push(`<line x1="${it.x}" y1="${it.y}" x2="${b.x}" y2="${b.y}" stroke="${e.col}"
+          stroke-width="2" stroke-dasharray="3 5" opacity=".8"/>`);
+        g.push(`<circle cx="${b.x}" cy="${b.y}" r="5" fill="${e.col}" opacity=".9"/>`);
+      }
       /* e.det = traverse les murs (Sonar). Sur un balcon le calque du niveau 0 ne
          decrit pas l'etage : mieux vaut pas d'occlusion qu'une fausse. */
-      if(!e.det && lvl(it)===0){
-        g.push(`<path d="${blastPath(it.x,it.y,r2)}" fill="${e.col}" fill-opacity=".07"
+      if(!e.det && lvl(b)===0){
+        g.push(`<path d="${blastPath(b.x,b.y,r2)}" fill="${e.col}" fill-opacity=".07"
           stroke="${e.col}" stroke-width="1.6" stroke-dasharray="6 6" opacity=".7"/>`);
-        if(e.r[1]) g.push(`<path d="${blastPath(it.x,it.y,r1)}" fill="${e.col}" fill-opacity=".16"
+        if(e.r[1]) g.push(`<path d="${blastPath(b.x,b.y,r1)}" fill="${e.col}" fill-opacity=".16"
           stroke="${e.col}" stroke-width="2"/>`);
       } else {
-        g.push(`<circle cx="${it.x}" cy="${it.y}" r="${m2px(r2)}" fill="${e.col}" fill-opacity=".07"
+        g.push(`<circle cx="${b.x}" cy="${b.y}" r="${m2px(r2)}" fill="${e.col}" fill-opacity=".07"
           stroke="${e.col}" stroke-width="1.6" stroke-dasharray="6 6" opacity=".7"/>`);
-        if(e.r[1]) g.push(`<circle cx="${it.x}" cy="${it.y}" r="${m2px(r1)}" fill="${e.col}" fill-opacity=".16"
+        if(e.r[1]) g.push(`<circle cx="${b.x}" cy="${b.y}" r="${m2px(r1)}" fill="${e.col}" fill-opacity=".16"
           stroke="${e.col}" stroke-width="2"/>`);
       }
     }
@@ -8008,6 +8048,15 @@ function drawItems(){
       const p=echoPath(it);
       eff = p.stopped ? `<b class="edge">bloqué à ${fr(px2m(p.d),1)} m</b>`
                       : `<b>trajet complet</b>`;
+    }
+    else if(e.fuse && echoPorteur(it)){
+      /* Embarquée : c'est la distance PARCOURUE qui compte, pas celle où on l'a
+         posée. On dit aussi quand un mur écourte le voyage — l'explosion a bien
+         lieu, mais plus tôt et ailleurs. */
+      const b=pointExplosion(it, echoPorteur(it));
+      eff = b.coupe
+        ? `<b class="edge">portée par l'Écho, explose à ${fr(px2m(b.d),1)} m — mur avant les ${fr(EQ.echo.v*e.fuse,1)} m</b>`
+        : `<b class="in">portée par l'Écho, explose à ${fr(px2m(b.d),1)} m</b>`;
     }
     else if(!e.bar && MEAS && MEAS.a){
       const ref=MEAS.a.pid?pById(MEAS.a.pid):MEAS.a;
