@@ -590,11 +590,11 @@
   },
   {
    "instant": 593,
-   "tueur": 2,
+   "tueur": 4,
    "victime": 8,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME6"
+   "arme_icone": "ARME6",
+   "_main": true
   },
   {
    "instant": 591,
@@ -802,8 +802,8 @@
    "tueur": 2,
    "victime": 8,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true
   },
   {
    "instant": 447,
@@ -883,8 +883,8 @@
    "tueur": 3,
    "victime": 9,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true
   }
  ],
  "ambigus": [],
