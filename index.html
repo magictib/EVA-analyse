@@ -1224,8 +1224,13 @@ const ACC = [
 /* Équipements posables sur la carte. r = [rayon plein, rayon limite] en mètres.
    La largeur du Shield n'est pas publiée : 2 m est une estimation, signalée comme telle. */
 const EQ = {
+  /* `colle` : seule la Sticky adhere a ce qu'elle touche. Thibaud, 02/08/2026 —
+     « la sticky colle donc il y a un interet mais la DX3 non donc ça ne marche pas
+     de la mettre sur l'Echo car on ne peut pas ». Sans cette distinction, l'outil
+     proposait un coup impossible a jouer, ce qui est pire que de ne rien proposer :
+     une strat se prepare sur ce que l'ecran montre. */
   dx3:    {n:"DX3",    col:"#F5A524", r:[2,4], fuse:3.5, info:"100 dég. · 3,5 s · recharge 45 s"},
-  sticky: {n:"Sticky", col:"#E0475B", r:[3,5], fuse:2.5, info:"95 dég. · 2,5 s · recharge 20 s"},
+  sticky: {n:"Sticky", col:"#E0475B", r:[3,5], fuse:2.5, colle:true, info:"95 dég. · 2,5 s · recharge 20 s"},
   sonar:  {n:"Sonar",  col:"#4CC9F0", r:[8],   info:"détection à travers les murs · 40 s", det:true},
   shield: {n:"Shield", col:"#7BD389", bar:2,   info:"400 PV · 10 s · largeur estimée"},
   /* Echo : 5 km/h pendant 10 s = 13,9 m de trajet théorique, arrêté par le premier
@@ -1233,11 +1238,14 @@ const EQ = {
   echo:   {n:"Echo",   col:"#C084FC", ray:5/3.6*10, v:5/3.6, info:"clone 60 PV · 10 s · 5 km/h"},
 };
 
-/* UNE GRENADE POSÉE SUR L'ÉCHO PART AVEC LUI, et son point d'explosion se calcule
-   au lieu de se deviner : l'Écho avance à vitesse connue (5 km/h) et la grenade
-   explose après un délai connu (2,5 s pour la Sticky, 3,5 s pour le DX3). Elle
-   parcourt donc 3,5 m ou 4,9 m le long du trajet — sauf si un mur arrête l'Écho
-   avant, auquel cas elle explose là où il s'est arrêté.
+/* LA STICKY POSÉE SUR L'ÉCHO PART AVEC LUI, et son point d'explosion se calcule au
+   lieu de se deviner : l'Écho avance à vitesse connue (5 km/h) et la Sticky explose
+   après un délai connu (2,5 s). Elle parcourt donc 3,5 m le long du trajet — sauf
+   si un mur arrête l'Écho avant, auquel cas elle explose là où il s'est arrêté.
+
+   ELLE SEULE : le DX3 ne colle pas, donc il ne peut pas voyager. C'est ce qui rend
+   la combinaison intéressante, et c'est pourquoi `colle` est une propriété de la
+   grenade et non du porteur.
 
    C'est le seul cas où le point d'explosion ne coïncide pas avec le point de pose,
    et c'est aussi le seul usage qui demandait un calcul : tout le reste de la
@@ -1249,6 +1257,7 @@ const EQ = {
 const ACCROCHE = 2;
 
 function echoPorteur(it){
+  if(!EQ[it.k].colle) return null;
   return ITEMS.find(o => o!==it && EQ[o.k].ray && px2m(dpx(it,o)) <= ACCROCHE) || null;
 }
 
@@ -7812,7 +7821,7 @@ function drawDyn(){
       /* LA ZONE SE DESSINE OU LA GRENADE EXPLOSE, pas où on l'a posée. Embarquée
          sur l'Écho, elle part avec lui : la souffler au point de pose montrerait
          une menace qui n'aura jamais lieu là. */
-      const porteur = e.fuse ? echoPorteur(it) : null;
+      const porteur = echoPorteur(it);
       const b = porteur ? pointExplosion(it, porteur) : it;
       if(porteur){
         g.push(`<line x1="${it.x}" y1="${it.y}" x2="${b.x}" y2="${b.y}" stroke="${e.col}"
@@ -8049,7 +8058,7 @@ function drawItems(){
       eff = p.stopped ? `<b class="edge">bloqué à ${fr(px2m(p.d),1)} m</b>`
                       : `<b>trajet complet</b>`;
     }
-    else if(e.fuse && echoPorteur(it)){
+    else if(echoPorteur(it)){
       /* Embarquée : c'est la distance PARCOURUE qui compte, pas celle où on l'a
          posée. On dit aussi quand un mur écourte le voyage — l'explosion a bien
          lieu, mais plus tôt et ailleurs. */
