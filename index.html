@@ -4656,6 +4656,72 @@ function drawAna(){
        c'est souvent subi, quand les autres sont morts à un autre moment. À lire comme une
        exposition, pas comme une faute.</p>`;
 
+  /* --- 3 bis. la moitie de terrain ---
+     UN TABLEAU A PART, demande par Thibaud : « peut-etre faire un tableau a part
+     pour toutes les stats concernant la moitie de terrain ». Le tableau « Par
+     joueur » commencait a etre large, et ces chiffres-la ne se lisent pas comme
+     les autres — ils ont leurs propres denominateurs et leurs propres limites.
+
+     TOUT EST EN PARTS, JAMAIS EN SECONDES. Un joueur n'est suivi qu'environ la
+     moitie du temps ou il est vivant : « 40 s chez l'adversaire » serait faux du
+     simple au double, quand « 22 % du temps observe » reste un ordre de grandeur
+     honnete. Et les deux colonnes de kills et de morts ne se divisent PAS l'une
+     par l'autre : une mort n'est situee que si sa croix est retrouvee, un kill que
+     si le tueur etait suivi — deux conditions differentes, donc deux taux de perte
+     differents. Leur rapport donnerait 1,4 la ou le vrai K/D est sous 1. */
+  const terr = lot.map(a=>a.terrain).filter(Boolean);
+  let moitie = "";
+  if(terr.length){
+    const g = new Map();
+    const ens = [0,0,0,0,0];
+    for(const t of terr){
+      for(const j of t.joueurs){
+        if(!j.notre) continue;
+        const o = g.get(j.nom) || {tags:new Set(), k_eux:0, k_nous:0, m_eux:0, m_nous:0,
+                                   seul:0, impunie:0, vus:0, vus_eux:0};
+        o.tags.add(j.tag);
+        o.k_eux+=j.k_eux; o.k_nous+=j.k_nous; o.m_eux+=j.m_eux; o.m_nous+=j.m_nous;
+        o.seul+=j.m_eux_seul; o.impunie+=j.m_eux_seul_impunie;
+        o.vus+=j.vus; o.vus_eux+=j.vus_eux;
+        g.set(j.nom, o);
+      }
+      for(let i=0;i<5;i++) ens[i] += (t.ensemble && t.ensemble[i]) || 0;
+    }
+    const pct=(a,b)=>b?Math.round(a/b*100)+" %":"—";
+    const lignes=[...g.entries()].sort((x,y)=>y[1].vus-x[1].vus);
+    const vuTot=ens.reduce((s,x)=>s+x,0);
+    moitie = `<h4>Où l'on joue</h4><div class="mtab mtab6">
+        <div class="mth"><s>joueur</s><s>présent chez eux</s><s>ses kills faits chez eux</s>
+          <s>ses morts subies chez eux</s><s>morts seul chez eux</s><s>dont impunies</s></div>`
+      + lignes.map(([n,o])=>`<div class="mtr"><b>${n}${o.tags.size?`<em>${[...o.tags].sort().join("+")}</em>`:""}</b>`
+        + `<s>${pct(o.vus_eux,o.vus)}</s>`
+        + `<s>${pct(o.k_eux,o.k_eux+o.k_nous)}</s>`
+        + `<s>${pct(o.m_eux,o.m_eux+o.m_nous)}</s>`
+        + `<s>${o.seul}</s><s>${o.impunie}</s></div>`).join("")
+      + `</div>`
+      + (vuTot?`<div class="mtab mtab6" style="margin-top:10px">
+          <div class="mth"><s>des nôtres chez eux en même temps</s><s>0</s><s>1</s><s>2</s><s>3</s><s>4</s></div>
+          <div class="mtr"><b>part du temps observé</b>`
+        + ens.map(x=>`<s>${Math.round(x/vuTot*100)} %</s>`).join("") + `</div></div>`:"")
+      + `<p class="note">La <b>moitié adverse</b> est délimitée par l'axe des spawns, relevé
+         carte par carte sur les plans, et la frontière est posée là où les deux équipes se
+         séparent réellement. <b>Outlaw en est absente</b> : ses spawns sont aléatoires et
+         partagés, la notion de moitié n'y existe pas.<br>
+         <b>Tout est en parts, jamais en secondes.</b> Un joueur n'est suivi qu'environ la
+         moitié du temps où il est vivant ; « 40 s chez l'adversaire » serait faux du simple
+         au double, « 22 % du temps observé » reste un ordre de grandeur honnête.<br>
+         <b>Ne divisez pas les kills par les morts.</b> Une mort n'est située que si sa croix
+         est retrouvée sur la minimap, un kill que si le tueur était suivi à cet instant :
+         deux conditions différentes, donc deux taux de perte différents. Comparez plutôt les
+         deux parts entre elles — faire 27 % de ses kills chez l'adversaire pour 18 % de ses
+         morts, c'est y gagner ; l'inverse, c'est y perdre.<br>
+         <b>Morts seul chez eux</b> — mourir dans la moitié adverse sans qu'aucun coéquipier
+         n'y soit relevé au même instant. <b>Impunies</b> : celles qu'aucun coéquipier n'a
+         vengées dans les vingt secondes. Les deux ensemble décrivent le joueur qui avance
+         trop loin sans soutien.
+         ${terr.length<lot.length?`<br>Calculé sur ${terr.length} partie${terr.length>1?"s":""} sur ${lot.length}.`:""}</p>`;
+  }
+
   /* --- 4. sur la carte ---
      Les positions viennent de la chaine video (detect.py, trajets.py,
      identifier.py) et sont en pixels de minimap. Le fond livre avec l'analyse
@@ -4962,7 +5028,7 @@ function drawAna(){
        sur les premieres secondes : une ouverture incomplete se lit comme une
        ouverture ratee. Le calcul reste, il suffira de remettre `+ carte`. */
     + bloc("Terrain", "Qui tient la carte, pourquoi on la lâche, et comment on en sort.",
-           terrain + controle + debut)
+           terrain + moitie + controle + debut)
     + bloc("Joueurs", "Le détail individuel, à lire avec le rôle de chacun.", joueurs)
     /* « Duels » etait un abus de langage, et il valait mieux le dire que le
        garder : un duel suppose que les deux joueurs se soient VUS et aient tire
