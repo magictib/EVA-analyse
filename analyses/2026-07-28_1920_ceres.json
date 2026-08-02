@@ -884,10 +884,9 @@
   },
   {
    "instant": 505,
-   "tueur": 8,
+   "tueur": null,
    "victime": 2,
-   "allie": false,
-   "_lu": true
+   "allie": false
   },
   {
    "instant": 500,
@@ -927,7 +926,7 @@
   },
   {
    "instant": 465,
-   "tueur": 9,
+   "tueur": 7,
    "victime": 2,
    "allie": false,
    "_lu": true
@@ -942,10 +941,9 @@
   },
   {
    "instant": 460,
-   "tueur": 1,
+   "tueur": null,
    "victime": 7,
-   "allie": false,
-   "_lu": true
+   "allie": false
   },
   {
    "instant": 458,
@@ -1076,10 +1074,9 @@
   },
   {
    "instant": 352,
-   "tueur": 3,
+   "tueur": null,
    "victime": 7,
-   "allie": false,
-   "_lu": true
+   "allie": false
   },
   {
    "instant": 342,
@@ -68379,16 +68376,16 @@
     "nom": "Tibco",
     "tag": "NT",
     "notre": true,
-    "k_eux": 1,
-    "k_nous": 4,
-    "k_inconnu": 1,
+    "k_eux": 0,
+    "k_nous": 3,
+    "k_inconnu": 2,
     "m_eux": 1,
     "m_nous": 4,
     "m_eux_seul": 1,
-    "m_eux_impunie": 0,
-    "m_eux_seul_impunie": 0,
+    "m_eux_impunie": 1,
+    "m_eux_seul_impunie": 1,
     "m_total": 5,
-    "k_total": 6,
+    "k_total": 5,
     "vus": 1072,
     "vus_eux": 132
    },
@@ -68397,8 +68394,8 @@
     "tag": "NT",
     "notre": true,
     "k_eux": 3,
-    "k_nous": 1,
-    "k_inconnu": 2,
+    "k_nous": 2,
+    "k_inconnu": 1,
     "m_eux": 1,
     "m_nous": 1,
     "m_eux_seul": 1,
@@ -68413,16 +68410,16 @@
     "nom": "LiX",
     "tag": "NT",
     "notre": true,
-    "k_eux": 2,
-    "k_nous": 6,
-    "k_inconnu": 2,
+    "k_eux": 3,
+    "k_nous": 5,
+    "k_inconnu": 1,
     "m_eux": 0,
     "m_nous": 2,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 6,
-    "k_total": 10,
+    "k_total": 9,
     "vus": 927,
     "vus_eux": 232
    },
@@ -68465,15 +68462,15 @@
     "tag": "END",
     "notre": false,
     "k_eux": 3,
-    "k_nous": 2,
+    "k_nous": 3,
     "k_inconnu": 0,
-    "m_eux": 5,
+    "m_eux": 4,
     "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
-    "m_total": 7,
-    "k_total": 5,
+    "m_total": 5,
+    "k_total": 6,
     "vus": 899,
     "vus_eux": 579
    },
@@ -68485,7 +68482,7 @@
     "k_nous": 1,
     "k_inconnu": 0,
     "m_eux": 0,
-    "m_nous": 1,
+    "m_nous": 2,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
@@ -68498,7 +68495,7 @@
     "nom": "Vikings",
     "tag": "END",
     "notre": false,
-    "k_eux": 5,
+    "k_eux": 4,
     "k_nous": 0,
     "k_inconnu": 0,
     "m_eux": 3,
@@ -68507,7 +68504,7 @@
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 7,
-    "k_total": 5,
+    "k_total": 4,
     "vus": 971,
     "vus_eux": 797
    }

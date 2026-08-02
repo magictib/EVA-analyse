@@ -687,7 +687,7 @@
  "frags": [
   {
    "instant": 580,
-   "tueur": 7,
+   "tueur": 9,
    "victime": 1,
    "allie": false,
    "_lu": true
@@ -780,10 +780,9 @@
   },
   {
    "instant": 467,
-   "tueur": 7,
+   "tueur": null,
    "victime": 3,
-   "allie": false,
-   "_lu": true
+   "allie": false
   },
   {
    "instant": 461,
@@ -794,10 +793,11 @@
   },
   {
    "instant": 456,
-   "tueur": null,
+   "tueur": 6,
    "victime": 2,
    "allie": false,
-   "headshot": true
+   "headshot": true,
+   "_lu": true
   },
   {
    "instant": 417,
@@ -822,11 +822,10 @@
   },
   {
    "instant": 377,
-   "tueur": 7,
+   "tueur": null,
    "victime": 1,
    "allie": false,
-   "headshot": true,
-   "_lu": true
+   "headshot": true
   },
   {
    "instant": 377,
@@ -852,10 +851,9 @@
   },
   {
    "instant": 352,
-   "tueur": 9,
+   "tueur": null,
    "victime": 3,
-   "allie": false,
-   "_lu": true
+   "allie": false
   },
   {
    "instant": 348,
@@ -873,10 +871,9 @@
   },
   {
    "instant": 338,
-   "tueur": 7,
+   "tueur": null,
    "victime": 2,
-   "allie": false,
-   "_lu": true
+   "allie": false
   },
   {
    "instant": 338,
@@ -900,10 +897,9 @@
   },
   {
    "instant": 295,
-   "tueur": 9,
+   "tueur": null,
    "victime": 4,
-   "allie": false,
-   "_lu": true
+   "allie": false
   },
   {
    "instant": 294,
@@ -921,10 +917,9 @@
   },
   {
    "instant": 286,
-   "tueur": 9,
+   "tueur": null,
    "victime": 3,
-   "allie": false,
-   "_lu": true
+   "allie": false
   },
   {
    "instant": 281,
@@ -949,7 +944,7 @@
   },
   {
    "instant": 270,
-   "tueur": 9,
+   "tueur": 7,
    "victime": 1,
    "allie": false,
    "_lu": true
@@ -963,7 +958,7 @@
   },
   {
    "instant": 259,
-   "tueur": 7,
+   "tueur": 6,
    "victime": 3,
    "allie": false,
    "headshot": true,
@@ -971,10 +966,9 @@
   },
   {
    "instant": 254,
-   "tueur": 9,
+   "tueur": null,
    "victime": 2,
-   "allie": false,
-   "_lu": true
+   "allie": false
   },
   {
    "instant": 254,
@@ -26669,7 +26663,7 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
-    "m_total": 6,
+    "m_total": 5,
     "k_total": 4,
     "vus": 147,
     "vus_eux": 18
@@ -26681,12 +26675,12 @@
     "k_eux": 1,
     "k_nous": 2,
     "k_inconnu": 4,
-    "m_eux": 2,
+    "m_eux": 1,
     "m_nous": 0,
-    "m_eux_seul": 1,
-    "m_eux_impunie": 1,
-    "m_eux_seul_impunie": 1,
-    "m_total": 6,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 5,
     "k_total": 7,
     "vus": 251,
     "vus_eux": 68
@@ -26698,12 +26692,12 @@
     "k_eux": 1,
     "k_nous": 2,
     "k_inconnu": 4,
-    "m_eux": 1,
+    "m_eux": 0,
     "m_nous": 2,
-    "m_eux_seul": 1,
-    "m_eux_impunie": 1,
-    "m_eux_seul_impunie": 1,
-    "m_total": 7,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 3,
     "k_total": 7,
     "vus": 188,
     "vus_eux": 2
@@ -26720,7 +26714,7 @@
     "m_eux_seul": 1,
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 0,
-    "m_total": 8,
+    "m_total": 7,
     "k_total": 0,
     "vus": 116,
     "vus_eux": 46
@@ -26731,14 +26725,14 @@
     "notre": false,
     "k_eux": 0,
     "k_nous": 0,
-    "k_inconnu": 2,
+    "k_inconnu": 3,
     "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 4,
-    "k_total": 2,
+    "k_total": 3,
     "vus": 55,
     "vus_eux": 36
    },
@@ -26746,16 +26740,16 @@
     "nom": "Sky",
     "tag": "FXC",
     "notre": false,
-    "k_eux": 3,
+    "k_eux": 2,
     "k_nous": 1,
-    "k_inconnu": 8,
+    "k_inconnu": 6,
     "m_eux": 0,
     "m_nous": 1,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 5,
-    "k_total": 12,
+    "k_total": 9,
     "vus": 300,
     "vus_eux": 275
    },
@@ -26780,16 +26774,16 @@
     "nom": "Valtor",
     "tag": "FXC",
     "notre": false,
-    "k_eux": 2,
+    "k_eux": 1,
     "k_nous": 2,
-    "k_inconnu": 9,
+    "k_inconnu": 5,
     "m_eux": 1,
     "m_nous": 1,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 5,
-    "k_total": 13,
+    "k_total": 8,
     "vus": 219,
     "vus_eux": 191
    }

@@ -1142,10 +1142,9 @@
   },
   {
    "instant": 522,
-   "tueur": 3,
+   "tueur": null,
    "victime": 8,
-   "allie": false,
-   "_lu": true
+   "allie": false
   },
   {
    "instant": 504,
@@ -104916,7 +104915,7 @@
     "nom": "LiX",
     "tag": "NT",
     "notre": true,
-    "k_eux": 1,
+    "k_eux": 0,
     "k_nous": 8,
     "k_inconnu": 4,
     "m_eux": 1,
@@ -104925,7 +104924,7 @@
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 1,
     "m_total": 11,
-    "k_total": 13,
+    "k_total": 12,
     "vus": 1056,
     "vus_eux": 196
    },
@@ -104992,7 +104991,7 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
-    "m_total": 4,
+    "m_total": 3,
     "k_total": 12,
     "vus": 1634,
     "vus_eux": 1565
