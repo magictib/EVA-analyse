@@ -679,18 +679,6 @@
   },
   {
    "instant": 389,
-   "tueur": null,
-   "victime": 1,
-   "allie": false
-  },
-  {
-   "instant": 389,
-   "tueur": null,
-   "victime": 4,
-   "allie": false
-  },
-  {
-   "instant": 389,
    "tueur": 3,
    "victime": 6,
    "allie": false,
@@ -1012,7 +1000,7 @@
  },
  "compte": {
   "1": {
-   "mort": 5,
+   "mort": 4,
    "reapparition": 4
   },
   "2": {
@@ -1028,7 +1016,7 @@
    "reapparition": 3
   },
   "4": {
-   "mort": 3,
+   "mort": 2,
    "reapparition": 2
   },
   "7": {

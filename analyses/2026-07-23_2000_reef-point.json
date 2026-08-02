@@ -1531,18 +1531,6 @@
    "allie": false,
    "_lu": true,
    "arme_icone": "ARME0"
-  },
-  {
-   "instant": 219,
-   "tueur": null,
-   "victime": 1,
-   "allie": false
-  },
-  {
-   "instant": 219,
-   "tueur": null,
-   "victime": 6,
-   "allie": false
   }
  ],
  "ambigus": [],
@@ -2179,11 +2167,11 @@
    "reapparition": 5
   },
   "1": {
-   "mort": 7,
+   "mort": 6,
    "reapparition": 6
   },
   "6": {
-   "mort": 11,
+   "mort": 10,
    "reapparition": 10
   }
  },

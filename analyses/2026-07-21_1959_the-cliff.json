@@ -1513,24 +1513,6 @@
    "tueur": null,
    "victime": 7,
    "allie": false
-  },
-  {
-   "instant": 125,
-   "tueur": null,
-   "victime": 1,
-   "allie": false
-  },
-  {
-   "instant": 125,
-   "tueur": null,
-   "victime": 4,
-   "allie": false
-  },
-  {
-   "instant": 125,
-   "tueur": null,
-   "victime": 9,
-   "allie": false
   }
  ],
  "ambigus": [],
@@ -2150,7 +2132,7 @@
  },
  "compte": {
   "1": {
-   "mort": 9,
+   "mort": 8,
    "reapparition": 7
   },
   "3": {
@@ -2158,7 +2140,7 @@
    "reapparition": 9
   },
   "4": {
-   "mort": 9,
+   "mort": 8,
    "reapparition": 8
   },
   "6": {
@@ -2178,7 +2160,7 @@
    "reapparition": 6
   },
   "9": {
-   "mort": 10,
+   "mort": 9,
    "reapparition": 10
   }
  },

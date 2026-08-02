@@ -766,24 +766,6 @@
    "allie": false,
    "_main": true,
    "arme_reelle": "ATLAS"
-  },
-  {
-   "instant": 379,
-   "tueur": null,
-   "victime": 6,
-   "allie": false
-  },
-  {
-   "instant": 379,
-   "tueur": null,
-   "victime": 7,
-   "allie": false
-  },
-  {
-   "instant": 379,
-   "tueur": null,
-   "victime": 9,
-   "allie": false
   }
  ],
  "ambigus": [],
@@ -1147,15 +1129,15 @@
    "reapparition": 5
   },
   "9": {
-   "mort": 5,
+   "mort": 4,
    "reapparition": 4
   },
   "6": {
-   "mort": 2,
+   "mort": 1,
    "reapparition": 2
   },
   "7": {
-   "mort": 2,
+   "mort": 1,
    "reapparition": 2
   },
   "3": {

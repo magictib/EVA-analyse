@@ -1640,18 +1640,6 @@
    "allie": false,
    "_lu": true,
    "arme_icone": "ARME1"
-  },
-  {
-   "instant": 107,
-   "tueur": null,
-   "victime": 2,
-   "allie": false
-  },
-  {
-   "instant": 107,
-   "tueur": null,
-   "victime": 3,
-   "allie": false
   }
  ],
  "ambigus": [],
@@ -2349,7 +2337,7 @@
  },
  "compte": {
   "2": {
-   "mort": 12,
+   "mort": 11,
    "reapparition": 9
   },
   "6": {
@@ -2373,7 +2361,7 @@
    "reapparition": 6
   },
   "3": {
-   "mort": 11,
+   "mort": 10,
    "reapparition": 11
   },
   "9": {

@@ -635,30 +635,6 @@
    "allie": false,
    "_main": true,
    "arme_reelle": "FURY"
-  },
-  {
-   "instant": 357,
-   "tueur": null,
-   "victime": 8,
-   "allie": false
-  },
-  {
-   "instant": 356,
-   "tueur": null,
-   "victime": 1,
-   "allie": false
-  },
-  {
-   "instant": 356,
-   "tueur": null,
-   "victime": 6,
-   "allie": false
-  },
-  {
-   "instant": 356,
-   "tueur": null,
-   "victime": 9,
-   "allie": false
   }
  ],
  "ambigus": [],
@@ -988,11 +964,11 @@
    "reapparition": 3
   },
   "6": {
-   "mort": 5,
+   "mort": 4,
    "reapparition": 5
   },
   "9": {
-   "mort": 5,
+   "mort": 4,
    "reapparition": 4
   },
   "3": {
@@ -1000,7 +976,7 @@
    "reapparition": 4
   },
   "8": {
-   "mort": 5,
+   "mort": 4,
    "reapparition": 4
   },
   "4": {
@@ -1008,7 +984,7 @@
    "reapparition": 1
   },
   "1": {
-   "mort": 1,
+   "mort": 0,
    "reapparition": 0
   }
  },

@@ -2161,36 +2161,6 @@
    "victime": 4,
    "allie": false,
    "_lu": true
-  },
-  {
-   "instant": -6,
-   "tueur": null,
-   "victime": 1,
-   "allie": false
-  },
-  {
-   "instant": -6,
-   "tueur": null,
-   "victime": 6,
-   "allie": false
-  },
-  {
-   "instant": -6,
-   "tueur": null,
-   "victime": 7,
-   "allie": false
-  },
-  {
-   "instant": -6,
-   "tueur": null,
-   "victime": 8,
-   "allie": false
-  },
-  {
-   "instant": -6,
-   "tueur": null,
-   "victime": 9,
-   "allie": false
   }
  ],
  "ambigus": [],
@@ -2979,7 +2949,7 @@
    "reapparition": 13
   },
   "1": {
-   "mort": 9,
+   "mort": 8,
    "reapparition": 7
   },
   "4": {
@@ -2991,19 +2961,19 @@
    "reapparition": 13
   },
   "6": {
-   "mort": 12,
+   "mort": 11,
    "reapparition": 12
   },
   "7": {
-   "mort": 14,
+   "mort": 13,
    "reapparition": 13
   },
   "8": {
-   "mort": 10,
+   "mort": 9,
    "reapparition": 10
   },
   "9": {
-   "mort": 14,
+   "mort": 13,
    "reapparition": 13
   }
  },

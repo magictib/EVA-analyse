@@ -1465,30 +1465,6 @@
    "allie": false,
    "_lu": true,
    "arme_icone": "ARME3"
-  },
-  {
-   "instant": 131,
-   "tueur": null,
-   "victime": 1,
-   "allie": false
-  },
-  {
-   "instant": 131,
-   "tueur": null,
-   "victime": 4,
-   "allie": false
-  },
-  {
-   "instant": 131,
-   "tueur": null,
-   "victime": 6,
-   "allie": false
-  },
-  {
-   "instant": 131,
-   "tueur": null,
-   "victime": 8,
-   "allie": false
   }
  ],
  "ambigus": [],
@@ -2166,7 +2142,7 @@
  },
  "compte": {
   "8": {
-   "mort": 9,
+   "mort": 8,
    "reapparition": 7
   },
   "3": {
@@ -2178,7 +2154,7 @@
    "reapparition": 7
   },
   "1": {
-   "mort": 10,
+   "mort": 9,
    "reapparition": 8
   },
   "9": {
@@ -2186,11 +2162,11 @@
    "reapparition": 8
   },
   "4": {
-   "mort": 9,
+   "mort": 8,
    "reapparition": 8
   },
   "6": {
-   "mort": 6,
+   "mort": 5,
    "reapparition": 8
   },
   "2": {

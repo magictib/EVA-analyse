@@ -1420,42 +1420,6 @@
    "headshot": true,
    "_lu": true,
    "arme_icone": "ARME0"
-  },
-  {
-   "instant": 190,
-   "tueur": null,
-   "victime": 1,
-   "allie": false
-  },
-  {
-   "instant": 190,
-   "tueur": null,
-   "victime": 4,
-   "allie": false
-  },
-  {
-   "instant": 190,
-   "tueur": null,
-   "victime": 6,
-   "allie": false
-  },
-  {
-   "instant": 190,
-   "tueur": null,
-   "victime": 7,
-   "allie": false
-  },
-  {
-   "instant": 190,
-   "tueur": null,
-   "victime": 8,
-   "allie": false
-  },
-  {
-   "instant": 190,
-   "tueur": null,
-   "victime": 9,
-   "allie": false
   }
  ],
  "ambigus": [],
@@ -2077,11 +2041,11 @@
    "reapparition": 9
   },
   "8": {
-   "mort": 7,
+   "mort": 6,
    "reapparition": 6
   },
   "9": {
-   "mort": 9,
+   "mort": 8,
    "reapparition": 8
   },
   "3": {
@@ -2089,19 +2053,19 @@
    "reapparition": 9
   },
   "4": {
-   "mort": 10,
+   "mort": 9,
    "reapparition": 9
   },
   "6": {
-   "mort": 7,
+   "mort": 6,
    "reapparition": 6
   },
   "7": {
-   "mort": 7,
+   "mort": 6,
    "reapparition": 8
   },
   "1": {
-   "mort": 7,
+   "mort": 6,
    "reapparition": 6
   }
  },

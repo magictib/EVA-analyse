@@ -1068,18 +1068,6 @@
    "allie": false,
    "_lu": true,
    "_par_compteur": true
-  },
-  {
-   "instant": 263,
-   "tueur": null,
-   "victime": 4,
-   "allie": false
-  },
-  {
-   "instant": 263,
-   "tueur": null,
-   "victime": 9,
-   "allie": false
   }
  ],
  "ambigus": [],
@@ -1639,7 +1627,7 @@
  },
  "compte": {
   "4": {
-   "mort": 7,
+   "mort": 6,
    "reapparition": 5
   },
   "7": {
@@ -1663,7 +1651,7 @@
    "reapparition": 2
   },
   "9": {
-   "mort": 6,
+   "mort": 5,
    "reapparition": 7
   },
   "2": {
