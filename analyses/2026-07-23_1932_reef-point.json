@@ -731,13 +731,15 @@
    "instant": 583,
    "tueur": 3,
    "victime": 9,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 581,
-   "tueur": null,
+   "tueur": 7,
    "victime": 3,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 581,
@@ -747,71 +749,84 @@
   },
   {
    "instant": 577,
-   "tueur": 8,
+   "tueur": 9,
    "victime": 1,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 576,
-   "tueur": 9,
+   "tueur": 6,
    "victime": 4,
    "allie": false,
-   "headshot": true
+   "headshot": true,
+   "_lu": true
   },
   {
    "instant": 572,
-   "tueur": null,
+   "tueur": 7,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 546,
    "tueur": 3,
    "victime": 7,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 545,
    "tueur": 9,
    "victime": 4,
    "allie": false,
-   "headshot": true
+   "headshot": true,
+   "_lu": true
   },
   {
    "instant": 537,
-   "tueur": null,
+   "tueur": 9,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "headshot": true,
+   "_lu": true
   },
   {
    "instant": 537,
    "tueur": 1,
    "victime": 9,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 530,
-   "tueur": null,
+   "tueur": 3,
    "victime": 8,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 525,
    "tueur": 6,
    "victime": 3,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 519,
-   "tueur": null,
+   "tueur": 7,
    "victime": 4,
-   "allie": false
+   "allie": false,
+   "headshot": true,
+   "_lu": true
   },
   {
    "instant": 515,
    "tueur": 2,
    "victime": 7,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 508,
@@ -823,69 +838,80 @@
    "instant": 505,
    "tueur": 6,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 495,
    "tueur": 3,
    "victime": 8,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 492,
    "tueur": 6,
    "victime": 3,
    "allie": false,
-   "headshot": true
+   "headshot": true,
+   "_lu": true
   },
   {
    "instant": 487,
-   "tueur": null,
+   "tueur": 7,
    "victime": 1,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 472,
-   "tueur": null,
+   "tueur": 6,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 472,
-   "tueur": 9,
+   "tueur": 7,
    "victime": 4,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 452,
    "tueur": 6,
    "victime": 4,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 450,
    "tueur": 6,
    "victime": 3,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 447,
    "tueur": 1,
    "victime": 6,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 443,
    "tueur": 9,
    "victime": 1,
    "allie": false,
-   "headshot": true
+   "headshot": true,
+   "_lu": true
   },
   {
    "instant": 436,
    "tueur": 2,
    "victime": 8,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 427,
@@ -895,77 +921,89 @@
   },
   {
    "instant": 423,
-   "tueur": null,
+   "tueur": 6,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 418,
    "tueur": 3,
    "victime": 9,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 415,
-   "tueur": null,
+   "tueur": 8,
    "victime": 3,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 411,
-   "tueur": 6,
+   "tueur": 9,
    "victime": 1,
    "allie": false,
-   "headshot": true
+   "headshot": true,
+   "_lu": true
   },
   {
    "instant": 407,
    "tueur": 9,
    "victime": 4,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 398,
    "tueur": 7,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 398,
    "tueur": 2,
    "victime": 8,
    "allie": false,
-   "headshot": true
+   "headshot": true,
+   "_lu": true
   },
   {
    "instant": 395,
-   "tueur": null,
+   "tueur": 7,
    "victime": 3,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 358,
    "tueur": 7,
    "victime": 1,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 357,
-   "tueur": 6,
+   "tueur": 9,
    "victime": 4,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 356,
    "tueur": 3,
    "victime": 8,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 341,
    "tueur": 9,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 340,
@@ -977,25 +1015,29 @@
    "instant": 338,
    "tueur": 1,
    "victime": 9,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 335,
-   "tueur": null,
+   "tueur": 9,
    "victime": 4,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 330,
    "tueur": 7,
    "victime": 1,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 311,
-   "tueur": null,
+   "tueur": 7,
    "victime": 3,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 302,
@@ -1007,7 +1049,8 @@
    "instant": 302,
    "tueur": 7,
    "victime": 4,
-   "allie": false
+   "allie": false,
+   "_lu": true
   },
   {
    "instant": 302,
@@ -39158,7 +39201,7 @@
     "nom": "Tibco",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 1,
+    "k_eux": 2,
     "k_nous": 2,
     "k_inconnu": 1,
     "m_eux": 0,
@@ -39166,8 +39209,8 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
-    "m_total": 5,
-    "k_total": 4,
+    "m_total": 7,
+    "k_total": 5,
     "vus": 352,
     "vus_eux": 162
    },
@@ -39177,14 +39220,14 @@
     "notre": true,
     "k_eux": 1,
     "k_nous": 2,
-    "k_inconnu": 0,
+    "k_inconnu": 1,
     "m_eux": 1,
     "m_nous": 1,
     "m_eux_seul": 0,
     "m_eux_impunie": 1,
     "m_eux_seul_impunie": 0,
-    "m_total": 5,
-    "k_total": 3,
+    "m_total": 8,
+    "k_total": 4,
     "vus": 235,
     "vus_eux": 55
    },
@@ -39192,7 +39235,7 @@
     "nom": "LiX",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 0,
+    "k_eux": 1,
     "k_nous": 3,
     "k_inconnu": 2,
     "m_eux": 0,
@@ -39200,8 +39243,8 @@
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
-    "m_total": 3,
-    "k_total": 5,
+    "m_total": 7,
+    "k_total": 6,
     "vus": 302,
     "vus_eux": 17
    },
@@ -39215,9 +39258,9 @@
     "m_eux": 3,
     "m_nous": 1,
     "m_eux_seul": 3,
-    "m_eux_impunie": 3,
-    "m_eux_seul_impunie": 3,
-    "m_total": 9,
+    "m_eux_impunie": 2,
+    "m_eux_seul_impunie": 2,
+    "m_total": 11,
     "k_total": 1,
     "vus": 430,
     "vus_eux": 90
@@ -39243,16 +39286,16 @@
     "nom": "Sky",
     "tag": "FXC",
     "notre": false,
-    "k_eux": 1,
+    "k_eux": 5,
     "k_nous": 2,
-    "k_inconnu": 2,
+    "k_inconnu": 5,
     "m_eux": 0,
     "m_nous": 1,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
-    "m_total": 3,
-    "k_total": 5,
+    "m_total": 4,
+    "k_total": 12,
     "vus": 335,
     "vus_eux": 264
    },
@@ -39260,15 +39303,15 @@
     "nom": "Noxis",
     "tag": "FXC",
     "notre": false,
-    "k_eux": 0,
+    "k_eux": 1,
     "k_nous": 0,
-    "k_inconnu": 1,
+    "k_inconnu": 0,
     "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
-    "m_total": 4,
+    "m_total": 6,
     "k_total": 1,
     "vus": 318,
     "vus_eux": 232
@@ -39278,15 +39321,15 @@
     "tag": "FXC",
     "notre": false,
     "k_eux": 2,
-    "k_nous": 2,
-    "k_inconnu": 4,
+    "k_nous": 3,
+    "k_inconnu": 7,
     "m_eux": 0,
     "m_nous": 1,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 5,
-    "k_total": 8,
+    "k_total": 12,
     "vus": 575,
     "vus_eux": 441
    }
