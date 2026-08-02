@@ -516,16 +516,16 @@
    "victime": 4,
    "allie": false,
    "headshot": true,
-   "_lu": true,
-   "arme_icone": "ARME7"
+   "arme_icone": "ARME7",
+   "_main": true
   },
   {
    "instant": 583,
    "tueur": 9,
    "victime": 2,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true
   },
   {
    "instant": 582,
@@ -540,16 +540,16 @@
    "tueur": 3,
    "victime": 9,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true
   },
   {
    "instant": 556,
-   "tueur": 8,
+   "tueur": 6,
    "victime": 2,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true
   },
   {
    "instant": 554,
@@ -564,40 +564,40 @@
    "tueur": 4,
    "victime": 9,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME6"
+   "arme_icone": "ARME6",
+   "_main": true
   },
   {
    "instant": 532,
    "tueur": 6,
    "victime": 4,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true
   },
   {
    "instant": 528,
    "tueur": 3,
    "victime": 6,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true
   },
   {
    "instant": 527,
    "tueur": 9,
    "victime": 1,
    "allie": false,
-   "_lu": true,
-   "_par_compteur": true
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 518,
    "tueur": 7,
    "victime": 2,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true
   },
   {
    "instant": 518,
@@ -610,40 +610,43 @@
   },
   {
    "instant": 510,
-   "tueur": null,
+   "tueur": 4,
    "victime": 7,
-   "allie": false
+   "allie": false,
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 502,
-   "tueur": 9,
+   "tueur": 6,
    "victime": 4,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true
   },
   {
    "instant": 495,
    "tueur": 6,
    "victime": 3,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true
   },
   {
    "instant": 494,
-   "tueur": 7,
+   "tueur": 9,
    "victime": 1,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true
   },
   {
    "instant": 487,
    "tueur": 8,
    "victime": 2,
    "allie": false,
-   "_lu": true
+   "_main": true,
+   "arme_reelle": "AK-47"
   },
   {
    "instant": 459,
@@ -651,8 +654,8 @@
    "victime": 4,
    "allie": false,
    "headshot": true,
-   "_lu": true,
-   "arme_icone": "ARME7"
+   "arme_icone": "ARME7",
+   "_main": true
   },
   {
    "instant": 458,
@@ -660,8 +663,8 @@
    "victime": 2,
    "allie": false,
    "headshot": true,
-   "_lu": true,
-   "arme_icone": "ARME7"
+   "arme_icone": "ARME7",
+   "_main": true
   },
   {
    "instant": 457,
@@ -669,33 +672,33 @@
    "victime": 3,
    "allie": false,
    "headshot": true,
-   "_lu": true,
-   "arme_icone": "ARME7"
+   "arme_icone": "ARME7",
+   "_main": true
   },
   {
    "instant": 455,
-   "tueur": 9,
+   "tueur": 6,
    "victime": 1,
    "allie": false,
    "headshot": true,
-   "_lu": true,
-   "arme_icone": "ARME7"
+   "arme_icone": "ARME7",
+   "_main": true
   },
   {
    "instant": 430,
    "tueur": 7,
    "victime": 3,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME7"
+   "arme_icone": "ARME7",
+   "_main": true
   },
   {
    "instant": 420,
-   "tueur": 9,
+   "tueur": 8,
    "victime": 1,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true
   },
   {
    "instant": 420,
@@ -708,11 +711,11 @@
   },
   {
    "instant": 407,
-   "tueur": 6,
+   "tueur": 9,
    "victime": 4,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true
   },
   {
    "instant": 399,
@@ -720,16 +723,16 @@
    "victime": 3,
    "allie": false,
    "headshot": true,
-   "_lu": true,
-   "arme_icone": "ARME5"
+   "arme_icone": "ARME5",
+   "_main": true
   },
   {
    "instant": 399,
    "tueur": 2,
    "victime": 9,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true
   },
   {
    "instant": 389,
@@ -737,32 +740,32 @@
    "victime": 2,
    "allie": false,
    "headshot": true,
-   "_lu": true,
-   "arme_icone": "ARME7"
+   "arme_icone": "ARME7",
+   "_main": true
   },
   {
    "instant": 389,
    "tueur": 1,
    "victime": 8,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true
   },
   {
    "instant": 388,
-   "tueur": 7,
+   "tueur": 6,
    "victime": 1,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME7"
+   "arme_icone": "ARME7",
+   "_main": true
   },
   {
    "instant": 386,
    "tueur": 6,
    "victime": 4,
    "allie": false,
-   "_lu": true,
-   "_par_compteur": true
+   "_main": true,
+   "arme_reelle": "ATLAS"
   },
   {
    "instant": 379,
