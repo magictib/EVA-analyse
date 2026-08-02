@@ -737,9 +737,11 @@
   },
   {
    "instant": 516,
-   "tueur": null,
+   "tueur": 2,
    "victime": 7,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 514,
@@ -749,15 +751,19 @@
   },
   {
    "instant": 502,
-   "tueur": null,
+   "tueur": 2,
    "victime": 9,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 497,
-   "tueur": null,
+   "tueur": 4,
    "victime": 6,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 472,
@@ -834,9 +840,11 @@
   },
   {
    "instant": 413,
-   "tueur": null,
+   "tueur": 4,
    "victime": 8,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 390,
@@ -869,9 +877,11 @@
   },
   {
    "instant": 367,
-   "tueur": null,
+   "tueur": 1,
    "victime": 8,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 358,
@@ -963,12 +973,14 @@
   },
   {
    "instant": 294,
-   "tueur": null,
+   "tueur": 3,
    "victime": 8,
    "allie": false,
    "sans_tueur": true,
    "arme_icone": "ARMEMORT",
-   "headshot": true
+   "headshot": true,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 267,
@@ -980,9 +992,11 @@
   },
   {
    "instant": 263,
-   "tueur": null,
+   "tueur": 7,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 254,
@@ -28871,5 +28885,44 @@
   "images_vues": 834,
   "part_nous_chez_eux": 0.21,
   "part_eux_chez_eux": 0.676
+ },
+ "armes_portees": {
+  "NTXTIBCO": {
+   "END sans nom 4": 0.73,
+   "END sans nom 1": 0.27
+  },
+  "NTXCROMX": {
+   "END sans nom 13": 0.508,
+   "END sans nom 5": 0.462,
+   "?": 0.015,
+   "END sans nom 10": 0.015
+  },
+  "NTXLIX": {
+   "END sans nom 6": 0.625,
+   "STRIKER": 0.32,
+   "ARME3": 0.031,
+   "END sans nom 11": 0.023
+  },
+  "BVSXTCHERNOBYL": {
+   "END sans nom 7": 0.669,
+   "END sans nom 1": 0.331
+  },
+  "ENDXY4NET": {
+   "SPECTRE": 0.587,
+   "END sans nom 2": 0.413
+  },
+  "ENDXBAROU": {
+   "END sans nom 18": 0.673,
+   "ATLAS": 0.327
+  },
+  "ENDXGODZI": {
+   "SPECTRE": 0.641,
+   "ATLAS": 0.359
+  },
+  "ENDXVIKINGS": {
+   "NEEDLE": 0.818,
+   "ARME3": 0.176,
+   "?": 0.006
+  }
  }
 }

@@ -1456,7 +1456,6 @@
    "tueur": null,
    "victime": 2,
    "allie": false,
-   "sans_tueur": true,
    "arme_icone": "ARMEMORT"
   },
   {
@@ -1789,15 +1788,19 @@
   },
   {
    "instant": 286,
-   "tueur": null,
+   "tueur": 1,
    "victime": 6,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 283,
-   "tueur": null,
+   "tueur": 9,
    "victime": 4,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 280,
@@ -1818,7 +1821,6 @@
    "tueur": null,
    "victime": 2,
    "allie": false,
-   "sans_tueur": true,
    "arme_icone": "ARMEMORT"
   },
   {
@@ -74461,5 +74463,129 @@
   "images_vues": 2401,
   "part_nous_chez_eux": 0.204,
   "part_eux_chez_eux": 0.677
+ },
+ "armes_portees": {
+  "BVSXLIX": {
+   "FXC sans nom 17": 0.237,
+   "FXC sans nom 37": 0.222,
+   "FXC sans nom 30": 0.135,
+   "FXC sans nom 42": 0.111,
+   "FXC sans nom 21": 0.092,
+   "FXC sans nom 27": 0.039,
+   "SPECTRE": 0.039,
+   "WARDEN": 0.034,
+   "FXC sans nom 44": 0.029,
+   "FXC sans nom 11": 0.014,
+   "FXC sans nom 4": 0.01,
+   "FXC sans nom 35": 0.01
+  },
+  "FXCXNOXIS": {
+   "FXC sans nom 24": 0.557,
+   "FXC sans nom 28": 0.167,
+   "FXC sans nom 32": 0.105,
+   "STRIKER": 0.101,
+   "FXC sans nom 31": 0.018,
+   "FXC sans nom 18": 0.018,
+   "MP-52": 0.013,
+   "FXC sans nom 6": 0.004
+  },
+  "FXCXVALTOR": {
+   "FXC sans nom 31": 0.269,
+   "FXC sans nom 24": 0.173,
+   "MP-52": 0.137,
+   "FXC sans nom 6": 0.122,
+   "WARDEN": 0.071,
+   "FXC sans nom 18": 0.061,
+   "STRIKER": 0.041,
+   "FXC sans nom 36": 0.036,
+   "FXC sans nom 25": 0.02,
+   "FXC sans nom 28": 0.015,
+   "FXC sans nom 32": 0.015,
+   "FXC sans nom 27": 0.005,
+   "?": 0.005,
+   "FXC sans nom 40": 0.005,
+   "FXC sans nom 43": 0.005,
+   "FXC sans nom 33": 0.005,
+   "FXC sans nom 20": 0.005
+  },
+  "BVSXTCHERNOBYL": {
+   "WARDEN": 0.255,
+   "FXC sans nom 27": 0.146,
+   "?": 0.099,
+   "FXC sans nom 17": 0.094,
+   "FXC sans nom 45": 0.078,
+   "FXC sans nom 43": 0.052,
+   "FXC sans nom 30": 0.042,
+   "FXC sans nom 21": 0.031,
+   "SPECTRE": 0.031,
+   "FXC sans nom 47": 0.031,
+   "FXC sans nom 19": 0.026,
+   "FXC sans nom 42": 0.021,
+   "FXC sans nom 22": 0.016,
+   "FXC sans nom 1": 0.01,
+   "FXC sans nom 4": 0.005,
+   "FXC sans nom 36": 0.005
+  },
+  "FXCXPARZIRAHL": {
+   "FXC sans nom 34": 0.155,
+   "FXC sans nom 3": 0.101,
+   "FXC sans nom 39": 0.092,
+   "STRIKER": 0.087,
+   "FXC sans nom 31": 0.087,
+   "FXC sans nom 18": 0.087,
+   "ATLAS": 0.053,
+   "FXC sans nom 38": 0.048,
+   "FXC sans nom 33": 0.043,
+   "FXC sans nom 41": 0.039,
+   "FXC sans nom 12": 0.034,
+   "FXC sans nom 46": 0.029,
+   "FXC sans nom 28": 0.019,
+   "FXC sans nom 24": 0.014,
+   "FXC sans nom 32": 0.01,
+   "?": 0.005,
+   "FXC sans nom 6": 0.005,
+   "MP-52": 0.005
+  },
+  "BVSXTIBCO": {
+   "FXC sans nom 35": 0.198,
+   "FXC sans nom 43": 0.185,
+   "FXC sans nom 26": 0.103,
+   "FXC sans nom 6": 0.069,
+   "FXC sans nom 27": 0.06,
+   "FXC sans nom 40": 0.06,
+   "FXC sans nom 20": 0.06,
+   "FXC sans nom 7": 0.043,
+   "FXC sans nom 36": 0.026,
+   "FXC sans nom 48": 0.022,
+   "WARDEN": 0.013,
+   "FXC sans nom 28": 0.013,
+   "STRIKER": 0.009,
+   "?": 0.009,
+   "FXC sans nom 22": 0.009
+  },
+  "FXCXSKY": {
+   "STRIKER": 0.335,
+   "FXC sans nom 18": 0.187,
+   "FXC sans nom 33": 0.163,
+   "MP-52": 0.158,
+   "FXC sans nom 32": 0.089,
+   "FXC sans nom 6": 0.025,
+   "FXC sans nom 24": 0.01,
+   "?": 0.005
+  },
+  "BVSXCROMX": {
+   "FXC sans nom 27": 0.222,
+   "FXC sans nom 22": 0.222,
+   "FXC sans nom 35": 0.162,
+   "FXC sans nom 6": 0.114,
+   "FXC sans nom 44": 0.054,
+   "FXC sans nom 30": 0.049,
+   "WARDEN": 0.022,
+   "FXC sans nom 36": 0.022,
+   "FXC sans nom 20": 0.022,
+   "FXC sans nom 10": 0.016,
+   "STRIKER": 0.011,
+   "FXC sans nom 31": 0.011
+  }
  }
 }

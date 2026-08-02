@@ -999,9 +999,11 @@
   },
   {
    "instant": 584,
-   "tueur": null,
+   "tueur": 6,
    "victime": 1,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 583,
@@ -1059,9 +1061,11 @@
   },
   {
    "instant": 525,
-   "tueur": null,
+   "tueur": 8,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 515,
@@ -1121,9 +1125,11 @@
   },
   {
    "instant": 461,
-   "tueur": null,
+   "tueur": 8,
    "victime": 4,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 461,
@@ -1231,9 +1237,11 @@
   },
   {
    "instant": 359,
-   "tueur": null,
+   "tueur": 7,
    "victime": 4,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 353,
@@ -1294,10 +1302,12 @@
   },
   {
    "instant": 277,
-   "tueur": null,
+   "tueur": 6,
    "victime": 2,
    "allie": false,
-   "headshot": true
+   "headshot": true,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 273,
@@ -1323,9 +1333,11 @@
   },
   {
    "instant": 257,
-   "tueur": null,
+   "tueur": 6,
    "victime": 4,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 254,
@@ -90908,5 +90920,57 @@
   "images_vues": 2276,
   "part_nous_chez_eux": 0.246,
   "part_eux_chez_eux": 0.771
+ },
+ "armes_portees": {
+  "NTXTIBCO": {
+   "END sans nom 4": 0.726,
+   "END sans nom 1": 0.223,
+   "END sans nom 5": 0.038,
+   "END sans nom 12": 0.013
+  },
+  "NTXCROMX": {
+   "END sans nom 7": 0.395,
+   "END sans nom 5": 0.309,
+   "ARME3": 0.197,
+   "END sans nom 6": 0.072,
+   "END sans nom 10": 0.02,
+   "END sans nom 12": 0.007
+  },
+  "NTXLIX": {
+   "END sans nom 6": 0.574,
+   "STRIKER": 0.389,
+   "END sans nom 11": 0.019,
+   "ARME3": 0.012,
+   "END sans nom 12": 0.006
+  },
+  "BVSXTCHERNOBYL": {
+   "END sans nom 7": 0.708,
+   "END sans nom 1": 0.161,
+   "END sans nom 3": 0.062,
+   "STRIKER": 0.056,
+   "END sans nom 12": 0.006
+  },
+  "ENDXY4NET": {
+   "SPECTRE": 0.725,
+   "END sans nom 2": 0.269,
+   "END sans nom 21": 0.006
+  },
+  "ENDXBAROU": {
+   "NEEDLE": 0.807,
+   "END sans nom 8": 0.187,
+   "END sans nom 21": 0.006
+  },
+  "ENDXGODZI": {
+   "SPECTRE": 0.741,
+   "ATLAS": 0.241,
+   "?": 0.006,
+   "END sans nom 9": 0.006
+  },
+  "ENDXVIKINGS": {
+   "NEEDLE": 0.745,
+   "END sans nom 21": 0.093,
+   "END sans nom 9": 0.087,
+   "ARME3": 0.05
+  }
  }
 }

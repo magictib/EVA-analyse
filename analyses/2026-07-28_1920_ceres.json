@@ -818,9 +818,11 @@
   },
   {
    "instant": 575,
-   "tueur": null,
+   "tueur": 8,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 575,
@@ -892,9 +894,11 @@
   },
   {
    "instant": 505,
-   "tueur": null,
+   "tueur": 8,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 500,
@@ -1026,9 +1030,11 @@
   },
   {
    "instant": 406,
-   "tueur": null,
+   "tueur": 6,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 400,
@@ -1165,9 +1171,11 @@
   },
   {
    "instant": 272,
-   "tueur": null,
+   "tueur": 2,
    "victime": 8,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 270,
@@ -68557,5 +68565,57 @@
   "images_vues": 1696,
   "part_nous_chez_eux": 0.216,
   "part_eux_chez_eux": 0.806
+ },
+ "armes_portees": {
+  "NTXTIBCO": {
+   "END sans nom 17": 0.542,
+   "END sans nom 1": 0.412,
+   "?": 0.023,
+   "END sans nom 12": 0.015,
+   "END sans nom 5": 0.008
+  },
+  "NTXCROMX": {
+   "ARME5": 0.655,
+   "END sans nom 5": 0.31,
+   "END sans nom 10": 0.026,
+   "END sans nom 12": 0.009
+  },
+  "NTXLIX": {
+   "STRIKER": 0.504,
+   "END sans nom 6": 0.463,
+   "END sans nom 11": 0.024,
+   "END sans nom 12": 0.008
+  },
+  "BVSXTCHERNOBYL": {
+   "END sans nom 7": 0.639,
+   "END sans nom 1": 0.238,
+   "END sans nom 14": 0.098,
+   "ARME3": 0.008,
+   "?": 0.008,
+   "END sans nom 12": 0.008
+  },
+  "ENDXY4NET": {
+   "SPECTRE": 0.567,
+   "END sans nom 2": 0.423,
+   "END sans nom 21": 0.01
+  },
+  "ENDXBAROU": {
+   "NEEDLE": 0.551,
+   "END sans nom 15": 0.441,
+   "END sans nom 21": 0.008
+  },
+  "ENDXGODZI": {
+   "SPECTRE": 0.654,
+   "ATLAS": 0.327,
+   "?": 0.009,
+   "END sans nom 9": 0.009
+  },
+  "ENDXVIKINGS": {
+   "NEEDLE": 0.547,
+   "END sans nom 8": 0.342,
+   "END sans nom 16": 0.094,
+   "END sans nom 21": 0.009,
+   "END sans nom 9": 0.009
+  }
  }
 }

@@ -1193,9 +1193,11 @@
  "frags": [
   {
    "instant": 586,
-   "tueur": null,
+   "tueur": 7,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 585,
@@ -1247,9 +1249,11 @@
   },
   {
    "instant": 549,
-   "tueur": null,
+   "tueur": 1,
    "victime": 9,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 546,
@@ -1301,10 +1305,12 @@
   },
   {
    "instant": 512,
-   "tueur": null,
+   "tueur": 6,
    "victime": 2,
    "allie": false,
-   "headshot": true
+   "headshot": true,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 509,
@@ -1386,9 +1392,11 @@
   },
   {
    "instant": 449,
-   "tueur": null,
+   "tueur": 6,
    "victime": 1,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 439,
@@ -1454,9 +1462,11 @@
   },
   {
    "instant": 399,
-   "tueur": null,
+   "tueur": 4,
    "victime": 7,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 374,
@@ -1575,9 +1585,11 @@
   },
   {
    "instant": 282,
-   "tueur": null,
+   "tueur": 4,
    "victime": 8,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 281,
@@ -1612,9 +1624,11 @@
   },
   {
    "instant": 268,
-   "tueur": null,
+   "tueur": 3,
    "victime": 7,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 252,
@@ -1652,9 +1666,11 @@
   },
   {
    "instant": 224,
-   "tueur": null,
+   "tueur": 4,
    "victime": 7,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 207,
@@ -1681,9 +1697,11 @@
   },
   {
    "instant": 200,
-   "tueur": null,
+   "tueur": 7,
    "victime": 3,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 199,
@@ -69964,6 +69982,45 @@
    ],
    "points": null,
    "accord_points": 0.667
+  }
+ },
+ "armes_portees": {
+  "NTXTIBCO": {
+   "END sans nom 4": 0.71,
+   "END sans nom 1": 0.268,
+   "END sans nom 5": 0.022
+  },
+  "NTXCROMX": {
+   "ARME5": 0.514,
+   "END sans nom 5": 0.464,
+   "END sans nom 10": 0.016,
+   "?": 0.005
+  },
+  "NTXLIX": {
+   "STRIKER": 0.605,
+   "END sans nom 19": 0.378,
+   "END sans nom 11": 0.016
+  },
+  "BVSXTCHERNOBYL": {
+   "END sans nom 7": 0.571,
+   "END sans nom 1": 0.429
+  },
+  "ENDXY4NET": {
+   "SPECTRE": 0.904,
+   "END sans nom 2": 0.096
+  },
+  "ENDXBAROU": {
+   "SPECTRE": 0.838,
+   "END sans nom 8": 0.162
+  },
+  "ENDXGODZI": {
+   "SPECTRE": 0.771,
+   "ATLAS": 0.229
+  },
+  "ENDXVIKINGS": {
+   "NEEDLE": 0.685,
+   "END sans nom 8": 0.309,
+   "?": 0.006
   }
  }
 }

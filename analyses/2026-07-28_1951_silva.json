@@ -481,9 +481,11 @@
   },
   {
    "instant": 541,
-   "tueur": null,
+   "tueur": 4,
    "victime": 8,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 509,
@@ -504,9 +506,11 @@
   },
   {
    "instant": 490,
-   "tueur": null,
+   "tueur": 6,
    "victime": 3,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 467,
@@ -517,9 +521,11 @@
   },
   {
    "instant": 457,
-   "tueur": null,
+   "tueur": 8,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 448,
@@ -19503,5 +19509,50 @@
   "images_vues": 392,
   "part_nous_chez_eux": 0.088,
   "part_eux_chez_eux": 0.717
+ },
+ "armes_portees": {
+  "NTXTIBCO": {
+   "END sans nom 17": 0.967,
+   "NEEDLE": 0.024,
+   "END sans nom 12": 0.008
+  },
+  "NTXCROMX": {
+   "END sans nom 13": 0.61,
+   "END sans nom 5": 0.33,
+   "END sans nom 10": 0.03,
+   "?": 0.02,
+   "END sans nom 12": 0.01
+  },
+  "NTXLIX": {
+   "END sans nom 19": 0.5,
+   "STRIKER": 0.455,
+   "END sans nom 11": 0.034,
+   "END sans nom 12": 0.011
+  },
+  "BVSXTCHERNOBYL": {
+   "END sans nom 3": 0.949,
+   "END sans nom 1": 0.042,
+   "?": 0.008
+  },
+  "ENDXY4NET": {
+   "END sans nom 2": 0.56,
+   "END sans nom 18": 0.429,
+   "END sans nom 21": 0.012
+  },
+  "ENDXBAROU": {
+   "END sans nom 8": 0.689,
+   "NEEDLE": 0.297,
+   "END sans nom 21": 0.014
+  },
+  "ENDXGODZI": {
+   "SPECTRE": 0.586,
+   "ATLAS": 0.402,
+   "END sans nom 9": 0.011
+  },
+  "ENDXVIKINGS": {
+   "NEEDLE": 0.761,
+   "ARME3": 0.227,
+   "END sans nom 9": 0.011
+  }
  }
 }

@@ -802,9 +802,11 @@
   },
   {
    "instant": 447,
-   "tueur": null,
+   "tueur": 7,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 439,
@@ -15558,5 +15560,53 @@
   "images_vues": 502,
   "part_nous_chez_eux": 0.123,
   "part_eux_chez_eux": 0.766
+ },
+ "armes_portees": {
+  "BVSXTIBCO": {
+   "FXC sans nom 7": 0.636,
+   "SPECTRE": 0.364
+  },
+  "BVSXCROMX": {
+   "FXC sans nom 6": 0.623,
+   "FXC sans nom 1": 0.132,
+   "WARDEN": 0.132,
+   "SPECTRE": 0.038,
+   "?": 0.038,
+   "FXC sans nom 15": 0.019,
+   "FXC sans nom 10": 0.019
+  },
+  "BVSXLIX": {
+   "FXC sans nom 4": 0.364,
+   "WARDEN": 0.291,
+   "FXC sans nom 9": 0.2,
+   "FXC sans nom 14": 0.091,
+   "FXC sans nom 11": 0.036,
+   "?": 0.018
+  },
+  "BVSXTCHERNOBYL": {
+   "WARDEN": 0.48,
+   "SPECTRE": 0.28,
+   "FXC sans nom 1": 0.12,
+   "?": 0.06
+  },
+  "FXCXPARZIRAHL": {
+   "MP-52": 0.747,
+   "ATLAS": 0.133,
+   "FXC sans nom 2": 0.12
+  },
+  "FXCXSKY": {
+   "FXC sans nom 3": 0.57,
+   "FXC sans nom 6": 0.419
+  },
+  "FXCXNOXIS": {
+   "WARDEN": 0.557,
+   "MP-52": 0.38,
+   "?": 0.063
+  },
+  "FXCXVALTOR": {
+   "WARDEN": 0.634,
+   "STRIKER": 0.354,
+   "?": 0.012
+  }
  }
 }

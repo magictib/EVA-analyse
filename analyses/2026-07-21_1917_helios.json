@@ -570,7 +570,6 @@
    "tueur": null,
    "victime": 2,
    "allie": false,
-   "sans_tueur": true,
    "arme_icone": "ARMEMORT"
   },
   {
@@ -713,7 +712,6 @@
    "tueur": null,
    "victime": 1,
    "allie": false,
-   "sans_tueur": true,
    "arme_icone": "ARMEMORT"
   },
   {
@@ -753,7 +751,6 @@
    "tueur": null,
    "victime": 2,
    "allie": false,
-   "sans_tueur": true,
    "arme_icone": "ARMEMORT"
   },
   {
@@ -48589,5 +48586,49 @@
   "images_vues": 967,
   "part_nous_chez_eux": 0.184,
   "part_eux_chez_eux": 0.962
+ },
+ "armes_portees": {
+  "GUNXHIPPOCAMPE": {
+   "GUN sans nom 1": 0.912,
+   "GUN sans nom 6": 0.074,
+   "GUN sans nom 20": 0.015
+  },
+  "GUNXRHINO": {
+   "ARME7": 0.43,
+   "GUN sans nom 6": 0.237,
+   "GUN sans nom 15": 0.183,
+   "SPECTRE": 0.108,
+   "GUN sans nom 7": 0.032,
+   "ATLAS": 0.011
+  },
+  "GUNXRABITTE": {
+   "AK-47": 0.688,
+   "M12": 0.273,
+   "GUN sans nom 8": 0.039
+  },
+  "GUNXPHASME": {
+   "GUN sans nom 20": 0.573,
+   "AK-47": 0.404,
+   "GUN sans nom 6": 0.011,
+   "M12": 0.011
+  },
+  "BVSXLIX": {
+   "GUN sans nom 2": 0.5,
+   "SPECTRE": 0.5
+  },
+  "BVSXTCHERNOBYL": {
+   "WARDEN": 0.531,
+   "GUN sans nom 14": 0.333,
+   "SPECTRE": 0.115,
+   "GUN sans nom 1": 0.021
+  },
+  "BVSXCROMX": {
+   "SPECTRE": 0.763,
+   "GUN sans nom 13": 0.237
+  },
+  "BVSXTIBCO": {
+   "SPECTRE": 0.719,
+   "GUN sans nom 5": 0.281
+  }
  }
 }

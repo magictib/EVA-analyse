@@ -1092,23 +1092,29 @@
   },
   {
    "instant": 585,
-   "tueur": null,
+   "tueur": 7,
    "victime": 1,
    "allie": false,
    "sans_tueur": true,
-   "arme_icone": "ARMEMORT"
+   "arme_icone": "ARMEMORT",
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 581,
-   "tueur": null,
+   "tueur": 3,
    "victime": 7,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 575,
-   "tueur": null,
+   "tueur": 3,
    "victime": 8,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 561,
@@ -1152,9 +1158,11 @@
   },
   {
    "instant": 522,
-   "tueur": null,
+   "tueur": 3,
    "victime": 8,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 504,
@@ -1202,7 +1210,6 @@
    "tueur": null,
    "victime": 1,
    "allie": false,
-   "sans_tueur": true,
    "arme_icone": "ARMEMORT"
   },
   {
@@ -1305,9 +1312,11 @@
   },
   {
    "instant": 396,
-   "tueur": null,
+   "tueur": 8,
    "victime": 1,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 379,
@@ -1339,7 +1348,6 @@
    "tueur": null,
    "victime": 1,
    "allie": false,
-   "sans_tueur": true,
    "arme_icone": "ARMEMORT"
   },
   {
@@ -1400,9 +1408,11 @@
   },
   {
    "instant": 323,
-   "tueur": null,
+   "tueur": 4,
    "victime": 7,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 315,
@@ -1444,15 +1454,19 @@
   },
   {
    "instant": 292,
-   "tueur": null,
+   "tueur": 6,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 288,
-   "tueur": null,
+   "tueur": 6,
    "victime": 4,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 264,
@@ -1539,11 +1553,13 @@
   },
   {
    "instant": 194,
-   "tueur": null,
+   "tueur": 9,
    "victime": 2,
    "allie": false,
    "sans_tueur": true,
-   "arme_icone": "ARMEMORT"
+   "arme_icone": "ARMEMORT",
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 192,
@@ -105088,5 +105104,57 @@
   "images_vues": 2305,
   "part_nous_chez_eux": 0.118,
   "part_eux_chez_eux": 0.848
+ },
+ "armes_portees": {
+  "NTXTIBCO": {
+   "END sans nom 1": 0.706,
+   "END sans nom 4": 0.264,
+   "END sans nom 12": 0.018,
+   "END sans nom 5": 0.012
+  },
+  "NTXCROMX": {
+   "END sans nom 13": 0.392,
+   "STRIKER": 0.268,
+   "END sans nom 5": 0.209,
+   "NEEDLE": 0.065,
+   "END sans nom 18": 0.026,
+   "?": 0.02,
+   "END sans nom 12": 0.013,
+   "END sans nom 10": 0.007
+  },
+  "NTXLIX": {
+   "STRIKER": 0.556,
+   "END sans nom 6": 0.412,
+   "END sans nom 11": 0.02,
+   "END sans nom 12": 0.013
+  },
+  "BVSXTCHERNOBYL": {
+   "END sans nom 7": 0.711,
+   "END sans nom 1": 0.273,
+   "END sans nom 12": 0.017
+  },
+  "ENDXY4NET": {
+   "SPECTRE": 0.843,
+   "END sans nom 2": 0.094,
+   "END sans nom 21": 0.013
+  },
+  "ENDXBAROU": {
+   "NEEDLE": 0.837,
+   "END sans nom 8": 0.089,
+   "END sans nom 21": 0.026,
+   "END sans nom 9": 0.005
+  },
+  "ENDXGODZI": {
+   "ATLAS": 0.642,
+   "SPECTRE": 0.301,
+   "END sans nom 9": 0.01,
+   "?": 0.005
+  },
+  "ENDXVIKINGS": {
+   "NEEDLE": 0.848,
+   "ARME3": 0.088,
+   "END sans nom 9": 0.012,
+   "?": 0.006
+  }
  }
 }

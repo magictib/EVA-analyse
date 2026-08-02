@@ -946,9 +946,11 @@
  "frags": [
   {
    "instant": 563,
-   "tueur": null,
+   "tueur": 9,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 562,
@@ -967,9 +969,11 @@
   },
   {
    "instant": 555,
-   "tueur": null,
+   "tueur": 7,
    "victime": 3,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 554,
@@ -64172,5 +64176,59 @@
   "images_vues": 1699,
   "part_nous_chez_eux": 0.273,
   "part_eux_chez_eux": 0.717
+ },
+ "armes_portees": {
+  "BVSXTIBCO": {
+   "SPECTRE": 0.552,
+   "FXC sans nom 7": 0.387,
+   "FXC sans nom 20": 0.049,
+   "?": 0.012
+  },
+  "BVSXCROMX": {
+   "FXC sans nom 1": 0.447,
+   "FXC sans nom 6": 0.333,
+   "SPECTRE": 0.098,
+   "FXC sans nom 20": 0.065,
+   "FXC sans nom 9": 0.024,
+   "?": 0.024,
+   "FXC sans nom 10": 0.008
+  },
+  "BVSXLIX": {
+   "FXC sans nom 9": 0.5,
+   "FXC sans nom 4": 0.373,
+   "FXC sans nom 17": 0.056,
+   "FXC sans nom 1": 0.049,
+   "FXC sans nom 11": 0.021
+  },
+  "BVSXTCHERNOBYL": {
+   "FXC sans nom 1": 0.672,
+   "FXC sans nom 21": 0.213,
+   "FXC sans nom 17": 0.066,
+   "?": 0.025,
+   "FXC sans nom 22": 0.025
+  },
+  "FXCXPARZIRAHL": {
+   "MP-52": 0.5,
+   "FXC sans nom 2": 0.407,
+   "FXC sans nom 18": 0.053,
+   "?": 0.027
+  },
+  "FXCXSKY": {
+   "FXC sans nom 6": 0.483,
+   "FXC sans nom 3": 0.464,
+   "FXC sans nom 18": 0.053
+  },
+  "FXCXNOXIS": {
+   "MP-52": 0.66,
+   "FXC sans nom 14": 0.247,
+   "FXC sans nom 18": 0.049,
+   "?": 0.031,
+   "FXC sans nom 3": 0.012
+  },
+  "FXCXVALTOR": {
+   "WARDEN": 0.6,
+   "STRIKER": 0.336,
+   "FXC sans nom 18": 0.057
+  }
  }
 }

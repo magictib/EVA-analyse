@@ -1262,9 +1262,11 @@
   },
   {
    "instant": 447,
-   "tueur": null,
+   "tueur": 6,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 446,
@@ -1349,9 +1351,11 @@
   },
   {
    "instant": 390,
-   "tueur": null,
+   "tueur": 2,
    "victime": 7,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 383,
@@ -1457,9 +1461,11 @@
   },
   {
    "instant": 299,
-   "tueur": null,
+   "tueur": 7,
    "victime": 1,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 297,
@@ -1495,9 +1501,11 @@
   },
   {
    "instant": 259,
-   "tueur": null,
+   "tueur": 6,
    "victime": 3,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 256,
@@ -86610,5 +86618,53 @@
   "images_vues": 1956,
   "part_nous_chez_eux": 0.174,
   "part_eux_chez_eux": 0.943
+ },
+ "armes_portees": {
+  "GUNXHIPPOCAMPE": {
+   "GUN sans nom 1": 0.94,
+   "GUN sans nom 6": 0.054,
+   "?": 0.006
+  },
+  "GUNXRHINO": {
+   "ARME7": 0.637,
+   "GUN sans nom 6": 0.219,
+   "SPECTRE": 0.106,
+   "GUN sans nom 7": 0.019,
+   "?": 0.013,
+   "ATLAS": 0.006
+  },
+  "GUNXRABITTE": {
+   "AK-47": 0.5,
+   "M12": 0.464,
+   "?": 0.014,
+   "GUN sans nom 8": 0.014
+  },
+  "GUNXPHASME": {
+   "AK-47": 0.71,
+   "M12": 0.26,
+   "?": 0.031
+  },
+  "BVSXLIX": {
+   "GUN sans nom 2": 0.575,
+   "SPECTRE": 0.425
+  },
+  "BVSXTCHERNOBYL": {
+   "WARDEN": 0.565,
+   "SPECTRE": 0.391,
+   "GUN sans nom 1": 0.022,
+   "?": 0.014,
+   "GUN sans nom 2": 0.007
+  },
+  "BVSXCROMX": {
+   "SPECTRE": 0.51,
+   "GUN sans nom 3": 0.455,
+   "GUN sans nom 4": 0.028,
+   "?": 0.007
+  },
+  "BVSXTIBCO": {
+   "SPECTRE": 0.922,
+   "GUN sans nom 5": 0.065,
+   "?": 0.013
+  }
  }
 }

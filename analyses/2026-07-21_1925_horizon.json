@@ -742,9 +742,11 @@
   },
   {
    "instant": 492,
-   "tueur": null,
+   "tueur": 2,
    "victime": 8,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 485,
@@ -53578,5 +53580,56 @@
   "images_vues": 1484,
   "part_nous_chez_eux": 0.141,
   "part_eux_chez_eux": 0.928
+ },
+ "armes_portees": {
+  "GUNXHIPPOCAMPE": {
+   "GUN sans nom 1": 0.922,
+   "GUN sans nom 6": 0.059,
+   "GUN sans nom 20": 0.01,
+   "GUN sans nom 19": 0.01
+  },
+  "GUNXRHINO": {
+   "ARME7": 0.643,
+   "GUN sans nom 6": 0.252,
+   "SPECTRE": 0.061,
+   "GUN sans nom 7": 0.026,
+   "?": 0.009,
+   "ATLAS": 0.009
+  },
+  "GUNXRABITTE": {
+   "M12": 0.693,
+   "AK-47": 0.236,
+   "GUN sans nom 18": 0.039,
+   "GUN sans nom 8": 0.024,
+   "?": 0.008
+  },
+  "GUNXPHASME": {
+   "M12": 0.648,
+   "AK-47": 0.213,
+   "GUN sans nom 20": 0.056,
+   "?": 0.028
+  },
+  "BVSXLIX": {
+   "GUN sans nom 16": 0.636,
+   "GUN sans nom 2": 0.303,
+   "?": 0.038
+  },
+  "BVSXTCHERNOBYL": {
+   "SPECTRE": 0.5,
+   "WARDEN": 0.42,
+   "GUN sans nom 17": 0.043,
+   "?": 0.014,
+   "GUN sans nom 1": 0.007
+  },
+  "BVSXCROMX": {
+   "GUN sans nom 3": 0.59,
+   "SPECTRE": 0.366,
+   "GUN sans nom 4": 0.037,
+   "?": 0.007
+  },
+  "BVSXTIBCO": {
+   "SPECTRE": 0.992,
+   "GUN sans nom 26": 0.008
+  }
  }
 }

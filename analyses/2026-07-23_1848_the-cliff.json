@@ -483,9 +483,11 @@
   },
   {
    "instant": 553,
-   "tueur": null,
+   "tueur": 6,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 550,
@@ -610,9 +612,11 @@
   },
   {
    "instant": 439,
-   "tueur": null,
+   "tueur": 8,
    "victime": 3,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 425,
@@ -647,21 +651,27 @@
   },
   {
    "instant": 391,
-   "tueur": null,
+   "tueur": 9,
    "victime": 3,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 391,
-   "tueur": null,
+   "tueur": 3,
    "victime": 7,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 390,
-   "tueur": null,
+   "tueur": 3,
    "victime": 9,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   },
   {
    "instant": 389,
@@ -677,9 +687,11 @@
   },
   {
    "instant": 389,
-   "tueur": null,
+   "tueur": 3,
    "victime": 6,
-   "allie": false
+   "allie": false,
+   "_lu": true,
+   "_par_compteur": true
   }
  ],
  "ambigus": [],
@@ -45316,5 +45328,45 @@
   "images_vues": 937,
   "part_nous_chez_eux": 0.058,
   "part_eux_chez_eux": 0.844
+ },
+ "armes_portees": {
+  "BVSXTIBCO": {
+   "SPECTRE": 0.571,
+   "FXC sans nom 7": 0.429
+  },
+  "BVSXCROMX": {
+   "FXC sans nom 1": 0.545,
+   "FXC sans nom 6": 0.345,
+   "SPECTRE": 0.055,
+   "FXC sans nom 10": 0.055
+  },
+  "BVSXLIX": {
+   "FXC sans nom 4": 0.433,
+   "FXC sans nom 9": 0.417,
+   "FXC sans nom 1": 0.1,
+   "FXC sans nom 11": 0.05
+  },
+  "BVSXTCHERNOBYL": {
+   "FXC sans nom 8": 0.544,
+   "WARDEN": 0.211,
+   "FXC sans nom 1": 0.178,
+   "FXC sans nom 5": 0.067
+  },
+  "FXCXPARZIRAHL": {
+   "FXC sans nom 2": 0.659,
+   "MP-52": 0.33
+  },
+  "FXCXSKY": {
+   "FXC sans nom 3": 0.705,
+   "FXC sans nom 6": 0.295
+  },
+  "FXCXNOXIS": {
+   "MP-52": 0.689,
+   "WARDEN": 0.311
+  },
+  "FXCXVALTOR": {
+   "WARDEN": 0.784,
+   "STRIKER": 0.216
+  }
  }
 }
