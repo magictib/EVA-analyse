@@ -43,7 +43,8 @@
    9
   ],
   "notre_tag": "BVS",
-  "adverse_tag": "FXC"
+  "adverse_tag": "FXC",
+  "camp_nous": "ALLIANCE"
  },
  "evenements": [
   {
@@ -6553,5 +6554,136 @@
     "LIX": 1
    }
   }
+ },
+ "frise_kd": {
+  "_quoi": "les kills CUMULES des deux camps, pour voir ou l'ecart se creuse ; l'image sert de repere, comme pour le score",
+  "image": [
+   66,
+   86,
+   91,
+   96,
+   221,
+   231,
+   241,
+   341,
+   361,
+   366,
+   411,
+   411,
+   451,
+   491,
+   526,
+   531,
+   566,
+   706,
+   711,
+   716,
+   726,
+   851,
+   901,
+   901,
+   966,
+   1006,
+   1006,
+   1056,
+   1056,
+   1061,
+   1071
+  ],
+  "nous": [
+   0,
+   0,
+   0,
+   1,
+   1,
+   1,
+   2,
+   2,
+   3,
+   3,
+   3,
+   4,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   6,
+   6,
+   7,
+   7,
+   7
+  ],
+  "eux": [
+   1,
+   2,
+   3,
+   3,
+   4,
+   5,
+   5,
+   6,
+   6,
+   7,
+   8,
+   8,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   21,
+   22,
+   22,
+   23,
+   24
+  ]
+ },
+ "balayages": {
+  "_quoi": "les moments ou un camp est entierement a terre, et ce que l'autre en fait",
+  "_prenable": "faux quand on tient deja tous les points : ne rien prendre n'est alors pas une faute",
+  "_grace_s": 12.0,
+  "balayages_infliges": [
+   {
+    "debut": 1108,
+    "fin": 1202,
+    "juge": false
+   }
+  ],
+  "balayages_subis": [
+   {
+    "debut": 565,
+    "fin": 576,
+    "juge": false
+   },
+   {
+    "debut": 725,
+    "fin": 790,
+    "juge": false
+   },
+   {
+    "debut": 1072,
+    "fin": 1091,
+    "juge": false
+   }
+  ]
  }
 }

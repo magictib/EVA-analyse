@@ -43,7 +43,8 @@
    4
   ],
   "notre_tag": "BVS",
-  "adverse_tag": "GUN"
+  "adverse_tag": "GUN",
+  "camp_nous": "REBELS"
  },
  "evenements": [
   {
@@ -48683,5 +48684,114 @@
     "TCHERNOBYL": 1
    }
   }
+ },
+ "frise_kd": {
+  "_quoi": "les kills CUMULES des deux camps, pour voir ou l'ecart se creuse ; l'image sert de repere, comme pour le score",
+  "image": [
+   86,
+   91,
+   96,
+   101,
+   131,
+   266,
+   286,
+   326,
+   346,
+   511,
+   546,
+   571,
+   611,
+   651,
+   691,
+   836,
+   856,
+   856,
+   861,
+   866,
+   926,
+   1016,
+   1066,
+   1166,
+   1171,
+   1256
+  ],
+  "nous": [
+   1,
+   2,
+   3,
+   3,
+   4,
+   4,
+   5,
+   5,
+   6,
+   7,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   13,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20
+  ],
+  "eux": [
+   0,
+   0,
+   0,
+   1,
+   1,
+   2,
+   2,
+   3,
+   3,
+   3,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   5,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6,
+   6
+  ]
+ },
+ "balayages": {
+  "_quoi": "les moments ou un camp est entierement a terre, et ce que l'autre en fait",
+  "_prenable": "faux quand on tient deja tous les points : ne rien prendre n'est alors pas une faute",
+  "_grace_s": 12.0,
+  "balayages_infliges": [
+   {
+    "debut": 131,
+    "fin": 171,
+    "juge": true,
+    "duree_s": 8.0,
+    "prenable": true,
+    "gagne": 2
+   }
+  ],
+  "balayages_subis": [
+   {
+    "debut": 1292,
+    "fin": 1388,
+    "juge": false
+   }
+  ]
  }
 }

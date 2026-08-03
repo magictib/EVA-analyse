@@ -45,7 +45,8 @@
    9
   ],
   "notre_tag": "NT",
-  "adverse_tag": "END"
+  "adverse_tag": "END",
+  "camp_nous": "ALLIANCE"
  },
  "evenements": [
   {
@@ -19624,5 +19625,126 @@
     "LIX": 2
    }
   }
+ },
+ "frise_kd": {
+  "_quoi": "les kills CUMULES des deux camps, pour voir ou l'ecart se creuse ; l'image sert de repere, comme pour le score",
+  "image": [
+   51,
+   216,
+   236,
+   256,
+   261,
+   271,
+   296,
+   456,
+   546,
+   551,
+   666,
+   716,
+   761,
+   826,
+   836,
+   836,
+   846,
+   1006,
+   1011,
+   1036,
+   1041,
+   1066,
+   1136,
+   1201,
+   1216
+  ],
+  "nous": [
+   1,
+   1,
+   2,
+   3,
+   4,
+   4,
+   5,
+   6,
+   7,
+   7,
+   8,
+   8,
+   9,
+   10,
+   10,
+   11,
+   12,
+   12,
+   13,
+   14,
+   15,
+   16,
+   16,
+   16,
+   17
+  ],
+  "eux": [
+   0,
+   1,
+   1,
+   1,
+   1,
+   2,
+   2,
+   2,
+   2,
+   3,
+   3,
+   4,
+   4,
+   4,
+   5,
+   5,
+   5,
+   6,
+   6,
+   6,
+   6,
+   6,
+   7,
+   8,
+   8
+  ]
+ },
+ "balayages": {
+  "_quoi": "les moments ou un camp est entierement a terre, et ce que l'autre en fait",
+  "_prenable": "faux quand on tient deja tous les points : ne rien prendre n'est alors pas une faute",
+  "_grace_s": 12.0,
+  "balayages_infliges": [
+   {
+    "debut": 296,
+    "fin": 321,
+    "juge": true,
+    "duree_s": 5.0,
+    "prenable": false,
+    "gagne": 0
+   },
+   {
+    "debut": 846,
+    "fin": 851,
+    "juge": true,
+    "duree_s": 1.0,
+    "prenable": true,
+    "gagne": 1
+   },
+   {
+    "debut": 1068,
+    "fin": 1096,
+    "juge": true,
+    "duree_s": 5.6,
+    "prenable": false,
+    "gagne": 0
+   },
+   {
+    "debut": 1220,
+    "fin": 1315,
+    "juge": false
+   }
+  ],
+  "balayages_subis": []
  }
 }
