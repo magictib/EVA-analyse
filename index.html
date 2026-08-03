@@ -4542,7 +4542,8 @@ function fichesJoueurs(lot){
                   <u>${nem?nem[1]+" morts subies":""}</u></div>
                 <div class="fjc"><s>sa proie</s>
                   <b class="pos">${pr?pr[0]:"—"}</b>
-                  <u>${pr?pr[1]+" kills · solde "+(s>0?"+":"")+s:""}</u></div>`;})()}
+                  <u>${pr?pr[1]+" kills · "+(s===0?"a jeu égal avec sa némésis"
+                      :Math.abs(s)+(s>0?" de plus":" de moins")+" que sa némésis"):""}</u></div>`;})()}
             ${(()=>{const s=AS.get(n.toUpperCase()); if(!s||!s.occ) return "";
               return `<div class="fjc"><s>taux d'assist</s>
                 <b>${(100*s.a/s.occ).toFixed(1)} %</b>
@@ -4592,14 +4593,12 @@ function fichesJoueurs(lot){
              :`<p class="note">Aucune arme relevée sur ce tri.</p>`)
           + `</div></article>`;
       }).join("");
-      fiches=`<h4>Fiches</h4><div class="fjw">${cartes}</div>
-        <p class="note">Tout vient du couple tueur/tué et de son instant : la série est la
-           plus longue suite de kills entre deux morts, la meilleure carte agrège toutes les
-           parties jouées dessus plutôt que de retenir un coup de chance. Sa <b>némésis</b> est l'adversaire qui l'a le plus tué, sa <b>proie</b> celui qu'il a le plus tué, un seul de chaque côté ; le solde compare les deux. L'<b>ouverture</b> est la première mort d'un combat — une salve qu'aucun silence de plus de vingt secondes ne coupe ; c'est le seul instant où personne n'a encore d'information. « <b>Y est plus exposé</b> » ne montre pas l'arme qui le tue le plus — ce serait le Spectre pour tout le monde — mais celle qui le tue plus souvent que la moyenne de l'équipe.
-           Le <b>taux d'assist</b> rapporte tes assists aux kills de tes coéquipiers — on n'assiste que sur un kill qu'on n'a pas fait. Le dénominateur est large : on ne peut pas assister quand on est mort ou ailleurs. Il est incontestable mais il sous-estime, et il reste comparable d'un joueur à l'autre. <b>Le « duel remporté » n'y figure pas encore</b> : au sens que tu lui donnes il
-           demande de savoir si chacun a fait descendre la barre de vie de l'autre. Cette
-           barre est lisible — la plaque du joueur se vide à mesure que sa vie baisse — mais
-           elle n'est pas encore lue image par image.</p>`;
+      /* PLUS DE PAVE SOUS LES FICHES. Thibaud : « ça aussi peut disparaitre ».
+         Il avait deja fait retirer le meme genre de paragraphe sous la frise : une
+         mesure qui a besoin d'un paragraphe pour se justifier n'a pas sa place sur
+         un tableau de bord. Les definitions restent — ici, dans le code, ou elles
+         servent a celui qui les modifie. */
+      fiches=`<h4>Fiches</h4><div class="fjw">${cartes}</div>`;
     }
   
   return fiches;
@@ -6242,8 +6241,11 @@ function drawProf(){
   const el=$("#prof"); if(!el) return;
   LOT=filtre();
   const lot=analysesRetenues();
-  el.innerHTML = barreDeTri()
-    + (lot.length ? fichesJoueurs(lot)
+  /* SANS BARRE DE TRI. Thibaud : « les filtres peuvent disparaitre ». Le tri reste
+     UN etat partage : regler l'onglet Matchs sur une partie restreint aussi les
+     fiches. Ce qui l'affiche, c'est le « N parties » de chaque en-tete — il vaut un
+     filtre visible sans en occuper la place. */
+  el.innerHTML = (lot.length ? fichesJoueurs(lot)
        : `<p class="note">Aucune partie ne correspond au tri.</p>`);
   if(typeof replieLesNotes==="function") replieLesNotes(el);
 }
