@@ -1071,86 +1071,97 @@
    "tueur": null,
    "victime": 4,
    "allie": false,
-   "arme_icone": "ARMEMORT"
+   "arme_icone": "ARMEMORT",
+   "sans_tueur": true,
+   "_main": true
   },
   {
    "instant": 582,
    "tueur": 3,
    "victime": 9,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 580,
-   "tueur": 8,
+   "tueur": 6,
    "victime": 1,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME3"
+   "arme_icone": "ARME3",
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 580,
    "tueur": 8,
    "victime": 2,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 579,
    "tueur": 3,
    "victime": 6,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "NEEDLE"
   },
   {
    "instant": 570,
    "tueur": 3,
    "victime": 7,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "NEEDLE"
   },
   {
    "instant": 560,
    "tueur": 8,
    "victime": 3,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 560,
    "tueur": 4,
    "victime": 8,
    "allie": false,
-   "_lu": true
+   "_main": true,
+   "arme_reelle": "FURY"
   },
   {
    "instant": 549,
    "tueur": 9,
    "victime": 4,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 542,
-   "tueur": 6,
+   "tueur": 9,
    "victime": 2,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 542,
    "tueur": 1,
    "victime": 6,
    "allie": false,
-   "_lu": true,
-   "_par_compteur": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 537,
@@ -1158,49 +1169,55 @@
    "victime": 9,
    "allie": false,
    "headshot": true,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 530,
-   "tueur": 8,
+   "tueur": 7,
    "victime": 1,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 529,
    "tueur": 3,
    "victime": 7,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 514,
    "tueur": 3,
    "victime": 6,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "NEEDLE"
   },
   {
    "instant": 509,
-   "tueur": 6,
+   "tueur": 8,
    "victime": 4,
    "allie": false,
    "headshot": true,
-   "_lu": true,
-   "arme_icone": "ARME4"
+   "arme_icone": "ARME4",
+   "_main": true,
+   "arme_reelle": "ATLAS"
   },
   {
    "instant": 502,
    "tueur": 9,
    "victime": 3,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 502,
@@ -1210,111 +1227,127 @@
   },
   {
    "instant": 500,
-   "tueur": null,
+   "tueur": 1,
    "victime": 8,
-   "allie": false
+   "allie": false,
+   "_main": true,
+   "arme_reelle": "AK-47"
   },
   {
    "instant": 496,
    "tueur": 9,
    "victime": 2,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 490,
    "tueur": 1,
    "victime": 6,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 489,
    "tueur": 7,
    "victime": 1,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 477,
    "tueur": 3,
    "victime": 7,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 459,
    "tueur": 9,
    "victime": 2,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 449,
    "tueur": 9,
    "victime": 4,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 449,
-   "tueur": null,
+   "tueur": 1,
    "victime": 8,
-   "allie": false
+   "allie": false,
+   "_main": true,
+   "arme_reelle": "AK-47"
   },
   {
    "instant": 444,
-   "tueur": 8,
+   "tueur": 6,
    "victime": 3,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 444,
    "tueur": 3,
    "victime": 7,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 438,
-   "tueur": 8,
+   "tueur": 9,
    "victime": 2,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 438,
-   "tueur": 3,
+   "tueur": 2,
    "victime": 6,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 432,
    "tueur": 9,
    "victime": 1,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 425,
    "tueur": 4,
    "victime": 8,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 418,
@@ -1322,106 +1355,116 @@
    "victime": 9,
    "allie": false,
    "headshot": true,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "NEEDLE"
   },
   {
    "instant": 415,
    "tueur": 4,
    "victime": 7,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 410,
    "tueur": 8,
    "victime": 3,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 410,
    "tueur": 3,
    "victime": 6,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 391,
    "tueur": 6,
    "victime": 4,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 379,
    "tueur": 2,
    "victime": 8,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 373,
    "tueur": 3,
    "victime": 6,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 367,
    "tueur": 1,
    "victime": 9,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME5"
+   "arme_icone": "ARME5",
+   "_main": true,
+   "arme_reelle": "AK-47"
   },
   {
    "instant": 366,
    "tueur": 7,
    "victime": 2,
    "allie": false,
-   "_lu": true,
-   "sans_tueur": true,
    "arme_icone": "ARMEMORT",
-   "_par_compteur": true
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 360,
    "tueur": 3,
    "victime": 7,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "NEEDLE"
   },
   {
    "instant": 347,
    "tueur": 4,
    "victime": 6,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME3"
+   "arme_icone": "ARME3",
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 344,
    "tueur": 8,
    "victime": 4,
    "allie": false,
-   "_lu": true,
-   "_par_compteur": true
+   "_main": true,
+   "arme_reelle": "GRENADE"
   },
   {
    "instant": 344,
    "tueur": 4,
    "victime": 9,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 338,
@@ -1429,32 +1472,35 @@
    "victime": 3,
    "allie": false,
    "headshot": true,
-   "_lu": true,
-   "arme_icone": "ARME4"
+   "arme_icone": "ARME4",
+   "_main": true,
+   "arme_reelle": "ATLAS"
   },
   {
    "instant": 331,
    "tueur": 4,
    "victime": 8,
    "allie": false,
-   "_lu": true,
-   "_par_compteur": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 329,
    "tueur": 7,
    "victime": 2,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "NEEDLE"
   },
   {
    "instant": 325,
    "tueur": 1,
    "victime": 6,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 324,
@@ -1469,165 +1515,188 @@
    "tueur": 4,
    "victime": 7,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 323,
    "tueur": 7,
    "victime": 1,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 306,
    "tueur": 4,
    "victime": 6,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 305,
    "tueur": 4,
    "victime": 9,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 301,
-   "tueur": 9,
+   "tueur": 8,
    "victime": 4,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 299,
    "tueur": 3,
    "victime": 8,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 289,
    "tueur": 3,
    "victime": 7,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 286,
    "tueur": null,
    "victime": 2,
-   "allie": false
+   "allie": false,
+   "sans_tueur": true,
+   "_main": true,
+   "arme_reelle": "GRENADE"
   },
   {
    "instant": 280,
-   "tueur": 8,
+   "tueur": 6,
    "victime": 3,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 268,
    "tueur": 4,
    "victime": 8,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME3"
+   "arme_icone": "ARME3",
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 267,
    "tueur": 9,
    "victime": 4,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 262,
    "tueur": 1,
    "victime": 9,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 258,
    "tueur": 2,
    "victime": 6,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 257,
    "tueur": 7,
    "victime": 2,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 250,
    "tueur": 7,
    "victime": 1,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 249,
    "tueur": 3,
    "victime": 7,
    "allie": false,
-   "_lu": true
+   "_main": true,
+   "arme_reelle": "NEEDLE"
   },
   {
    "instant": 245,
    "tueur": 8,
    "victime": 3,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 240,
    "tueur": 4,
    "victime": 9,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 233,
-   "tueur": 8,
+   "tueur": 6,
    "victime": 4,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 231,
    "tueur": 2,
    "victime": 6,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 228,
    "tueur": 7,
    "victime": 2,
    "allie": false,
-   "_lu": true,
-   "arme_icone": "ARME2"
+   "arme_icone": "ARME2",
+   "_main": true,
+   "arme_reelle": "STRIKER"
   }
  ],
  "ambigus": [],
@@ -50198,51 +50267,51 @@
    {
     "victime": "LIX",
     "tueur": "GODZI",
-    "morts": 6
+    "morts": 4
    },
    {
-    "victime": "TCHERNOBYL",
+    "victime": "CROMX",
     "tueur": "VIKINGS",
     "morts": 4
    },
    {
     "victime": "TIBCO",
     "tueur": "BAROU",
-    "morts": 3
+    "morts": 4
    },
    {
     "victime": "CROMX",
     "tueur": "BAROU",
+    "morts": 4
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "VIKINGS",
     "morts": 3
    },
    {
+    "victime": "TCHERNOBYL",
+    "tueur": "GODZI",
+    "morts": 3
+   },
+   {
+    "victime": "LIX",
+    "tueur": "Y4NET",
+    "morts": 2
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "Y4NET",
+    "morts": 2
+   },
+   {
     "victime": "TIBCO",
-    "tueur": "GODZI",
-    "morts": 2
-   },
-   {
-    "victime": "CROMX",
-    "tueur": "GODZI",
-    "morts": 2
-   },
-   {
-    "victime": "TCHERNOBYL",
     "tueur": "Y4NET",
-    "morts": 2
+    "morts": 1
    },
    {
     "victime": "CROMX",
-    "tueur": "VIKINGS",
-    "morts": 2
-   },
-   {
-    "victime": "TCHERNOBYL",
     "tueur": "GODZI",
-    "morts": 2
-   },
-   {
-    "victime": "CROMX",
-    "tueur": "Y4NET",
     "morts": 1
    },
    {
@@ -50263,44 +50332,46 @@
   ],
   "par_quoi": {
    "TCHERNOBYL": {
-    "NEEDLE": 3,
+    "MP-52": 3,
     "SPECTRE": 3,
-    "arme inconnue": 2,
-    "tueur inconnu": 1,
-    "ATLAS": 1
+    "kill admin ou chute": 1,
+    "ATLAS": 1,
+    "GRENADE": 1,
+    "arme inconnue": 1
    },
    "TIBCO": {
     "STRIKER": 4,
-    "ARME3": 1,
-    "NEEDLE": 1
+    "WARDEN": 1,
+    "MP-52": 1
    },
    "CROMX": {
-    "NEEDLE": 5,
-    "STRIKER": 2,
+    "MP-52": 4,
+    "STRIKER": 3,
     "SPECTRE": 1,
-    "kill admin ou chute": 1,
-    "tueur inconnu": 1
+    "NEEDLE": 1,
+    "kill admin ou chute": 1
    },
    "LIX": {
     "SPECTRE": 5,
-    "NEEDLE": 1,
+    "MP-52": 1,
     "ATLAS": 1
    }
   },
   "revanches": {
-   "faites": 6,
-   "ratees": 25,
+   "faites": 10,
+   "ratees": 21,
    "indecidables": 2,
    "par_vengeur": {
+    "LIX": 4,
     "TCHERNOBYL": 3,
     "TIBCO": 2,
-    "LIX": 1
+    "CROMX": 1
    },
    "par_venge": {
+    "TIBCO": 3,
     "LIX": 1,
     "CROMX": 2,
-    "TCHERNOBYL": 2,
-    "TIBCO": 1
+    "TCHERNOBYL": 4
    }
   }
  },
@@ -50323,11 +50394,13 @@
    431,
    456,
    491,
+   501,
    521,
    551,
    556,
    616,
    706,
+   756,
    756,
    781,
    781,
@@ -50391,31 +50464,29 @@
    8,
    8,
    8,
-   8,
    9,
    9,
    10,
    10,
-   10,
-   10,
+   11,
    11,
    11,
    12,
    12,
    13,
+   13,
+   14,
    14,
    15,
-   15,
-   16,
    16,
    17,
+   17,
    18,
-   19,
+   18,
    19,
    20,
    21,
    21,
-   22,
    22,
    23,
    23,
@@ -50424,23 +50495,27 @@
    25,
    25,
    26,
+   26,
    27,
    27,
    28,
    29,
    29,
    30,
-   30,
+   31,
    31,
    32,
    32,
-   32,
    33,
-   33,
+   34,
    34,
    34,
    35,
-   35
+   35,
+   36,
+   36,
+   37,
+   37
   ],
   "eux": [
    0,
@@ -50459,11 +50534,13 @@
    6,
    7,
    8,
+   8,
    9,
    9,
    10,
    10,
    11,
+   12,
    12,
    13,
    13,
