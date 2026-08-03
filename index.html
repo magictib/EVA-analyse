@@ -4409,6 +4409,25 @@ function fichesJoueurs(lot){
       for(const [n,m] of mp){ const o=of(n);
         if(!o.parV.has(cle)) o.parV.set(cle,{carte,k:0,m}); }
     }
+    /* LE TAUX D'ASSIST VIENT DU TABLEAU DE FIN, pas d'une deduction : les assists
+       y sont saisis, et le denominateur naturel est le nombre de kills des
+       COEQUIPIERS — on n'assiste que sur un kill qu'on n'a pas fait soi-meme.
+       C'est un denominateur INCONTESTABLE mais large : on ne peut pas assister
+       quand on est mort ou ailleurs. Thibaud proposait d'affiner en retirant les
+       instants ou l'on est engage sur une autre cible ; seul le cas « on a fait
+       son propre kill dans la fenetre » laisse une trace, le reste demanderait les
+       degats. On affiche donc le taux brut, nomme pour ce qu'il est, plutot qu'un
+       taux ajuste dont personne ne pourrait dire de combien il a ete releve. */
+    const AS=new Map();
+    for(const m of LOT){
+      const nous=(m.sb||[]).filter(x=>x.mien!==false);
+      const kEq=nous.reduce((s,x)=>s+(+x.k||0),0);
+      for(const x of nous){
+        const n=sansTag(x.n||"").toUpperCase(); if(!n) continue;
+        const o=AS.get(n)||{a:0,occ:0}; o.a+=(+x.a||0); o.occ+=kEq-(+x.k||0);
+        AS.set(n,o);
+      }
+    }
     if(J.size){
       const cartes=[...J.entries()].sort((a,b)=>b[1].k-a[1].k).map(([n,o])=>{
         const kd=o.m?o.k/o.m:o.k;
@@ -4434,6 +4453,10 @@ function fichesJoueurs(lot){
               <u>${meil?meil[1].toFixed(2)+" · "+meil[2]+" p.":""}</u></div>
             <div class="fjc"><s>plus difficile</s><b>${pire&&rang.length>1?pire[0]:"—"}</b>
               <u>${pire&&rang.length>1?pire[1].toFixed(2)+" · "+pire[2]+" p.":""}</u></div>
+            ${(()=>{const s=AS.get(n.toUpperCase()); if(!s||!s.occ) return "";
+              return `<div class="fjc"><s>taux d'assist</s>
+                <b>${(100*s.a/s.occ).toFixed(1)} %</b>
+                <u>${s.a} sur ${s.occ} kills de coéquipiers</u></div>`;})()}
           </div>
           <div class="fja"><s>ses kills, par arme</s>`
           + (armes.length?armes.map(([a,v])=>`<div class="fjb"><em>${a}</em>
@@ -4445,7 +4468,7 @@ function fichesJoueurs(lot){
         <p class="note">Tout vient du couple tueur/tué et de son instant : la série est la
            plus longue suite de kills entre deux morts, la meilleure carte agrège toutes les
            parties jouées dessus plutôt que de retenir un coup de chance.
-           <b>Le « duel remporté » n'y figure pas encore</b> : au sens que tu lui donnes il
+           Le <b>taux d'assist</b> rapporte tes assists aux kills de tes coéquipiers — on n'assiste que sur un kill qu'on n'a pas fait. Le dénominateur est large : on ne peut pas assister quand on est mort ou ailleurs. Il est incontestable mais il sous-estime, et il reste comparable d'un joueur à l'autre. <b>Le « duel remporté » n'y figure pas encore</b> : au sens que tu lui donnes il
            demande de savoir si chacun a fait descendre la barre de vie de l'autre. Cette
            barre est lisible — la plaque du joueur se vide à mesure que sa vie baisse — mais
            elle n'est pas encore lue image par image.</p>`;
