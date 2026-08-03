@@ -3815,19 +3815,24 @@ function friseSVG(a, moments){
       fill-opacity="${converti?".10":".14"}"/>`;
   }).join("");
 
-  /* Les combats, en barres SIGNEES de part et d'autre d'un axe.
+  /* LA BANDE DES COMBATS EST RETIREE DE L'AFFICHAGE, apres deux essais et deux
+     rejets. Elle reste calculee — `ENG` sert au bloc « Echanges », qui lui est
+     lisible — mais elle n'est plus tracee sur la frise.
 
-     Premiere version rejetee : des blocs de meme hauteur, colores par le solde.
-     Thibaud : « la partie combat n'est pas hyper comprehensive et on peut se
-     perdre ». Il avait raison, et la faute est claire — la hauteur ne portait
-     RIEN, alors que c'est elle qu'on lit d'abord sur une frise. Le solde n'etait
-     donne que par une nuance de couleur, et son AMPLEUR pas du tout : un +1 et un
-     +3 se ressemblaient.
+     Premiere version : des blocs de meme hauteur, colores par le solde. Thibaud :
+     « la partie combat n'est pas hyper comprehensive et on peut se perdre ». La
+     faute etait claire — la hauteur ne portait RIEN alors que c'est elle qu'on lit
+     d'abord, et l'amplitude du solde n'etait donnee nulle part.
 
-     Ici la hauteur est le solde et le sens dit qui l'emporte, dans la meme
-     convention que les effectifs juste au-dessus — eux vers le haut, nous vers le
-     bas. La largeur reste la duree. Trois grandeurs, trois dimensions distinctes,
-     et plus aucune n'est portee par une teinte. */
+     Deuxieme version : hauteur = solde, sens = vainqueur, largeur = duree. Trois
+     grandeurs sur trois dimensions distinctes, ce qui semblait repondre au
+     reproche. Verdict de Thibaud le 03/08 : « la partie combat de l'histogramme
+     n'est pas comprehensible et j'ai l'impression de n'en tirer rien du tout ».
+
+     ON NE RETENTE PAS UNE TROISIEME MISE EN FORME. Deux essais mesures contre le
+     seul juge qui vaille — est-ce qu'il en tire quelque chose — ont repondu non.
+     Une frise qui demande d'etre expliquee ne sert pas : l'information est dans
+     le bloc « Echanges », en clair, avec ses denominateurs. */
   const HE=13, SOLDE_MAX=4, AXE_E=Y.eng+1+HE;
   const eng=ENG.map(e=>{
     const h=Math.max(2, HE*Math.min(Math.abs(e.solde),SOLDE_MAX)/SOLDE_MAX);
@@ -3890,9 +3895,7 @@ function friseSVG(a, moments){
         + `<span class="v" style="top:${vh(Y.sc)}%">100 %</span>`
         + `<span class="v" style="top:${vh(Y.sc+HS/2)}%">50 %</span>`
         + `<span class="v" style="top:${vh(Y.sc+HS)}%">0 %</span>`:"")
-    + (ENG.length?`<span class="t" style="top:${vh(Y.eng+14)}%">combats</span>`
-        + `<span class="v" style="top:${vh(Y.eng+3)}%">−${SOLDE_MAX}</span>`
-        + `<span class="v" style="top:${vh(Y.eng+2*HE)}%">+${SOLDE_MAX}</span>`:"");
+    ;   /* la rangee « combats » a ete retiree : voir le commentaire plus haut */
 
   /* Les series pour le survol. Une globale plutot qu'un attribut `data` : la
      serie fait plusieurs milliers de valeurs et n'a rien a faire dans le DOM. */
@@ -3908,13 +3911,10 @@ function friseSVG(a, moments){
           stroke="var(--ink-faint)" stroke-opacity=".5"/>
         ${bande(f.eux, AXE, -1, "var(--dead)")}
         ${bande(f.nous, Y.nous, 1, "var(--ok)")}
-        ${grad}${ombres}${sc}${pt}${eng}${reperes}</svg>
+        ${grad}${ombres}${sc}${pt}${reperes}</svg>
       ${lab}<div class="frcur"></div><div class="frtip"></div></div></div>
     <p class="frleg"><span class="frk" data-c="ok"></span>nous debout
       <span class="frk" data-c="dead"></span>eux debout
-      ${ENG.length?`<span class="frk" data-c="ok"></span>combat gagné (vers le bas)
-      <span class="frk" data-c="dead"></span>perdu (vers le haut) · hauteur = solde,
-      largeur = durée`:""}
       ${SS&&AV.some(v=>v.notre&&v.gain!=null)?`<span class="frk" data-c="conv"></span>supériorité
       numérique : le fond du score vire au rouge quand elle n'a rien rapporté`:""}
       ${SS?`<span class="frk" data-c="sc"></span>score ${LU?"lu sur l'écran":"(calé sur le score final)"}`:""}
@@ -4450,42 +4450,13 @@ function drawAna(){
           <div><b>${m.titre}</b><span>${m.quoi}</span></div></div>`).join("")
         :`<p class="note">Aucun moment saillant sur cette partie — ni effondrement, ni
           creux d'effectif tenu, ni situation à un contre plusieurs.</p>`}
-      <p class="note"><b>Ce que ça dit.</b> Les deux aires sont les effectifs debout,
-        déployées en miroir de part et d'autre de l'axe : le nôtre vers le bas en vert,
-        le leur vers le haut en rouge. Un filet par joueur permet de lire le nombre, et
-        les traits jaunes marquent les passages à revoir. La bande du bas découpe la
-        partie en <b>combats</b> — une grappe de morts rapprochées — colorés par leur
-        solde, et <i>leur largeur est leur durée</i> : perdre trois joueurs en 4 s et
-        les perdre en 25 s sont deux fautes différentes. Les plages teintées derrière
-        les effectifs sont vos <b>supériorités numériques</b> ; elles virent au jaune
-        quand elles n'ont rien rapporté au score${
-          fScore?`, et les deux courbes de score montent tant que le camp tient la zone`:""}.
-        <br><b>Passez la souris sur la frise</b> pour lire l'instant exact : effectifs,
-        score des deux camps et possession à cette seconde.
-        <br><b>À quoi ça sert.</b> Retrouver en un coup d'œil si on démarre mal et finit
-        bien, ou l'inverse — et savoir quelles minutes rejouer plutôt que de scruter la
-        vidéo entière.${fScore?`
-        <br><b>Comment le score est obtenu.</b> ${fLu?`Il est <b>lu sur l'écran</b> :
-        le jeu affiche en permanence le pourcentage des deux camps en haut de l'image, et
-        c'est cette valeur-là qui est tracée. La courbe n'est donc plus une estimation.
-        Elle comporte des trous — une image sur laquelle la lecture hésite est écartée
-        plutôt que devinée — et le palier tient jusqu'à la lecture suivante. Un détail du
-        jeu à connaître : <b>100 % n'est jamais affiché</b>, la manche s'arrêtant à
-        l'instant où il est atteint, si bien que le vainqueur culmine à 99 %.`:`Il n'est
-        pas calculé dans l'absolu : la règle du mode fait monter le pourcentage tant qu'on
-        tient la zone, mais prédire un taux échoue — 13 points d'erreur médiane sur le
-        score du perdant, et jusqu'à plus de 100 sur une partie. On répartit donc le score
-        final, lu sur le tableau de fin, au prorata de la possession mesurée : le début et
-        la fin sont exacts, et c'est le <i>moment</i> où chacun a marqué qui est
-        l'information.`}`:""}
-        <br><b>Comment c'est choisi.</b> Un moment est retenu quand il dure assez pour
-        avoir été joué : un creux d'au moins trois adversaires HS tenu 3 s, trois des
-        nôtres qui tombent en moins de 12 s, ou l'un de nous seul contre plusieurs pendant
-        3 s. Deux par règle au plus, pour que la liste ne répète pas six fois la même
-        observation.
-        <br>« Point lâché » a été retiré des règles : en Domination il faut quitter le
-        point une fois pris, pour couvrir des lignes ou enfermer l'adversaire. Ce qui reste
-        surveillé, c'est une reprise adverse que personne ne conteste.</p>`;
+      ${""/* LE PAVE EXPLICATIF EST RETIRE. Thibaud, 03/08 : « la partie texte
+        ci-apres doit etre masquee ». Il faisait quarante lignes sous une frise
+        d'un centimetre, et il expliquait entre autres la bande des combats — qui
+        vient elle-meme d'etre retiree faute d'etre lisible. Une legende qui doit
+        etre soutenue par une page de prose signale que le dessin ne porte pas ; on
+        corrige le dessin, on ne rallonge pas la prose. La legende courte sous la
+        frise nomme chaque aire, et le survol donne les valeurs exactes. */}`;
   }
   const nMorts=lot.reduce((a,x)=>a+(x.evenements||[]).filter(e=>e.type==="mort").length,0);
 
