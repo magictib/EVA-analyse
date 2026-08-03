@@ -1398,6 +1398,23 @@ function drawTicks(){
 /* ---------- classement ---------- */
 let ROLE=(()=>{ try{ return localStorage.getItem("eva-role-v1")||"flex"; }catch(e){ return "flex"; } })();
 
+/* ---------- lecture ou edition ----------
+   Thibaud : « si c'est possible de cacher le fait de pouvoir rentrer une partie
+   pour eux afin de ne pas avoir de betises ça serait un plus ». Par defaut le site
+   est en LECTURE : ni saisie de partie, ni depot d'analyse. On passe en edition en
+   ouvrant le site avec #edition, et on en ressort avec #lecture ; le choix reste
+   dans le navigateur.
+
+   C'EST UN GARDE-FOU, PAS UNE SERRURE. La clef de la base est publiable et autorise
+   l'ecriture : qui veut ecrire peut le faire. Ce reglage empeche la fausse
+   manoeuvre, il n'empeche pas l'intention — et Thibaud le sait : « ils ne sont pas
+   dans l'optique de chercher, c'est juste un outil d'analyse et de review perso ». */
+let EDITION=(()=>{ try{ return localStorage.getItem("eva-edition-v1")==="1"; }
+                   catch(e){ return false; } })();
+(()=>{ const h=(location.hash||"").toLowerCase();
+  if(h==="#edition"){ EDITION=true;  try{ localStorage.setItem("eva-edition-v1","1"); }catch(e){} }
+  if(h==="#lecture"){ EDITION=false; try{ localStorage.removeItem("eva-edition-v1"); }catch(e){} } })();
+
 /* Le bandeau de compo, sous le choix de carte. Il ne s'affiche qu'une carte
    choisie : sans carte il n'y a pas de distribution, et conseiller une paire
    « en general » reviendrait a reintroduire la moyenne qu'on cherche a fuir. */
@@ -2518,7 +2535,13 @@ let ANALYSES=(()=>{ try{ return JSON.parse(localStorage.getItem(AKEY))||[]; }cat
 /* On ne persiste que les analyses importees a la main. Celles qui viennent du
    depot sont rechargees a chaque ouverture : les copier dans le localStorage les
    y figerait, et elles survivraient a leur propre retrait du depot. */
-function saveAnalyses(){ try{ localStorage.setItem(AKEY,JSON.stringify(ANALYSES.filter(a=>!a._depot))); }catch(e){} }
+/* NE PAS RECOPIER CE QUI VIENT DE LA BASE. Vingt megaoctets d'analyses en ligne ne
+   tiennent pas dans les cinq du stockage local, et l'echec y est muet. */
+function saveAnalyses(){
+  try{ localStorage.setItem(AKEY,
+    JSON.stringify(ANALYSES.filter(a=>!a._depot && !a._base))); }
+  catch(e){ console.warn("stockage local plein : l'analyse n'est gardee qu'en ligne"); }
+}
 
 /* Analyses livrees avec le site.
    L'import manuel ne remplit que le localStorage du navigateur qui importe : un
@@ -3032,9 +3055,55 @@ async function chargeMatchsEnLigne(){
   if(typeof drawMat === "function" && document.querySelector("#mat")) drawMat();
   if(typeof drawAna === "function" && document.querySelector("#ana")) drawAna();
 }
-chargeMatchsEnLigne();
-
 const cleAna = a => `${(a.partie&&a.partie.dt)||""} ${(a.partie&&a.partie.h)||""}`;
+
+/* ---------- les analyses en ligne ----------
+   Thibaud : « ils doivent juste pouvoir ouvrir le site et avoir les donnees a jour
+   comme moi ». Jusqu'ici une analyse ne vivait que dans le navigateur ou elle avait
+   ete deposee.
+
+   ET ELLE N'Y TENAIT PLUS. Le stockage local plafonne autour de cinq megaoctets ;
+   les vingt-sept analyses en pesent vingt. `saveAnalyses` avale l'exception, donc
+   passe le plafond plus rien ne se sauvegardait SANS QU'AUCUN MESSAGE NE LE DISE.
+   La base regle les deux problemes d'un coup : l'equipe voit la meme chose, et rien
+   ne depend plus d'un quota silencieux.
+
+   QUATRE MEGAOCTETS COMPRESSES arrivent en deux secondes — mesure, pas estime. On
+   les charge donc en une fois, apres le premier affichage, et on redessine. Le
+   local l'emporte a cle egale : une correction faite a la main ne doit pas etre
+   effacee par la version en ligne. */
+async function chargeAnalysesEnLigne(){
+  let lignes;
+  try{ lignes = await sbFetch("analyses?select=cle,contenu&order=dt.desc");
+       EVA_SB_OK = true; }
+  catch(e){ EVA_SB_OK = false; return; }
+  if(!Array.isArray(lignes) || !lignes.length) return;
+  const vus = new Set(ANALYSES.map(cleAna));
+  let n = 0;
+  for(const l of lignes){
+    if(!l || !l.contenu || vus.has(l.cle)) continue;
+    /* `_base` marque ce qui vient d'en ligne : `saveAnalyses` ne le recopie pas
+       dans le stockage local — l'y figer le ferait survivre a sa propre
+       suppression, et ferait exploser le quota pour rien. */
+    l.contenu._base = true;
+    ANALYSES.push(l.contenu); vus.add(l.cle); n++;
+  }
+  if(!n) return;
+  for(const f of ["drawAna","drawProf","drawCat"])
+    if(typeof window[f]==="function" && document.querySelector("#"+f.slice(4).toLowerCase()))
+      try{ window[f](); }catch(e){}
+}
+chargeMatchsEnLigne().then(chargeAnalysesEnLigne, chargeAnalysesEnLigne);
+
+/* Publier une analyse deposee a la main. On n'attend pas la reponse : le depot est
+   deja acquis en memoire, la mise en ligne est un supplement. */
+function publieAnalyse(d){
+  const p=d.partie||{};
+  return sbFetch("analyses?on_conflict=cle", {method:"POST",
+    headers:{Prefer:"resolution=merge-duplicates,return=minimal"},
+    body:JSON.stringify([{cle:`${p.dt} ${p.h}`, dt:p.dt, h:p.h, carte:p.carte||null,
+      octets:null, empreinte:null, contenu:d}])}).catch(()=>{});
+}
 
 
 /* ---------- calculs d'analyse ----------
@@ -4363,6 +4432,7 @@ function ajouteAnalyse(txt){
   const remplace=avant!==ANALYSES.length;
   ANALYSES.push(d);
   saveAnalyses();
+  publieAnalyse(d);
   const morts=d.evenements.filter(e=>e.type==="mort").length;
   const attrib=(d.frags||[]).filter(f=>f.tueur!==null&&f.tueur!==undefined).length;
   return {ok:true, msg:`${remplace?"Analyse remplacée":"Analyse ajoutée"} : ${morts} morts`
@@ -5397,7 +5467,7 @@ function drawAna(){
        l'attribution des tueurs n'étant faite que sur ${lotAttrib.length} partie(s)
        sur ${lot.length}, ils donneraient une image partielle sans le dire.</p>`;
 
-  el.innerHTML = importe + barreDeTri()
+  el.innerHTML = (EDITION?importe:"") + barreDeTri()
     /* Quatre sujets, dans l'ordre ou l'on s'interroge apres une partie : ce que
        l'equipe a produit, ce qui s'est passe sur le terrain, ce que chacun peut
        corriger, et ce que l'adversaire nous a impose. */
@@ -6006,7 +6076,7 @@ function drawMat(){
      jouee ou une equipe jamais croisee n'a rien a filtrer. */
   const tri=barreDeTri();
 
-  if(!n) return void(el.innerHTML=collage+identite+tri
+  if(!n) return void(el.innerHTML=(EDITION?collage:"")+identite+tri
     +`<p class="lead">Aucune partie ne correspond à ce tri.</p>`);
 
   /* ---------- 1. l'equipe ---------- */
@@ -6158,7 +6228,7 @@ function drawMat(){
     + `<p class="lead">Aucune partie enregistrée. Colle la liste du jeu, ou saisis-en une
        à la main si elle n'est pas copiable.</p>` + saisie + formulaire);
 
-  el.innerHTML = collage + identite + tri + equipe + bilan + fiches + advers + plus;
+  el.innerHTML = (EDITION?collage:"") + identite + tri + equipe + bilan + fiches + advers + plus;
 }
 
 /* ---------- catalogue des cartes ----------
