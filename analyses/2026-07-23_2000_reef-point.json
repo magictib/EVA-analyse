@@ -60160,5 +60160,124 @@
    "FXC sans nom 2": 0.067,
    "?": 0.01
   }
+ },
+ "duels": {
+  "_quoi": "nemesis, morts par arme et revanches, calcules sur les tueurs poses — a la main quand ils le sont",
+  "_fenetre_revanche": 5.0,
+  "nemesis": [
+   {
+    "victime": "CROMX",
+    "tueur": "VALTOR",
+    "morts": 5
+   },
+   {
+    "victime": "LIX",
+    "tueur": "SKY",
+    "morts": 4
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "SKY",
+    "morts": 2
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "SKY",
+    "morts": 2
+   },
+   {
+    "victime": "TIBCO",
+    "tueur": "NOXIS",
+    "morts": 2
+   },
+   {
+    "victime": "TIBCO",
+    "tueur": "SKY",
+    "morts": 2
+   },
+   {
+    "victime": "LIX",
+    "tueur": "NOXIS",
+    "morts": 2
+   },
+   {
+    "victime": "LIX",
+    "tueur": "PARZIRAHL",
+    "morts": 1
+   },
+   {
+    "victime": "TIBCO",
+    "tueur": "PARZIRAHL",
+    "morts": 1
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "VALTOR",
+    "morts": 1
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "NOXIS",
+    "morts": 1
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "PARZIRAHL",
+    "morts": 1
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "NOXIS",
+    "morts": 1
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "PARZIRAHL",
+    "morts": 1
+   }
+  ],
+  "par_quoi": {
+   "CROMX": {
+    "arme inconnue": 3,
+    "SPECTRE": 2,
+    "ATLAS": 1,
+    "WESTFIRE": 1,
+    "GRENADE": 1,
+    "WARDEN": 1
+   },
+   "LIX": {
+    "SPECTRE": 5,
+    "arme inconnue": 2
+   },
+   "TCHERNOBYL": {
+    "ATLAS": 2,
+    "tueur inconnu": 2,
+    "arme inconnue": 1,
+    "WESTFIRE": 1,
+    "SPECTRE": 1
+   },
+   "TIBCO": {
+    "GRENADE": 2,
+    "SPECTRE": 2,
+    "WARDEN": 1,
+    "tueur inconnu": 1
+   }
+  },
+  "revanches": {
+   "faites": 7,
+   "ratees": 19,
+   "indecidables": 3,
+   "par_vengeur": {
+    "LIX": 2,
+    "TIBCO": 1,
+    "CROMX": 4
+   },
+   "par_venge": {
+    "CROMX": 3,
+    "TCHERNOBYL": 1,
+    "TIBCO": 1,
+    "LIX": 2
+   }
+  }
  }
 }

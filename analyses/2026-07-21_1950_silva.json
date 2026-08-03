@@ -712,7 +712,8 @@
    "victime": 4,
    "allie": false,
    "arme_icone": "ARME3",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "M12"
   },
   {
    "instant": 584,
@@ -720,7 +721,8 @@
    "victime": 7,
    "allie": false,
    "arme_icone": "ARME0",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 574,
@@ -736,7 +738,8 @@
    "victime": 8,
    "allie": false,
    "arme_icone": "ARME2",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "ATLAS"
   },
   {
    "instant": 573,
@@ -744,7 +747,8 @@
    "victime": 3,
    "allie": false,
    "arme_icone": "ARME0",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 572,
@@ -752,7 +756,8 @@
    "victime": 1,
    "allie": false,
    "arme_icone": "ARME0",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 572,
@@ -769,7 +774,8 @@
    "allie": false,
    "headshot": true,
    "arme_icone": "ARME0",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 546,
@@ -778,7 +784,8 @@
    "allie": false,
    "headshot": true,
    "arme_icone": "ARME2",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "ATLAS"
   },
   {
    "instant": 545,
@@ -794,7 +801,8 @@
    "victime": 8,
    "allie": false,
    "arme_icone": "ARME2",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "ATLAS"
   },
   {
    "instant": 517,
@@ -802,7 +810,8 @@
    "victime": 6,
    "allie": false,
    "arme_icone": "ARME5",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "GRENADE"
   },
   {
    "instant": 511,
@@ -811,7 +820,8 @@
    "allie": false,
    "headshot": true,
    "arme_icone": "ARME2",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "ATLAS"
   },
   {
    "instant": 506,
@@ -819,7 +829,8 @@
    "victime": 1,
    "allie": false,
    "arme_icone": "ARME2",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "ATLAS"
   },
   {
    "instant": 503,
@@ -828,7 +839,8 @@
    "allie": false,
    "headshot": true,
    "arme_icone": "ARME0",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 500,
@@ -836,7 +848,8 @@
    "victime": 8,
    "allie": false,
    "arme_icone": "ARME2",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "ATLAS"
   },
   {
    "instant": 497,
@@ -844,7 +857,8 @@
    "victime": 7,
    "allie": false,
    "arme_icone": "ARME4",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "AK-47"
   },
   {
    "instant": 494,
@@ -852,7 +866,8 @@
    "victime": 6,
    "allie": false,
    "arme_icone": "ARME0",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 455,
@@ -860,7 +875,8 @@
    "victime": 2,
    "allie": false,
    "arme_icone": "ARME3",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "FURY"
   },
   {
    "instant": 435,
@@ -868,7 +884,8 @@
    "victime": 7,
    "allie": false,
    "arme_icone": "ARME5",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "GRENADE"
   },
   {
    "instant": 433,
@@ -876,7 +893,8 @@
    "victime": 2,
    "allie": false,
    "arme_icone": "ARME3",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "FURY"
   },
   {
    "instant": 432,
@@ -885,7 +903,8 @@
    "allie": false,
    "headshot": true,
    "arme_icone": "ARME2",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "ATLAS"
   },
   {
    "instant": 432,
@@ -893,7 +912,8 @@
    "victime": 8,
    "allie": false,
    "arme_icone": "ARME4",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "AK-47"
   },
   {
    "instant": 427,
@@ -901,7 +921,8 @@
    "victime": 1,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 406,
@@ -915,7 +936,8 @@
    "victime": 8,
    "allie": false,
    "arme_icone": "ARME4",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "AK-47"
   },
   {
    "instant": 400,
@@ -923,7 +945,8 @@
    "victime": 7,
    "allie": false,
    "arme_icone": "ARME5",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "GRENADE"
   },
   {
    "instant": 397,
@@ -931,7 +954,8 @@
    "victime": 6,
    "allie": false,
    "arme_icone": "ARME3",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "M12"
   },
   {
    "instant": 393,
@@ -939,7 +963,8 @@
    "victime": 4,
    "allie": false,
    "arme_icone": "ARME0",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 393,
@@ -947,7 +972,8 @@
    "victime": 9,
    "allie": false,
    "arme_icone": "ARME2",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "ATLAS"
   },
   {
    "instant": 380,
@@ -955,7 +981,8 @@
    "victime": 3,
    "allie": false,
    "arme_icone": "ARME5",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "GRENADE"
   },
   {
    "instant": 377,
@@ -963,7 +990,8 @@
    "victime": 8,
    "allie": false,
    "arme_icone": "ARME4",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "AK-47"
   },
   {
    "instant": 358,
@@ -971,7 +999,8 @@
    "victime": 7,
    "allie": false,
    "arme_icone": "ARME0",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 347,
@@ -979,7 +1008,8 @@
    "victime": 8,
    "allie": false,
    "arme_icone": "ARME4",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "AK-47"
   },
   {
    "instant": 343,
@@ -988,7 +1018,8 @@
    "allie": false,
    "headshot": true,
    "arme_icone": "ARME4",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "AK-47"
   },
   {
    "instant": 340,
@@ -996,7 +1027,8 @@
    "victime": 4,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 340,
@@ -1004,7 +1036,8 @@
    "victime": 6,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 334,
@@ -1013,7 +1046,8 @@
    "allie": false,
    "headshot": true,
    "arme_icone": "ARME4",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "AK-47"
   },
   {
    "instant": 295,
@@ -1030,7 +1064,8 @@
    "allie": false,
    "headshot": true,
    "arme_icone": "ARME0",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 279,
@@ -1038,7 +1073,8 @@
    "victime": 2,
    "allie": false,
    "arme_icone": "ARME0",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 277,
@@ -1046,7 +1082,8 @@
    "victime": 6,
    "allie": false,
    "arme_icone": "ARME3",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "M12"
   },
   {
    "instant": 268,
@@ -1054,7 +1091,8 @@
    "victime": 7,
    "allie": false,
    "arme_icone": "ARME4",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "AK-47"
   },
   {
    "instant": 267,
@@ -24507,6 +24545,112 @@
    "SPECTRE": 0.164,
    "?": 0.026,
    "GUN sans nom 26": 0.009
+  }
+ },
+ "duels": {
+  "_quoi": "nemesis, morts par arme et revanches, calcules sur les tueurs poses — a la main quand ils le sont",
+  "_fenetre_revanche": 5.0,
+  "nemesis": [
+   {
+    "victime": "TIBCO",
+    "tueur": "RHINO",
+    "morts": 4
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "PHASME",
+    "morts": 4
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "HIPPOCAMPE",
+    "morts": 3
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "RHINO",
+    "morts": 3
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "RHINO",
+    "morts": 2
+   },
+   {
+    "victime": "LIX",
+    "tueur": "RHINO",
+    "morts": 2
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "RABITTE",
+    "morts": 2
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "RABITTE",
+    "morts": 2
+   },
+   {
+    "victime": "LIX",
+    "tueur": "PHASME",
+    "morts": 1
+   },
+   {
+    "victime": "TIBCO",
+    "tueur": "RABITTE",
+    "morts": 1
+   },
+   {
+    "victime": "LIX",
+    "tueur": "HIPPOCAMPE",
+    "morts": 1
+   },
+   {
+    "victime": "LIX",
+    "tueur": "RABITTE",
+    "morts": 1
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "PHASME",
+    "morts": 1
+   }
+  ],
+  "par_quoi": {
+   "TCHERNOBYL": {
+    "SPECTRE": 3,
+    "AK-47": 3,
+    "GRENADE": 2
+   },
+   "LIX": {
+    "M12": 2,
+    "kill admin ou chute": 1,
+    "GRENADE": 1,
+    "SPECTRE": 1,
+    "WARDEN": 1
+   },
+   "CROMX": {
+    "AK-47": 5,
+    "ATLAS": 3,
+    "arme inconnue": 1
+   },
+   "TIBCO": {
+    "SPECTRE": 2,
+    "ATLAS": 2,
+    "AK-47": 1
+   }
+  },
+  "revanches": {
+   "faites": 1,
+   "ratees": 26,
+   "indecidables": 1,
+   "par_vengeur": {
+    "TIBCO": 1
+   },
+   "par_venge": {
+    "LIX": 1
+   }
   }
  }
 }

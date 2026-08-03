@@ -74557,5 +74557,129 @@
    "STRIKER": 0.011,
    "FXC sans nom 31": 0.011
   }
+ },
+ "duels": {
+  "_quoi": "nemesis, morts par arme et revanches, calcules sur les tueurs poses — a la main quand ils le sont",
+  "_fenetre_revanche": 5.0,
+  "nemesis": [
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "VALTOR",
+    "morts": 8
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "VALTOR",
+    "morts": 5
+   },
+   {
+    "victime": "LIX",
+    "tueur": "SKY",
+    "morts": 4
+   },
+   {
+    "victime": "TIBCO",
+    "tueur": "VALTOR",
+    "morts": 4
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "PARZIRAHL",
+    "morts": 4
+   },
+   {
+    "victime": "LIX",
+    "tueur": "PARZIRAHL",
+    "morts": 4
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "PARZIRAHL",
+    "morts": 3
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "SKY",
+    "morts": 3
+   },
+   {
+    "victime": "TIBCO",
+    "tueur": "PARZIRAHL",
+    "morts": 2
+   },
+   {
+    "victime": "LIX",
+    "tueur": "VALTOR",
+    "morts": 2
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "SKY",
+    "morts": 2
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "NOXIS",
+    "morts": 1
+   },
+   {
+    "victime": "TIBCO",
+    "tueur": "SKY",
+    "morts": 1
+   }
+  ],
+  "par_quoi": {
+   "LIX": {
+    "MP-52": 3,
+    "SPECTRE": 3,
+    "tueur inconnu": 2,
+    "WARDEN": 1,
+    "ARME4": 1,
+    "WESTFIRE": 1,
+    "arme inconnue": 1
+   },
+   "TIBCO": {
+    "arme inconnue": 2,
+    "STRIKER": 2,
+    "ARME4": 2,
+    "WESTFIRE": 1,
+    "tueur inconnu": 1
+   },
+   "TCHERNOBYL": {
+    "arme inconnue": 6,
+    "WARDEN": 2,
+    "MP-52": 2,
+    "WESTFIRE": 2,
+    "STRIKER": 1,
+    "SPECTRE": 1,
+    "tueur inconnu": 1
+   },
+   "CROMX": {
+    "SPECTRE": 3,
+    "MP-52": 3,
+    "tueur inconnu": 2,
+    "ARME4": 2,
+    "ATLAS": 2,
+    "WARDEN": 1,
+    "GRENADE": 1
+   }
+  },
+  "revanches": {
+   "faites": 9,
+   "ratees": 34,
+   "indecidables": 6,
+   "par_vengeur": {
+    "TCHERNOBYL": 1,
+    "LIX": 3,
+    "TIBCO": 4,
+    "CROMX": 1
+   },
+   "par_venge": {
+    "CROMX": 2,
+    "LIX": 2,
+    "TCHERNOBYL": 4,
+    "TIBCO": 1
+   }
+  }
  }
 }

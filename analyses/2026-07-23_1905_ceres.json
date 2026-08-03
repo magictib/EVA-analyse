@@ -817,7 +817,8 @@
    "victime": 2,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 588,
@@ -833,7 +834,8 @@
    "victime": 1,
    "allie": false,
    "arme_icone": "ARME2",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 584,
@@ -841,7 +843,8 @@
    "victime": 6,
    "allie": false,
    "arme_icone": "ARME3",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "WESTFIRE"
   },
   {
    "instant": 579,
@@ -849,7 +852,8 @@
    "victime": 4,
    "allie": false,
    "arme_icone": "ARME2",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 551,
@@ -863,7 +867,8 @@
    "victime": 3,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 551,
@@ -872,7 +877,8 @@
    "allie": false,
    "headshot": true,
    "arme_icone": "ARME3",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "WESTFIRE"
   },
   {
    "instant": 550,
@@ -880,7 +886,8 @@
    "victime": 9,
    "allie": false,
    "arme_icone": "ARME0",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 542,
@@ -888,7 +895,8 @@
    "victime": 7,
    "allie": false,
    "arme_icone": "ARME6",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "GRENADE"
   },
   {
    "instant": 510,
@@ -905,7 +913,8 @@
    "victime": 3,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 506,
@@ -921,7 +930,8 @@
    "victime": 6,
    "allie": false,
    "arme_icone": "ARME2",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 488,
@@ -937,7 +947,8 @@
    "victime": 2,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 481,
@@ -953,7 +964,8 @@
    "victime": 1,
    "allie": false,
    "arme_icone": "ARME5",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 477,
@@ -961,7 +973,8 @@
    "victime": 7,
    "allie": false,
    "arme_icone": "ARME0",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 471,
@@ -977,7 +990,8 @@
    "victime": 9,
    "allie": false,
    "arme_icone": "ARME6",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "GRENADE"
   },
   {
    "instant": 426,
@@ -985,7 +999,8 @@
    "victime": 3,
    "allie": false,
    "arme_icone": "ARME5",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 413,
@@ -993,7 +1008,8 @@
    "victime": 2,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "NEEDLE"
   },
   {
    "instant": 412,
@@ -1001,7 +1017,8 @@
    "victime": 1,
    "allie": false,
    "arme_icone": "ARME5",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 408,
@@ -1010,7 +1027,8 @@
    "allie": false,
    "headshot": true,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 404,
@@ -1018,7 +1036,8 @@
    "victime": 7,
    "allie": false,
    "arme_icone": "ARME5",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 396,
@@ -1026,7 +1045,8 @@
    "victime": 6,
    "allie": false,
    "arme_icone": "ARME5",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 392,
@@ -1034,7 +1054,8 @@
    "victime": 9,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 389,
@@ -1042,7 +1063,8 @@
    "victime": 2,
    "allie": false,
    "arme_icone": "ARME6",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "GRENADE"
   },
   {
    "instant": 376,
@@ -1050,7 +1072,8 @@
    "victime": 1,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 375,
@@ -1058,7 +1081,8 @@
    "victime": 3,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 371,
@@ -1066,7 +1090,8 @@
    "victime": 8,
    "allie": false,
    "arme_icone": "ARME6",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "GRENADE"
   },
   {
    "instant": 370,
@@ -1074,7 +1099,8 @@
    "victime": 4,
    "allie": false,
    "arme_icone": "ARME2",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 365,
@@ -1082,7 +1108,8 @@
    "victime": 7,
    "allie": false,
    "arme_icone": "ARME2",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 364,
@@ -1096,7 +1123,8 @@
    "victime": 8,
    "allie": false,
    "arme_icone": "ARME5",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 334,
@@ -1104,7 +1132,8 @@
    "victime": 3,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 334,
@@ -1112,7 +1141,8 @@
    "victime": 6,
    "allie": false,
    "arme_icone": "ARME0",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   },
   {
    "instant": 332,
@@ -1120,7 +1150,8 @@
    "victime": 4,
    "allie": false,
    "arme_icone": "ARME2",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "STRIKER"
   },
   {
    "instant": 322,
@@ -1136,7 +1167,8 @@
    "victime": 9,
    "allie": false,
    "arme_icone": "ARME5",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 309,
@@ -1144,7 +1176,8 @@
    "victime": 4,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "NEEDLE"
   },
   {
    "instant": 301,
@@ -1152,7 +1185,8 @@
    "victime": 7,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 298,
@@ -1168,7 +1202,8 @@
    "victime": 3,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "MP-52"
   },
   {
    "instant": 283,
@@ -1176,7 +1211,8 @@
    "victime": 6,
    "allie": false,
    "arme_icone": "ARME5",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 278,
@@ -1200,7 +1236,8 @@
    "victime": 1,
    "allie": false,
    "arme_icone": "ARME1",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "NEEDLE"
   },
   {
    "instant": 274,
@@ -1214,7 +1251,8 @@
    "victime": 4,
    "allie": false,
    "arme_icone": "ARME5",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "WARDEN"
   },
   {
    "instant": 246,
@@ -1222,7 +1260,8 @@
    "victime": 3,
    "allie": false,
    "arme_icone": "ARME0",
-   "_main": true
+   "_main": true,
+   "arme_reelle": "SPECTRE"
   }
  ],
  "ambigus": [],
@@ -68195,6 +68234,131 @@
    "STRIKER": 0.357,
    "FXC sans nom 18": 0.032,
    "?": 0.008
+  }
+ },
+ "duels": {
+  "_quoi": "nemesis, morts par arme et revanches, calcules sur les tueurs poses — a la main quand ils le sont",
+  "_fenetre_revanche": 5.0,
+  "nemesis": [
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "VALTOR",
+    "morts": 4
+   },
+   {
+    "victime": "TIBCO",
+    "tueur": "VALTOR",
+    "morts": 3
+   },
+   {
+    "victime": "LIX",
+    "tueur": "PARZIRAHL",
+    "morts": 3
+   },
+   {
+    "victime": "LIX",
+    "tueur": "SKY",
+    "morts": 2
+   },
+   {
+    "victime": "LIX",
+    "tueur": "NOXIS",
+    "morts": 2
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "SKY",
+    "morts": 2
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "NOXIS",
+    "morts": 2
+   },
+   {
+    "victime": "LIX",
+    "tueur": "VALTOR",
+    "morts": 2
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "PARZIRAHL",
+    "morts": 1
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "SKY",
+    "morts": 1
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "PARZIRAHL",
+    "morts": 1
+   },
+   {
+    "victime": "TIBCO",
+    "tueur": "NOXIS",
+    "morts": 1
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "VALTOR",
+    "morts": 1
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "NOXIS",
+    "morts": 1
+   },
+   {
+    "victime": "TIBCO",
+    "tueur": "SKY",
+    "morts": 1
+   }
+  ],
+  "par_quoi": {
+   "CROMX": {
+    "MP-52": 2,
+    "tueur inconnu": 1,
+    "NEEDLE": 1,
+    "GRENADE": 1,
+    "STRIKER": 1
+   },
+   "LIX": {
+    "MP-52": 5,
+    "NEEDLE": 1,
+    "STRIKER": 1,
+    "WARDEN": 1,
+    "SPECTRE": 1
+   },
+   "TIBCO": {
+    "WARDEN": 2,
+    "STRIKER": 1,
+    "MP-52": 1,
+    "NEEDLE": 1
+   },
+   "TCHERNOBYL": {
+    "STRIKER": 3,
+    "NEEDLE": 3,
+    "MP-52": 1,
+    "WARDEN": 1
+   }
+  },
+  "revanches": {
+   "faites": 8,
+   "ratees": 19,
+   "indecidables": 1,
+   "par_vengeur": {
+    "TCHERNOBYL": 4,
+    "CROMX": 1,
+    "LIX": 2,
+    "TIBCO": 1
+   },
+   "par_venge": {
+    "CROMX": 3,
+    "LIX": 4,
+    "TIBCO": 1
+   }
   }
  }
 }

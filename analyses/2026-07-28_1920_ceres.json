@@ -68587,5 +68587,113 @@
    "END sans nom 21": 0.009,
    "END sans nom 9": 0.009
   }
+ },
+ "duels": {
+  "_quoi": "nemesis, morts par arme et revanches, calcules sur les tueurs poses — a la main quand ils le sont",
+  "_fenetre_revanche": 5.0,
+  "nemesis": [
+   {
+    "victime": "TIBCO",
+    "tueur": "GODZI",
+    "morts": 3
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "Y4NET",
+    "morts": 3
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "BAROU",
+    "morts": 2
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "GODZI",
+    "morts": 2
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "GODZI",
+    "morts": 2
+   },
+   {
+    "victime": "LIX",
+    "tueur": "VIKINGS",
+    "morts": 2
+   },
+   {
+    "victime": "LIX",
+    "tueur": "Y4NET",
+    "morts": 1
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "BAROU",
+    "morts": 1
+   },
+   {
+    "victime": "TIBCO",
+    "tueur": "VIKINGS",
+    "morts": 1
+   },
+   {
+    "victime": "LIX",
+    "tueur": "BAROU",
+    "morts": 1
+   },
+   {
+    "victime": "CROMX",
+    "tueur": "VIKINGS",
+    "morts": 1
+   },
+   {
+    "victime": "TIBCO",
+    "tueur": "BAROU",
+    "morts": 1
+   },
+   {
+    "victime": "TCHERNOBYL",
+    "tueur": "Y4NET",
+    "morts": 1
+   }
+  ],
+  "par_quoi": {
+   "LIX": {
+    "NEEDLE": 2,
+    "ARME3": 1,
+    "tueur inconnu": 1,
+    "arme inconnue": 1
+   },
+   "TCHERNOBYL": {
+    "NEEDLE": 2,
+    "SPECTRE": 1,
+    "ATLAS": 1,
+    "ARME3": 1
+   },
+   "CROMX": {
+    "arme inconnue": 3,
+    "NEEDLE": 2,
+    "SPECTRE": 2
+   },
+   "TIBCO": {
+    "SPECTRE": 3,
+    "NEEDLE": 2
+   }
+  },
+  "revanches": {
+   "faites": 3,
+   "ratees": 18,
+   "indecidables": 1,
+   "par_vengeur": {
+    "LIX": 2,
+    "CROMX": 1
+   },
+   "par_venge": {
+    "TIBCO": 1,
+    "CROMX": 1,
+    "TCHERNOBYL": 1
+   }
+  }
  }
 }
