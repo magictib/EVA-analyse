@@ -265,6 +265,32 @@
   /* Tableau des duels : quatre colonnes, et une jauge derriere le chiffre.
      Un nombre seul ne se compare pas d'une ligne a l'autre sans effort ; la
      barre donne l'ordre de grandeur avant meme qu'on lise. */
+
+  /* Les fiches de joueur : une carte par joueur, en grille qui se replie seule.
+     Pas de largeur fixe — quatre joueurs sur un ecran large, deux sur un portable,
+     sans point de rupture a maintenir. */
+  .fjw{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:10px 0}
+  .fj{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px 16px}
+  .fj header{display:flex;justify-content:space-between;align-items:baseline;
+    border-bottom:1px solid var(--rule);padding-bottom:8px;margin-bottom:10px}
+  .fj header b{font-size:19px;letter-spacing:.02em}
+  .fj header u{text-decoration:none;font-size:12px;color:var(--ink-faint)}
+  .fjg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .fjc{background:var(--void);border-radius:8px;padding:8px 10px}
+  .fjc s{display:block;text-decoration:none;font-size:11px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-faint)}
+  .fjc b{display:block;font-size:20px;line-height:1.25}
+  .fjc u{display:block;text-decoration:none;font-size:11px;color:var(--ink-faint)}
+  .fja{margin-top:12px}
+  .fja>s{display:block;text-decoration:none;font-size:11px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
+  .fjb{display:grid;grid-template-columns:5.5em 1fr 2em;align-items:center;gap:8px;
+    font-size:12px;margin-bottom:4px}
+  .fjb em{font-style:normal;color:var(--ink-faint)}
+  .fjb i{height:6px;border-radius:3px;background:var(--rule);position:relative}
+  .fjb i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--p);
+    border-radius:3px;background:var(--live)}
+  .fjb u{text-decoration:none;text-align:right}
   .mtab4 .mth,.mtr4{display:grid;grid-template-columns:1.6fr 1fr 1fr .7fr;gap:8px;
     padding:7px 10px;align-items:center;font-size:13px}
   .mtr4{border-top:1px solid var(--rule)}
@@ -4852,29 +4878,71 @@ function drawAna(){
       }
     }
     if(N.size){
-      const top=[...N.entries()].sort((a,b)=>b[1]-a[1]).slice(0,12);
-      const m=Math.max(1,...top.map(x=>x[1]));
-      nemesis=`<h4>Némésis — qui nous tue le plus</h4><div class="mtab mtab3">
-        <div class="mth"><s>adversaire</s><s>notre joueur</s><s>morts</s></div>`
-        + top.map(([k,n])=>{const [t,v]=k.split("|");
-          return `<div class="mtr3"><b>${t}</b><s>${v}</s>`
-            + `<s><i class="jauge" style="--p:${Math.round(n/m*100)}%;--c:var(--dead)"></i>${n}</s></div>`;
+      /* UNE SEULE NEMESIS PAR JOUEUR, et c'est Thibaud qui a redresse : « on ne
+         peut pas en avoir deux pour le même joueur, c'est contre le principe ».
+         La premiere version listait les douze couples les plus lourds, et le meme
+         joueur y revenait trois fois — ce n'etait plus une nemesis, c'etait un
+         palmares de couples. Pour chacun des notres on prend donc l'adversaire qui
+         l'a le plus tue, un seul, et sa VICTIME de predilection en regard. */
+      const pire=new Map(), proie=new Map();
+      for(const [k,n] of N){
+        const [t,v]=k.split("|");
+        if(!pire.has(v) || n>pire.get(v)[1]) pire.set(v,[t,n]);
+        if(!proie.has(t) || n>proie.get(t)[1]) proie.set(t,[v,n]);
+      }
+      /* `proie` est indexee par ADVERSAIRE ; on la retourne pour lire, joueur des
+         notres par joueur des notres, qui il tue le plus. */
+      const nous=new Map();
+      for(const a of lot){
+        const d=a.duels; if(!d) continue;
+        for(const x of d.nemesis||[]){
+          const k=`${x.victime}|${x.tueur}`;      // inverse : nous tueur, eux victime
+          nous.set(k,(nous.get(k)||0)+x.morts);
+        }
+      }
+      const mien=new Map();
+      for(const a of lot){
+        const noms=a.noms||{}, N2=new Set((a.partie&&a.partie.nous)||[]);
+        for(const f of a.frags||[]){
+          if(f.tueur==null || !N2.has(f.tueur) || N2.has(f.victime)) continue;
+          const t=sansTag(noms[f.tueur]||""), v=sansTag(noms[f.victime]||"");
+          if(!t||!v) continue;
+          const k=`${t}|${v}`; mien.set(k,(mien.get(k)||0)+1);
+        }
+      }
+      const best=new Map();
+      for(const [k,n] of mien){ const [t,v]=k.split("|");
+        if(!best.has(t) || n>best.get(t)[1]) best.set(t,[v,n]); }
+      const j=[...pire.keys()].sort((a,b)=>pire.get(b)[1]-pire.get(a)[1]);
+      nemesis=`<h4>Némésis</h4><div class="mtab mtab4">
+        <div class="mth"><s>joueur</s><s>sa némésis</s><s>sa proie</s><s>solde</s></div>`
+        + j.map(x=>{const p=pire.get(x), b=best.get(x)||["—",0];
+          const s=b[1]-p[1];
+          return `<div class="mtr4"><b>${x}</b>`
+            + `<s class="neg">${p[0]} · ${p[1]}</s>`
+            + `<s class="pos">${b[0]} · ${b[1]}</s>`
+            + `<s class="${s<0?"neg":(s>0?"pos":"")}">${s>0?"+":""}${s}</s></div>`;
           }).join("")
-        + `</div><p class="note">Le couple, pas le total : un adversaire qui nous prend
-           trente frags répartis sur quatre joueurs ne se joue pas comme celui qui en prend
-           trente au même. Douze premiers couples, du plus lourd au moins lourd.</p>`;
+        + `</div><p class="note">Un seul adversaire par joueur de chaque côté : celui qui
+           le tue le plus, et celui qu'il tue le plus. Le solde compare les deux — un joueur
+           dont la némésis pèse plus lourd que sa proie perd son duel de référence.</p>`;
     }
     if(Q.size){
-      const armes=[...new Set([...Q.values()].flatMap(c=>[...c.keys()]))]
-        .sort((a,b)=>{const s=c=>[...Q.values()].reduce((t,x)=>t+(x.get(c)||0),0);
-                      return s(b)-s(a);}).slice(0,7);
-      parQuoi=`<h4>De quoi l'on meurt</h4><div class="mtab" style="--n:${armes.length+1}">
-        <div class="mth" style="display:grid;grid-template-columns:1.4fr repeat(${armes.length},1fr);gap:8px;padding:6px 22px">
-          <s>joueur</s>${armes.map(a=>`<s>${a.toLowerCase()}</s>`).join("")}</div>`
-        + [...Q.entries()].sort((a,b)=>{
-            const s=c=>[...c[1].values()].reduce((t,x)=>t+x,0); return s(b)-s(a);})
-          .map(([j,c])=>`<div class="mtr" style="display:grid;grid-template-columns:1.4fr repeat(${armes.length},1fr);gap:8px;padding:6px 22px">
-            <b>${j}</b>${armes.map(a=>`<s>${c.get(a)||"—"}</s>`).join("")}</div>`).join("")
+      /* LE CLASSEMENT DES ARMES, PAS LE DETAIL PAR JOUEUR. Thibaud : « le but est
+         d'avoir juste le classement des armes qui nous tuent le plus et pas
+         forcément le détail du nombre pour tout le monde ». Le tableau croise
+         joueurs x armes faisait sept colonnes de chiffres dont aucune ne se lisait :
+         la question « qu'est-ce qui nous tue » a une seule reponse, pas quatre.
+         Le detail par joueur reste, mais dans sa fiche. */
+      const tot=new Map();
+      for(const c of Q.values()) for(const [a,n] of c) tot.set(a,(tot.get(a)||0)+n);
+      const rang=[...tot.entries()].sort((a,b)=>b[1]-a[1]);
+      const somme=rang.reduce((s,x)=>s+x[1],0), m=Math.max(1,...rang.map(x=>x[1]));
+      parQuoi=`<h4>Ce qui nous tue</h4><div class="mtab mtab3">
+        <div class="mth"><s>arme</s><s>nos morts</s><s>part</s></div>`
+        + rang.map(([a,n])=>`<div class="mtr3"><b>${a}</b>`
+          + `<s><i class="jauge" style="--p:${Math.round(n/m*100)}%;--c:var(--dead)"></i>${n}</s>`
+          + `<s>${Math.round(n/somme*100)} %</s></div>`).join("")
         + `</div><p class="note">L'arme est celle du <b>relevé à la main</b> quand la partie
            en a un, sinon l'icône lue dans le bandeau. « Grenade » couvre l'accessoire, et
            les morts qu'aucun tueur ne crédite — kill admin, chute, grenade sur soi —
@@ -4907,6 +4975,93 @@ function drawAna(){
            capture ne tient dans ce trou — elle demande huit secondes seul. <b>« Un point
            restait prenable »</b> écarte les balayages où l'on tenait déjà tout : ne rien
            prendre n'y est pas une faute.</p>`;
+    }
+  }
+
+  /* --- 5 ter. les fiches de joueur ---
+     Thibaud, 03/08 : « j'aimerais bien avoir un endroit où l'on a les stats de
+     chaque joueur, avec un affichage un peu comme les cartes, une sorte de carte
+     d'identité de joueur ».
+
+     TOUT CE QUI EST ICI SE DEDUIT DU COUPLE TUEUR/TUE ET DE SON INSTANT, rien de
+     plus. La serie sans mourir demande l'ordre — on l'a —, la meilleure carte
+     demande le decoupage par partie — on l'a. Le « duel remporte » au sens de
+     Thibaud demande de savoir si CHACUN a fait descendre la barre de vie de
+     l'autre : cette barre est lisible (la plaque du joueur se vide a mesure que
+     sa vie baisse, c'est deja mesure dans `lire_hud.part_coloree`) mais elle n'est
+     pas encore lue image par image. La fiche ne l'affiche donc pas plutot que de
+     le remplacer par un a-peu-pres qui porterait le meme nom. */
+  let fiches="";
+  {
+    const J=new Map();
+    const of=n=>{ if(!J.has(n)) J.set(n,{k:0,m:0,armes:new Map(),parV:new Map(),
+                     serie:0,serieMax:0,parties:new Set()}); return J.get(n); };
+    for(const a of lot){
+      const noms=a.noms||{}, N2=new Set((a.partie&&a.partie.nous)||[]);
+      const cle=`${a.partie&&a.partie.dt||""} ${a.partie&&a.partie.h||""}`;
+      const carte=(a.partie||{}).carte||"?";
+      const morts=(a.frags||[]).filter(f=>f.instant!=null)
+        .sort((x,y)=>y.instant-x.instant);          /* le decompte DESCEND */
+      const kp=new Map(), mp=new Map();
+      for(const f of morts){
+        const v=sansTag(noms[f.victime]||""), t=f.tueur==null?null:sansTag(noms[f.tueur]||"");
+        if(N2.has(f.victime) && v){
+          const o=of(v); o.m++; o.serie=0; o.parties.add(cle);
+          mp.set(v,(mp.get(v)||0)+1);
+        }
+        if(f.tueur!=null && N2.has(f.tueur) && t && !N2.has(f.victime)){
+          const o=of(t); o.k++; o.parties.add(cle);
+          o.serie++; if(o.serie>o.serieMax) o.serieMax=o.serie;
+          const arme=f.arme_reelle||f.arme_icone;
+          if(arme) o.armes.set(arme,(o.armes.get(arme)||0)+1);
+          kp.set(t,(kp.get(t)||0)+1);
+        }
+      }
+      for(const [n,k] of kp){ const o=of(n);
+        o.parV.set(cle,{carte,k,m:mp.get(n)||0}); }
+      for(const [n,m] of mp){ const o=of(n);
+        if(!o.parV.has(cle)) o.parV.set(cle,{carte,k:0,m}); }
+    }
+    if(J.size){
+      const cartes=[...J.entries()].sort((a,b)=>b[1].k-a[1].k).map(([n,o])=>{
+        const kd=o.m?o.k/o.m:o.k;
+        const armes=[...o.armes.entries()].sort((a,b)=>b[1]-a[1]).slice(0,4);
+        const ma=Math.max(1,...armes.map(x=>x[1]));
+        /* LA MEILLEURE CARTE SE JUGE SUR PLUSIEURS PARTIES, pas sur un coup de
+           chance : on agrege par carte avant de comparer. */
+        const parCarte=new Map();
+        for(const v of o.parV.values()){
+          const c=parCarte.get(v.carte)||{k:0,m:0,n:0};
+          c.k+=v.k; c.m+=v.m; c.n++; parCarte.set(v.carte,c);
+        }
+        const rang=[...parCarte.entries()].map(([c,v])=>[c,v.m?v.k/v.m:v.k,v.n])
+          .sort((a,b)=>b[1]-a[1]);
+        const meil=rang[0], pire=rang[rang.length-1];
+        return `<article class="fj">
+          <header><b>${n}</b><u>${o.parties.size} partie${o.parties.size>1?"s":""}</u></header>
+          <div class="fjg">
+            <div class="fjc"><s>K/D</s><b class="${kd>=1?"pos":"neg"}">${kd.toFixed(2)}</b>
+              <u>${o.k} / ${o.m}</u></div>
+            <div class="fjc"><s>série sans mourir</s><b>${o.serieMax}</b><u>meilleure</u></div>
+            <div class="fjc"><s>meilleure carte</s><b>${meil?meil[0]:"—"}</b>
+              <u>${meil?meil[1].toFixed(2)+" · "+meil[2]+" p.":""}</u></div>
+            <div class="fjc"><s>plus difficile</s><b>${pire&&rang.length>1?pire[0]:"—"}</b>
+              <u>${pire&&rang.length>1?pire[1].toFixed(2)+" · "+pire[2]+" p.":""}</u></div>
+          </div>
+          <div class="fja"><s>ses kills, par arme</s>`
+          + (armes.length?armes.map(([a,v])=>`<div class="fjb"><em>${a}</em>
+              <i style="--p:${Math.round(v/ma*100)}%"></i><u>${v}</u></div>`).join("")
+             :`<p class="note">Aucune arme relevée sur ce tri.</p>`)
+          + `</div></article>`;
+      }).join("");
+      fiches=`<h4>Fiches</h4><div class="fjw">${cartes}</div>
+        <p class="note">Tout vient du couple tueur/tué et de son instant : la série est la
+           plus longue suite de kills entre deux morts, la meilleure carte agrège toutes les
+           parties jouées dessus plutôt que de retenir un coup de chance.
+           <b>Le « duel remporté » n'y figure pas encore</b> : au sens que tu lui donnes il
+           demande de savoir si chacun a fait descendre la barre de vie de l'autre. Cette
+           barre est lisible — la plaque du joueur se vide à mesure que sa vie baisse — mais
+           elle n'est pas encore lue image par image.</p>`;
     }
   }
 
@@ -5133,14 +5288,14 @@ function drawAna(){
        corriger, et ce que l'adversaire nous a impose. */
     + bloc("Revue", "Une partie, déroulée dans l'ordre où elle s'est jouée.", revue)
     + bloc("Équipe", "Ce que la partie a donné, de notre côté seulement.",
-           global + score + progres + revanche + balay)
+           global + score + progres + parQuoi + revanche + balay)
     /* La carte des trajets est retiree tant que la detection perd des joueurs
        sur les premieres secondes : une ouverture incomplete se lit comme une
        ouverture ratee. Le calcul reste, il suffira de remettre `+ carte`. */
     + bloc("Terrain", "Qui tient la carte, pourquoi on la lâche, et comment on en sort.",
            terrain + moitie + controle + debut)
     + bloc("Joueurs", "Le détail individuel, à lire avec le rôle de chacun.",
-           joueurs + parQuoi)
+           fiches + joueurs)
     /* « Duels » etait un abus de langage, et il valait mieux le dire que le
        garder : un duel suppose que les deux joueurs se soient VUS et aient tire
        l'un sur l'autre, un seul l'emportant. Le bandeau de morts ne donne que le
