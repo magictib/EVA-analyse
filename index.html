@@ -4382,7 +4382,8 @@ function fichesJoueurs(lot){
 
     const J=new Map();
     const of=n=>{ if(!J.has(n)) J.set(n,{k:0,m:0,armes:new Map(),parV:new Map(),
-                     serie:0,serieMax:0,parties:new Set()}); return J.get(n); };
+                     serie:0,serieMax:0,parties:new Set(),
+                     tuePar:new Map(),tue:new Map()}); return J.get(n); };
     for(const a of lot){
       const noms=a.noms||{}, N2=new Set((a.partie&&a.partie.nous)||[]);
       const cle=`${a.partie&&a.partie.dt||""} ${a.partie&&a.partie.h||""}`;
@@ -4395,12 +4396,22 @@ function fichesJoueurs(lot){
         if(N2.has(f.victime) && v){
           const o=of(v); o.m++; o.serie=0; o.parties.add(cle);
           mp.set(v,(mp.get(v)||0)+1);
+          /* SA NEMESIS, du meme endroit que le reste de sa fiche. Le tableau
+             general la tirait de `duels.nemesis` pendant que « sa proie » venait
+             des frags : deux sources pour une seule ligne, et c'est de la qu'etait
+             venue la faute de casse. Ici les deux colonnes sortent du MEME couple
+             tueur/tue, donc elles ne peuvent plus diverger. */
+          if(f.tueur!=null && !N2.has(f.tueur)){
+            const q=sansTag(noms[f.tueur]||"");
+            if(q) o.tuePar.set(q,(o.tuePar.get(q)||0)+1);
+          }
         }
         if(f.tueur!=null && N2.has(f.tueur) && t && !N2.has(f.victime)){
           const o=of(t); o.k++; o.parties.add(cle);
           o.serie++; if(o.serie>o.serieMax) o.serieMax=o.serie;
           const arme=f.arme_reelle||f.arme_icone;
           if(arme) o.armes.set(arme,(o.armes.get(arme)||0)+1);
+          if(v) o.tue.set(v,(o.tue.get(v)||0)+1);
           kp.set(t,(kp.get(t)||0)+1);
         }
       }
@@ -4453,6 +4464,20 @@ function fichesJoueurs(lot){
               <u>${meil?meil[1].toFixed(2)+" · "+meil[2]+" p.":""}</u></div>
             <div class="fjc"><s>plus difficile</s><b>${pire&&rang.length>1?pire[0]:"—"}</b>
               <u>${pire&&rang.length>1?pire[1].toFixed(2)+" · "+pire[2]+" p.":""}</u></div>
+            ${(()=>{
+              const nem=[...o.tuePar.entries()].sort((a,b)=>b[1]-a[1])[0];
+              const pr=[...o.tue.entries()].sort((a,b)=>b[1]-a[1])[0];
+              if(!nem && !pr) return "";
+              /* UN SEUL ADVERSAIRE DE CHAQUE COTE, c'est Thibaud qui l'a redresse :
+                 « on ne peut pas en avoir deux pour le meme joueur ». Le solde
+                 compare les deux — negatif, le joueur perd son duel de reference. */
+              const s=(pr?pr[1]:0)-(nem?nem[1]:0);
+              return `<div class="fjc"><s>sa némésis</s>
+                  <b class="neg">${nem?nem[0]:"—"}</b>
+                  <u>${nem?nem[1]+" morts subies":""}</u></div>
+                <div class="fjc"><s>sa proie</s>
+                  <b class="pos">${pr?pr[0]:"—"}</b>
+                  <u>${pr?pr[1]+" kills · solde "+(s>0?"+":"")+s:""}</u></div>`;})()}
             ${(()=>{const s=AS.get(n.toUpperCase()); if(!s||!s.occ) return "";
               return `<div class="fjc"><s>taux d'assist</s>
                 <b>${(100*s.a/s.occ).toFixed(1)} %</b>
@@ -4467,7 +4492,7 @@ function fichesJoueurs(lot){
       fiches=`<h4>Fiches</h4><div class="fjw">${cartes}</div>
         <p class="note">Tout vient du couple tueur/tué et de son instant : la série est la
            plus longue suite de kills entre deux morts, la meilleure carte agrège toutes les
-           parties jouées dessus plutôt que de retenir un coup de chance.
+           parties jouées dessus plutôt que de retenir un coup de chance. Sa <b>némésis</b> est l'adversaire qui l'a le plus tué, sa <b>proie</b> celui qu'il a le plus tué, un seul de chaque côté ; le solde compare les deux.
            Le <b>taux d'assist</b> rapporte tes assists aux kills de tes coéquipiers — on n'assiste que sur un kill qu'on n'a pas fait. Le dénominateur est large : on ne peut pas assister quand on est mort ou ailleurs. Il est incontestable mais il sous-estime, et il reste comparable d'un joueur à l'autre. <b>Le « duel remporté » n'y figure pas encore</b> : au sens que tu lui donnes il
            demande de savoir si chacun a fait descendre la barre de vie de l'autre. Cette
            barre est lisible — la plaque du joueur se vide à mesure que sa vie baisse — mais
@@ -4949,23 +4974,19 @@ function drawAna(){
         plus souvent qu'on ne l'impose.</p>`;
   }
 
-  /* --- 5 bis. nemesis, de quoi l'on meurt, revanches, balayages ---
+  /* --- 5 bis. de quoi l'on meurt, revanches, balayages ---
      Demandes de Thibaud les 03/08. Tout est deja calcule par `stats_duels.py` et
      `frise_kd.py` et depose dans l'analyse : ici on ne fait qu'additionner sur le
      lot filtre et rendre. Rien n'est recalcule dans le navigateur — les regles
      (fenetre de revanche, duree utile d'un balayage) appartiennent au module qui
      les documente, pas a l'affichage. */
-  let nemesis="", parQuoi="", revanche="", balay="";
+  let parQuoi="", revanche="", balay="";
   {
-    const N=new Map(), Q=new Map(), V=new Map(), G=new Map();
+    const Q=new Map(), V=new Map(), G=new Map();
     let rf=0, rr=0, ri=0, bi=0, bp=0, bpris=0, bs=0, bc=0;
     for(const a of lot){
       const d=a.duels;
       if(d){
-        for(const x of d.nemesis||[]){
-          const k=`${x.tueur}|${x.victime}`;
-          N.set(k,(N.get(k)||0)+x.morts);
-        }
         for(const [j,c] of Object.entries(d.par_quoi||{})){
           if(!Q.has(j)) Q.set(j,new Map());
           for(const [arme,n] of Object.entries(c))
@@ -4985,63 +5006,10 @@ function drawAna(){
         bs+=su.length; bc+=su.filter(x=>x.prenable && x.gagne>0).length;
       }
     }
-    if(N.size){
-      /* UNE SEULE NEMESIS PAR JOUEUR, et c'est Thibaud qui a redresse : « on ne
-         peut pas en avoir deux pour le même joueur, c'est contre le principe ».
-         La premiere version listait les douze couples les plus lourds, et le meme
-         joueur y revenait trois fois — ce n'etait plus une nemesis, c'etait un
-         palmares de couples. Pour chacun des notres on prend donc l'adversaire qui
-         l'a le plus tue, un seul, et sa VICTIME de predilection en regard. */
-      const pire=new Map(), proie=new Map();
-      for(const [k,n] of N){
-        const [t,v]=k.split("|");
-        if(!pire.has(v) || n>pire.get(v)[1]) pire.set(v,[t,n]);
-        if(!proie.has(t) || n>proie.get(t)[1]) proie.set(t,[v,n]);
-      }
-      /* `proie` est indexee par ADVERSAIRE ; on la retourne pour lire, joueur des
-         notres par joueur des notres, qui il tue le plus. */
-      const nous=new Map();
-      for(const a of lot){
-        const d=a.duels; if(!d) continue;
-        for(const x of d.nemesis||[]){
-          const k=`${x.victime}|${x.tueur}`;      // inverse : nous tueur, eux victime
-          nous.set(k,(nous.get(k)||0)+x.morts);
-        }
-      }
-      const mien=new Map();
-      for(const a of lot){
-        const noms=a.noms||{}, N2=new Set((a.partie&&a.partie.nous)||[]);
-        /* EN MAJUSCULES DES DEUX COTES. `stats_duels.py` range les pseudos en
-           capitales — « LIX » — quand `sansTag` rend la casse d'origine — « LiX ».
-           La colonne « sa proie » cherchait donc une clef qui n'existait pas et
-           affichait zero partout, ce qui se lisait « on n'a jamais tue notre
-           nemesis » : une faute muette qui donnait une information FAUSSE plutot
-           qu'un trou visible. */
-        for(const f of a.frags||[]){
-          if(f.tueur==null || !N2.has(f.tueur) || N2.has(f.victime)) continue;
-          const t=sansTag(noms[f.tueur]||"").toUpperCase(),
-                v=sansTag(noms[f.victime]||"").toUpperCase();
-          if(!t||!v) continue;
-          const k=`${t}|${v}`; mien.set(k,(mien.get(k)||0)+1);
-        }
-      }
-      const best=new Map();
-      for(const [k,n] of mien){ const [t,v]=k.split("|");
-        if(!best.has(t) || n>best.get(t)[1]) best.set(t,[v,n]); }
-      const j=[...pire.keys()].sort((a,b)=>pire.get(b)[1]-pire.get(a)[1]);
-      nemesis=`<h4>Némésis</h4><div class="mtab mtab4">
-        <div class="mth"><s>joueur</s><s>sa némésis</s><s>sa proie</s><s>solde</s></div>`
-        + j.map(x=>{const p=pire.get(x), b=best.get(x)||["—",0];
-          const s=b[1]-p[1];
-          return `<div class="mtr4"><b>${x}</b>`
-            + `<s class="neg">${p[0]} · ${p[1]}</s>`
-            + `<s class="pos">${b[0]} · ${b[1]}</s>`
-            + `<s class="${s<0?"neg":(s>0?"pos":"")}">${s>0?"+":""}${s}</s></div>`;
-          }).join("")
-        + `</div><p class="note">Un seul adversaire par joueur de chaque côté : celui qui
-           le tue le plus, et celui qu'il tue le plus. Le solde compare les deux — un joueur
-           dont la némésis pèse plus lourd que sa proie perd son duel de référence.</p>`;
-    }
+    /* LA NEMESIS EST PARTIE DANS LA FICHE DU JOUEUR. Thibaud : « la partie
+       nemesis doit etre integree dans la fiche perso, c'est plus sa place la-bas ».
+       Un tableau a quatre colonnes pour dire, joueur par joueur, qui le tue et qui
+       il tue, c'etait la fiche du joueur ecrite ailleurs. */
     if(Q.size){
       /* LE CLASSEMENT DES ARMES, PAS LE DETAIL PAR JOUEUR. Thibaud : « le but est
          d'avoir juste le classement des armes qui nous tuent le plus et pas
@@ -5347,7 +5315,7 @@ function drawAna(){
        de situer la mort, et seule une mort sur cinq est localisable aujourd'hui. */
     + bloc("Adversaire",
            FADV ? `Ce que ${FADV} nous impose, et ce qu'on lui rend.`
-                : "Ce que l'équipe d'en face nous impose.", nemesis + corpsAdv);
+                : "Ce que l'équipe d'en face nous impose.", corpsAdv);
   replieLesNotes(el);
 
   /* Un canvas ne se remplit pas par innerHTML : on trace apres coup, et de
