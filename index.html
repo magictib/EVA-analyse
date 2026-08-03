@@ -4903,9 +4903,16 @@ function drawAna(){
       const mien=new Map();
       for(const a of lot){
         const noms=a.noms||{}, N2=new Set((a.partie&&a.partie.nous)||[]);
+        /* EN MAJUSCULES DES DEUX COTES. `stats_duels.py` range les pseudos en
+           capitales — « LIX » — quand `sansTag` rend la casse d'origine — « LiX ».
+           La colonne « sa proie » cherchait donc une clef qui n'existait pas et
+           affichait zero partout, ce qui se lisait « on n'a jamais tue notre
+           nemesis » : une faute muette qui donnait une information FAUSSE plutot
+           qu'un trou visible. */
         for(const f of a.frags||[]){
           if(f.tueur==null || !N2.has(f.tueur) || N2.has(f.victime)) continue;
-          const t=sansTag(noms[f.tueur]||""), v=sansTag(noms[f.victime]||"");
+          const t=sansTag(noms[f.tueur]||"").toUpperCase(),
+                v=sansTag(noms[f.victime]||"").toUpperCase();
           if(!t||!v) continue;
           const k=`${t}|${v}`; mien.set(k,(mien.get(k)||0)+1);
         }
