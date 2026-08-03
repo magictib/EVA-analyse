@@ -4703,7 +4703,12 @@ function drawAna(){
     moitie = `<h4>Où l'on joue</h4><div class="mtab mtab6">
         <div class="mth"><s>joueur</s><s>présent chez eux</s><s>ses kills faits chez eux</s>
           <s>ses morts subies chez eux</s><s>morts seul chez eux</s><s>dont impunies</s></div>`
-      + lignes.map(([n,o])=>`<div class="mtr"><b>${n}${o.tags.size?`<em>${[...o.tags].sort().join("+")}</em>`:""}</b>`
+      /* LE TAG N'EST PLUS AFFICHE SOUS LE PSEUDO. Il avait ete mis pour montrer
+         qu'on regroupait bien « BVSxTibco » et « NTxTibco » sous un seul joueur —
+         mais c'est justement ce que Thibaud avait demande, et le rappeler a chaque
+         ligne encombrait la colonne d'une information qui ne sert plus a rien une
+         fois le regroupement acquis. Le tag reste dans les donnees. */
+      + lignes.map(([n,o])=>`<div class="mtr"><b>${n}</b>`
         + `<s>${pct(o.vus_eux,o.vus)}</s>`
         + `<s>${pct(o.k_eux,o.k_eux+o.k_nous)}</s>`
         + `<s>${pct(o.m_eux,o.m_eux+o.m_nous)}</s>`
@@ -4808,6 +4813,101 @@ function drawAna(){
       <p class="note">Ce que la strat prépare vraiment. « Premier mort chez nous » dit
         qui prend le premier contact : au-dessus de 50 %, on subit l'ouverture adverse
         plus souvent qu'on ne l'impose.</p>`;
+  }
+
+  /* --- 5 bis. nemesis, de quoi l'on meurt, revanches, balayages ---
+     Demandes de Thibaud les 03/08. Tout est deja calcule par `stats_duels.py` et
+     `frise_kd.py` et depose dans l'analyse : ici on ne fait qu'additionner sur le
+     lot filtre et rendre. Rien n'est recalcule dans le navigateur — les regles
+     (fenetre de revanche, duree utile d'un balayage) appartiennent au module qui
+     les documente, pas a l'affichage. */
+  let nemesis="", parQuoi="", revanche="", balay="";
+  {
+    const N=new Map(), Q=new Map(), V=new Map(), G=new Map();
+    let rf=0, rr=0, ri=0, bi=0, bp=0, bpris=0, bs=0, bc=0;
+    for(const a of lot){
+      const d=a.duels;
+      if(d){
+        for(const x of d.nemesis||[]){
+          const k=`${x.tueur}|${x.victime}`;
+          N.set(k,(N.get(k)||0)+x.morts);
+        }
+        for(const [j,c] of Object.entries(d.par_quoi||{})){
+          if(!Q.has(j)) Q.set(j,new Map());
+          for(const [arme,n] of Object.entries(c))
+            Q.get(j).set(arme,(Q.get(j).get(arme)||0)+n);
+        }
+        const r=d.revanches||{};
+        rf+=r.faites||0; rr+=r.ratees||0; ri+=r.indecidables||0;
+        for(const [j,n] of Object.entries(r.par_vengeur||{})) V.set(j,(V.get(j)||0)+n);
+        for(const [j,n] of Object.entries(r.par_venge||{}))   G.set(j,(G.get(j)||0)+n);
+      }
+      const b=a.balayages;
+      if(b){
+        const util=(b.balayages_infliges||[]).filter(x=>x.juge && x.duree_s>=3);
+        const pren=util.filter(x=>x.prenable);
+        bi+=util.length; bp+=pren.length; bpris+=pren.filter(x=>x.gagne>0).length;
+        const su=(b.balayages_subis||[]).filter(x=>x.juge && x.duree_s>=3);
+        bs+=su.length; bc+=su.filter(x=>x.prenable && x.gagne>0).length;
+      }
+    }
+    if(N.size){
+      const top=[...N.entries()].sort((a,b)=>b[1]-a[1]).slice(0,12);
+      const m=Math.max(1,...top.map(x=>x[1]));
+      nemesis=`<h4>Némésis — qui nous tue le plus</h4><div class="mtab mtab3">
+        <div class="mth"><s>adversaire</s><s>notre joueur</s><s>morts</s></div>`
+        + top.map(([k,n])=>{const [t,v]=k.split("|");
+          return `<div class="mtr3"><b>${t}</b><s>${v}</s>`
+            + `<s><i class="jauge" style="--p:${Math.round(n/m*100)}%;--c:var(--dead)"></i>${n}</s></div>`;
+          }).join("")
+        + `</div><p class="note">Le couple, pas le total : un adversaire qui nous prend
+           trente frags répartis sur quatre joueurs ne se joue pas comme celui qui en prend
+           trente au même. Douze premiers couples, du plus lourd au moins lourd.</p>`;
+    }
+    if(Q.size){
+      const armes=[...new Set([...Q.values()].flatMap(c=>[...c.keys()]))]
+        .sort((a,b)=>{const s=c=>[...Q.values()].reduce((t,x)=>t+(x.get(c)||0),0);
+                      return s(b)-s(a);}).slice(0,7);
+      parQuoi=`<h4>De quoi l'on meurt</h4><div class="mtab" style="--n:${armes.length+1}">
+        <div class="mth" style="display:grid;grid-template-columns:1.4fr repeat(${armes.length},1fr);gap:8px;padding:6px 22px">
+          <s>joueur</s>${armes.map(a=>`<s>${a.toLowerCase()}</s>`).join("")}</div>`
+        + [...Q.entries()].sort((a,b)=>{
+            const s=c=>[...c[1].values()].reduce((t,x)=>t+x,0); return s(b)-s(a);})
+          .map(([j,c])=>`<div class="mtr" style="display:grid;grid-template-columns:1.4fr repeat(${armes.length},1fr);gap:8px;padding:6px 22px">
+            <b>${j}</b>${armes.map(a=>`<s>${c.get(a)||"—"}</s>`).join("")}</div>`).join("")
+        + `</div><p class="note">L'arme est celle du <b>relevé à la main</b> quand la partie
+           en a un, sinon l'icône lue dans le bandeau. « Grenade » couvre l'accessoire, et
+           les morts qu'aucun tueur ne crédite — kill admin, chute, grenade sur soi —
+           apparaissent à part.</p>`;
+    }
+    if(rf+rr){
+      const n=rf+rr, m=Math.max(1,...[...V.values()],...[...G.values()]);
+      const j=[...new Set([...V.keys(),...G.keys()])]
+        .sort((a,b)=>(V.get(b)||0)-(V.get(a)||0));
+      revanche=`<h4>Revanches</h4><div class="mtab mtab3">
+        <div class="mth"><s>joueur</s><s>revanches prises</s><s>fois où il est vengé</s></div>`
+        + j.map(x=>`<div class="mtr3"><b>${x}</b>`
+          + `<s><i class="jauge" style="--p:${Math.round((V.get(x)||0)/m*100)}%;--c:var(--live)"></i>${V.get(x)||0}</s>`
+          + `<s>${G.get(x)||0}</s></div>`).join("")
+        + `</div><p class="note"><b>${rf} sur ${n} = ${Math.round(rf/n*100)} %</b> de nos morts
+           sont vengées dans les cinq secondes. Ce n'est pas un assist : le vengeur peut
+           n'avoir infligé aucun dégât avant. Une revanche mesure si l'adversaire a eu le
+           temps de profiter de son kill.${ri?` ${ri} morts sont mises à part — sans instant,
+           sans tueur, ou tir allié — plutôt que comptées comme des revanches ratées.`:""}</p>`;
+    }
+    if(bi){
+      balay=`<h4>Quand l'adversaire est à −4</h4><div class="mtab mtab4">
+        <div class="mth"><s></s><s>occasions</s><s>un point restait prenable</s><s>on a pris</s></div>
+        <div class="mtr4"><b>on les balaie</b><s>${bi}</s><s>${bp}</s>
+          <s class="${bp&&bpris/bp>=.5?"pos":"neg"}">${bpris}${bp?` · ${Math.round(bpris/bp*100)} %`:""}</s></div>
+        <div class="mtr4"><b>ils nous balaient</b><s>${bs}</s><s>—</s>
+          <s class="${bc?"neg":""}">${bc}</s></div></div>
+        <p class="note">Un balayage de moins de trois secondes n'est pas compté : il arrive
+           que le quatrième adversaire tombe juste avant qu'un autre réapparaisse, et aucune
+           capture ne tient dans ce trou — elle demande huit secondes seul. <b>« Un point
+           restait prenable »</b> écarte les balayages où l'on tenait déjà tout : ne rien
+           prendre n'y est pas une faute.</p>`;
+    }
   }
 
   /* --- 6. duels --- */
@@ -5033,13 +5133,14 @@ function drawAna(){
        corriger, et ce que l'adversaire nous a impose. */
     + bloc("Revue", "Une partie, déroulée dans l'ordre où elle s'est jouée.", revue)
     + bloc("Équipe", "Ce que la partie a donné, de notre côté seulement.",
-           global + score + progres)
+           global + score + progres + revanche + balay)
     /* La carte des trajets est retiree tant que la detection perd des joueurs
        sur les premieres secondes : une ouverture incomplete se lit comme une
        ouverture ratee. Le calcul reste, il suffira de remettre `+ carte`. */
     + bloc("Terrain", "Qui tient la carte, pourquoi on la lâche, et comment on en sort.",
            terrain + moitie + controle + debut)
-    + bloc("Joueurs", "Le détail individuel, à lire avec le rôle de chacun.", joueurs)
+    + bloc("Joueurs", "Le détail individuel, à lire avec le rôle de chacun.",
+           joueurs + parQuoi)
     /* « Duels » etait un abus de langage, et il valait mieux le dire que le
        garder : un duel suppose que les deux joueurs se soient VUS et aient tire
        l'un sur l'autre, un seul l'emportant. Le bandeau de morts ne donne que le
@@ -5049,7 +5150,7 @@ function drawAna(){
        de situer la mort, et seule une mort sur cinq est localisable aujourd'hui. */
     + bloc("Adversaire",
            FADV ? `Ce que ${FADV} nous impose, et ce qu'on lui rend.`
-                : "Ce que l'équipe d'en face nous impose.", corpsAdv);
+                : "Ce que l'équipe d'en face nous impose.", nemesis + corpsAdv);
   replieLesNotes(el);
 
   /* Un canvas ne se remplit pas par innerHTML : on trace apres coup, et de
