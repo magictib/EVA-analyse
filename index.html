@@ -4383,7 +4383,8 @@ function fichesJoueurs(lot){
     const J=new Map();
     const of=n=>{ if(!J.has(n)) J.set(n,{k:0,m:0,armes:new Map(),parV:new Map(),
                      serie:0,serieMax:0,parties:new Set(),
-                     tuePar:new Map(),tue:new Map()}); return J.get(n); };
+                     tuePar:new Map(),tue:new Map(),ouvOk:0,ouvKo:0,
+                     apres:0,apresOk:0,seul:0,parQuoiM:new Map()}); return J.get(n); };
     for(const a of lot){
       const noms=a.noms||{}, N2=new Set((a.partie&&a.partie.nous)||[]);
       const cle=`${a.partie&&a.partie.dt||""} ${a.partie&&a.partie.h||""}`;
@@ -4419,6 +4420,67 @@ function fichesJoueurs(lot){
         o.parV.set(cle,{carte,k,m:mp.get(n)||0}); }
       for(const [n,m] of mp){ const o=of(n);
         if(!o.parV.has(cle)) o.parV.set(cle,{carte,k:0,m}); }
+
+      /* LES QUATRE MESURES DE TEMPO. Elles se lisent toutes sur la meme suite de
+         morts, dans l'ordre du jeu — `morts` est deja trie par instant DECROISSANT
+         puisque le decompte descend, ce qui donne l'ordre chronologique. Aucune
+         image de plus n'est necessaire.
+
+         COMBAT : une salve de morts qu'aucun silence de plus de VIDE secondes ne
+         coupe. Ce n'est pas la definition du jeu — le jeu n'en donne pas — mais
+         c'est celle qui separe le mieux les echanges d'une partie de Domination,
+         ou l'on se croise, on echange, et on repart chercher un point. */
+      const VIDE=20, TENIR=10, VENGE=5;
+      const mortsDe=new Map(), instMort=[];
+      for(const f of morts){
+        const v=sansTag(noms[f.victime]||"");
+        if(N2.has(f.victime) && v){
+          if(!mortsDe.has(v)) mortsDe.set(v,[]);
+          mortsDe.get(v).push(f.instant); instMort.push([f.instant,v]);
+        }
+      }
+      /* quand chaque adversaire meurt, pour savoir si le tueur a ete puni */
+      const mortEux=new Map();
+      for(const f of morts) if(!N2.has(f.victime)){
+        if(!mortEux.has(f.victime)) mortEux.set(f.victime,[]);
+        mortEux.get(f.victime).push(f.instant);
+      }
+      let prec=null;
+      for(const f of morts){
+        const v=sansTag(noms[f.victime]||""),
+              tn=f.tueur==null?null:sansTag(noms[f.tueur]||"");
+        /* OUVERTURE : la premiere mort du combat. On la prend a nous ou on la
+           donne — c'est le seul instant du combat ou personne n'a encore
+           d'information, donc le seul ou le premier coup se merite. */
+        if(prec===null || prec-f.instant>VIDE){
+          if(N2.has(f.victime) && v) of(v).ouvKo++;
+          else if(f.tueur!=null && N2.has(f.tueur) && tn) of(tn).ouvOk++;
+        }
+        prec=f.instant;
+        /* SURVIE APRES UN KILL : est-on encore en vie TENIR secondes plus tard ?
+           Tuer puis mourir dans la foulee, c'est un echange ; tuer et tenir, c'est
+           un avantage garde. Le decompte descend, donc « apres » = instant plus
+           PETIT. */
+        if(f.tueur!=null && N2.has(f.tueur) && tn && !N2.has(f.victime)){
+          const o=of(tn); o.apres++;
+          const dd=(mortsDe.get(tn)||[]).some(i=>i<f.instant && f.instant-i<=TENIR);
+          if(!dd) o.apresOk++;
+        }
+        /* MORT SEUL ET IMPUNIE : personne des notres ne meurt dans la meme fenetre
+           — donc ce n'etait pas un combat d'equipe — ET le tueur n'est pas puni
+           dans les VENGE secondes. Ces morts-la ne rapportent rien a personne. */
+        if(N2.has(f.victime) && v && f.tueur!=null && !N2.has(f.tueur)){
+          const seul=!instMort.some(([i,q])=>q!==v && Math.abs(i-f.instant)<=VENGE);
+          const puni=(mortEux.get(f.tueur)||[])
+            .some(i=>i<f.instant && f.instant-i<=VENGE);
+          if(seul && !puni) of(v).seul++;
+        }
+        /* CE QUI LE TUE, pour le comparer a ce qui tue l'equipe */
+        if(N2.has(f.victime) && v){
+          const q=f.arme_reelle||f.arme_icone;
+          if(q) of(v).parQuoiM.set(q,(of(v).parQuoiM.get(q)||0)+1);
+        }
+      }
     }
     /* LE TAUX D'ASSIST VIENT DU TABLEAU DE FIN, pas d'une deduction : les assists
        y sont saisis, et le denominateur naturel est le nombre de kills des
@@ -4439,6 +4501,9 @@ function fichesJoueurs(lot){
         AS.set(n,o);
       }
     }
+    const TQ=new Map(); let TQn=0;
+    for(const o of J.values()) for(const [q,n] of o.parQuoiM){
+      TQ.set(q,(TQ.get(q)||0)+n); TQn+=n; }
     if(J.size){
       const cartes=[...J.entries()].sort((a,b)=>b[1].k-a[1].k).map(([n,o])=>{
         const kd=o.m?o.k/o.m:o.k;
@@ -4482,6 +4547,44 @@ function fichesJoueurs(lot){
               return `<div class="fjc"><s>taux d'assist</s>
                 <b>${(100*s.a/s.occ).toFixed(1)} %</b>
                 <u>${s.a} sur ${s.occ} kills de coéquipiers</u></div>`;})()}
+            ${(()=>{
+              const ou=o.ouvOk+o.ouvKo;
+              return ou?`<div class="fjc"><s>ouvertures</s>
+                <b class="${o.ouvOk>=o.ouvKo?"pos":"neg"}">${o.ouvOk} / ${ou}</b>
+                <u>premier coup du combat</u></div>`:"";})()}
+            ${o.apres?`<div class="fjc"><s>tient après son kill</s>
+                <b>${(100*o.apresOk/o.apres).toFixed(0)} %</b>
+                <u>vivant 10 s plus tard · ${o.apresOk}/${o.apres}</u></div>`:""}
+            ${o.m?`<div class="fjc"><s>morts seul et impunies</s>
+                <b class="${o.seul/o.m>.15?"neg":""}">${o.seul}</b>
+                <u>${(100*o.seul/o.m).toFixed(0)} % de ses morts</u></div>`:""}
+            ${(()=>{
+              /* REGULARITE : l'ecart-type de son (kills - morts) d'une partie a
+                 l'autre. Deux joueurs au meme K/D ne se jouent pas pareil si l'un
+                 fait +2 partout et l'autre +9 puis -5. Il faut trois parties pour
+                 que le chiffre veuille dire quelque chose. */
+              const d=[...o.parV.values()].map(v=>v.k-v.m);
+              if(d.length<3) return "";
+              const mu=d.reduce((s,x)=>s+x,0)/d.length;
+              const sd=Math.sqrt(d.reduce((s,x)=>s+(x-mu)*(x-mu),0)/d.length);
+              return `<div class="fjc"><s>régularité</s><b>±${sd.toFixed(1)}</b>
+                <u>écart-type du +/− · ${mu>0?"+":""}${mu.toFixed(1)} en moyenne</u></div>`;})()}
+            ${(()=>{
+              /* SA FAIBLESSE D'ARME : l'arme qui le tue PLUS SOUVENT QUE LA MOYENNE
+                 de l'equipe. Le classement brut de ses morts ne dit rien — tout le
+                 monde meurt d'abord du Spectre, parce que tout le monde le joue.
+                 C'est l'ECART a l'equipe qui designe une faiblesse a lui. */
+              const tot=[...o.parQuoiM.values()].reduce((s,x)=>s+x,0);
+              if(tot<8 || !TQn) return "";
+              let pire=null;
+              for(const [q,n] of o.parQuoiM){
+                const e=n/tot-(TQ.get(q)||0)/TQn;
+                if(n>=3 && (!pire || e>pire[1])) pire=[q,e,n,tot];
+              }
+              if(!pire || pire[1]<=.02) return "";
+              return `<div class="fjc"><s>y est plus exposé</s><b>${pire[0]}</b>
+                <u>${(100*pire[2]/pire[3]).toFixed(0)} % de ses morts,
+                   ${(100*pire[1]).toFixed(0)} pts au-dessus de l'équipe</u></div>`;})()}
           </div>
           <div class="fja"><s>ses kills, par arme</s>`
           + (armes.length?armes.map(([a,v])=>`<div class="fjb"><em>${a}</em>
@@ -4492,7 +4595,7 @@ function fichesJoueurs(lot){
       fiches=`<h4>Fiches</h4><div class="fjw">${cartes}</div>
         <p class="note">Tout vient du couple tueur/tué et de son instant : la série est la
            plus longue suite de kills entre deux morts, la meilleure carte agrège toutes les
-           parties jouées dessus plutôt que de retenir un coup de chance. Sa <b>némésis</b> est l'adversaire qui l'a le plus tué, sa <b>proie</b> celui qu'il a le plus tué, un seul de chaque côté ; le solde compare les deux.
+           parties jouées dessus plutôt que de retenir un coup de chance. Sa <b>némésis</b> est l'adversaire qui l'a le plus tué, sa <b>proie</b> celui qu'il a le plus tué, un seul de chaque côté ; le solde compare les deux. L'<b>ouverture</b> est la première mort d'un combat — une salve qu'aucun silence de plus de vingt secondes ne coupe ; c'est le seul instant où personne n'a encore d'information. « <b>Y est plus exposé</b> » ne montre pas l'arme qui le tue le plus — ce serait le Spectre pour tout le monde — mais celle qui le tue plus souvent que la moyenne de l'équipe.
            Le <b>taux d'assist</b> rapporte tes assists aux kills de tes coéquipiers — on n'assiste que sur un kill qu'on n'a pas fait. Le dénominateur est large : on ne peut pas assister quand on est mort ou ailleurs. Il est incontestable mais il sous-estime, et il reste comparable d'un joueur à l'autre. <b>Le « duel remporté » n'y figure pas encore</b> : au sens que tu lui donnes il
            demande de savoir si chacun a fait descendre la barre de vie de l'autre. Cette
            barre est lisible — la plaque du joueur se vide à mesure que sa vie baisse — mais
