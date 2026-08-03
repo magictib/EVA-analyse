@@ -4377,7 +4377,8 @@ function ajouteAnalyse(txt){
    « qu'a donne cette partie » mais « qui est ce joueur » — et une carte
    d'identite coincee entre deux tableaux ne se lit pas comme une identite.
    La fonction est donc sortie de `drawAna` pour servir aux deux. */
-function fichesJoueurs(lot){
+function fichesJoueurs(lot, mats){
+  mats = mats || LOT;
   let fiches="";
 
     const J=new Map();
@@ -4492,7 +4493,7 @@ function fichesJoueurs(lot){
        degats. On affiche donc le taux brut, nomme pour ce qu'il est, plutot qu'un
        taux ajuste dont personne ne pourrait dire de combien il a ete releve. */
     const AS=new Map();
-    for(const m of LOT){
+    for(const m of mats){
       const nous=(m.sb||[]).filter(x=>x.mien!==false);
       const kEq=nous.reduce((s,x)=>s+(+x.k||0),0);
       for(const x of nous){
@@ -4534,16 +4535,18 @@ function fichesJoueurs(lot){
               const pr=[...o.tue.entries()].sort((a,b)=>b[1]-a[1])[0];
               if(!nem && !pr) return "";
               /* UN SEUL ADVERSAIRE DE CHAQUE COTE, c'est Thibaud qui l'a redresse :
-                 « on ne peut pas en avoir deux pour le meme joueur ». Le solde
-                 compare les deux — negatif, le joueur perd son duel de reference. */
-              const s=(pr?pr[1]:0)-(nem?nem[1]:0);
+                 « on ne peut pas en avoir deux pour le meme joueur ».
+                 PAS DE SOLDE ENTRE LES DEUX. Il y en avait un ; Thibaud l'a fait
+                 retirer, et il avait raison : la nemesis et la proie ne sortent pas
+                 des memes parties ni parfois des memes adversaires, donc leur
+                 difference ne mesure rien. Deux comptes justes cote a cote valent
+                 mieux qu'une soustraction qui a l'air d'un resultat. */
               return `<div class="fjc"><s>sa némésis</s>
                   <b class="neg">${nem?nem[0]:"—"}</b>
-                  <u>${nem?nem[1]+" morts subies":""}</u></div>
+                  <u>${nem?nem[1]+" fois":""}</u></div>
                 <div class="fjc"><s>sa proie</s>
                   <b class="pos">${pr?pr[0]:"—"}</b>
-                  <u>${pr?pr[1]+" kills · "+(s===0?"a jeu égal avec sa némésis"
-                      :Math.abs(s)+(s>0?" de plus":" de moins")+" que sa némésis"):""}</u></div>`;})()}
+                  <u>${pr?pr[1]+" fois":""}</u></div>`;})()}
             ${(()=>{const s=AS.get(n.toUpperCase()); if(!s||!s.occ) return "";
               return `<div class="fjc"><s>taux d'assist</s>
                 <b>${(100*s.a/s.occ).toFixed(1)} %</b>
@@ -6232,21 +6235,24 @@ function catArmes(cle){
     .filter(Boolean).sort((a,b)=>a.t-b.t);
   return L.length?L.slice(0,3):null;
 }
-/* L'onglet Profils : la meme barre de tri que partout, donc une partie seule ou
-   le global selon le meme reglage — Thibaud : « soit on observe une partie et
-   toutes les donnees de la page sont en rapport avec cette partie, soit on
-   regarde le global ». Le tri est UN etat, pas un par onglet : passer de
-   l'analyse aux profils ne doit pas changer le perimetre sous les pieds. */
+/* L'onglet Profils est TOUJOURS GLOBAL, et c'est Thibaud qui a tranche : « le but
+   des fiches perso est d'avoir le global pas par partie, donc les tris sont
+   inutiles ». La regle « toutes les donnees de la page suivent le tri » valait pour
+   l'analyse d'une partie ; une fiche de joueur repond a une autre question — comment
+   il joue, pas comment s'est passee cette partie-la — et une serie de kills ou un
+   ecart-type sur une seule partie ne veulent rien dire.
+
+   ON NE TOUCHE PAS A `LOT`. Les autres onglets s'en servent ; les fiches travaillent
+   sur leur propre copie complete. */
 function drawProf(){
   const el=$("#prof"); if(!el) return;
-  LOT=filtre();
-  const lot=analysesRetenues();
+  const lot=ANALYSES.slice();
   /* SANS BARRE DE TRI. Thibaud : « les filtres peuvent disparaitre ». Le tri reste
      UN etat partage : regler l'onglet Matchs sur une partie restreint aussi les
      fiches. Ce qui l'affiche, c'est le « N parties » de chaque en-tete — il vaut un
      filtre visible sans en occuper la place. */
-  el.innerHTML = (lot.length ? fichesJoueurs(lot)
-       : `<p class="note">Aucune partie ne correspond au tri.</p>`);
+  el.innerHTML = (lot.length ? fichesJoueurs(lot, MATCHS)
+       : `<p class="note">Aucune analyse importée.</p>`);
   if(typeof replieLesNotes==="function") replieLesNotes(el);
 }
 
