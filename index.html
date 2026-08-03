@@ -4597,9 +4597,11 @@ function fichesJoueurs(lot, mats){
               <u>${o.k} / ${o.m}</u></div>
             <div class="fjc"><s>série sans mourir</s><b>${o.serieMax}</b><u>meilleure</u></div>
             <div class="fjc"><s>meilleure carte</s><b>${meil?meil[0]:"—"}</b>
-              <u>${meil?meil[1].toFixed(2)+" · "+meil[2]+" p.":""}</u></div>
+              <u>${meil?"K/D "+meil[1].toFixed(2).replace(".",",")+" sur "+meil[2]
+                  +" partie"+(meil[2]>1?"s":""):""}</u></div>
             <div class="fjc"><s>plus difficile</s><b>${pire&&rang.length>1?pire[0]:"—"}</b>
-              <u>${pire&&rang.length>1?pire[1].toFixed(2)+" · "+pire[2]+" p.":""}</u></div>
+              <u>${pire&&rang.length>1?"K/D "+pire[1].toFixed(2).replace(".",",")+" sur "
+                  +pire[2]+" partie"+(pire[2]>1?"s":""):""}</u></div>
             ${(()=>{
               const nem=[...o.tuePar.entries()].sort((a,b)=>b[1]-a[1])[0];
               const pr=[...o.tue.entries()].sort((a,b)=>b[1]-a[1])[0];
@@ -4623,9 +4625,13 @@ function fichesJoueurs(lot, mats){
                 <u>${s.a} sur ${s.occ} kills de coéquipiers</u></div>`;})()}
             ${(()=>{
               const ou=o.ouvOk+o.ouvKo;
-              return ou?`<div class="fjc"><s>ouvertures</s>
+              /* LE LIBELLE DOIT SE SUFFIRE. Thibaud a demande ce que « ouvertures »
+                 voulait dire — c'est la reponse : le paragraphe explicatif a ete
+                 retire, donc chaque case porte sa propre definition. */
+              return ou?`<div class="fjc"><s>ouvre le combat</s>
                 <b class="${o.ouvOk>=o.ouvKo?"pos":"neg"}">${o.ouvOk} / ${ou}</b>
-                <u>premier coup du combat</u></div>`:"";})()}
+                <u>il fait la 1ʳᵉ mort du combat ${o.ouvOk} fois,
+                   il l'est ${o.ouvKo} fois</u></div>`:"";})()}
             ${o.apres?`<div class="fjc"><s>tient après son kill</s>
                 <b>${(100*o.apresOk/o.apres).toFixed(0)} %</b>
                 <u>vivant 10 s plus tard · ${o.apresOk}/${o.apres}</u></div>`:""}
