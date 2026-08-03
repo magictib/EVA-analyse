@@ -911,6 +911,7 @@
     <button role="tab" aria-selected="true"  data-v="rank" data-esp="armes">Armes</button>
     <button role="tab" aria-selected="false" data-v="mat">Matchs</button>
     <button role="tab" aria-selected="false" data-v="ana">Analyse</button>
+    <button role="tab" aria-selected="false" data-v="prof">Profils</button>
     <button role="tab" aria-selected="false" data-v="cart">Cartes</button>
     <!-- L'editeur de strats n'a plus son propre onglet : on y entre par une fiche du
          catalogue, qui sert desormais de selecteur de carte. Deux onglets pour un
@@ -1113,6 +1114,7 @@
 <section id="cart" hidden></section>
 <section id="mat" hidden></section>
 <section id="ana" hidden></section>
+<section id="prof" hidden></section>
 
 
 </div>
@@ -4369,6 +4371,89 @@ function ajouteAnalyse(txt){
 }
 
 /* ---------- vue Analyse ---------- */
+/* LES FICHES SONT UNE VUE A PART, et non un tableau de plus dans « Joueurs ».
+   Thibaud : « les profils des joueurs devraient etre dans un onglet a part ».
+   Elles repondent a une autre question que le reste de l'analyse — non pas
+   « qu'a donne cette partie » mais « qui est ce joueur » — et une carte
+   d'identite coincee entre deux tableaux ne se lit pas comme une identite.
+   La fonction est donc sortie de `drawAna` pour servir aux deux. */
+function fichesJoueurs(lot){
+  let fiches="";
+
+    const J=new Map();
+    const of=n=>{ if(!J.has(n)) J.set(n,{k:0,m:0,armes:new Map(),parV:new Map(),
+                     serie:0,serieMax:0,parties:new Set()}); return J.get(n); };
+    for(const a of lot){
+      const noms=a.noms||{}, N2=new Set((a.partie&&a.partie.nous)||[]);
+      const cle=`${a.partie&&a.partie.dt||""} ${a.partie&&a.partie.h||""}`;
+      const carte=(a.partie||{}).carte||"?";
+      const morts=(a.frags||[]).filter(f=>f.instant!=null)
+        .sort((x,y)=>y.instant-x.instant);          /* le decompte DESCEND */
+      const kp=new Map(), mp=new Map();
+      for(const f of morts){
+        const v=sansTag(noms[f.victime]||""), t=f.tueur==null?null:sansTag(noms[f.tueur]||"");
+        if(N2.has(f.victime) && v){
+          const o=of(v); o.m++; o.serie=0; o.parties.add(cle);
+          mp.set(v,(mp.get(v)||0)+1);
+        }
+        if(f.tueur!=null && N2.has(f.tueur) && t && !N2.has(f.victime)){
+          const o=of(t); o.k++; o.parties.add(cle);
+          o.serie++; if(o.serie>o.serieMax) o.serieMax=o.serie;
+          const arme=f.arme_reelle||f.arme_icone;
+          if(arme) o.armes.set(arme,(o.armes.get(arme)||0)+1);
+          kp.set(t,(kp.get(t)||0)+1);
+        }
+      }
+      for(const [n,k] of kp){ const o=of(n);
+        o.parV.set(cle,{carte,k,m:mp.get(n)||0}); }
+      for(const [n,m] of mp){ const o=of(n);
+        if(!o.parV.has(cle)) o.parV.set(cle,{carte,k:0,m}); }
+    }
+    if(J.size){
+      const cartes=[...J.entries()].sort((a,b)=>b[1].k-a[1].k).map(([n,o])=>{
+        const kd=o.m?o.k/o.m:o.k;
+        const armes=[...o.armes.entries()].sort((a,b)=>b[1]-a[1]).slice(0,4);
+        const ma=Math.max(1,...armes.map(x=>x[1]));
+        /* LA MEILLEURE CARTE SE JUGE SUR PLUSIEURS PARTIES, pas sur un coup de
+           chance : on agrege par carte avant de comparer. */
+        const parCarte=new Map();
+        for(const v of o.parV.values()){
+          const c=parCarte.get(v.carte)||{k:0,m:0,n:0};
+          c.k+=v.k; c.m+=v.m; c.n++; parCarte.set(v.carte,c);
+        }
+        const rang=[...parCarte.entries()].map(([c,v])=>[c,v.m?v.k/v.m:v.k,v.n])
+          .sort((a,b)=>b[1]-a[1]);
+        const meil=rang[0], pire=rang[rang.length-1];
+        return `<article class="fj">
+          <header><b>${n}</b><u>${o.parties.size} partie${o.parties.size>1?"s":""}</u></header>
+          <div class="fjg">
+            <div class="fjc"><s>K/D</s><b class="${kd>=1?"pos":"neg"}">${kd.toFixed(2)}</b>
+              <u>${o.k} / ${o.m}</u></div>
+            <div class="fjc"><s>série sans mourir</s><b>${o.serieMax}</b><u>meilleure</u></div>
+            <div class="fjc"><s>meilleure carte</s><b>${meil?meil[0]:"—"}</b>
+              <u>${meil?meil[1].toFixed(2)+" · "+meil[2]+" p.":""}</u></div>
+            <div class="fjc"><s>plus difficile</s><b>${pire&&rang.length>1?pire[0]:"—"}</b>
+              <u>${pire&&rang.length>1?pire[1].toFixed(2)+" · "+pire[2]+" p.":""}</u></div>
+          </div>
+          <div class="fja"><s>ses kills, par arme</s>`
+          + (armes.length?armes.map(([a,v])=>`<div class="fjb"><em>${a}</em>
+              <i style="--p:${Math.round(v/ma*100)}%"></i><u>${v}</u></div>`).join("")
+             :`<p class="note">Aucune arme relevée sur ce tri.</p>`)
+          + `</div></article>`;
+      }).join("");
+      fiches=`<h4>Fiches</h4><div class="fjw">${cartes}</div>
+        <p class="note">Tout vient du couple tueur/tué et de son instant : la série est la
+           plus longue suite de kills entre deux morts, la meilleure carte agrège toutes les
+           parties jouées dessus plutôt que de retenir un coup de chance.
+           <b>Le « duel remporté » n'y figure pas encore</b> : au sens que tu lui donnes il
+           demande de savoir si chacun a fait descendre la barre de vie de l'autre. Cette
+           barre est lisible — la plaque du joueur se vide à mesure que sa vie baisse — mais
+           elle n'est pas encore lue image par image.</p>`;
+    }
+  
+  return fiches;
+}
+
 function drawAna(){
   const el=$("#ana");
   LOT=filtre();                                  /* meme sous-ensemble que Matchs */
@@ -4998,80 +5083,7 @@ function drawAna(){
      sa vie baisse, c'est deja mesure dans `lire_hud.part_coloree`) mais elle n'est
      pas encore lue image par image. La fiche ne l'affiche donc pas plutot que de
      le remplacer par un a-peu-pres qui porterait le meme nom. */
-  let fiches="";
-  {
-    const J=new Map();
-    const of=n=>{ if(!J.has(n)) J.set(n,{k:0,m:0,armes:new Map(),parV:new Map(),
-                     serie:0,serieMax:0,parties:new Set()}); return J.get(n); };
-    for(const a of lot){
-      const noms=a.noms||{}, N2=new Set((a.partie&&a.partie.nous)||[]);
-      const cle=`${a.partie&&a.partie.dt||""} ${a.partie&&a.partie.h||""}`;
-      const carte=(a.partie||{}).carte||"?";
-      const morts=(a.frags||[]).filter(f=>f.instant!=null)
-        .sort((x,y)=>y.instant-x.instant);          /* le decompte DESCEND */
-      const kp=new Map(), mp=new Map();
-      for(const f of morts){
-        const v=sansTag(noms[f.victime]||""), t=f.tueur==null?null:sansTag(noms[f.tueur]||"");
-        if(N2.has(f.victime) && v){
-          const o=of(v); o.m++; o.serie=0; o.parties.add(cle);
-          mp.set(v,(mp.get(v)||0)+1);
-        }
-        if(f.tueur!=null && N2.has(f.tueur) && t && !N2.has(f.victime)){
-          const o=of(t); o.k++; o.parties.add(cle);
-          o.serie++; if(o.serie>o.serieMax) o.serieMax=o.serie;
-          const arme=f.arme_reelle||f.arme_icone;
-          if(arme) o.armes.set(arme,(o.armes.get(arme)||0)+1);
-          kp.set(t,(kp.get(t)||0)+1);
-        }
-      }
-      for(const [n,k] of kp){ const o=of(n);
-        o.parV.set(cle,{carte,k,m:mp.get(n)||0}); }
-      for(const [n,m] of mp){ const o=of(n);
-        if(!o.parV.has(cle)) o.parV.set(cle,{carte,k:0,m}); }
-    }
-    if(J.size){
-      const cartes=[...J.entries()].sort((a,b)=>b[1].k-a[1].k).map(([n,o])=>{
-        const kd=o.m?o.k/o.m:o.k;
-        const armes=[...o.armes.entries()].sort((a,b)=>b[1]-a[1]).slice(0,4);
-        const ma=Math.max(1,...armes.map(x=>x[1]));
-        /* LA MEILLEURE CARTE SE JUGE SUR PLUSIEURS PARTIES, pas sur un coup de
-           chance : on agrege par carte avant de comparer. */
-        const parCarte=new Map();
-        for(const v of o.parV.values()){
-          const c=parCarte.get(v.carte)||{k:0,m:0,n:0};
-          c.k+=v.k; c.m+=v.m; c.n++; parCarte.set(v.carte,c);
-        }
-        const rang=[...parCarte.entries()].map(([c,v])=>[c,v.m?v.k/v.m:v.k,v.n])
-          .sort((a,b)=>b[1]-a[1]);
-        const meil=rang[0], pire=rang[rang.length-1];
-        return `<article class="fj">
-          <header><b>${n}</b><u>${o.parties.size} partie${o.parties.size>1?"s":""}</u></header>
-          <div class="fjg">
-            <div class="fjc"><s>K/D</s><b class="${kd>=1?"pos":"neg"}">${kd.toFixed(2)}</b>
-              <u>${o.k} / ${o.m}</u></div>
-            <div class="fjc"><s>série sans mourir</s><b>${o.serieMax}</b><u>meilleure</u></div>
-            <div class="fjc"><s>meilleure carte</s><b>${meil?meil[0]:"—"}</b>
-              <u>${meil?meil[1].toFixed(2)+" · "+meil[2]+" p.":""}</u></div>
-            <div class="fjc"><s>plus difficile</s><b>${pire&&rang.length>1?pire[0]:"—"}</b>
-              <u>${pire&&rang.length>1?pire[1].toFixed(2)+" · "+pire[2]+" p.":""}</u></div>
-          </div>
-          <div class="fja"><s>ses kills, par arme</s>`
-          + (armes.length?armes.map(([a,v])=>`<div class="fjb"><em>${a}</em>
-              <i style="--p:${Math.round(v/ma*100)}%"></i><u>${v}</u></div>`).join("")
-             :`<p class="note">Aucune arme relevée sur ce tri.</p>`)
-          + `</div></article>`;
-      }).join("");
-      fiches=`<h4>Fiches</h4><div class="fjw">${cartes}</div>
-        <p class="note">Tout vient du couple tueur/tué et de son instant : la série est la
-           plus longue suite de kills entre deux morts, la meilleure carte agrège toutes les
-           parties jouées dessus plutôt que de retenir un coup de chance.
-           <b>Le « duel remporté » n'y figure pas encore</b> : au sens que tu lui donnes il
-           demande de savoir si chacun a fait descendre la barre de vie de l'autre. Cette
-           barre est lisible — la plaque du joueur se vide à mesure que sa vie baisse — mais
-           elle n'est pas encore lue image par image.</p>`;
-    }
-  }
-
+  const fiches="";   /* les fiches vivent dans l'onglet Profils */
   /* --- 6. duels --- */
   let bilanD="";
   if(duels && duels.length){
@@ -6127,6 +6139,21 @@ function catArmes(cle){
     .filter(Boolean).sort((a,b)=>a.t-b.t);
   return L.length?L.slice(0,3):null;
 }
+/* L'onglet Profils : la meme barre de tri que partout, donc une partie seule ou
+   le global selon le meme reglage — Thibaud : « soit on observe une partie et
+   toutes les donnees de la page sont en rapport avec cette partie, soit on
+   regarde le global ». Le tri est UN etat, pas un par onglet : passer de
+   l'analyse aux profils ne doit pas changer le perimetre sous les pieds. */
+function drawProf(){
+  const el=$("#prof"); if(!el) return;
+  LOT=filtre();
+  const lot=analysesRetenues();
+  el.innerHTML = barreDeTri()
+    + (lot.length ? fichesJoueurs(lot)
+       : `<p class="note">Aucune partie ne correspond au tri.</p>`);
+  if(typeof replieLesNotes==="function") replieLesNotes(el);
+}
+
 function drawCat(){
   const cles=[...new Set(Object.values(NOMCARTE))]
     .sort((a,b)=>nomDeCle(a).localeCompare(nomDeCle(b),"fr"));
@@ -9296,6 +9323,7 @@ function go(v){
   if(v==="acc"){ drawAcc(); return; }
   if(v==="mat"){ drawMat(); return; }
   if(v==="ana"){ drawAna(); return; }
+  if(v==="prof"){ drawProf(); return; }
   if(v==="cart"){ drawCat(); return; }
   if(v==="guns"){ drawGuns(); syncURL(); return; }
   if(v==="map"){ loadLOS(MK); drawMap(); return; }
