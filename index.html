@@ -5770,9 +5770,18 @@ const sansTag= n => { const g=String(n||"").match(RE_TAG); return g?g[2]:String(
 /* Quel nom du tableau est le tien ? Celui dont le K/D/A colle a celui de la partie,
    partie apres partie. Un coequipier peut faire le meme score une fois, pas cinq.
    On devine plutot que d'exiger une saisie, et le champ reste la pour corriger. */
+/* LA DEVINETTE NE SURVIT PAS A LA MIGRATION, et c'est pourquoi elle commence par
+   relire l'autre cle. Elle reconnait ta ligne en comparant `p.k === m.k` — les
+   champs du sommet, ceux que collait l'ancien format. Or `migreV2` les SUPPRIME une
+   fois la partie convertie : passe ce point, plus aucune partie ne porte de `m.k`,
+   la comparaison ne s'accroche a rien et la fonction rend null sans le dire. Le bloc
+   « Toi » affichait alors 0 / 27. `eva-who` est ecrite en meme temps que le pseudo et
+   n'est jamais effacee par la migration : elle sert de rattrapage. */
 function devinePseudo(){
+  try{ const w=localStorage.getItem(WKEY); if(w) return w; }catch(e){}
   const c=new Map();
   for(const m of MATCHS){
+    if(m.k===undefined) continue;
     for(const p of sbOk(m)) if(p.k===m.k && p.m===m.m && p.a===m.a) c.set(p.n,(c.get(p.n)||0)+1);
   }
   const t=[...c.entries()].sort((a,b)=>b[1]-a[1]);
@@ -6133,10 +6142,21 @@ function drawMat(){
       <b>${fr(eq.k/Math.max(eq.m,1),2)}<em>K/D d'équipe</em></b>
       <b>${fr((eq.k+eq.a)/Math.max(eq.m,1),2)}<em>(K+A)/mort</em></b>
       <b>${eff.mien.length}<em>joueurs vus</em></b></div>`;
-  const bilan=bilanEq+`<h3>Toi${(FCARTE||FADV||FMODE||FPARTIE)?", sur ce tri":""}</h3><div class="mbig">
+  /* NE PAS AFFICHER DE ZEROS QUAND ON NE SAIT PAS QUI TU ES. Sans pseudo enregistre,
+     `maLigne` ne trouve ta ligne dans aucun tableau et le bloc annoncait « 0 / 27
+     matchs, 0,00 K/D » — un chiffre faux presente comme un fait, alors que la seule
+     chose vraie est qu'on ignore ton nom. `devinePseudo` ne rattrape plus rien : il
+     reconnait ta ligne en comparant `p.k === m.k`, or `migreV2` supprime `m.k` apres
+     conversion. La devinette meurt donc a la premiere migration, en silence. */
+  const bilan=bilanEq+`<h3>Toi${(FCARTE||FADV||FMODE||FPARTIE)?", sur ce tri":""}</h3>`
+    + (!mes.length
+      ? `<p class="note">On ne sait pas encore lequel de ces joueurs tu es, donc rien
+         n'est calculé ici — afficher 0 serait faux. Nomme-toi dans le sélecteur
+         d'identité ci-dessus et ce bloc se remplit.</p>`
+      : `<div class="mbig">
       <b>${mes.length}${mes.length!==n?`<i> / ${n}</i>`:""}<em>matchs</em></b><b>${V} · ${Math.round(V/np*100)} %<em>victoires</em></b>
       <b>${fr(K/Math.max(M,1),2)}<em>K/D</em></b><b>${fr((K+A)/Math.max(M,1),2)}<em>(K+A)/mort</em></b>
-      <b>${mvp}<em>fois MVP</em></b></div>`;
+      <b>${mvp}<em>fois MVP</em></b></div>`);
 
   /* ---------- 3. les deux decoupages ----------
      Filtrer sur une carte rend la grille des cartes redondante, et de meme pour
