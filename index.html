@@ -5805,7 +5805,12 @@ function devinePseudo(){
 const PKEY="eva-pseudo-v1";
 const WKEY="eva-who";
 let PSEUDO=(()=>{ try{ return localStorage.getItem(PKEY)||""; }catch(e){ return ""; } })();
-const monPseudo = () => PSEUDO || devinePseudo() || "";
+/* PAR DEFAUT, PERSONNE. Thibaud : « de base laisser "qui es-tu ?" pour ne pas avoir
+   un pseudo deja attribue ». La devinette par K/D/A pouvait se tromper de joueur et
+   ranger les camps a l'envers sans que rien ne le signale ; le selecteur de la barre
+   pose la question en une ligne, il n'y a plus de raison de deviner. `eva-who` reste
+   lue, mais ce n'est pas une devinette : c'est le choix precedent. */
+const monPseudo = () => PSEUDO || (()=>{ try{ return localStorage.getItem(WKEY)||""; }catch(e){ return ""; } })();
 /* Decoupe un tableau de partie en deux camps. Le tien est celui qui porte ton
    pseudo ou ton tag ; l'adverse est le tag majoritaire parmi les autres, ce qui
    encaisse les equipes mixtes et les joueurs sans tag. Sans pseudo connu on ne
@@ -6095,20 +6100,13 @@ function drawMat(){
           <div class="mwhorow">${boutons(v)}</div>`).join(""); })();
   const libre=`<div class="mid"><input id="mps" placeholder="ou tape-le : ex. ${tagEquipe()||"BVS"}xTibco" value="${PSEUDO}">
       <button data-act="mps">Enregistrer</button></div>`;
-  const identite = PSEUDO
-    ? `<details class="mform"><summary>Réglages</summary><div class="mfbody">
-        <p class="note">Tu es <b>${sansTag(PSEUDO)}</b>${tagDe(PSEUDO)?` · ${tagDe(PSEUDO)}`:""}.
-          C'est ce qui sépare ton camp de l'adverse dans les tableaux collés, et ce qui signe
-          les strats que tu enregistres.</p>
-        ${choix}${libre}
-        ${!tags.length?"":`<p class="note mfsp">Tags reconnus</p>
-          <div>${tags.map(([t,c])=>`<span class="mchip"${t===monTag?" data-moi":""}><b>${t}</b> · ${c} joueur${c>1?"s":""}</span>`).join("")}</div>`}
-        </div></details>`
-    : `<div class="mwho-ask"><p class="lead">Qui es-tu&nbsp;?
-        ${ros.length?`Choisis ton nom dans l'effectif${tagEquipe()?" "+tagEquipe():""}.`
-          :dev?`Un seul clic, une fois. D'après tes K/D/A, tu es probablement <b>${sansTag(dev)}</b>.`
-          :"Un seul clic, une fois."}</p>
-        ${choix}${libre}</div>`;
+  /* LE CHOIX N'EST PLUS DANS LA PAGE. Thibaud, le 05/08 : « enlever la proposition
+     pour garder seulement la liste deroulante en haut a droite, et de base laisser
+     "qui es-tu ?" pour ne pas avoir un pseudo deja attribue ». Deux endroits pour la
+     meme question, c'etait un de trop — et le bloc de la page occupait le haut de
+     l'onglet Matchs a chaque visite. Les tags reconnus s'affichaient la aussi ; ils
+     ne servaient qu'a expliquer le decoupage, que le pseudo nu rend inutile. */
+  const identite = "";
 
   /* ---------- le tri : il commande tout ce qui suit, donc il vient avant ----------
      Les listes ne proposent que ce qui existe dans tes parties : une carte jamais
