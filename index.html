@@ -316,6 +316,13 @@
   #stick{position:sticky;top:0;z-index:10;background:var(--void);border-bottom:1px solid var(--rule)}
   .nav{display:flex;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding:12px 0 0}
   .nav::-webkit-scrollbar{display:none}
+  /* Pousse a droite de la barre, et n'entre pas dans le rythme des onglets : ce
+     n'est pas une section, c'est un reglage. */
+  .navqui{margin-left:auto;align-self:center;background:var(--surf,#241016);
+    color:var(--ink-dim);border:1px solid var(--rule);border-radius:5px;
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;
+    padding:4px 6px;cursor:pointer;max-width:11em}
+  .navqui[data-vide]{color:var(--signal);border-color:var(--signal)}
   .nav button{
     flex:0 0 auto;background:none;border:none;border-bottom:2px solid transparent;
     color:var(--ink-dim);cursor:pointer;white-space:nowrap;
@@ -913,6 +920,11 @@
     <button role="tab" aria-selected="false" data-v="ana">Analyse</button>
     <button role="tab" aria-selected="false" data-v="prof">Profils</button>
     <button role="tab" aria-selected="false" data-v="cart">Cartes</button>
+    <!-- QUI TU ES, TOUJOURS VISIBLE ET TOUJOURS AU MEME ENDROIT. Il fallait
+         auparavant deplier « Reglages » dans l'onglet Matchs pour le trouver, et
+         Thibaud n'a pas su dire d'ou venait le choix. La liste ne montre que le
+         PSEUDO NU : deux joueurs n'en partagent pas, alors qu'un tag change. -->
+    <select id="quisuisje" class="navqui" aria-label="Qui es-tu"></select>
     <!-- L'editeur de strats n'a plus son propre onglet : on y entre par une fiche du
          catalogue, qui sert desormais de selecteur de carte. Deux onglets pour un
          meme sujet obligeaient a savoir lequel faisait quoi. La vue "map" existe
@@ -5811,9 +5823,21 @@ const sbOk = m => (m.sb||[]).filter(p=>estNom(p.n));
    permettra a une seule personne de saisir pour tout le monde.
    Les parties d'avant la bascule n'ont que des champs au sommet — c'etait celui qui
    collait, donc c'etait toi : on les rend en repli, et migreV2 les convertit. */
+/* ON COMPARE LE PSEUDO NU, JAMAIS LA CHAINE ENTIERE. Thibaud, le 05/08 : « le pseudo
+   est bien mis mais pourtant je n'ai pas les infos [...] choisir le pseudo sans le tag
+   de team, comme il n'y a pas de pseudo identique ca ne pose pas de probleme malgre
+   les changements de nom de team ».
+
+   Il avait raison sur les deux points. Son identite etait enregistree « BVSxTibco »
+   alors que la base range les pseudos SANS leur tag — c'est ecrit dans `camps` —, donc
+   `x.n === me` ne trouvait jamais rien et le bloc « Toi » restait vide. Et meme accorde
+   aujourd'hui, un tag change : BVS est deja devenu NT, et la comparaison exacte aurait
+   coupe l'historique en deux au prochain mercato. Le pseudo, lui, ne change pas. */
+const memeJoueur=(a,b)=>!!a&&!!b&&sansTag(a).toLowerCase()===sansTag(b).toLowerCase();
+
 function maLigne(m){
   const me=monPseudo();
-  if(me){ const p=sbOk(m).find(x=>x.n===me); if(p) return p; }
+  if(me){ const p=sbOk(m).find(x=>memeJoueur(x.n,me)); if(p) return p; }
   return m.k!==undefined ? {n:me||"", k:m.k||0, m:m.m||0, a:m.a||0, s:0, mvp:!!m.mvp} : null;
 }
 /* Conversion sur place, une fois, et seulement quand tu t'es nomme explicitement :
@@ -5825,7 +5849,7 @@ function migreV2(){
   for(const m of MATCHS){
     if(m.v>=2) continue;
     if(m.k!==undefined){
-      const mienne=sbOk(m).find(x=>x.n===me);
+      const mienne=sbOk(m).find(x=>memeJoueur(x.n,me));
       if(!mienne){
         if(!m.sb) m.sb=[];
         m.sb.push({n:me, k:m.k||0, m:m.m||0, a:m.a||0, s:0, mvp:!!m.mvp});
@@ -5889,7 +5913,7 @@ function camps(m){
     const t=tagDe(p.n);
     /* Toi, toujours de ton cote : si le tag enregistre sur la partie etait faux,
        il ne doit pas te ranger chez l'adversaire. */
-    if(p.n===me || (monTag && t===monTag)) mien.push(p); else adv.push(p);
+    if(memeJoueur(p.n,me) || (monTag && t===monTag)) mien.push(p); else adv.push(p);
   }
   const cnt=new Map();
   for(const p of adv){ const t=tagDe(p.n); if(t) cnt.set(t,(cnt.get(t)||0)+1); }
@@ -7259,6 +7283,35 @@ const EFFECTIF=["BVSxTibco","BVSxLix","BVSxCromx","BVSxTchernobyl"];
 const NOTRE_EFFECTIF = EFFECTIF.map(x => sansTag(x).toLowerCase());
 const estDesNotres = n => NOTRE_EFFECTIF.includes(sansTag(n).toLowerCase());
 /* Tous les pseudos vus portant le tag de l'equipe, plus ceux ecrits a la main. */
+/* TOUS LES PSEUDOS NUS CONNUS, sans distinction de tag ni d'equipe.
+
+   Thibaud, le 05/08 : « une liste deroulante ou l'on choisit que le pseudo sans le
+   tag de team [...] comme il n'y a pas de pseudo identique ca ne pose pas de probleme
+   pour avoir toutes les infos malgre les changements de nom de team ». C'est la bonne
+   cle : un tag est une convention datee — BVS est deja devenu NT — quand un pseudo
+   identifie une personne. */
+function tousLesPseudos(){
+  const v=new Map();                      // nu -> forme la plus complete vue
+  const ajoute=n=>{ if(!estNom(n)) return;
+    const nu=sansTag(n).toLowerCase();
+    if(!v.has(nu) || (tagDe(n) && !tagDe(v.get(nu)))) v.set(nu,n); };
+  for(const n of EFFECTIF) ajoute(n);
+  for(const m of MATCHS) for(const p of (m.sb||[])) ajoute(p.n);
+  if(PSEUDO) ajoute(PSEUDO);
+  return [...v.values()].sort((a,b)=>sansTag(a).localeCompare(sansTag(b),"fr"));
+}
+
+/* Remplit le selecteur de la barre. Appele au demarrage et apres chaque saisie :
+   une partie collee peut faire apparaitre un joueur qui n'existait pas encore. */
+function majQuiSuisJe(){
+  const el=document.getElementById("quisuisje");
+  if(!el) return;
+  const L=tousLesPseudos(), moi=PSEUDO;
+  el.innerHTML=`<option value="">qui es-tu ?</option>`
+    + L.map(n=>`<option value="${n}"${memeJoueur(n,moi)?" selected":""}>${sansTag(n)}</option>`).join("");
+  if(moi) el.removeAttribute("data-vide"); else el.setAttribute("data-vide","");
+}
+
 function effectif(){
   const v=new Set(EFFECTIF);
   for(const m of MATCHS) for(const p of (m.sb||[]))
@@ -9103,8 +9156,8 @@ function onTool(b){
     if(q0!==null && q1!==null) nv.pc=[q0,q1];
     MATCHS.push(nv);
     MATCHS.sort((x,y)=>(y.dt+y.h).localeCompare(x.dt+x.h));
-    saveMatchs(); migreV2(); drawMat();
-    const inc=sb.length && !sb.some(p=>p.n===monPseudo()) && monPseudo();
+    saveMatchs(); migreV2(); majQuiSuisJe(); drawMat();
+    const inc=sb.length && !sb.some(p=>memeJoueur(p.n,monPseudo())) && monPseudo();
     $("#mstate").textContent=`Partie ajoutée${sb.length?` avec ${sb.length} joueur${sb.length>1?"s":""}`:""}.`
       + (vides?` ${vides} ligne${vides>1?"s":""} sans aucun chiffre ignorée${vides>1?"s":""}.`:"")
       + (rejet.length?` ${rejet.join(", ")} n'est pas un pseudo : ligne ignorée.`:"")
@@ -9112,14 +9165,14 @@ function onTool(b){
     return;
   }
   if(a==="mwho"){
-    setIdentite(b.dataset.n); drawMat();
+    setIdentite(b.dataset.n); majQuiSuisJe(); drawMat();
     $("#mstate").textContent=`Bonjour ${sansTag(PSEUDO)}.`;
     return;
   }
   if(a==="mps"){
     const v=$("#mps").value.trim();
     setIdentite(v);
-    drawMat();
+    majQuiSuisJe(); drawMat();
     $("#mstate").textContent = v?`Pseudo enregistré : ${v}${tagDe(v)?` · équipe ${tagDe(v)}`:" · aucun tag reconnu, le découpage par équipe restera vide"}`
       :"Pseudo effacé — il sera redeviné à partir des tableaux collés.";
     return;
@@ -9841,6 +9894,13 @@ svgEl.addEventListener("pointerup",function(){
    sur le disque en esperant un clic n'a servi a rien. */
 nettoieSB(); migreV2();
 fillSelects(); fillPatch(); fillMaps(); fillPond(); initMap(); drawEquip();
+majQuiSuisJe();
+/* Le selecteur vit dans la barre, hors de toute vue : il se cable une fois. */
+document.getElementById("quisuisje").addEventListener("change", function(){
+  setIdentite(this.value);
+  majQuiSuisJe();
+  if(typeof drawMat==="function") drawMat();
+});
 
 go(readURL() || "rank");
 DEMARRAGE_ABOUTI = true;
