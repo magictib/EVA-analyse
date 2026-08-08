@@ -10764,8 +10764,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "FXCxParziRahl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -10994,7 +10994,8 @@
       285,
       186
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 6,

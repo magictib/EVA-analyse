@@ -33049,8 +33049,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "BVSxTchernobyl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -33139,7 +33139,8 @@
       219,
       147
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -37688,8 +37689,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "BVSxTchernobyl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -37758,7 +37759,8 @@
       214,
       158
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -38655,8 +38657,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "GUNxRabitte",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -38720,7 +38722,8 @@
       218,
       123
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -42883,8 +42886,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "BVSxTchernobyl",
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -42938,7 +42941,8 @@
       252,
       154
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 1,
@@ -44080,8 +44084,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "GUNxRabitte",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -44130,7 +44134,8 @@
       201,
       162
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -49961,8 +49966,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "GUNxRabitte",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -50001,7 +50006,8 @@
       179,
       110
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 3,
@@ -53515,8 +53521,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "GUNxRabitte",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -53550,7 +53556,8 @@
       161,
       130
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -53591,8 +53598,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "GUNxRhino",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -53626,7 +53633,8 @@
       178,
       171
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 9,
@@ -54617,8 +54625,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "BVSxTchernobyl",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -54652,7 +54660,8 @@
       218,
       161
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 9,
@@ -55035,8 +55044,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "GUNxHippocampe",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -55070,7 +55079,8 @@
       221,
       154
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 1,
@@ -57121,8 +57131,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "GUNxPhasme",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -57151,7 +57161,8 @@
       172,
       164
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 2,
@@ -58509,8 +58520,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "BVSxTchernobyl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -58539,7 +58550,8 @@
       256,
       154
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 7,
@@ -67296,8 +67308,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "GUNxRabitte",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -67316,7 +67328,8 @@
       206,
       119
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 9,
@@ -67572,8 +67585,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "GUNxRabitte",
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -67592,7 +67605,8 @@
       233,
       146
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 4,
@@ -67641,8 +67655,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "GUNxRhino",
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -67661,7 +67675,8 @@
       272,
       192
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -69346,8 +69361,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "BVSxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -69366,7 +69381,8 @@
       186,
       138
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 9,
@@ -70292,8 +70308,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "BVSxTchernobyl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -70312,7 +70328,8 @@
       277,
       118
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 9,

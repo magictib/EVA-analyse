@@ -45386,8 +45386,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "BVSxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -45446,7 +45446,8 @@
       167,
       73
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 8,

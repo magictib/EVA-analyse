@@ -53518,8 +53518,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "GUNxRhino",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -53543,7 +53543,8 @@
       89,
       142
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 4,

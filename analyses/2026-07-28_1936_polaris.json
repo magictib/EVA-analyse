@@ -24160,8 +24160,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "NTxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -24265,7 +24265,8 @@
       147,
       40
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -38647,8 +38648,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -38697,7 +38698,8 @@
       278,
       54
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 9,
@@ -43878,8 +43880,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -43918,7 +43920,8 @@
       192,
       39
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 9,
@@ -48236,8 +48239,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -48271,7 +48274,8 @@
       283,
       44
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 3,
@@ -49188,8 +49192,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "NTxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -49223,7 +49227,8 @@
       178,
       22
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -57980,8 +57985,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "NTxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -58005,11 +58010,12 @@
       167,
       176
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "NTxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -58033,7 +58039,8 @@
       180,
       109
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 1,
@@ -59811,8 +59818,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "ENDxVikings",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -59831,7 +59838,8 @@
       327,
       227
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 3,
@@ -63705,8 +63713,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "NTxLiX",
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -63725,7 +63733,8 @@
       263,
       26
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 9,

@@ -66448,8 +66448,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "GUNxHippocampe",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -66488,7 +66488,8 @@
       214,
       232
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -66577,8 +66578,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "GUNxHippocampe",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -66617,7 +66618,8 @@
       606,
       126
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -69455,8 +69457,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "BVSxCROMx",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -69490,7 +69492,8 @@
       336,
       232
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 7,
@@ -72315,8 +72318,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "GUNxHippocampe",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -72340,7 +72343,8 @@
       214,
       234
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 8,
@@ -72764,8 +72768,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "GUNxHippocampe",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -72789,7 +72793,8 @@
       606,
       126
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -75186,8 +75191,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "GUNxHippocampe",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -75206,7 +75211,8 @@
       210,
       255
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,

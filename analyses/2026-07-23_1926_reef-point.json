@@ -20523,8 +20523,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -20543,7 +20543,8 @@
       212,
       233
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,

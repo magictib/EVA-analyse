@@ -19967,7 +19967,9 @@
       373,
       223
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 4,
@@ -20715,7 +20717,9 @@
       187,
       174
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 8,
@@ -21418,7 +21422,9 @@
       346,
       209
      ]
-    ]
+    ],
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": 8,
@@ -22116,7 +22122,9 @@
       426,
       223
      ]
-    ]
+    ],
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": 3,
@@ -24070,7 +24078,9 @@
       149,
       78
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 1,
@@ -25296,7 +25306,9 @@
       123,
       176
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 9,
@@ -30581,7 +30593,9 @@
       304,
       235
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 1,
@@ -33164,7 +33178,9 @@
       433,
       210
      ]
-    ]
+    ],
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": 4,
@@ -33552,7 +33568,9 @@
       133,
       196
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 4,
@@ -37858,7 +37876,9 @@
       390,
       239
      ]
-    ]
+    ],
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": 7,
@@ -39246,7 +39266,9 @@
       167
      ]
     ],
-    "herite": true
+    "herite": true,
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 2,
@@ -39589,7 +39611,9 @@
       211,
       120
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 8,
@@ -45343,7 +45367,9 @@
       309,
       30
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": null,
@@ -47300,7 +47326,9 @@
       150,
       113
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 1,
@@ -48104,7 +48132,9 @@
       247,
       134
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 1,
@@ -50138,7 +50168,9 @@
       210,
       248
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 3,
@@ -51862,8 +51894,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "FXCxNoxis",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -52097,7 +52129,8 @@
       234,
       250
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 9,
@@ -52330,7 +52363,9 @@
       165,
       197
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 6,
@@ -53455,7 +53490,9 @@
       377,
       208
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 8,
@@ -53673,7 +53710,9 @@
       401,
       47
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 3,
@@ -56749,7 +56788,9 @@
       80
      ]
     ],
-    "par_elimination": true
+    "par_elimination": true,
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": null,
@@ -57110,7 +57151,9 @@
       54,
       182
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 3,
@@ -57288,7 +57331,9 @@
       331,
       32
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 7,
@@ -58311,7 +58356,9 @@
       392,
       238
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 9,
@@ -58479,7 +58526,9 @@
       244,
       240
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 2,
@@ -59605,7 +59654,9 @@
       184,
       171
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 4,
@@ -60237,7 +60288,9 @@
       53,
       179
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 3,
@@ -60548,7 +60601,9 @@
       137,
       204
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 9,
@@ -61160,7 +61215,9 @@
       212,
       71
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 7,
@@ -61757,7 +61814,9 @@
       54,
       179
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 1,
@@ -62339,7 +62398,9 @@
       278,
       187
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 7,
@@ -63483,7 +63544,9 @@
       257,
       46
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 1,
@@ -63621,7 +63684,9 @@
       65,
       143
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": null,
@@ -65142,8 +65207,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "BVSxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -65272,7 +65337,8 @@
       57,
       138
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 7,
@@ -65405,7 +65471,9 @@
       307,
       167
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": null,
@@ -65804,7 +65872,9 @@
       240,
       35
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 1,
@@ -66572,7 +66642,9 @@
       444,
       153
      ]
-    ]
+    ],
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": 4,
@@ -67064,7 +67136,9 @@
       307,
       165
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 7,
@@ -67187,7 +67261,9 @@
       245,
       145
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": null,
@@ -67680,7 +67756,9 @@
       241,
       28
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 4,
@@ -68865,7 +68943,9 @@
       237,
       236
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 6,
@@ -69096,7 +69176,9 @@
       144,
       186
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 4,
@@ -70108,7 +70190,9 @@
       314,
       205
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": null,
@@ -71492,7 +71576,9 @@
       194,
       172
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": null,
@@ -72688,7 +72774,9 @@
       212,
       33
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 7,
@@ -72967,7 +73055,9 @@
       173,
       149
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 6,
@@ -73764,7 +73854,9 @@
       200,
       204
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 9,
@@ -75165,7 +75257,9 @@
       237,
       248
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 3,
@@ -75243,7 +75337,9 @@
       299,
       34
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 6,
@@ -75317,7 +75413,9 @@
       128
      ]
     ],
-    "par_elimination": true
+    "par_elimination": true,
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 4,
@@ -75390,7 +75488,9 @@
       100,
       139
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 9,
@@ -75609,7 +75709,9 @@
       367,
       221
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 9,
@@ -76246,7 +76348,9 @@
       312,
       205
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 7,
@@ -76519,7 +76623,9 @@
       54
      ]
     ],
-    "par_elimination": true
+    "par_elimination": true,
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": 7,
@@ -76587,7 +76693,9 @@
       176,
       152
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 3,
@@ -76655,7 +76763,9 @@
       326,
       87
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 9,
@@ -77106,7 +77216,9 @@
       30,
       221
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 8,
@@ -77484,7 +77596,9 @@
       210,
       248
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": null,
@@ -77726,7 +77840,9 @@
       325,
       184
      ]
-    ]
+    ],
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": 7,
@@ -78249,7 +78365,9 @@
       56
      ]
     ],
-    "par_elimination": true
+    "par_elimination": true,
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": 8,
@@ -78308,7 +78426,9 @@
       177
      ]
     ],
-    "par_elimination": true
+    "par_elimination": true,
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": 4,
@@ -78838,7 +78958,9 @@
       392,
       62
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 2,
@@ -78944,7 +79066,9 @@
       217,
       37
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 1,
@@ -79818,7 +79942,9 @@
       145,
       195
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 6,
@@ -79957,7 +80083,9 @@
       139,
       234
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 2,
@@ -80646,7 +80774,9 @@
       161
      ]
     ],
-    "par_elimination": true
+    "par_elimination": true,
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": null,
@@ -80874,7 +81004,9 @@
       329,
       196
      ]
-    ]
+    ],
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": 2,
@@ -81558,7 +81690,9 @@
       171,
       113
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 1,
@@ -82367,7 +82501,9 @@
       372,
       71
      ]
-    ]
+    ],
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": 7,
@@ -82466,7 +82602,9 @@
       30,
       221
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 9,
@@ -82499,7 +82637,9 @@
       237,
       130
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 6,
@@ -82929,7 +83069,9 @@
       39
      ]
     ],
-    "par_elimination": true
+    "par_elimination": true,
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": null,
@@ -83343,7 +83485,9 @@
       161,
       188
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 6,
@@ -83623,7 +83767,9 @@
       372,
       71
      ]
-    ]
+    ],
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": null,
@@ -84240,7 +84386,9 @@
       124,
       198
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 4,
@@ -84380,7 +84528,9 @@
       400,
       179
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 8,
@@ -84409,7 +84559,9 @@
       188
      ]
     ],
-    "par_elimination": true
+    "par_elimination": true,
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": 6,
@@ -84466,7 +84618,9 @@
       57
      ]
     ],
-    "par_elimination": true
+    "par_elimination": true,
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": null,
@@ -85034,7 +85188,9 @@
       328,
       197
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 8,
@@ -85195,7 +85351,9 @@
       329,
       197
      ]
-    ]
+    ],
+    "z": 1,
+    "z_pourquoi": "demarre a la porte"
    },
    {
     "slot": 3,
@@ -85796,7 +85954,9 @@
       197
      ]
     ],
-    "herite": true
+    "herite": true,
+    "z": 0,
+    "z_pourquoi": "arrive a pied"
    },
    {
     "slot": 6,
@@ -86164,7 +86324,9 @@
       176,
       192
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 7,
@@ -86187,7 +86349,9 @@
       245,
       145
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 7,
@@ -86210,7 +86374,9 @@
       243,
       137
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": null,
@@ -86325,7 +86491,9 @@
       146,
       195
      ]
-    ]
+    ],
+    "z": 0,
+    "z_pourquoi": "adverse"
    },
    {
     "slot": 4,

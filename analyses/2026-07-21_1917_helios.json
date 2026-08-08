@@ -33319,8 +33319,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "BVSxCROMx",
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -33464,7 +33464,8 @@
       343,
       225
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 2,

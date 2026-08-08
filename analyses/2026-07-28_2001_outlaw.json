@@ -76518,8 +76518,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -76573,7 +76573,8 @@
       60,
       324
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -95303,8 +95304,8 @@
     "herite": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "NTxCROMx",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -95323,7 +95324,8 @@
       150,
       330
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 9,

@@ -37001,8 +37001,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "BVSxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -37041,7 +37041,8 @@
       265,
       84
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 2,
@@ -38592,8 +38593,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "FXCxParziRahl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -38627,7 +38628,8 @@
       309,
       95
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 6,
@@ -44647,8 +44649,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "BVSxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -44667,7 +44669,8 @@
       38,
       128
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -44808,8 +44811,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "BVSxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -44828,7 +44831,8 @@
       187,
       111
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -46673,8 +46677,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -46693,7 +46697,8 @@
       200,
       165
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,

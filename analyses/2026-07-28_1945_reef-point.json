@@ -44872,8 +44872,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "ENDxBarou",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -44922,7 +44922,8 @@
       254,
       194
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -56544,8 +56545,8 @@
     "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "ENDxBarou",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -56564,7 +56565,8 @@
       258,
       188
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 6,

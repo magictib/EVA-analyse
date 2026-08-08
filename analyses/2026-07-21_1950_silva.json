@@ -53355,8 +53355,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "GUNxHippocampe",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -53375,7 +53375,8 @@
       36,
       83
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -54599,8 +54600,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "GUNxRhino",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -54619,7 +54620,8 @@
       24,
       144
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,

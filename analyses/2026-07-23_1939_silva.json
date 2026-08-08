@@ -34711,8 +34711,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -34861,7 +34861,8 @@
       313,
       77
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 4,
@@ -44335,8 +44336,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "BVSxTibco",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -44405,7 +44406,8 @@
       131,
       96
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -54240,8 +54242,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -54275,7 +54277,8 @@
       288,
       152
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -54772,8 +54775,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -54807,7 +54810,8 @@
       289,
       117
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -57201,8 +57205,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -57231,7 +57235,8 @@
       319,
       85
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 6,
@@ -57300,8 +57305,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -57330,7 +57335,8 @@
       314,
       89
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 4,
@@ -57564,8 +57570,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -57594,7 +57600,8 @@
       331,
       64
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 3,
@@ -60110,8 +60117,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -60135,7 +60142,8 @@
       315,
       76
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 4,
@@ -60166,8 +60174,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -60191,7 +60199,8 @@
       329,
       11
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 3,
@@ -60278,8 +60287,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -60303,7 +60312,8 @@
       314,
       77
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 1,
@@ -60391,8 +60401,8 @@
     "herite": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -60416,7 +60426,8 @@
       277,
       141
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 1,
@@ -60616,8 +60627,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -60641,7 +60652,8 @@
       334,
       68
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -61288,8 +61300,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "BVSxTibco",
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -61313,7 +61325,8 @@
       61,
       77
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -64168,8 +64181,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -64188,11 +64201,12 @@
       312,
       76
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -64211,7 +64225,8 @@
       312,
       74
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 3,
@@ -65805,8 +65820,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "BVSxTibco",
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -65825,7 +65840,8 @@
       123,
       72
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,

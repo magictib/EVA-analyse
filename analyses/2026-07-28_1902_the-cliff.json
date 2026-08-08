@@ -64339,8 +64339,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -64574,7 +64574,8 @@
       185,
       86
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 3,
@@ -73774,8 +73775,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -73929,7 +73930,8 @@
       255,
       92
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 4,
@@ -74698,8 +74700,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -74848,7 +74850,8 @@
       167,
       92
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 3,
@@ -84065,8 +84068,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -84150,7 +84153,8 @@
       135,
       102
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 3,
@@ -87881,8 +87885,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -87926,7 +87930,8 @@
       169,
       99
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -92476,8 +92481,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -92496,7 +92501,8 @@
       74,
       136
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,

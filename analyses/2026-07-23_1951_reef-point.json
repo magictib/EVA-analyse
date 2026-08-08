@@ -27320,8 +27320,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -27585,7 +27585,8 @@
       224,
       117
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 3,
@@ -73339,8 +73340,8 @@
     "herite": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "BVSxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -73379,7 +73380,8 @@
       225,
       127
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 9,
@@ -77114,8 +77116,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "BVSxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -77144,7 +77146,8 @@
       153,
       232
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,

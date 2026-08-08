@@ -72086,8 +72086,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "BVSxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -72266,7 +72266,8 @@
       173,
       241
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 1,
@@ -83403,8 +83404,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "GUNxPhasme",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -83508,7 +83509,8 @@
       119,
       196
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 6,
@@ -88333,8 +88335,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "GUNxPhasme",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -88408,7 +88410,8 @@
       194,
       101
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 7,
@@ -90675,8 +90678,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "GUNxPhasme",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -90730,7 +90733,8 @@
       25,
       149
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 9,

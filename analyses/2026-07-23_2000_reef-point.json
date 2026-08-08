@@ -41209,8 +41209,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "BVSxTibco",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -41314,7 +41314,8 @@
       247,
       64
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 3,
@@ -42058,8 +42059,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -42158,7 +42159,8 @@
       172,
       108
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -46258,8 +46260,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "FXCxValtor",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -46338,7 +46340,8 @@
       198,
       122
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": 3,
@@ -56959,8 +56962,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "BVSxTibco",
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -56999,7 +57002,8 @@
       247,
       47
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -57690,8 +57694,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "BVSxCROMx",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -57730,7 +57734,8 @@
       243,
       191
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -66855,8 +66860,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -66880,7 +66885,8 @@
       222,
       173
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
@@ -71580,8 +71586,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -71600,7 +71606,8 @@
       222,
       174
      ]
-    ]
+    ],
+    "par_pov": true
    },
    {
     "slot": null,
