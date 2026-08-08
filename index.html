@@ -172,6 +172,11 @@
   .mom{display:grid;grid-template-columns:5.2em 1fr;gap:12px;padding:10px 0;
     border-bottom:1px solid var(--rule)}
   .mom time{font:700 17px/1 var(--mono);color:var(--signal)}
+  /* Une revue qui ne montre que des fautes n'est pas une revue. Thibaud, le 08/08 :
+     « on peut faire un switch mauvais / bon aussi ». Le bon prend la couleur du
+     vivant, le mauvais garde le jaune du signal — la meme grille, deux sens. */
+  .mom.bon time{color:var(--ok)}
+  .mom.bon b::before{content:"▲ ";color:var(--ok)}
   .mom b{display:block;font:700 14px/1.3 var(--ui);color:var(--ink)}
   .mom span{display:block;font:400 12px/1.45 var(--ui);color:var(--dim);margin-top:3px}
   .revsel{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 6px}
@@ -235,6 +240,23 @@
      sont en pixels de minimap, donc l'echelle du dessin est sans importance
      tant qu'elle reste uniforme. `pixelated` parce que le fond est une minimap
      de 460 px agrandie — la lisser en ferait une bouillie. */
+  /* Comparaison aux strats : une colonne par équipe, la strat la plus proche
+     en tête. Le chiffre est gros, la réserve est sous le bloc — on ne cache pas
+     ce qu'un écart de 4 m vaut quand le calage en vaut 5. */
+  .mstrat{margin:10px 0 4px;padding:10px 12px;background:var(--panel);
+    border:1px solid var(--rule);border-radius:6px}
+  .mstrat h5{margin:0 0 8px;font-size:12px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-dim)}
+  .mstrat>div{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;
+    margin-bottom:6px}
+  .mstrat>div>b{min-width:52px;font-family:var(--titre);letter-spacing:.04em}
+  .mstrat span{display:inline-flex;gap:6px;align-items:baseline;
+    padding:2px 8px;border:1px solid var(--rule);border-radius:4px}
+  .mstrat i{font-style:normal;color:var(--ink-dim);font-size:12.5px}
+  .mstrat em{font-style:normal;font-weight:700;font-variant-numeric:tabular-nums}
+  .mstrat s{text-decoration:none;color:var(--ink-faint);font-size:11.5px}
+  .mstrat .note{margin:6px 0 0;font-size:12px;color:var(--ink-dim);line-height:1.5}
+
   .mcarte{margin:14px 0 6px}
   .mcopt{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
   .mcopt b{font-size:12px;letter-spacing:.08em;text-transform:uppercase;
@@ -3563,15 +3585,45 @@ function momentsDe(a){
   const ev=[...(a.evenements||[])].filter(x=>x.type==="mort")
     .sort((x,y)=>x.image-y.image);
 
-  /* 1. Un creux chez eux qu'on n'a pas converti : le terrain etait libre. */
+  /* 1. Un creux chez eux : converti, ou pas. LA REGLE POSAIT LA QUESTION SANS Y
+        REPONDRE — « le terrain est libre, qu'a-t-on pris ? » — alors que l'etat des
+        points est la, dans `f.point`. On regarde donc, et le moment change de nature
+        selon la reponse : reproche si le point n'est pas tombe, credit s'il l'est. */
   for(let i=1;i<f.t.length;i++){
     const bas=4-f.eux[i];
     if(bas<3 || f.eux[i-1]<=f.eux[i]) continue;
     let j=i; while(j<f.t.length && f.eux[j]<=f.eux[i]) j++;
     const duree=f.t[Math.min(j,f.t.length-1)]-f.t[i];
-    if(duree>=3) out.push({t:f.t[i], duree, poids:bas*duree, type:"creux",
-      titre:`${bas} adversaires HS pendant ${Math.round(duree)} s`,
-      quoi:"le terrain est libre — qu'a-t-on pris ?"});
+    if(duree<3) continue;
+    let pris=null;
+    if(f.point){
+      pris=false;
+      for(let k=i;k<Math.min(j+5,f.t.length);k++)
+        if(f.point[k]==="nous" && f.point[i-1]!=="nous"){ pris=true; break; }
+    }
+    out.push(pris===true
+      ? {t:f.t[i], duree, poids:bas*duree, type:"creux", bon:true,
+         titre:`${bas} adversaires HS — et le point tombe`,
+         quoi:"creux converti : c'est ce qu'on veut refaire"}
+      : {t:f.t[i], duree, poids:bas*duree, type:"creux",
+         titre:`${bas} adversaires HS pendant ${Math.round(duree)} s`,
+         quoi:pris===false ? "le terrain était libre et le point n'est pas tombé"
+                           : "le terrain est libre — qu'a-t-on pris ?"});
+  }
+  /* 2 bis. L'ECHANGE GAGNANT, le symetrique de la cascade. On perd un joueur et
+        l'on en prend au moins deux dans les dix secondes : c'est la meme situation
+        que l'effondrement, jouee dans l'autre sens. Thibaud, le 08/08 : « on peut
+        faire un switch mauvais / bon aussi ». */
+  for(const e of ev){
+    if(!mien.includes(e.slot)) continue;
+    const pris=ev.filter(x=>!mien.includes(x.slot)
+                          && x.image>=e.image && x.image<=e.image+10*ps);
+    const perdus=ev.filter(x=>mien.includes(x.slot)
+                            && x.image>=e.image && x.image<=e.image+10*ps);
+    if(pris.length>=2 && pris.length>perdus.length)
+      out.push({t:sec(e.image), duree:10, poids:pris.length*3, type:"echange", bon:true,
+        titre:`échange gagnant — ${perdus.length} perdu${perdus.length>1?"s":""} pour ${pris.length} pris`,
+        quoi:"on a rendu la mort plus chère qu'elle ne nous coûtait"});
   }
   /* 2. Une cascade : on s'effondre, on ne se releve pas un par un. */
   for(let k=0;k<ev.length;k++){
@@ -3617,6 +3669,96 @@ function momentsDe(a){
         quoi:"personne n'est revenu contester — départ voulu ou oubli ?"});
     }
   }
+  /* 5. PARTIR SANS ATTENDRE — et son symetrique, le regroupement.
+
+        Thibaud, le 08/08 : « les moments ou l'on devrait attendre d'etre 4 a revenir
+        en vie pour eviter de sortir en decale, car on a le temps et que ca nous
+        coute ».
+
+        DEUX VERSIONS ONT ETE REFUTEES AVANT CELLE-CI, et les deux mesures expliquent
+        pourquoi la troisieme regarde ailleurs :
+
+          « trois reviennent, un quatrieme traine »  n'a JAMAIS parle sur 27 parties.
+          « la vague de retours est etalee »         a parle 35 fois sur 35 — donc
+                                                     jamais utilement.
+
+        La seconde mesure dit tout : l'etalement des RETOURS vaut 11 s de mediane, et
+        celui des MORTS correspondantes vaut 11 s aussi. Les retours ne font que
+        repeter les morts, decalees du temps de reapparition. **L'equipe ne choisit
+        pas cet etalement**, il lui est impose — le lui reprocher serait reprocher
+        une contrainte, exactement l'erreur qui avait fait retirer « point lache ».
+
+        CE QUI SE DECIDE, C'EST DE PARTIR OU D'ATTENDRE. On regarde donc ou est le
+        PREMIER revenu au moment ou le DERNIER de sa vague reapparait : s'il a deja
+        quitte son spawn, il est parti seul en sachant que les autres arrivaient. */
+  {
+    const re=[...(a.evenements||[])].filter(x=>x.type==="reapparition"
+                                             && mien.includes(x.slot))
+      .sort((x,y)=>x.image-y.image);
+    const pos={};
+    for(const t of (sp.trajets||[])) if(t.slot!=null)
+      for(const q of t.points) (pos[t.slot]||(pos[t.slot]={}))[q[0]]=[q[1],q[2]];
+    for(const e of (sp.pov||[])) (pos[e[1]]||(pos[e[1]]={}))[e[0]]=[e[2],e[3]];
+    const spawnDe=s=>{ const g=Object.values(sp.spawns||{});
+      if(!g.length) return null;
+      const p0=pos[s]&&pos[s][Object.keys(pos[s])[0]];
+      if(!p0) return g[0];
+      return g.reduce((b,x)=>Math.hypot(x[0]-p0[0],x[1]-p0[1])
+                            <Math.hypot(b[0]-p0[0],b[1]-p0[1])?x:b);
+    };
+    const LOIN=60;                       // px de minimap : on a quitte le spawn
+    for(let k=0;k<re.length;k++){
+      const g=[re[k]];
+      while(k+g.length<re.length && re[k+g.length].image-re[k].image<=15*ps)
+        g.push(re[k+g.length]);
+      if(g.length>=3){
+        const prem=g[0], der=g[g.length-1];
+        const sp0=spawnDe(prem.slot), P=pos[prem.slot]||{};
+        const ims=Object.keys(P).map(Number).filter(n=>n>=prem.image&&n<=der.image);
+        if(sp0 && ims.length){
+          const d=Math.max(...ims.map(n=>Math.hypot(P[n][0]-sp0[0],P[n][1]-sp0[1])));
+          const att=(der.image-prem.image)/ps;
+          out.push(d>=LOIN
+            ? {t:sec(prem.image), duree:att, poids:4+att/2, type:"vague",
+               titre:`${nomDe(a,prem.slot)} repart seul, ${Math.round(att)} s avant les autres`,
+               quoi:"les trois autres revenaient — attendre ne coûtait que ces secondes-là"}
+            : {t:sec(prem.image), duree:att, poids:5, type:"vague", bon:true,
+               titre:`regroupement — ${g.length} repartent ensemble`,
+               quoi:"le premier revenu a attendu les autres au spawn"});
+        }
+      }
+      k+=g.length-1;
+    }
+  }
+  /* 6. LA REMONTEE AU SCORE, et son symetrique la serie. `score_lu` porte des
+        centaines de lectures par partie ; on cherche les fenetres ou leur score
+        monte et pas le notre, et l'inverse. Sans lecture de score, pas de regle —
+        on ne remplace pas une mesure absente par un prorata. */
+  {
+    const sl=sp.score_lu;
+    if(sl && sl.img && sl.img.length>10){
+      const A=(a.partie&&Array.isArray(a.partie.nous)&&a.partie.nous.length
+               && a.partie.slots && a.partie.slots.indexOf(a.partie.nous[0])<4)
+              ? "alliance" : null;
+      const nous=A==="alliance"?sl.alliance:sl.rebels, eux=A==="alliance"?sl.rebels:sl.alliance;
+      const FEN=30;                       // secondes
+      const pasI=Math.max(1,Math.round(FEN*ps/(sl.img[1]-sl.img[0])));
+      for(let k=pasI;k<sl.img.length;k+=pasI){
+        const dn=nous[k]-nous[k-pasI], de=eux[k]-eux[k-pasI];
+        /* LE SEUIL EST MONTE DE 8 A 15 POINTS, et le poids est borne. A 8, la regle
+           prenait 89 des 162 moments des 27 parties : en Domination le score bouge
+           tout le temps, donc un ecart de 8 sur 30 s n'est pas un evenement. Un
+           detecteur qui parle a chaque partie ne designe plus rien. */
+        if(de-dn>=15) out.push({t:sec(sl.img[k-pasI]), duree:FEN, poids:Math.min(8,(de-dn)/2), type:"score",
+          titre:`ils reprennent ${de-dn} points en ${FEN} s`,
+          quoi:"on ne marque plus — où et pourquoi ça a cloché ?"});
+        else if(dn-de>=15) out.push({t:sec(sl.img[k-pasI]), duree:FEN, poids:Math.min(8,(dn-de)/2),
+          type:"score", bon:true,
+          titre:`on prend ${dn-de} points en ${FEN} s`,
+          quoi:"série : c'est la séquence à revoir pour la refaire"});
+      }
+    }
+  }
   out.sort((x,y)=>y.poids-x.poids);
   /* Deux moments a moins de dix secondes l'un de l'autre sont le meme moment.
 
@@ -3627,8 +3769,13 @@ function momentsDe(a){
   const gardes=[], parType={};
   for(const m of out){
     if(gardes.some(g=>Math.abs(g.t-m.t)<10)) continue;
-    if((parType[m.type]||0)>=2) continue;
-    parType[m.type]=(parType[m.type]||0)+1;
+    /* Le quota separe le BON du MAUVAIS. Sans cela une paire s'evince elle-meme :
+       deux echanges gagnants remplissaient le quota « echange » et la cascade du
+       meme type ne passait plus. Une bascule n'a d'interet que montree des deux
+       cotes. */
+    const q=m.type+(m.bon?"+":"-");
+    if((parType[q]||0)>=2) continue;
+    parType[q]=(parType[q]||0)+1;
     gardes.push(m);
     if(gardes.length>=MOMENTS_MAX) break;
   }
@@ -4752,7 +4899,26 @@ function drawAna(){
     const jj=d=>String(d).split("-").reverse().join("/");
     const choisie=dispo.find(a=>cleAna(a)===AREVUE) || dispo[0];
     const M=momentsDe(choisie);
-    const hms=t=>`${Math.floor(t/60)}:${String(Math.round(t%60)).padStart(2,"0")}`;
+    /* ---------- L'HEURE AFFICHEE EST CELLE DU JEU, PAS CELLE DU DECOUPAGE ----------
+       Les moments etaient dates en secondes depuis la premiere image analysee. Or
+       cette image ne tombe pas sur le debut de la manche : mesure du 08/08 en lisant
+       l'horloge du HUD sur 25 parties, le decoupage commence 7 a 8 secondes AVANT le
+       lancement dans la plupart des cas — et bien plus sur trois d'entre elles, dont
+       une a 102 s. Chercher « 0:14 » dans la video menait donc a cote.
+
+       IL N'Y A PAS DE DERIVE, seulement un ZERO decale : l'horloge est lineaire par
+       construction et le rythme d'images est juste, ce que le taux de lectures
+       conformes verifie. Une constante par partie suffit donc, et `spatial.horloge`
+       la porte (`lire_hud.horloge`, mediane de dizaines de lectures — robuste aux
+       lectures fausses, ce qu'une moyenne ne serait pas).
+
+       ON NE CORRIGE PAS CE QU'ON NE SAIT PAS : sous 20 % de lectures conformes la loi
+       ne colle a rien, et deux parties sont dans ce cas. Elles gardent leur ancienne
+       heure, signalee comme telle, plutot qu'une correction inventee. */
+    const hor=(choisie.spatial||{}).horloge;
+    const cale=(hor && hor.part>=0.2) ? hor.t_a_debut : 0;
+    const hms=t=>{const u=Math.max(0,t+cale);
+      return `${Math.floor(u/60)}:${String(Math.round(u%60)).padStart(2,"0")}`;};
     const p=choisie.partie||{};
     /* Quelles couches la frise porte-t-elle ? La note qui suit doit decrire ce qui
        est REELLEMENT dessine — la possession n'existe que sur les parties
@@ -4798,7 +4964,12 @@ function drawAna(){
             av.length?`, ${gain.toFixed(0)} % marqués sur ${max.toFixed(0)} réalisables
             (<b>${max?Math.round(100*gain/max):0} %</b>)`:` — score non lu sur cette
             partie, la conversion n'est pas mesurable`}.</p>`;})()}
-      ${M.length?M.map(m=>`<div class="mom"><time>${hms(m.t)}</time>
+      ${M.length?`<p class="note">Heures ${cale
+        ? `alignées sur <b>l'horloge du jeu</b> (le découpage commence ${fr(-cale,0)} s
+           avant le lancement de cette manche).`
+        : `comptées depuis la première image analysée : l'horloge du HUD n'a pas pu être
+           lue sur cette partie, il peut y avoir <b>quelques secondes d'avance</b>.`}</p>`
+        +M.map(m=>`<div class="mom${m.bon?" bon":""}"><time>${hms(m.t)}</time>
           <div><b>${m.titre}</b><span>${m.quoi}</span></div></div>`).join("")
         :`<p class="note">Aucun moment saillant sur cette partie — ni effondrement, ni
           creux d'effectif tenu, ni situation à un contre plusieurs.</p>`}
@@ -5097,6 +5268,57 @@ function drawAna(){
      repere au pixel pres et se superposent sans aucune conversion — c'est ce
      qui permet d'afficher les trajets sans savoir combien de metres fait la
      carte, question encore ouverte du cote de la chaine. */
+  /* ---------- Comparaison à la strat ----------
+     La chaîne sait désormais passer des pixels de minimap aux plans cotés du site
+     (`spatial.calage`, posé par `calage_cartes.py`), donc un écart s'exprime enfin
+     en MÈTRES. `spatial.strats` porte, pour chaque strat de la carte et chaque camp,
+     l'écart au meilleur instant.
+
+     TROIS RÉSERVES SONT AFFICHÉES AVEC LE CHIFFRE, parce qu'elles décident de ce
+     qu'on a le droit d'en conclure :
+
+       le calage a un résidu     de 0,5 m sur Atlantis à 5,8 m sur Silva, faute de
+                                 repères — le nombre ne vaut pas mieux que lui
+       les strats n'ont pas de   `path` est vide dans les douze : une strat est
+       trajet                    quatre positions cibles, pas un chemin. La sortie
+                                 de spawn ne peut donc pas encore se comparer.
+       l'écart entre strats est  sur Atlantis, 3,5 / 4,2 / 4,8 m pour les trois.
+       du même ordre que le      On peut dire « on tenait à peu près cette forme »,
+       bruit                     pas « on a joué celle-ci plutôt que celle-là ». */
+  const blocStrat = a => {
+    const S = (a.spatial||{}).strats || [], cal = (a.spatial||{}).calage;
+    if(!S.length) return "";
+    const ps = (a.spatial&&a.spatial.par_seconde)||1;
+    const d0 = (a.spatial&&a.spatial.debut)||0;
+    const mmss = im => { const s=Math.max(0,Math.round((im-d0)/ps));
+                         return `${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`; };
+    /* NOTRE CAMP SEULEMENT. Thibaud, le 07/08 : « les ennemis on ne les compare pas
+       pour l'instant ». Une strat dit ce que NOUS voulions faire ; la mesurer contre
+       l'adversaire n'a pas de sens, il jouait la sienne. On passe donc par `monCamp`,
+       le meme juge que le reste du site — il suit le camp DECLARE, pas le tag, ce qui
+       resiste aux changements d'equipe en cours de saison. */
+    const nous = new Set(monCamp(a).map(s=>String(s)));
+    const slots = ((a.partie||{}).slots)||[];
+    const campNous = slots.findIndex(s=>nous.has(String(s))) < 4 ? "alliance" : "rebels";
+    const L = S.filter(r=>r.camp===campNous).sort((x,y)=>x.ecart_m-y.ecart_m);
+    if(!L.length) return "";
+    const cols = `<div><b>${L[0].tag}</b>${L.map(r=>
+      `<span><i>${r.strat}</i><em>${fr(r.ecart_m,1)} m</em>
+       <s>à ${mmss(r.image)}</s></span>`).join("")}</div>`;
+    return `<div class="mstrat">
+      <h5>Comparaison aux strats</h5>${cols}
+      <p class="note">Écart moyen entre les quatre joueurs et les quatre positions de la
+      strat, au meilleur instant de la partie, sur la meilleure des 24 affectations —
+      la question est « était-on placé ainsi », pas « qui était où ». Le côté est
+      adapté automatiquement au camp joué.<br>
+      <b>Ce que ce chiffre ne dit pas.</b> Le calage de cette carte a un résidu de
+      ${cal?fr(cal.residu_m,1):"?"} m${cal&&cal.methode&&cal.methode.indexOf("emprise")>=0
+        ? ", faute de repères suffisants" : ""} : deux strats séparées par moins que ça
+      ne se distinguent pas. Et une strat ne porte que <b>quatre positions</b>, aucun
+      trajet — la sortie de spawn ne pourra se comparer que le jour où l'éditeur en
+      portera.</p></div>`;
+  };
+
   const spatiales = lot.filter(a => a.spatial && a.spatial.fond
                                  && Array.isArray(a.spatial.trajets));
   let carte = "";
@@ -5123,9 +5345,14 @@ function drawAna(){
             <option value="">tout le monde</option>
             ${slots.map(s=>`<option value="${s}">${noms[s]||("casque "+s)}</option>`).join("")}
           </select>
+          ${sp.calage && MAPS[sp.calage.cle] ? `<select class="ccFond" data-i="${i}">
+            <option value="">fond minimap · exact</option>
+            <option value="plan">plan coté · ±${fr(sp.calage.residu_m,1)} m</option>
+          </select>` : ""}
         </div>
         <canvas class="ccCv" data-i="${i}" width="${sp.largeur}" height="${sp.hauteur}"></canvas>
         <div class="mcleg" data-i="${i}"></div>
+        ${blocStrat(a)}
       </div>`;
     }).join("");
     carte += `<p class="note">Sur une fenêtre de temps depuis le lancement, chaque joueur trace
@@ -5548,9 +5775,34 @@ function drawAna(){
     const campT=t=>t.slot!=null ? tagT(t) : (tagDuCamp[t.sorte]||"");
     const couleur=t=>teinte(campT(t));
     const fond=new Image();
+    /* ---------- Le fond peut être le PLAN COTÉ, pas seulement la minimap ----------
+       `spatial.calage` donne l'échelle, la rotation et les décalages qui mènent des
+       pixels de minimap aux pixels du plan (`calage_cartes.py`). Les trajets peuvent
+       donc se lire sur la carte qui porte les murs, les noms de zones et l'échelle en
+       mètres, au lieu d'un fond de 460 px agrandi.
+
+       LA MINIMAP RESTE LE DÉFAUT, ET CE N'EST PAS UN DÉTAIL. Elle est dans le MÊME
+       repère que les positions, au pixel près, sans aucune conversion — donc exacte.
+       Le plan ajoute la lisibilité et retire l'exactitude : le résidu du calage va de
+       0,6 m sur Atlantis à 5,8 m sur Silva, faute de repères. Le menu l'affiche à côté
+       du choix plutôt que de le laisser deviner.
+
+       ET LE PLAN NE RÉSOUT PAS LES ÉTAGES : la minimap écrase la verticale, donc un
+       joueur au balcon et un joueur dessous tombent au même point sur les deux fonds. */
+    const cal=sp.calage, plan=new Image();
+    if(cal && MAPS[cal.cle]) plan.src=MAPS[cal.cle].img;
     const trace=()=>{
+      const surPlan = cal && MAPS[cal.cle]
+        && (el.querySelector(`.ccFond[data-i="${i}"]`)||{}).value==="plan";
+      /* Un seul point de conversion : tout ce qui se dessine passe par `X` et `Y`. */
+      const co=Math.cos(cal?cal.theta:0), si=Math.sin(cal?cal.theta:0);
+      const X=(x,y)=>surPlan ? cal.a*(co*x-si*y)+cal.bx : x;
+      const Y=(x,y)=>surPlan ? cal.a*(si*x+co*y)+cal.by : y;
+      const lw=surPlan?cal.w:sp.largeur, lh=surPlan?cal.h:sp.hauteur;
+      if(cv.width!==lw||cv.height!==lh){ cv.width=lw; cv.height=lh; }
       ctx.clearRect(0,0,cv.width,cv.height);
-      if(fond.complete && fond.naturalWidth) ctx.drawImage(fond,0,0,cv.width,cv.height);
+      const f = surPlan ? plan : fond;
+      if(f.complete && f.naturalWidth) ctx.drawImage(f,0,0,cv.width,cv.height);
       const fen=+el.querySelector(`.ccFen[data-i="${i}"]`).value;
       const eq=el.querySelector(`.ccEq[data-i="${i}"]`).value;
       const qui=el.querySelector(`.ccQui[data-i="${i}"]`).value;
@@ -5563,8 +5815,9 @@ function drawAna(){
         if(eq && tag!==eq) continue;
         ctx.strokeStyle=teinte(tag); ctx.globalAlpha=.9; ctx.lineWidth=1.4;
         ctx.beginPath();
-        ctx.moveTo(p[0]-4,p[1]-4); ctx.lineTo(p[0]+4,p[1]+4);
-        ctx.moveTo(p[0]+4,p[1]-4); ctx.lineTo(p[0]-4,p[1]+4);
+        const sx=X(p[0],p[1]), sy=Y(p[0],p[1]);
+        ctx.moveTo(sx-4,sy-4); ctx.lineTo(sx+4,sy+4);
+        ctx.moveTo(sx+4,sy-4); ctx.lineTo(sx-4,sy+4);
         ctx.stroke();
       }
 
@@ -5613,7 +5866,8 @@ function drawAna(){
         ctx.globalAlpha=j.sur?((qui||eq)?0.95:0.75):0.4;
         ctx.setLineDash(j.sur?[]:[3,3]);
         ctx.beginPath();
-        j.pts.forEach((p,k)=>k?ctx.lineTo(p[1],p[2]):ctx.moveTo(p[1],p[2]));
+        j.pts.forEach((p,k)=>k?ctx.lineTo(X(p[1],p[2]),Y(p[1],p[2]))
+                              :ctx.moveTo(X(p[1],p[2]),Y(p[1],p[2])));
         ctx.stroke();
         ctx.setLineDash([]);
         if(j.sur) tenues.push({t:j.t, d:j.pts[j.pts.length-1],
@@ -5624,14 +5878,15 @@ function drawAna(){
          strat, donc ce qui doit se voir en premier. */
       for(const {t,d,mort} of tenues){
         ctx.globalAlpha=1; ctx.strokeStyle=couleur(t); ctx.lineWidth=1.6;
+        const dx=X(d[1],d[2]), dy=Y(d[1],d[2]);
         if(mort){                       // tombe ici : une croix, pas un disque
           ctx.beginPath();
-          ctx.moveTo(d[1]-3.5,d[2]-3.5); ctx.lineTo(d[1]+3.5,d[2]+3.5);
-          ctx.moveTo(d[1]+3.5,d[2]-3.5); ctx.lineTo(d[1]-3.5,d[2]+3.5);
+          ctx.moveTo(dx-3.5,dy-3.5); ctx.lineTo(dx+3.5,dy+3.5);
+          ctx.moveTo(dx+3.5,dy-3.5); ctx.lineTo(dx-3.5,dy+3.5);
           ctx.stroke();
         }else{
           ctx.fillStyle=couleur(t);
-          ctx.beginPath(); ctx.arc(d[1],d[2],3.4,0,6.284); ctx.fill();
+          ctx.beginPath(); ctx.arc(dx,dy,3.4,0,6.284); ctx.fill();
           ctx.strokeStyle="rgba(11,15,20,.85)"; ctx.lineWidth=1.2; ctx.stroke();
         }
       }
@@ -5645,8 +5900,9 @@ function drawAna(){
                                      : `<s class="vide">personne sur cette fenêtre</s>`;
       }
     };
-    fond.onload=trace; fond.src=sp.fond;
-    el.querySelectorAll(`.ccFen[data-i="${i}"],.ccEq[data-i="${i}"],.ccQui[data-i="${i}"]`)
+    fond.onload=trace; plan.onload=trace; fond.src=sp.fond;
+    el.querySelectorAll(`.ccFen[data-i="${i}"],.ccEq[data-i="${i}"],`
+                        + `.ccQui[data-i="${i}"],.ccFond[data-i="${i}"]`)
       .forEach(c=>c.addEventListener("input",trace));
     trace();
   /* La carte est un ajout : si elle echoue, elle doit s'effacer seule et laisser
@@ -5678,9 +5934,26 @@ const modeDe = m => m.mode || "";
    parties. Demande par Thibaud le 01/08, et la cle existait deja : c'est celle qui
    rattache une analyse a son match, la date et l'heure. */
 const cleMatch = m => `${m.dt||""} ${m.h||""}`;
+/* LE JEU D'ARMES EST ECARTE PAR DEFAUT, et c'est Thibaud qui tranche, le 08/08 :
+   « il s'agit de la partie en mode jeu d'armes qui ne nous apporte rien pour le côté
+   compétitif donc je l'avais écartée [...] pour l'instant le jeu d'armes non, donc
+   celui-là on peut l'écarter ».
+
+   IL POLLUAIT LES CHIFFRES SANS QU'ON LE VOIE : 95 frags et ZERO arme relevee, dans un
+   mode ou chacun change d'arme a chaque kill. Les armes des 25 Dominations sont a 95 %,
+   pas 89 — c'est ce mode-la qui faisait la difference.
+
+   POINT STRATEGIQUE RESTE, et pour une raison de fond : « Outlaw est uniquement en mode
+   point stratégique et en compétitif, il faut la prendre en compte ». L'ecarter aurait
+   retire une carte entiere du jeu de donnees.
+
+   L'exclusion n'est pas un masquage : choisir « Jeu d'arme » dans le filtre de mode le
+   fait revenir. On ne cache pas une partie, on la retire du defaut. */
+const MODES_HORS = new Set(["Jeu d'arme en équipe"]);
 function filtre(){
   return MATCHS.filter(m => (!FCARTE || cleDe(m)===FCARTE)
     && (!FADV || advDe(m)===FADV) && (!FMODE || modeDe(m)===FMODE)
+    && (FMODE || !MODES_HORS.has(modeDe(m)))
     && (!FPARTIE || cleMatch(m)===FPARTIE));
 }
 /* La barre de tri, ecrite une fois et posee dans les deux onglets.
