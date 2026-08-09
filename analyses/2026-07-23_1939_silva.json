@@ -39142,8 +39142,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "FXCxParziRahl",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -39247,7 +39247,8 @@
       377,
       101
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 2,
@@ -48475,8 +48476,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "BVSxCROMx",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -48525,7 +48526,8 @@
       32,
       102
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,

@@ -62117,8 +62117,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "FXCxParziRahl",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -62257,7 +62257,8 @@
       422,
       49
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,
@@ -78376,8 +78377,8 @@
     "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "FXCxParziRahl",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -78433,7 +78434,8 @@
      ]
     ],
     "z": 1,
-    "z_pourquoi": "demarre a la porte"
+    "z_pourquoi": "demarre a la porte",
+    "par_elimination": true
    },
    {
     "slot": 4,

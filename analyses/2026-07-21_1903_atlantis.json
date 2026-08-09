@@ -78548,8 +78548,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "GUNxRhino",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -78598,7 +78598,8 @@
       70,
       142
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,

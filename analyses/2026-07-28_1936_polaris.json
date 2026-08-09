@@ -32445,8 +32445,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "ENDxBarou",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -32510,7 +32510,8 @@
       328,
       235
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 4,
@@ -36485,8 +36486,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "NTxCROMx",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -36540,7 +36541,8 @@
       320,
       214
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,
@@ -39919,8 +39921,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "ENDxGodzi",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -39964,7 +39966,8 @@
       103,
       8
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 3,
@@ -42400,8 +42403,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -42440,11 +42443,12 @@
       431,
       42
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -42483,7 +42487,8 @@
       449,
       61
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 7,
@@ -45834,8 +45839,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "NTxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -45869,11 +45874,12 @@
       326,
       225
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -45907,7 +45913,8 @@
       281,
       104
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,
@@ -46290,8 +46297,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -46325,7 +46332,8 @@
       151,
       108
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,
@@ -47397,8 +47405,8 @@
     "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "NTxCROMx",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -47432,7 +47440,8 @@
       198,
       28
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -54771,8 +54780,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "NTxCROMx",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -54796,7 +54805,8 @@
       113,
       228
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -54855,8 +54865,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "NTxCROMx",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -54880,7 +54890,8 @@
       100,
       182
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,
@@ -54911,8 +54922,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "NTxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -54936,7 +54947,8 @@
       425,
       250
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 4,
@@ -55221,8 +55233,8 @@
     "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "NTxCROMx",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -55246,7 +55258,8 @@
       157,
       101
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 9,
@@ -59727,8 +59740,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "ENDxBarou",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -59747,7 +59760,8 @@
       326,
       232
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,

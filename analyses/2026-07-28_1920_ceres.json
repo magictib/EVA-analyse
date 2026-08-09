@@ -71107,8 +71107,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "ENDxVikings",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -71127,7 +71127,8 @@
       180,
       92
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,

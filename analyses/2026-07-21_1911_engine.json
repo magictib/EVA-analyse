@@ -31678,8 +31678,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "GUNxPhasme",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -32008,7 +32008,8 @@
       282,
       152
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 7,
@@ -33909,8 +33910,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "GUNxRhino",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -34214,7 +34215,8 @@
       180,
       218
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 9,
@@ -41987,8 +41989,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "GUNxRabitte",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -42237,7 +42239,8 @@
       197,
       89
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -55478,8 +55481,8 @@
     "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "GUNxPhasme",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -55618,7 +55621,8 @@
       198,
       102
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 4,
@@ -59659,8 +59663,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "GUNxRhino",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -59769,7 +59773,8 @@
       189,
       196
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 9,
@@ -70445,8 +70450,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "BVSxCROMx",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -70495,7 +70500,8 @@
       235,
       175
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,

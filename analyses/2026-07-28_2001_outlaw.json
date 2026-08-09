@@ -67209,8 +67209,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "NTxTibco",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -67304,7 +67304,8 @@
       56,
       260
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 3,
@@ -73630,8 +73631,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -73695,7 +73696,8 @@
       374,
       296
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -88618,8 +88620,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -88643,7 +88645,8 @@
       87,
       7
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -91647,8 +91650,8 @@
     "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "NTxCROMx",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -91667,7 +91670,8 @@
       63,
       7
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 4,

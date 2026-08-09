@@ -54027,8 +54027,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "GUNxRhino",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -54162,7 +54162,8 @@
       562,
       145
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 4,
@@ -63796,8 +63797,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "BVSxTchernobyl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -63846,7 +63847,8 @@
       19,
       188
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 8,
@@ -64095,8 +64097,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "BVSxTchernobyl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -64140,7 +64142,8 @@
       337,
       235
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 1,
@@ -64912,8 +64915,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "BVSxCROMx",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -64957,7 +64960,8 @@
       601,
       126
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -65440,8 +65444,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "GUNxRabitte",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -65485,7 +65489,8 @@
       606,
       126
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 7,
@@ -70736,8 +70741,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "GUNxRhino",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -70766,7 +70771,8 @@
       412,
       91
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 7,
@@ -73850,8 +73856,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "GUNxPhasme",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -73875,7 +73881,8 @@
       289,
       90
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 8,
@@ -74467,8 +74474,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "GUNxRabitte",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -74487,7 +74494,8 @@
       411,
       92
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 1,
@@ -75687,8 +75695,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "BVSxTchernobyl",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -75707,7 +75715,8 @@
       500,
       144
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 8,
@@ -77283,8 +77292,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "BVSxCROMx",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -77303,7 +77312,8 @@
       543,
       17
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 8,

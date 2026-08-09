@@ -28392,8 +28392,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "GUNxHippocampe",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -28592,7 +28592,8 @@
       153,
       169
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 9,
@@ -32036,8 +32037,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "GUNxRabitte",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -32171,7 +32172,8 @@
       148,
       50
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 3,
@@ -36223,8 +36225,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "BVSxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -36303,7 +36305,8 @@
       74,
       140
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -42465,8 +42468,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "BVSxTchernobyl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -42510,7 +42513,8 @@
       76,
       238
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,
@@ -47347,8 +47351,8 @@
     "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "GUNxHippocampe",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -47377,7 +47381,8 @@
       45,
       60
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -50537,8 +50542,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "BVSxTchernobyl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -50562,7 +50567,8 @@
       398,
       73
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -55338,8 +55344,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "GUNxPhasme",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -55358,7 +55364,8 @@
       197,
       49
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -55592,8 +55599,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "GUNxHippocampe",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -55612,7 +55619,8 @@
       142,
       159
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 3,

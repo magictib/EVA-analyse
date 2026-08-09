@@ -55844,8 +55844,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "GUNxRabitte",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -55946,7 +55946,8 @@
      ]
     ],
     "z": 0,
-    "z_pourquoi": "adverse"
+    "z_pourquoi": "adverse",
+    "par_elimination": true
    },
    {
     "slot": 3,

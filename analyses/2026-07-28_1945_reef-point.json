@@ -51176,8 +51176,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "ENDxVikings",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -51206,7 +51206,8 @@
       208,
       201
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 3,
@@ -52795,8 +52796,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -52825,7 +52826,8 @@
       373,
       221
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,

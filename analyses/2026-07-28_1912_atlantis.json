@@ -97545,8 +97545,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "NTxCROMx",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -97605,7 +97605,8 @@
       393,
       56
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -107852,8 +107853,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "ENDxBarou",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -107874,7 +107875,8 @@
      ]
     ],
     "z": 0,
-    "z_pourquoi": "arrive a pied"
+    "z_pourquoi": "arrive a pied",
+    "par_elimination": true
    },
    {
     "slot": 6,

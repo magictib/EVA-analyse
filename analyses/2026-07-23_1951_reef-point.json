@@ -47453,8 +47453,8 @@
     "par_pov": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "BVSxCROMx",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -47593,7 +47593,8 @@
       168,
       74
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 4,
@@ -49991,8 +49992,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "BVSxLiX",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -50116,7 +50117,8 @@
       178,
       200
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 3,
@@ -87045,8 +87047,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "BVSxCROMx",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -87065,7 +87067,8 @@
       122,
       80
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -88636,8 +88639,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "FXCxValtor",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -88656,7 +88659,8 @@
       383,
       229
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 1,

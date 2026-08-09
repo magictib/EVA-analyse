@@ -34817,8 +34817,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "BVSxTibco",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -34897,7 +34897,8 @@
       296,
       103
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -56793,8 +56794,8 @@
     "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "GUNxHippocampe",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -56823,7 +56824,8 @@
       87,
       192
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -60904,8 +60906,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "BVSxLiX",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -60929,7 +60931,8 @@
       234,
       159
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
