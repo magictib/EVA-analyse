@@ -4134,17 +4134,27 @@ function engagements(a, f){
    camp. « 48 de nos 97 points pris pendant 1:40 d'avance » ne suppose rien, se
    compare d'un camp a l'autre, et repond a la question du coach.
 
-   LE SEUIL DE LA FENETRE, LUI, VIENT D'UNE MESURE NEUVE. Thibaud, le 09/08 :
-   *« il y a un temps de capture, donc c'est normal que les points ne montent pas
-   tout de suite apres avoir tue les ennemis »*. Mesure sur les 25 Dominations,
-   123 fenetres ou le score a fini par monter : le delai avant le premier point
-   vaut 2 s au premier quartile, **4 s en mediane**, 11 s au troisieme. Une fenetre
-   plus courte que ce delai ne pouvait rien rapporter ; le seuil de 3 s, pose a
-   vue, devient donc 4 s, pose sur une mesure. */
-/* CE N'EST PAS LE TEMPS DE CAPTURE DU JEU, et il ne faut pas les confondre : c'est
-   le delai OBSERVE, qui melange la capture elle-meme et le temps d'aller au point.
-   Le vrai temps de capture est une constante du jeu ; si elle est connue, elle se
-   substitue ici sans rien changer d'autre. */
+   LE SEUIL DE LA FENETRE VIENT DE LA LOI DU JEU, et la mesure l'a confirmee avant
+   meme de la connaitre. Thibaud, le 09/08 : *« la capture repose sur un principe
+   d'accumulation : 1 joueur, vitesse normale, 8 secondes ; 2 joueurs, vitesse
+   doublee, 4 secondes ; 3 joueurs et plus, la vitesse continue d'augmenter
+   proportionnellement »*.
+
+   J'avais mesure, avant de le savoir, le delai avant le premier point dans les 123
+   fenetres d'avantage des 25 Dominations : q25 **2 s**, mediane **4 s**, q75 11 s.
+   La mediane tombe exactement sur le cas a DEUX joueurs, et le premier quartile sur
+   le cas a trois et plus. La mesure et la loi se confirment l'une l'autre.
+
+   ET LA LOI CORRIGE MA MESURE, dans l'autre sens que celui que je croyais. J'avais
+   porte le seuil de 3 s a 4 s, la mediane observee — c'etait trop haut. Le seuil
+   doit etre la capture la plus RAPIDE, celle qu'une fenetre courte peut encore
+   atteindre : a trois joueurs ou plus, 8/3 = 2,7 s. Les 3 s d'origine etaient donc
+   justes ; ils cessent seulement d'etre poses a vue.
+
+   La mediane de 4 s garde son sens propre : c'est le temps qu'une equipe met
+   REELLEMENT a convertir, pas le plancher de ce qu'elle pourrait faire. */
+const CAPTURE_1J=8;              // secondes pour capturer a un seul joueur
+const CAPTURE=CAPTURE_1J/3;      // le plus rapide : trois joueurs ou plus
 function avantages(f, SS, mini=CAPTURE){
   const out=[]; let i=0;
   while(i<f.t.length){
@@ -4453,8 +4463,8 @@ function bilanFrise(f, AV, SS, CN, CE, SF){
   const ms=s=>`${Math.floor(s/60)}:${String(Math.round(s%60)).padStart(2,"0")}`;
   /* LE GAIN PORTE SA PROPRE DUREE, et ce n'est pas une redondance. Les pourcentages
      de gauche comptent TOUTES les secondes ; le gain, lui, ne compte que les
-     fenetres TENUES au moins `CAPTURE` secondes — plus courtes, elles ne pouvaient
-     rien rapporter. Sans la duree tenue ecrite a cote, on divise 48 par 1:51 et
+     fenetres TENUES au moins `CAPTURE` secondes — plus courtes, meme trois joueurs
+     sur le point n'auraient pas eu le temps de le prendre. Sans la duree tenue ecrite a cote, on divise 48 par 1:51 et
      l'on se trompe de denominateur. Le chiffre porte donc le sien.
 
      Et le denominateur du gain est le SCORE FINAL de ce camp, qu'on possede, et
