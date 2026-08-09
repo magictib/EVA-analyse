@@ -15900,8 +15900,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "FXCxParziRahl",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -16800,7 +16800,8 @@
       429,
       195
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,
@@ -58023,8 +58024,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "FXCxParziRahl",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -58188,7 +58189,8 @@
       59,
       84
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 9,
@@ -62115,8 +62117,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "FXCxParziRahl",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -62255,7 +62257,8 @@
       422,
       49
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,
@@ -73593,8 +73596,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "BVSxCROMx",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -73678,7 +73681,8 @@
       33,
       76
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -73947,8 +73951,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "FXCxNoxis",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -74032,7 +74036,8 @@
       239,
       248
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -77347,8 +77352,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "FXCxValtor",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -77407,7 +77412,8 @@
       430,
       183
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 2,
@@ -77473,8 +77479,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "FXCxNoxis",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -77533,7 +77539,8 @@
       264,
       244
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 3,
@@ -79124,8 +79131,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "FXCxNoxis",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -79174,7 +79181,8 @@
       234,
       250
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 4,
@@ -80303,8 +80311,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -80343,7 +80351,8 @@
       434,
       9
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 9,
@@ -81237,8 +81246,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "FXCxParziRahl",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -81272,11 +81281,12 @@
       282,
       88
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "FXCxParziRahl",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -81310,7 +81320,8 @@
       148,
       197
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -82207,8 +82218,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "BVSxLiX",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -82237,7 +82248,8 @@
       74,
       137
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -82675,8 +82687,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "BVSxLiX",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -82705,11 +82717,12 @@
       14,
       167
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "BVSxTibco",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -82738,7 +82751,8 @@
       100,
       141
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 1,
@@ -83074,8 +83088,8 @@
     "z_pourquoi": "demarre a la porte"
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "FXCxParziRahl",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -83104,7 +83118,8 @@
       389,
       56
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 9,
@@ -83968,8 +83983,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "FXCxNoxis",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -83993,7 +84008,8 @@
       438,
       158
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 8,
@@ -84737,8 +84753,8 @@
     "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "FXCxNoxis",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -84762,7 +84778,8 @@
       427,
       223
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -85632,8 +85649,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "FXCxSky",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -85652,7 +85669,8 @@
       397,
       141
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 7,
@@ -86519,8 +86537,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "BVSxTibco",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -86539,7 +86557,8 @@
       31,
       165
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 3,
@@ -89309,44 +89328,44 @@
    [
     117,
     3,
-    449.0,
-    191.0
+    369.0,
+    212.0
    ],
    [
     118,
     3,
-    449.0,
-    191.0
+    369.0,
+    212.0
    ],
    [
     119,
     3,
-    449.0,
-    191.0
+    369.0,
+    212.0
    ],
    [
     120,
     3,
-    449.0,
-    191.0
+    369.0,
+    212.0
    ],
    [
     121,
     3,
-    449.0,
-    191.5
+    369.0,
+    212.0
    ],
    [
     122,
     3,
-    449.0,
-    192.0
+    369.0,
+    212.0
    ],
    [
     123,
     3,
-    449.0,
-    192.0
+    369.0,
+    212.0
    ],
    [
     126,
@@ -94019,44 +94038,44 @@
    [
     1134,
     8,
-    384.0,
-    17.0
+    417.0,
+    7.0
    ],
    [
     1135,
     8,
-    384.0,
-    17.0
+    417.0,
+    7.0
    ],
    [
     1136,
     8,
-    384.0,
-    17.0
+    417.0,
+    7.0
    ],
    [
     1137,
     8,
-    384.0,
-    17.0
+    417.0,
+    7.0
    ],
    [
     1138,
     8,
-    390.0,
-    17.0
+    417.0,
+    7.0
    ],
    [
     1139,
     8,
-    390.0,
-    17.0
+    417.0,
+    7.0
    ],
    [
     1140,
     8,
-    390.0,
-    17.0
+    417.0,
+    7.0
    ],
    [
     1141,
@@ -94341,6 +94360,12 @@
     36.0
    ],
    [
+    1202,
+    9,
+    47.5,
+    105.0
+   ],
+   [
     1204,
     9,
     47.0,
@@ -94369,6 +94394,24 @@
     9,
     55.0,
     107.0
+   ],
+   [
+    1211,
+    9,
+    235.5,
+    39.0
+   ],
+   [
+    1212,
+    9,
+    237.0,
+    42.0
+   ],
+   [
+    1213,
+    9,
+    236.0,
+    47.0
    ],
    [
     1214,
@@ -97837,54 +97880,6 @@
     7,
     150.0,
     114.0
-   ],
-   [
-    1940,
-    7,
-    410.0,
-    198.0
-   ],
-   [
-    1941,
-    7,
-    410.0,
-    198.0
-   ],
-   [
-    1942,
-    7,
-    410.0,
-    198.0
-   ],
-   [
-    1943,
-    7,
-    410.0,
-    198.0
-   ],
-   [
-    1944,
-    7,
-    410.0,
-    198.0
-   ],
-   [
-    1945,
-    7,
-    410.0,
-    198.0
-   ],
-   [
-    1946,
-    7,
-    410.0,
-    198.0
-   ],
-   [
-    1947,
-    7,
-    410.0,
-    198.0
    ],
    [
     1948,
@@ -101822,19 +101817,6 @@
     8
    ]
   ],
-  "calage": {
-   "a": 3.0081797141940494,
-   "theta": -0.008360921430300716,
-   "bx": 0.564224913080011,
-   "by": -60.20859209527225,
-   "ppm": 46.25,
-   "w": 1384,
-   "h": 697,
-   "cle": "atlantis",
-   "residu_m": 0.58,
-   "m_par_px": 0.065,
-   "methode": "ajustement complet"
-  },
   "strats": [
    {
     "camp": "rebels",
@@ -101885,6 +101867,19 @@
     "sens": "tel quel"
    }
   ],
+  "calage": {
+   "a": 3.0081797141940494,
+   "theta": -0.008360921430300716,
+   "bx": 0.564224913080011,
+   "by": -60.20859209527225,
+   "ppm": 46.25,
+   "w": 1384,
+   "h": 697,
+   "cle": "atlantis",
+   "residu_m": 0.58,
+   "m_par_px": 0.065,
+   "methode": "ajustement complet"
+  },
   "horloge": {
    "k": 615.2,
    "ps": 5.0,

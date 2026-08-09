@@ -19189,8 +19189,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "BVSxLiX",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -19809,7 +19809,8 @@
       370,
       72
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 9,
@@ -35159,8 +35160,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "GUNxPhasme",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -35474,7 +35475,8 @@
       42,
       153
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,
@@ -57234,8 +57236,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "BVSxTibco",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -57379,7 +57381,8 @@
       232,
       155
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 3,
@@ -68327,8 +68330,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "BVSxTibco",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -68417,7 +68420,8 @@
       387,
       143
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 1,
@@ -71780,8 +71784,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "GUNxRabitte",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -71855,7 +71859,8 @@
       96,
       138
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,
@@ -72562,8 +72567,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "GUNxPhasme",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -72637,7 +72642,8 @@
       140,
       148
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 2,
@@ -76074,8 +76080,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "BVSxTibco",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -76134,7 +76140,8 @@
       391,
       146
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 7,
@@ -77810,8 +77817,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "BVSxCROMx",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -77865,7 +77872,8 @@
       261,
       71
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -78380,8 +78388,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "GUNxHippocampe",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -78430,7 +78438,8 @@
       52,
       169
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 9,
@@ -78805,8 +78814,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "GUNxPhasme",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -78855,7 +78864,8 @@
       217,
       250
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 3,
@@ -81593,8 +81603,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "BVSxTibco",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -81633,7 +81643,8 @@
       348,
       143
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 7,
@@ -82115,8 +82126,8 @@
     "z_pourquoi": "arrive a pied"
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "BVSxCROMx",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -82155,7 +82166,8 @@
       84,
       72
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,
@@ -86323,8 +86335,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "BVSxTibco",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -86348,7 +86360,8 @@
       166,
       103
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 7,
@@ -86605,8 +86618,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "BVSxTibco",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -86630,7 +86643,8 @@
       415,
       147
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 8,
@@ -88984,8 +88998,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "GUNxRhino",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -89004,7 +89018,8 @@
       16,
       151
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 7,
@@ -89523,8 +89538,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "BVSxTibco",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -89543,7 +89558,8 @@
       369,
       32
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,
@@ -89569,8 +89585,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "GUNxRhino",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -89589,7 +89605,8 @@
       55,
       36
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -92931,6 +92948,12 @@
     1,
     124.0,
     187.0
+   ],
+   [
+    77,
+    1,
+    123.0,
+    186.0
    ],
    [
     79,
@@ -96515,24 +96538,6 @@
     152.0
    ],
    [
-    902,
-    8,
-    308.0,
-    65.0
-   ],
-   [
-    903,
-    8,
-    291.0,
-    66.0
-   ],
-   [
-    907,
-    8,
-    318.0,
-    66.0
-   ],
-   [
     927,
     8,
     141.0,
@@ -96761,12 +96766,6 @@
     86.0
    ],
    [
-    978,
-    8,
-    84.0,
-    90.0
-   ],
-   [
     979,
     8,
     90.5,
@@ -96909,36 +96908,6 @@
     8,
     167.0,
     97.0
-   ],
-   [
-    1003,
-    8,
-    453.0,
-    39.0
-   ],
-   [
-    1007,
-    8,
-    453.0,
-    39.0
-   ],
-   [
-    1008,
-    8,
-    453.0,
-    39.0
-   ],
-   [
-    1009,
-    8,
-    453.0,
-    39.0
-   ],
-   [
-    1010,
-    8,
-    453.0,
-    39.0
    ],
    [
     1011,
@@ -97845,6 +97814,12 @@
     4,
     199.0,
     199.0
+   ],
+   [
+    1195,
+    4,
+    191.0,
+    201.0
    ],
    [
     1196,
@@ -102659,12 +102634,6 @@
     121.0
    ],
    [
-    2088,
-    1,
-    204.0,
-    127.0
-   ],
-   [
     2089,
     1,
     204.0,
@@ -103157,22 +103126,10 @@
     245.5
    ],
    [
-    2199,
-    4,
-    453.5,
-    242.5
-   ],
-   [
-    2200,
-    4,
-    455.0,
-    230.0
-   ],
-   [
     2201,
     4,
-    451.0,
-    215.0
+    211.0,
+    250.0
    ],
    [
     2202,
@@ -107042,19 +106999,6 @@
     3
    ]
   ],
-  "calage": {
-   "a": 3.0081797141940494,
-   "theta": -0.008360921430300716,
-   "bx": 0.564224913080011,
-   "by": -60.20859209527225,
-   "ppm": 46.25,
-   "w": 1384,
-   "h": 697,
-   "cle": "atlantis",
-   "residu_m": 0.58,
-   "m_par_px": 0.065,
-   "methode": "ajustement complet"
-  },
   "strats": [
    {
     "camp": "rebels",
@@ -107105,6 +107049,19 @@
     "sens": "symetrique"
    }
   ],
+  "calage": {
+   "a": 3.0081797141940494,
+   "theta": -0.008360921430300716,
+   "bx": 0.564224913080011,
+   "by": -60.20859209527225,
+   "ppm": 46.25,
+   "w": 1384,
+   "h": 697,
+   "cle": "atlantis",
+   "residu_m": 0.58,
+   "m_par_px": 0.065,
+   "methode": "ajustement complet"
+  },
   "horloge": {
    "k": 611.2,
    "ps": 5.0,

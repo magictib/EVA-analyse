@@ -23191,8 +23191,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -23596,7 +23596,8 @@
       74,
       245
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -35954,8 +35955,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "ENDxBarou",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -36014,7 +36015,8 @@
       308,
       221
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -41412,8 +41414,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -41437,7 +41439,8 @@
       315,
       187
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 8,
@@ -42726,8 +42729,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "ENDxBarou",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -42746,7 +42749,8 @@
       176,
       166
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 1,
@@ -43393,8 +43397,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "ENDxGodzi",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -43413,7 +43417,8 @@
       326,
       221
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 1,
@@ -45462,20 +45467,20 @@
    [
     126,
     1,
-    141.0,
-    75.0
+    67.0,
+    222.0
    ],
    [
     127,
     1,
-    125.0,
-    83.0
+    67.0,
+    222.0
    ],
    [
     128,
     1,
-    125.0,
-    82.0
+    67.0,
+    222.0
    ],
    [
     129,
@@ -52711,19 +52716,6 @@
     2
    ]
   ],
-  "calage": {
-   "a": 2.612372119561953,
-   "theta": 0.1589607125794265,
-   "bx": 105.59870931389514,
-   "by": -91.56261732348781,
-   "ppm": 33.02,
-   "w": 1061,
-   "h": 788,
-   "cle": "silva",
-   "residu_m": 5.82,
-   "m_par_px": 0.0791,
-   "methode": "echelle imposee par l emprise"
-  },
   "strats": [
    {
     "camp": "rebels",
@@ -52774,6 +52766,19 @@
     "sens": "tel quel"
    }
   ],
+  "calage": {
+   "a": 2.612372119561953,
+   "theta": 0.1589607125794265,
+   "bx": 105.59870931389514,
+   "by": -91.56261732348781,
+   "ppm": 33.02,
+   "w": 1061,
+   "h": 788,
+   "cle": "silva",
+   "residu_m": 5.82,
+   "m_par_px": 0.0791,
+   "methode": "echelle imposee par l emprise"
+  },
   "horloge": {
    "k": 605.2,
    "ps": 5.0,
@@ -52792,8 +52797,8 @@
     "tag": "NT",
     "notre": true,
     "k_eux": 0,
-    "k_nous": 2,
-    "k_inconnu": 3,
+    "k_nous": 1,
+    "k_inconnu": 4,
     "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
@@ -52801,8 +52806,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 0,
     "k_total": 5,
-    "vus": 179,
-    "vus_eux": 6
+    "vus": 240,
+    "vus_eux": 52
    },
    {
     "nom": "CROMx",
@@ -52813,13 +52818,13 @@
     "k_inconnu": 1,
     "m_eux": 2,
     "m_nous": 0,
-    "m_eux_seul": 1,
+    "m_eux_seul": 2,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 2,
     "k_total": 2,
-    "vus": 628,
-    "vus_eux": 1
+    "vus": 622,
+    "vus_eux": 0
    },
    {
     "nom": "LiX",
@@ -52828,15 +52833,15 @@
     "k_eux": 1,
     "k_nous": 4,
     "k_inconnu": 0,
-    "m_eux": 2,
+    "m_eux": 1,
     "m_nous": 1,
-    "m_eux_seul": 2,
+    "m_eux_seul": 0,
     "m_eux_impunie": 1,
-    "m_eux_seul_impunie": 1,
+    "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 5,
-    "vus": 779,
-    "vus_eux": 74
+    "vus": 709,
+    "vus_eux": 14
    },
    {
     "nom": "Tchernobyl",
@@ -52846,39 +52851,39 @@
     "k_nous": 2,
     "k_inconnu": 0,
     "m_eux": 0,
-    "m_nous": 0,
+    "m_nous": 1,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 1,
     "k_total": 2,
-    "vus": 756,
-    "vus_eux": 26
+    "vus": 1035,
+    "vus_eux": 24
    },
    {
     "nom": "Y4net",
     "tag": "END",
     "notre": false,
     "k_eux": 0,
-    "k_nous": 1,
-    "k_inconnu": 0,
-    "m_eux": 1,
-    "m_nous": 1,
+    "k_nous": 0,
+    "k_inconnu": 1,
+    "m_eux": 2,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 1,
-    "vus": 419,
-    "vus_eux": 240
+    "vus": 275,
+    "vus_eux": 158
    },
    {
     "nom": "Barou",
     "tag": "END",
     "notre": false,
-    "k_eux": 1,
+    "k_eux": 0,
     "k_nous": 0,
-    "k_inconnu": 0,
+    "k_inconnu": 1,
     "m_eux": 2,
     "m_nous": 1,
     "m_eux_seul": 0,
@@ -52886,8 +52891,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 1,
-    "vus": 567,
-    "vus_eux": 540
+    "vus": 534,
+    "vus_eux": 521
    },
    {
     "nom": "Godzi",
@@ -52897,21 +52902,21 @@
     "k_nous": 1,
     "k_inconnu": 1,
     "m_eux": 1,
-    "m_nous": 0,
+    "m_nous": 1,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 2,
     "k_total": 3,
-    "vus": 417,
-    "vus_eux": 310
+    "vus": 321,
+    "vus_eux": 210
    },
    {
     "nom": "Vikings",
     "tag": "END",
     "notre": false,
-    "k_eux": 1,
-    "k_nous": 1,
+    "k_eux": 2,
+    "k_nous": 0,
     "k_inconnu": 0,
     "m_eux": 3,
     "m_nous": 0,
@@ -52920,20 +52925,20 @@
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 2,
-    "vus": 560,
-    "vus_eux": 363
+    "vus": 575,
+    "vus_eux": 394
    }
   ],
   "ensemble": {
-   "0": 1068,
-   "1": 107,
+   "0": 1096,
+   "1": 90,
    "2": 0,
    "3": 0,
    "4": 0
   },
-  "images_vues": 1175,
-  "part_nous_chez_eux": 0.046,
-  "part_eux_chez_eux": 0.74
+  "images_vues": 1186,
+  "part_nous_chez_eux": 0.035,
+  "part_eux_chez_eux": 0.752
  },
  "armes_portees": {
   "NTXTIBCO": {

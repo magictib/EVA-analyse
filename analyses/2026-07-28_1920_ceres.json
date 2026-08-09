@@ -42767,8 +42767,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -43067,7 +43067,8 @@
       167,
       65
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 4,
@@ -53496,8 +53497,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -53601,7 +53602,8 @@
       83,
       226
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -59658,8 +59660,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -59718,7 +59720,8 @@
       76,
       68
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 1,
@@ -60588,8 +60591,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -60643,7 +60646,8 @@
       44,
       90
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 1,
@@ -62895,8 +62899,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -62940,7 +62944,8 @@
       393,
       159
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -63869,8 +63874,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -63909,7 +63914,8 @@
       246,
       149
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,
@@ -64557,8 +64563,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "NTxTibco",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -64592,7 +64598,8 @@
       33,
       118
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -65051,8 +65058,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -65086,7 +65093,8 @@
       374,
       220
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -65850,8 +65858,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -65885,11 +65893,12 @@
       93,
       125
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -65923,7 +65932,8 @@
       272,
       45
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 9,
@@ -68574,8 +68584,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -68599,7 +68609,8 @@
       106,
       203
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -68658,8 +68669,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -68683,7 +68694,8 @@
       138,
       54
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 6,
@@ -68883,8 +68895,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "ENDxVikings",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -68908,7 +68920,8 @@
       360,
       81
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 8,
@@ -70081,8 +70094,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -70101,7 +70114,8 @@
       104,
       204
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -70196,8 +70210,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 4,
+    "nom": "BVSxTchernobyl",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -70216,7 +70230,8 @@
       189,
       218
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 9,
@@ -75873,14 +75888,14 @@
    [
     527,
     3,
-    217.0,
-    37.0
+    249.0,
+    65.0
    ],
    [
     528,
     3,
-    248.0,
-    66.0
+    259.5,
+    64.0
    ],
    [
     529,

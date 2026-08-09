@@ -39916,8 +39916,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "ENDxBarou",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -40511,7 +40511,8 @@
       260,
       36
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 7,
@@ -64444,8 +64445,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -64724,11 +64725,12 @@
       149,
       159
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -65007,7 +65009,8 @@
       57,
       228
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -71681,8 +71684,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "ENDxVikings",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -71891,7 +71894,8 @@
       211,
       54
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 9,
@@ -85468,8 +85472,8 @@
     "z_pourquoi": "arrive a pied"
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "ENDxBarou",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -85593,7 +85597,8 @@
       368,
       139
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 4,
@@ -91592,8 +91597,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "ENDxBarou",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -91687,7 +91692,8 @@
       294,
       221
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 8,
@@ -92168,8 +92174,8 @@
     "par_elimination": true
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 3,
+    "nom": "NTxLiX",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -92258,7 +92264,8 @@
       45,
       228
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -95308,8 +95315,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -95383,7 +95390,8 @@
       343,
       91
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 4,
@@ -97401,8 +97409,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "ENDxVikings",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -97466,7 +97474,8 @@
       235,
       247
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 9,
@@ -97537,8 +97546,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "NTxCROMx",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -97597,7 +97606,8 @@
       393,
       56
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": null,
@@ -101253,8 +101263,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -101298,7 +101308,8 @@
       394,
       73
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 2,
@@ -102051,8 +102062,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "ENDxBarou",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -102091,7 +102102,8 @@
       433,
       211
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 2,
@@ -102526,8 +102538,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 9,
+    "nom": "ENDxVikings",
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -102566,7 +102578,8 @@
       73,
       87
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 4,
@@ -103814,8 +103827,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 2,
+    "nom": "NTxCROMx",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -103849,7 +103862,8 @@
       15,
       166
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 4,
@@ -106588,8 +106602,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 1,
+    "nom": "NTxTibco",
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -106613,7 +106627,8 @@
       146,
       130
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 9,
@@ -106844,8 +106859,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 7,
+    "nom": "ENDxBarou",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -106869,7 +106884,8 @@
       252,
       226
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 3,
@@ -107748,8 +107764,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 6,
+    "nom": "ENDxY4net",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -107768,7 +107784,8 @@
       143,
       192
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 2,
@@ -108053,8 +108070,8 @@
     ]
    },
    {
-    "slot": null,
-    "nom": null,
+    "slot": 8,
+    "nom": "ENDxGodzi",
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -108073,7 +108090,8 @@
       438,
       158
      ]
-    ]
+    ],
+    "par_elimination": true
    },
    {
     "slot": 3,
@@ -113365,6 +113383,12 @@
     170.0
    ],
    [
+    309,
+    6,
+    312.0,
+    152.0
+   ],
+   [
     310,
     6,
     312.0,
@@ -113547,8 +113571,14 @@
    [
     342,
     6,
-    354.0,
-    122.0
+    407.5,
+    130.0
+   ],
+   [
+    343,
+    6,
+    401.0,
+    130.0
    ],
    [
     344,
@@ -116027,6 +116057,18 @@
     8,
     427.0,
     202.0
+   ],
+   [
+    807,
+    8,
+    424.0,
+    210.0
+   ],
+   [
+    808,
+    8,
+    425.0,
+    214.0
    ],
    [
     810,
@@ -120823,6 +120865,12 @@
     84.0
    ],
    [
+    1725,
+    3,
+    369.0,
+    90.0
+   ],
+   [
     1726,
     3,
     361.0,
@@ -122619,8 +122667,8 @@
    [
     2092,
     1,
-    167.0,
-    65.0
+    182.0,
+    63.0
    ],
    [
     2093,
@@ -124257,8 +124305,14 @@
    [
     2422,
     8,
-    452.0,
-    230.0
+    380.0,
+    208.0
+   ],
+   [
+    2426,
+    8,
+    340.0,
+    190.0
    ]
   ],
   "noms_instables": [
@@ -126548,19 +126602,6 @@
     9
    ]
   ],
-  "calage": {
-   "a": 3.0081797141940494,
-   "theta": -0.008360921430300716,
-   "bx": 0.564224913080011,
-   "by": -60.20859209527225,
-   "ppm": 46.25,
-   "w": 1384,
-   "h": 697,
-   "cle": "atlantis",
-   "residu_m": 0.58,
-   "m_par_px": 0.065,
-   "methode": "ajustement complet"
-  },
   "strats": [
    {
     "camp": "rebels",
@@ -126611,6 +126652,19 @@
     "sens": "tel quel"
    }
   ],
+  "calage": {
+   "a": 3.0081797141940494,
+   "theta": -0.008360921430300716,
+   "bx": 0.564224913080011,
+   "by": -60.20859209527225,
+   "ppm": 46.25,
+   "w": 1384,
+   "h": 697,
+   "cle": "atlantis",
+   "residu_m": 0.58,
+   "m_par_px": 0.065,
+   "methode": "ajustement complet"
+  },
   "horloge": {
    "k": 608.2,
    "ps": 5.0,
