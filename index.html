@@ -5132,7 +5132,7 @@ function fichesJoueurs(lot, mats){
         if(f.tueur!=null && N2.has(f.tueur) && t && !N2.has(f.victime)){
           const o=of(t); o.k++; o.parties.add(cle);
           o.serie++; if(o.serie>o.serieMax) o.serieMax=o.serie;
-          const arme=f.arme_reelle||f.arme_icone;
+          const arme=f.arme_reelle;      // jamais le code d'une icone — voir plus bas
           if(arme) o.armes.set(arme,(o.armes.get(arme)||0)+1);
           if(v) o.tue.set(v,(o.tue.get(v)||0)+1);
           kp.set(t,(kp.get(t)||0)+1);
@@ -5199,7 +5199,14 @@ function fichesJoueurs(lot, mats){
         }
         /* CE QUI LE TUE, pour le comparer a ce qui tue l'equipe */
         if(N2.has(f.victime) && v){
-          const q=f.arme_reelle||f.arme_icone;
+          /* JAMAIS LE CODE D'UNE ICONE. Le site ecrivait « ARME0 » quand l'icone
+             n'avait pas de nom, et cela remplissait des cartes entieres : 77 % des
+             morts de CROM, 45 pour Tchernobyl. Thibaud l'a vu sur une capture.
+             Nommer les icones a regle une partie du probleme, mais pas tout —
+             HWD|ARME0 melange NEEDLE, MP-52 et SPECTRE a parts presque egales sur
+             245 kills, il est donc INNOMMABLE. Un code ne dit rien au lecteur et
+             ressemble a une panne : mieux vaut ne rien compter que compter faux. */
+          const q=f.arme_reelle;
           if(q) of(v).parQuoiM.set(q,(of(v).parQuoiM.get(q)||0)+1);
         }
       }
