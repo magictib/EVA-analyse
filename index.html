@@ -5151,7 +5151,31 @@ function fichesJoueurs(lot, mats){
   return fiches;
 }
 
+/* UNE PANNE DOIT SE SIGNALER, et celle-ci ne le faisait pas.
+   Le 10/08, une simple ReferenceError dans le gabarit — `SF`, une locale de
+   `friseSVG` prise pour une globale — a vide l'onglet Analyse EN ENTIER, y compris
+   la zone d'ajout des matchs. Rien a l'ecran, rien dans l'interface : Thibaud a
+   simplement perdu l'usage de l'onglet sans savoir pourquoi.
+
+   C'est la faute la plus chere de ce projet, sous une forme nouvelle : une panne
+   silencieuse. On enveloppe donc le rendu — s'il echoue, on ECRIT l'echec la ou le
+   contenu aurait du etre, et l'on garde la trace en console. Un onglet qui explique
+   qu'il est casse reste utilisable ; un onglet vide ne l'est pas. */
 function drawAna(){
+  try {
+    drawAnaBrut();
+  } catch (e) {
+    console.error('drawAna', e);
+    const el = $("#ana");
+    if (el) {
+      el.innerHTML = `<p class="note"><b>L'onglet Analyse n'a pas pu s'afficher.</b>
+        ${String(e && e.message || e)}<br>Les analyses elles-memes ne sont pas
+        touchees : c'est l'affichage qui echoue. Ouvre la console pour la trace.</p>`;
+    }
+  }
+}
+
+function drawAnaBrut(){
   const el=$("#ana");
   LOT=filtre();                                  /* meme sous-ensemble que Matchs */
   const lot=analysesRetenues();
@@ -5268,7 +5292,13 @@ function drawAna(){
            gain au score FINAL du camp, qu'on possede. Voir `avantages`. */
         const gain=av.reduce((u,v)=>u+v.gain,0);
         const secs=A.reduce((u,v)=>u+v.duree,0);
-        const finN=(SF&&SF.nous)||null;
+        /* `SF` EST UNE LOCALE DE `friseSVG`, PAS UNE GLOBALE, et l'avoir cru a vide
+           tout l'onglet Analyse — zone d'ajout des matchs comprise — sur une simple
+           ReferenceError. On redemande donc le score final a la partie qu'on a sous
+           la main. Le controle qui manquait est ecrit plus bas : `?test=1` dessine
+           desormais l'onglet en entier. */
+        const sf=scoreFinal(choisie);
+        const finN=(sf&&sf.nous)||null;
         return `<p class="note"><b>Le match en trois nombres.</b>
           <b>Échanges</b> — ${E.length} combats, ${g} gagnés / ${p} perdus, solde ${
             n>0?"+":""}${n}.${longs?` Dont <b>${longs}</b> où l'on perd trois joueurs
