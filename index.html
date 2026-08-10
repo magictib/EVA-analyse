@@ -357,6 +357,24 @@
     font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;
     padding:4px 6px;cursor:pointer;max-width:11em}
   .navqui[data-vide]{color:var(--signal);border-color:var(--signal)}
+  /* Le bouton des reglages, au meme niveau que « qui es-tu » : c'est la seule
+     barre presente sur tous les onglets. `margin-left` a 6px et non `auto` — c'est
+     le selecteur qui pousse le groupe a droite, le bouton le suit. */
+  .navreg{margin-left:6px;align-self:center;background:var(--surf,#241016);
+    color:var(--ink-dim);border:1px solid var(--rule);border-radius:5px;
+    font-size:13px;line-height:1;padding:4px 7px;cursor:pointer}
+  .navreg:hover,.navreg[aria-expanded=true]{color:var(--ink);border-color:var(--rule-vif)}
+  .regpan{position:absolute;right:10px;top:calc(100% - 4px);z-index:40;min-width:255px;
+    padding:10px 12px;background:var(--panel-2);border:1px solid var(--rule-vif);
+    border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.6);
+    font:400 12px/1.55 var(--ui);color:var(--ink-dim)}
+  .regpan h4{margin:0 0 6px;font:600 10px/1.4 var(--mono);letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-faint)}
+  .regpan .regl{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .regpan button{background:var(--panel);border:1px solid var(--rule);color:var(--ink);
+    border-radius:4px;font-family:var(--mono);font-size:11px;padding:4px 9px;cursor:pointer}
+  .regpan button:hover{border-color:var(--signal);color:var(--signal)}
+  .regpan p{margin:6px 0 0;color:var(--ink-faint);font-size:11px;line-height:1.5}
   .nav button{
     flex:0 0 auto;background:none;border:none;border-bottom:2px solid transparent;
     color:var(--ink-dim);cursor:pointer;white-space:nowrap;
@@ -967,6 +985,7 @@
 <div class="wrap">
 
 <div id="stick">
+  <div id="regpan" class="regpan" hidden></div>
   <div class="nav" id="nav" role="tablist" aria-label="Sections">
     <!-- Sept des dix onglets etaient sept vues du meme modele de temps a tuer :
          Classement, Courbes, Duel, Combo, Armes, Accessoires et Patch. Rien dans une
@@ -985,6 +1004,15 @@
          Thibaud n'a pas su dire d'ou venait le choix. La liste ne montre que le
          PSEUDO NU : deux joueurs n'en partagent pas, alors qu'un tag change. -->
     <select id="quisuisje" class="navqui" aria-label="Qui es-tu"></select>
+    <!-- LES REGLAGES ONT ENFIN UN ENDROIT. Le mode lecture existait depuis le 05/08 —
+         Thibaud voulait cacher la saisie a l'equipe « pour ne pas avoir de betises » —
+         mais il ne se manifestait NULLE PART : en lecture, la zone d'ajout disparait
+         sans laisser de trace, et l'on croit le site casse. Le 10/08 il lui a fait
+         perdre une demi-heure. Une absence qui ne se signale pas est un defaut, pas
+         une discretion. Le bouton est ici parce que c'est le seul endroit toujours
+         visible, quel que soit l'onglet — et il accueillera les reglages suivants. -->
+    <button id="reglages" class="navreg" data-act="reglages" aria-haspopup="true"
+      aria-expanded="false" aria-label="Réglages" title="Réglages">⚙</button>
     <!-- L'editeur de strats n'a plus son propre onglet : on y entre par une fiche du
          catalogue, qui sert desormais de selecteur de carte. Deux onglets pour un
          meme sujet obligeaient a savoir lequel faisait quoi. La vue "map" existe
@@ -1489,6 +1517,52 @@ let EDITION=(()=>{ try{ return localStorage.getItem("eva-edition-v1")==="1"; }
 (()=>{ const h=(location.hash||"").toLowerCase();
   if(h==="#edition"){ EDITION=true;  try{ localStorage.setItem("eva-edition-v1","1"); }catch(e){} }
   if(h==="#lecture"){ EDITION=false; try{ localStorage.removeItem("eva-edition-v1"); }catch(e){} } })();
+
+/* ---------- le panneau des reglages ----------
+
+   IL EXISTE PARCE QU'UN REGLAGE INVISIBLE N'EN EST PAS UN. Le mode lecture cache la
+   zone d'ajout des parties, et rien ne disait qu'il existait : le 10/08, Thibaud a
+   cru le site casse et a cherche une demi-heure. Le reglage etait pourtant le sien.
+
+   ON RECHARGE LA PAGE APRES BASCULE, et c'est delibere. `EDITION` est lu par trois
+   fonctions de rendu differentes, et une bascule a chaud laisserait la moitie de
+   l'ecran dans l'ancien etat — un ecran a demi juste est pire qu'un rechargement
+   d'une demi-seconde. Rien n'est perdu : tout vit dans la base et le stockage local.
+
+   Le panneau est fait pour accueillir la suite : un titre, des lignes, et chaque
+   reglage porte son explication en une phrase. */
+function ouvrirReglages(ouvrir){
+  const b = document.getElementById("reglages");
+  const p = document.getElementById("regpan");
+  if (!b || !p) return;
+  const veut = ouvrir === undefined ? p.hidden : ouvrir;
+  if (veut) {
+    p.innerHTML = `<h4>Réglages</h4>
+      <div class="regl"><span>Saisie des parties</span>
+        <button data-act="regedition">${EDITION ? "activée" : "désactivée"}</button></div>
+      <p>${EDITION
+        ? "L'onglet Matchs affiche la zone de collage et l'onglet Analyse l'import."
+        : "La zone d'ajout est masquée, pour que l'équipe ne saisisse rien par mégarde."}</p>`;
+  }
+  p.hidden = !veut;
+  b.setAttribute("aria-expanded", veut ? "true" : "false");
+}
+
+document.addEventListener("click", (e) => {
+  const b = e.target.closest && e.target.closest("[data-act]");
+  const a = b && b.dataset.act;
+  if (a === "reglages") { ouvrirReglages(); return; }
+  if (a === "regedition") {
+    try {
+      if (EDITION) localStorage.removeItem("eva-edition-v1");
+      else localStorage.setItem("eva-edition-v1", "1");
+    } catch (err) { /* stockage refuse : la bascule ne tiendra pas, tant pis */ }
+    location.reload();
+    return;
+  }
+  // Un clic ailleurs referme le panneau, comme tout menu.
+  if (!e.target.closest || !e.target.closest("#regpan")) ouvrirReglages(false);
+});
 
 /* Le bandeau de compo, sous le choix de carte. Il ne s'affiche qu'une carte
    choisie : sans carte il n'y a pas de distribution, et conseiller une paire
@@ -2347,6 +2421,29 @@ function selfTest(){
     "Le survol d'une courbe donne les balles qui tuent vraiment",
     `${wTest.n} à 5 m : ${fr(eDeg)} dégâts × ${nb} = ${fr(nb*eDeg)} pour ${PV} PV`);
   CURVE=null;
+
+  /* ---------- les reglages ont un point d'entree, et il repond ----------
+     Le mode lecture cache la zone d'ajout des parties. Tant qu'il n'etait signale
+     nulle part, son effet etait indiscernable d'une panne — et le 10/08 il a ete
+     pris pour telle. Ce controle verifie que le bouton existe, que le panneau se
+     remplit, et qu'il porte de quoi basculer. */
+  const bReg = document.getElementById("reglages");
+  const pReg = document.getElementById("regpan");
+  let regOk = false, regDetail = "bouton ou panneau absent";
+  if (bReg && pReg) {
+    try {
+      ouvrirReglages(true);
+      const bascule = pReg.querySelector('[data-act="regedition"]');
+      regOk = !pReg.hidden && !!bascule && /activée|désactivée/.test(pReg.textContent);
+      regDetail = regOk
+        ? `saisie ${EDITION ? "activée" : "désactivée"}, bascule presente`
+        : "le panneau s'ouvre mais ne porte pas la bascule";
+      ouvrirReglages(false);
+      if (regOk && !pReg.hidden) { regOk = false; regDetail = "le panneau ne se referme pas"; }
+    } catch (e) { regDetail = "ouvrirReglages a leve : " + e.message; }
+  }
+  T(regOk, "Les réglages s'ouvrent depuis la barre et portent la bascule de saisie",
+    regDetail);
 
   /* Un pseudo doit se distinguer d'une ligne de score. Le cas 8/15 est reel : il
      avait peuple le tableau des adversaires de faux joueurs credibles. */
