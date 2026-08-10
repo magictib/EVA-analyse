@@ -6788,15 +6788,34 @@ function camps(m){
 }
 /* Effectifs des deux camps, cumules sur toutes les parties detaillees. Cote
    adverse le "v" compte leurs victoires, donc tes defaites. */
+/* NOTRE EQUIPE COMPTE QUATRE JOUEURS, ET LE TABLEAU EN MONTRAIT SEPT.
+
+   Thibaud, le 10/08 : *« notre équipe ne comporte que 4 joueurs donc il faudrait
+   regrouper les stats des pseudos qui sont les mêmes »*. BVS est devenu NT en
+   cours d'annee, et chaque joueur se dedoublait — LiX 16 parties sous NT et 18
+   sous BVS, Tibco 8 et 26 — alors que ce sont les memes personnes. Deux demi-
+   moyennes credibles au lieu d'une vraie, et rien ne le signalait.
+
+   ON NE FUSIONNE QUE NOTRE CAMP, et c'est la nuance qui compte : chez
+   l'adversaire, deux tags sont deux EQUIPES, et rien ne dit que le « Sky » de
+   l'une soit le « Sky » de l'autre. Ici on sait que c'est nous.
+
+   LE TAG N'EST PAS PERDU, il est affiche a cote du nom — le projet sait depuis
+   longtemps qu'il est DATE et qu'il sert a reconnaitre les camps. Un joueur qui a
+   porte les deux les porte tous les deux. */
 function parCamp(){
   const A=new Map(), B=new Map();
-  const push=(g,p,v)=>{ const o=g.get(p.n)||{n:0,k:0,m:0,a:0,s:0,mvp:0,v:0};
-    o.n++; o.k+=p.k||0; o.m+=p.m||0; o.a+=p.a||0; o.s+=p.s||0; o.mvp+=p.mvp?1:0; o.v+=v; g.set(p.n,o); };
+  const push=(g,p,v,fusion)=>{
+    const cle = fusion ? sansTag(canonique(p.n)).toUpperCase() : p.n;
+    const o=g.get(cle)||{n:0,k:0,m:0,a:0,s:0,mvp:0,v:0,
+                         nom:sansTag(canonique(p.n)), tags:new Set()};
+    if(tagDe(p.n)) o.tags.add(tagDe(p.n));
+    o.n++; o.k+=p.k||0; o.m+=p.m||0; o.a+=p.a||0; o.s+=p.s||0; o.mvp+=p.mvp?1:0; o.v+=v; g.set(cle,o); };
   for(const m of LOT){
     if(!m.sb) continue;
     const c=camps(m), g=m.res==="V"?1:0;
-    for(const p of c.mien) push(A,p,g);
-    for(const p of c.adv)  push(B,p,m.res==="D"?1:0);
+    for(const p of c.mien) push(A,p,g,true);      // notre camp : une ligne par PERSONNE
+    for(const p of c.adv)  push(B,p,m.res==="D"?1:0,false);
   }
   const tri=g=>[...g.entries()].sort((a,b)=>b[1].s/b[1].n-a[1].s/a[1].n);
   return {mien:tri(A),adv:tri(B)};
@@ -6982,9 +7001,12 @@ function drawMat(){
   const eff=parCamp();
   const effTab=(titre,L,note)=>!L.length?"":`<h3>${titre}</h3><div class="mtab mtab7">
       <div class="mth"><s>joueur</s><s>parties</s><s>K/D</s><s>(K+A)/mort</s><s>score moyen</s><s>MVP</s></div>`
-    + L.map(([nm,o])=>`<div class="mtr"><b>${sansTag(nm)}${tagDe(nm)?`<em>${tagDe(nm)}</em>`:""}</b>`
+    + L.map(([nm,o])=>{
+        /* Un joueur fusionne porte TOUS les tags sous lesquels il a joue. */
+        const tg=o.tags&&o.tags.size?[...o.tags].join(" · "):tagDe(nm);
+        return `<div class="mtr"><b>${o.nom||sansTag(nm)}${tg?`<em>${tg}</em>`:""}</b>`
       + `<s>${o.n}</s><s>${fr(o.k/Math.max(o.m,1),2)}</s><s>${fr((o.k+o.a)/Math.max(o.m,1),2)}</s>`
-      + `<s>${o.s?fr(Math.round(o.s/o.n)):"—"}</s><s>${o.mvp||"—"}</s></div>`).join("")
+      + `<s>${o.s?fr(Math.round(o.s/o.n)):"—"}</s><s>${o.mvp||"—"}</s></div>`;}).join("")
     + `</div>${note?`<p class="note">${note}</p>`:""}`;
   /* « Notre équipe » et jamais le tag du moment.
 
