@@ -5226,6 +5226,21 @@ function fichesJoueurs(lot, mats){
     const TQ=new Map(); let TQn=0;
     for(const o of J.values()) for(const [q,n] of o.parQuoiM){
       TQ.set(q,(TQ.get(q)||0)+n); TQn+=n; }
+    /* UN ÉCART-TYPE SANS ÉCHELLE NE VEUT RIEN DIRE, et c'est Thibaud qui l'a
+       demandé : « pour la régularité, c'est quoi une bonne valeur ? ». La réponse
+       n'existe pas dans l'absolu — elle dépend du rythme du jeu et du volume de
+       kills. Elle existe en revanche DANS L'ÉQUIPE, qui joue les mêmes parties :
+       sur le corpus, les huit joueurs vont de ±3,6 à ±5,4, quartiles 3,7 / 3,9 /
+       4,4. On pose donc le rang à côté du chiffre, comme on a posé l'axe 0–4 sur
+       la rangée des joueurs debout. */
+    const REG=new Map();
+    for(const [n,o] of J){
+      const d=[...o.parV.values()].map(v=>v.k-v.m);
+      if(d.length<3) continue;
+      const mu=d.reduce((s,x)=>s+x,0)/d.length;
+      REG.set(n, Math.sqrt(d.reduce((s,x)=>s+(x-mu)*(x-mu),0)/d.length));
+    }
+    const REGtri=[...REG.values()].sort((a,b)=>a-b);
     if(J.size){
       const cartes=[...J.entries()].sort((a,b)=>b[1].k-a[1].k).map(([n,o])=>{
         const kd=o.m?o.k/o.m:o.k;
@@ -5297,9 +5312,14 @@ function fichesJoueurs(lot, mats){
               const d=[...o.parV.values()].map(v=>v.k-v.m);
               if(d.length<3) return "";
               const mu=d.reduce((s,x)=>s+x,0)/d.length;
-              const sd=Math.sqrt(d.reduce((s,x)=>s+(x-mu)*(x-mu),0)/d.length);
-              return `<div class="fjc"><s>régularité</s><b>±${sd.toFixed(1)}</b>
-                <u>écart-type du +/− · ${mu>0?"+":""}${mu.toFixed(1)} en moyenne</u></div>`;})()}
+              const sd=REG.get(n);
+              /* Le rang se lit dans le bon sens : le plus REGULIER est celui qui
+                 varie le moins, donc le premier de la liste croissante. */
+              const rg=REGtri.indexOf(sd)+1, nb=REGtri.length;
+              return `<div class="fjc"><s>régularité</s>
+                <b class="${nb>=3?(rg<=nb/3?"pos":(rg>2*nb/3?"neg":"")):""}">±${sd.toFixed(1)}</b>
+                <u>${nb>=3?`${rg}${rg===1?"ᵉʳ":"ᵉ"} plus régulier sur ${nb} · `:""}écart-type du
+                   +/− · ${mu>0?"+":""}${mu.toFixed(1)} en moyenne</u></div>`;})()}
             ${(()=>{
               /* SA FAIBLESSE D'ARME : l'arme qui le tue PLUS SOUVENT QUE LA MOYENNE
                  de l'equipe. Le classement brut de ses morts ne dit rien — tout le
@@ -5312,7 +5332,15 @@ function fichesJoueurs(lot, mats){
                 const e=n/tot-(TQ.get(q)||0)/TQn;
                 if(n>=3 && (!pire || e>pire[1])) pire=[q,e,n,tot];
               }
-              if(!pire || pire[1]<=.02) return "";
+              /* NE RIEN AFFICHER SE LIT COMME UN TROU, et c'en est un faux :
+                 Thibaud a demandé pourquoi Tibco n'avait pas d'arme. Il n'en a
+                 pas parce qu'il n'en a pas — son plus gros écart est +2 points,
+                 juste sous le seuil, quand LiX est à +5 sur le Spectre. Mourir
+                 uniformément est une réponse, et la case doit la donner. */
+              if(!pire || pire[1]<=.02)
+                return `<div class="fjc"><s>y est plus exposé</s><b>aucune</b>
+                  <u>il meurt de toutes les armes comme l'équipe,
+                     à ${(100*Math.max(0,(pire?pire[1]:0))).toFixed(0)} pt près</u></div>`;
               return `<div class="fjc"><s>y est plus exposé</s><b>${pire[0]}</b>
                 <u>${(100*pire[2]/pire[3]).toFixed(0)} % de ses morts,
                    ${(100*pire[1]).toFixed(0)} pts au-dessus de l'équipe</u></div>`;})()}
