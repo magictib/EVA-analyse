@@ -72570,257 +72570,78 @@
     1,
     31,
     36,
-    41,
-    46,
-    51,
-    56,
     61,
     66,
-    71,
-    76,
-    81,
-    86,
     91,
-    96,
-    101,
-    106,
-    111,
-    116,
-    121,
-    126,
-    131,
     136,
-    141,
-    146,
-    151,
-    156,
-    161,
-    166,
-    171,
-    176,
-    181,
     186,
-    191,
-    196,
-    201,
-    206,
-    211,
-    216,
-    221,
-    226,
-    231,
-    236,
-    241,
-    246,
-    251,
-    256,
     261,
-    266,
-    271,
-    276,
-    281,
     286,
-    291,
-    296,
-    301,
-    306,
     311,
     316,
-    321,
-    326,
-    331,
-    336,
     341,
-    346,
-    351,
     356,
     361,
-    366,
     371,
-    376,
-    381,
-    386,
-    391,
-    396,
-    401,
     406,
-    411,
-    416,
     421,
-    426,
-    431,
-    436,
-    441,
-    446,
-    451,
     456,
-    461,
-    466,
     471,
-    476,
-    481,
-    486,
-    491,
     496,
-    501,
-    506,
-    511,
     516,
-    521,
-    526,
-    531,
-    536,
-    541,
-    546,
-    551,
     556,
-    561,
-    566,
     571,
     576,
-    581,
-    586,
     591,
-    596,
-    601,
-    606,
     611,
-    616,
-    621,
-    626,
-    631,
-    636,
-    641,
     646,
-    651,
     656,
     661,
     666,
     671,
-    676,
     681,
     686,
-    691,
-    696,
-    701,
     706,
     711,
-    716,
-    721,
-    726,
-    731,
-    736,
-    741,
-    746,
-    751,
-    756,
-    761,
-    766,
-    771,
-    776,
     781,
-    786,
-    791,
     796,
     801,
     806,
-    811,
-    816,
-    821,
-    826,
-    831,
-    836,
     841,
-    846,
     851,
-    856,
-    861,
-    866,
     871,
     876,
     881,
     886,
     891,
     896,
-    901,
-    906,
     911,
-    916,
-    921,
     926,
     931,
-    936,
-    941,
     946,
     951,
     956,
     961,
-    966,
-    971,
-    976,
     981,
-    986,
     991,
-    996,
     1001,
-    1006,
-    1011,
     1016,
     1021,
     1026,
-    1031,
-    1036,
-    1041,
-    1046,
-    1051,
-    1056,
-    1061,
-    1066,
-    1071,
-    1076,
-    1081,
-    1086,
-    1091,
-    1096,
-    1101,
-    1106,
-    1111,
     1116,
-    1121,
     1126,
     1131,
     1136,
-    1141,
-    1146,
     1151,
     1156,
-    1161,
-    1166,
     1171,
-    1176,
-    1181,
     1186,
     1191,
     1196,
     1201,
-    1206,
-    1211,
-    1216,
-    1221,
-    1226,
-    1231,
-    1236,
-    1241,
     1246,
     1251,
-    1256,
-    1261,
-    1266,
-    1271,
     1276,
-    1281,
-    1286,
-    1291,
     1296,
     1301,
     1306,
@@ -72832,13 +72653,10 @@
     1336,
     1341,
     1346,
-    1351,
     1356,
     1361,
     1366,
     1371,
-    1376,
-    1381,
     1386,
     1391,
     1396,
@@ -72863,15 +72681,9 @@
     1491,
     1496,
     1501,
-    1506,
-    1511,
     1516,
     1521,
-    1526,
-    1531,
     1536,
-    1541,
-    1546,
     1551,
     1556,
     1561,
@@ -72883,7 +72695,6 @@
     1591,
     1596,
     1601,
-    1606,
     1611,
     1616,
     1621,
@@ -72909,9 +72720,7 @@
     1721,
     1726,
     1731,
-    1736,
     1741,
-    1746,
     1751,
     1756,
     1761,
@@ -72923,73 +72732,29 @@
     1791,
     1796,
     1801,
-    1806,
     1811,
-    1816,
-    1821,
     1826,
-    1831,
-    1836,
-    1841,
-    1846,
-    1851,
     1856,
-    1861,
-    1866,
     1871,
     1876,
     1881,
-    1886,
-    1891,
     1896,
     1901,
-    1906,
-    1911,
     1916,
-    1921,
     1926,
-    1931,
-    1936,
-    1941,
     1946,
     1951,
-    1956,
     1961,
     1966,
-    1971,
-    1976,
-    1981,
-    1986,
     1991,
-    1996,
-    2001,
-    2006,
-    2011,
-    2016,
-    2021,
-    2026,
-    2031,
-    2036,
     2041,
-    2046,
-    2051,
-    2056,
-    2061,
     2066,
     2071,
-    2076,
-    2081,
-    2086,
-    2091,
-    2096,
     2101,
     2106,
     2111,
-    2116,
     2121,
     2126,
-    2131,
-    2136,
     2141,
     2146,
     2151,
@@ -73001,151 +72766,12 @@
     6,
     6,
     null,
-    null,
-    null,
-    null,
-    null,
-    6,
-    null,
-    null,
-    null,
-    null,
-    6,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    6,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    6,
-    null,
-    null,
-    null,
-    null,
-    null,
-    6,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    6,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    6,
-    null,
-    6,
-    null,
     6,
     6,
     null,
     null,
+    null,
     6,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     null,
     null,
     6,
@@ -73160,10 +72786,6 @@
     null,
     null,
     null,
-    6,
-    null,
-    null,
-    null,
     null,
     null,
     null,
@@ -73171,45 +72793,37 @@
     6,
     null,
     6,
+    6,
+    null,
+    6,
+    null,
+    null,
+    6,
+    6,
+    6,
+    null,
+    6,
+    null,
+    null,
+    6,
+    6,
+    null,
+    6,
     9,
-    null,
-    null,
-    9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    9,
-    9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    9,
-    null,
-    9,
-    null,
     9,
     null,
     null,
     9,
     9,
+    null,
+    null,
     9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9,
     null,
     null,
     null,
@@ -73220,37 +72834,9 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     9,
     9,
-    null,
-    null,
-    null,
-    null,
     9,
-    null,
-    null,
-    null,
     9,
     9,
     null,
@@ -73264,17 +72850,7 @@
     9,
     null,
     null,
-    null,
     9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     null,
     null,
     null,
@@ -73340,8 +72916,6 @@
     null,
     null,
     null,
-    null,
-    null,
     9,
     9,
     9,
@@ -73361,65 +72935,21 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     9,
-    null,
+    9,
+    9,
+    9,
+    9,
+    9,
+    9,
     9,
     null,
     null,
     null,
     9,
     9,
-    null,
     9,
     9,
-    null,
-    null,
-    null,
-    null,
-    9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    9,
-    9,
-    null,
-    9,
-    9,
-    null,
-    null,
     null,
     null,
     null,
@@ -73430,112 +72960,28 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
     9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     null,
     null,
     9,
     9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    9,
     null,
     9,
     9,
     null,
     9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    9,
     9,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
     9,
-    null,
-    null,
     9,
-    null,
-    null,
-    null,
-    null,
     9,
-    null,
-    null,
-    null,
     9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     9,
-    null,
-    null,
+    9,
+    9,
+    9,
     9,
     9,
     null,
@@ -73543,103 +72989,29 @@
     9,
     null,
     null,
-    null,
-    9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    9,
-    null,
-    null,
-    null,
     9,
     9,
-    null,
-    null,
-    null,
     9,
     9,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     9,
-    null,
-    null,
     11,
     11,
     12,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     17,
-    null,
-    null,
-    null,
     19,
     null,
     null,
     21,
     22,
     22,
-    null,
-    null,
     24,
-    null,
-    null,
     26,
     26,
     null,
     null,
-    null,
-    null,
     29,
     29,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     null,
     null,
     null,
@@ -73650,38 +73022,17 @@
     41,
     41,
     42,
-    null,
-    null,
     44,
     44,
-    null,
-    null,
     46,
-    null,
-    null,
     46,
     46,
     49,
     49,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     null,
     55,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     61,
     61,
     62,
@@ -73692,13 +73043,10 @@
     62,
     62,
     62,
-    null,
     62,
     62,
     null,
     62,
-    null,
-    null,
     62,
     62,
     62,
@@ -73723,15 +73071,9 @@
     62,
     62,
     62,
-    null,
-    null,
     64,
     64,
-    null,
-    null,
     66,
-    null,
-    null,
     66,
     66,
     69,
@@ -73743,7 +73085,6 @@
     69,
     69,
     69,
-    null,
     69,
     69,
     69,
@@ -73769,9 +73110,6 @@
     69,
     69,
     69,
-    null,
-    69,
-    null,
     69,
     69,
     69,
@@ -73783,50 +73121,15 @@
     69,
     69,
     69,
-    null,
     69,
-    null,
-    null,
+    69,
     71,
-    null,
-    null,
-    null,
-    null,
-    null,
     74,
-    null,
-    null,
     76,
     76,
     77,
-    null,
-    null,
     79,
     79,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     null,
     null,
     null,
@@ -73837,17 +73140,9 @@
     null,
     91,
     92,
-    null,
-    null,
-    null,
-    null,
-    null,
     94,
     94,
     94,
-    null,
-    null,
-    null,
     null,
     null,
     97,
@@ -73859,865 +73154,395 @@
    "pts_alliance": [
     null,
     null,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
    ],
    "pts_rebels": [
     null,
     null,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    3,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    3,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    1,
-    1,
-    0,
-    0,
-    2,
-    2,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    3,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    2,
-    1,
-    1,
-    3,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
    ],
-   "points": 3,
-   "accord_points": 0.906
+   "points": null,
+   "accord_points": 0.778
   },
   "croix_ciblees": [
    {
@@ -86788,6 +85613,2281 @@
    "lues": 30,
    "conformes": 23,
    "part": 0.77
+  },
+  "points_hud": {
+   "carte": "Atlantis",
+   "centres": [
+    [
+     927,
+     175
+    ],
+    [
+     956,
+     175
+    ],
+    [
+     985,
+     175
+    ]
+   ],
+   "pas": 5,
+   "etats": {
+    "1": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "6": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "11": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "16": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "21": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "26": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "31": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "36": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "41": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "46": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "51": [
+     "libre",
+     null,
+     "rebels"
+    ],
+    "56": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "61": [
+     null,
+     null,
+     null
+    ],
+    "66": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "71": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "76": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "81": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "86": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "91": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "96": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "101": [
+     null,
+     null,
+     "libre"
+    ],
+    "106": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "111": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "116": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "121": [
+     "rebels",
+     "rebels",
+     null
+    ],
+    "126": [
+     "libre",
+     null,
+     null
+    ],
+    "131": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "136": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "141": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "146": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "151": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "156": [
+     "rebels",
+     null,
+     "rebels"
+    ],
+    "161": [
+     "rebels",
+     null,
+     "rebels"
+    ],
+    "166": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "171": [
+     null,
+     "libre",
+     null
+    ],
+    "176": [
+     "libre",
+     null,
+     "libre"
+    ],
+    "181": [
+     "libre",
+     null,
+     "libre"
+    ],
+    "186": [
+     "libre",
+     null,
+     "libre"
+    ],
+    "191": [
+     null,
+     null,
+     "libre"
+    ],
+    "196": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "201": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "206": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "211": [
+     null,
+     "rebels",
+     null
+    ],
+    "216": [
+     null,
+     "rebels",
+     null
+    ],
+    "221": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "226": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "231": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "236": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "241": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "246": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "251": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "256": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "261": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "266": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "271": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "276": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "281": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "286": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "291": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "296": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "301": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "306": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "311": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "316": [
+     null,
+     "rebels",
+     null
+    ],
+    "321": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "326": [
+     null,
+     "rebels",
+     "rebels"
+    ],
+    "331": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "336": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "341": [
+     null,
+     "rebels",
+     null
+    ],
+    "346": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "351": [
+     null,
+     "rebels",
+     null
+    ],
+    "356": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "361": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "366": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "371": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "376": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "381": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "386": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "391": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "396": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "401": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "406": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "411": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "416": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "421": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "426": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "431": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "436": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "441": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "446": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "451": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "456": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "461": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "466": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "471": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "476": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "481": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "486": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "491": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "496": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "501": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "506": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "511": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "516": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "521": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "526": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "531": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "536": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "541": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "546": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "551": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "556": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "561": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "566": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "571": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "576": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "581": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "586": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "591": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "596": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "601": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "606": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "611": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "616": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "621": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "626": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "631": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "636": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "641": [
+     null,
+     "rebels",
+     "rebels"
+    ],
+    "646": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "651": [
+     null,
+     "rebels",
+     null
+    ],
+    "656": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "661": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "666": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "671": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "676": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "681": [
+     "rebels",
+     "rebels",
+     null
+    ],
+    "686": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "691": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "696": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "701": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "706": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "711": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "716": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "721": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "726": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "731": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "736": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "741": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "746": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "751": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "756": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "761": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "766": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "771": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "776": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "781": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "786": [
+     null,
+     "rebels",
+     null
+    ],
+    "791": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "796": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "801": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "806": [
+     null,
+     "rebels",
+     null
+    ],
+    "811": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "816": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "821": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "826": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "831": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "836": [
+     "rebels",
+     "rebels",
+     null
+    ],
+    "841": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "846": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "851": [
+     null,
+     "rebels",
+     "rebels"
+    ],
+    "856": [
+     null,
+     "rebels",
+     "rebels"
+    ],
+    "861": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "866": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "871": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "876": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "881": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "886": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "891": [
+     "rebels",
+     "rebels",
+     "libre"
+    ],
+    "896": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "901": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "906": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "911": [
+     null,
+     "rebels",
+     null
+    ],
+    "916": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "921": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "926": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "931": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "936": [
+     "rebels",
+     "rebels",
+     null
+    ],
+    "941": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "946": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "951": [
+     null,
+     "rebels",
+     "rebels"
+    ],
+    "956": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "961": [
+     null,
+     "rebels",
+     null
+    ],
+    "966": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "971": [
+     null,
+     "rebels",
+     "libre"
+    ],
+    "976": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "981": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "986": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "991": [
+     null,
+     "rebels",
+     null
+    ],
+    "996": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "1001": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "1006": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "1011": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "1016": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1021": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1026": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1031": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1036": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1041": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1046": [
+     null,
+     "libre",
+     null
+    ],
+    "1051": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1056": [
+     "rebels",
+     null,
+     "libre"
+    ],
+    "1061": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1066": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1071": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1076": [
+     "rebels",
+     null,
+     null
+    ],
+    "1081": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1086": [
+     "rebels",
+     "libre",
+     null
+    ],
+    "1091": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1096": [
+     "rebels",
+     null,
+     "libre"
+    ],
+    "1101": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1106": [
+     "rebels",
+     null,
+     null
+    ],
+    "1111": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1116": [
+     "rebels",
+     null,
+     null
+    ],
+    "1121": [
+     "rebels",
+     "libre",
+     null
+    ],
+    "1126": [
+     "rebels",
+     "libre",
+     null
+    ],
+    "1131": [
+     "rebels",
+     "libre",
+     null
+    ],
+    "1136": [
+     "rebels",
+     null,
+     null
+    ],
+    "1141": [
+     "rebels",
+     null,
+     null
+    ],
+    "1146": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1151": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1156": [
+     "rebels",
+     null,
+     null
+    ],
+    "1161": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1166": [
+     "rebels",
+     "libre",
+     null
+    ],
+    "1171": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1176": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1181": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1186": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1191": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1196": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1201": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1206": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1211": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1216": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1221": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1226": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1231": [
+     "rebels",
+     null,
+     "libre"
+    ],
+    "1236": [
+     "rebels",
+     null,
+     null
+    ],
+    "1241": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1246": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1251": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1256": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1261": [
+     "rebels",
+     null,
+     null
+    ],
+    "1266": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1271": [
+     "rebels",
+     null,
+     null
+    ],
+    "1276": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1281": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1286": [
+     "rebels",
+     null,
+     null
+    ],
+    "1291": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1296": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1301": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1306": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1311": [
+     "rebels",
+     null,
+     null
+    ],
+    "1316": [
+     "libre",
+     "libre",
+     null
+    ],
+    "1321": [
+     null,
+     null,
+     null
+    ],
+    "1326": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1331": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1336": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1341": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1346": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1351": [
+     null,
+     "libre",
+     null
+    ],
+    "1356": [
+     "libre",
+     "libre",
+     null
+    ],
+    "1361": [
+     "libre",
+     "libre",
+     null
+    ],
+    "1366": [
+     "libre",
+     "libre",
+     null
+    ],
+    "1371": [
+     "libre",
+     "libre",
+     null
+    ],
+    "1376": [
+     "libre",
+     "libre",
+     null
+    ],
+    "1381": [
+     "libre",
+     "libre",
+     null
+    ],
+    "1386": [
+     "libre",
+     "libre",
+     null
+    ],
+    "1391": [
+     "libre",
+     "libre",
+     null
+    ],
+    "1396": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1401": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1406": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1411": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1416": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1421": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1426": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1431": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1436": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1441": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1446": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1451": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1456": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1461": [
+     "libre",
+     "libre",
+     null
+    ],
+    "1466": [
+     "libre",
+     "libre",
+     null
+    ],
+    "1471": [
+     "libre",
+     "libre",
+     null
+    ],
+    "1476": [
+     "libre",
+     "libre",
+     null
+    ],
+    "1481": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1486": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1491": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1496": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1501": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1506": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1511": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1516": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1521": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1526": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1531": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1536": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1541": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1546": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1551": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1556": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1561": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1566": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1571": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1576": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1581": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1586": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1591": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1596": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1601": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1606": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "1611": [
+     "libre",
+     null,
+     "rebels"
+    ],
+    "1616": [
+     null,
+     null,
+     null
+    ],
+    "1621": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1626": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1631": [
+     null,
+     null,
+     null
+    ],
+    "1636": [
+     null,
+     null,
+     null
+    ],
+    "1641": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1646": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1651": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1656": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1661": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1666": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1671": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1676": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1681": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1686": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1691": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1696": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1701": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1706": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1711": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1716": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1721": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1726": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1731": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1736": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1741": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1746": [
+     null,
+     null,
+     "rebels"
+    ],
+    "1751": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1756": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1761": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1766": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1771": [
+     null,
+     "libre",
+     null
+    ],
+    "1776": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1781": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1786": [
+     "rebels",
+     null,
+     "rebels"
+    ],
+    "1791": [
+     null,
+     "libre",
+     "libre"
+    ],
+    "1796": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1801": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1806": [
+     "rebels",
+     null,
+     null
+    ],
+    "1811": [
+     "rebels",
+     null,
+     null
+    ],
+    "1816": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1821": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1826": [
+     "rebels",
+     null,
+     "rebels"
+    ],
+    "1831": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1836": [
+     "rebels",
+     null,
+     null
+    ],
+    "1841": [
+     "rebels",
+     "rebels",
+     "libre"
+    ],
+    "1846": [
+     "rebels",
+     null,
+     null
+    ],
+    "1851": [
+     "rebels",
+     null,
+     null
+    ],
+    "1856": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1861": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1866": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1871": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1876": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1881": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1886": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1891": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1896": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1901": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1906": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1911": [
+     "rebels",
+     "libre",
+     "libre"
+    ],
+    "1916": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1921": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1926": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1931": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1936": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1941": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1946": [
+     null,
+     null,
+     null
+    ],
+    "1951": [
+     "libre",
+     null,
+     "libre"
+    ],
+    "1956": [
+     "libre",
+     null,
+     "libre"
+    ],
+    "1961": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "1966": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "1971": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "1976": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "1981": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "1986": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "1991": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "1996": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2001": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2006": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2011": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2016": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2021": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2026": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2031": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2036": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2041": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2046": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2051": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2056": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2061": [
+     null,
+     "rebels",
+     "rebels"
+    ],
+    "2066": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2071": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2076": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2081": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2086": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2091": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2096": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2101": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2106": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2111": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2116": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "2121": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2126": [
+     "libre",
+     "rebels",
+     null
+    ],
+    "2131": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "2136": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "2141": [
+     null,
+     "rebels",
+     null
+    ],
+    "2146": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2151": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2156": [
+     "libre",
+     "rebels",
+     "libre"
+    ],
+    "2161": [
+     "rebels",
+     "rebels",
+     "libre"
+    ],
+    "2166": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2171": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2176": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2181": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2186": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2191": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2196": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2201": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2206": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2211": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2216": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2221": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2226": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2231": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2236": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2241": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2246": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "2251": [
+     "libre",
+     "libre",
+     "libre"
+    ]
+   }
   }
  },
  "terrain": {

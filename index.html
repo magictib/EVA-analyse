@@ -4354,6 +4354,47 @@ function campNous(a){
    Le calcul reste — `avantages` alimente l'infobulle, qui le donne avec son
    denominateur — mais il ne peint plus la rangee : deux surfaces colorees
    superposees dans la meme rangee se disputaient la lecture. */
+/* QUI TIENT CHAQUE POINT, RANGEE PAR RANGEE — et c'est le HUD qui le dit.
+
+   Cette rangee est la CAUSE de celle du score, juste au-dessus : en Domination on
+   marque en tenant un point, donc une barre allumee ici doit correspondre a une
+   pente la-haut. Les deux se lisent d'un seul coup d'oeil, et l'une explique
+   l'autre. C'est aussi ce qui a servi a JUGER la lecture — pente du score classee
+   par nombre de points tenus, +0,00 %/s quand un camp n'en tient aucun.
+
+   LES ABSTENTIONS RESTENT DES TROUS, et il ne faut pas les combler. `points_hud`
+   s'abstient quand l'hexagone est a moitie rempli, c'est-a-dire pendant une capture
+   EN COURS : le point n'est encore a personne et n'est deja plus libre. Le boucher
+   par la valeur precedente ferait croire a une possession continue la ou il y a une
+   lutte, ce qui est precisement ce qu'on veut voir.
+
+   LES POINTS NE SONT PAS NOMMES, parce que l'ordre n'est pas alphabetique : Engine,
+   Atlantis et Helios affichent B A C. Ils sont donc rendus dans l'ordre de l'ecran,
+   de gauche a droite, et la rangee du haut est celle du haut. */
+function possessionLue(a, f){
+  const sp=a.spatial||{}, ph=sp.points_hud;
+  if(!ph || !ph.etats || !f || !f.t) return null;
+  const n=(ph.centres||[]).length; if(!n) return null;
+  const nous=campNous(a), ps=sp.par_seconde||1, deb=sp.partie_debut||0;
+  const cles=Object.keys(ph.etats).map(Number).sort((p,q)=>p-q);
+  if(cles.length<2) return null;
+  const pas=(ph.pas||1)/ps;                 // l'ecart entre deux lectures, en secondes
+  const bandes=[...Array(n)].map(()=>[]);
+  for(const k of cles){
+    const t0=(k-deb)/ps;
+    if(t0<-pas || t0>f.duree) continue;
+    const e=ph.etats[k]||[];
+    for(let i=0;i<n;i++){
+      const v=e[i];
+      const q = v==null ? null : (v==="libre" ? "libre" : (v===nous ? "nous" : "eux"));
+      const B=bandes[i], d=B[B.length-1];
+      if(d && d.q===q && t0-d.t1<=pas*1.5) d.t1=t0+pas;
+      else B.push({t0:Math.max(0,t0), t1:t0+pas, q});
+    }
+  }
+  return bandes.some(b=>b.length) ? {n, bandes} : null;
+}
+
 function friseSVG(a, moments){
   const f=frise(a, 1); if(!f) return "";
   /* Le score LU d'abord, la repartition au prorata seulement a defaut. */
@@ -4366,8 +4407,10 @@ function friseSVG(a, moments){
      gagne trente pixels, rendus au score, qui porte le plus. */
   const HE=74, BASE=10+HE, HS=88;
   const ENG=engagements(a, f), AV=avantages(f, SS);
+  const PO=possessionLue(a, f), HP=9;      // une barre de possession : 7 px et 2 de jour
   const Y={eff:10, temps:BASE+13, sc:BASE+34};
-  const H=Y.sc+(SS?HS:0)+8, L=1000, mg=6;
+  Y.po=Y.sc+(SS?HS:0)+16;
+  const H=(PO?Y.po+PO.n*HP+6:Y.sc+(SS?HS:0)+8), L=1000, mg=6;
   const x=t=>mg+(L-2*mg)*t/Math.max(f.duree,1);
   const ye=v=>BASE-HE*Math.max(0,Math.min(4,v))/4;
   const der=f.t[f.t.length-1];
@@ -4504,6 +4547,27 @@ function friseSVG(a, moments){
       + bout(SS.eux[fin], SF?SF.eux:null, CE);
   }
 
+  /* Une piste par point, sur toute la largeur : le fond dit « ce point existe »,
+     et les creux du trace disent les captures en cours. */
+  const poss=PO?(()=>{
+    let o="";
+    for(let i=0;i<PO.n;i++){
+      const y=Y.po+i*HP;
+      o+=`<rect x="${mg}" y="${fr2(y)}" width="${L-2*mg}" height="7" rx="1.5"
+          fill="var(--ink-faint)" fill-opacity=".10"/>`;
+      for(const b of PO.bandes[i]){
+        if(b.q===null) continue;              // capture en cours : on laisse le trou
+        const w=Math.max(x(Math.min(b.t1,f.duree))-x(b.t0), .6);
+        o+= b.q==="libre"
+          ? `<rect x="${fr2(x(b.t0))}" y="${fr2(y+2.6)}" width="${fr2(w)}" height="1.8"
+              fill="var(--ink-faint)" fill-opacity=".45"/>`
+          : `<rect x="${fr2(x(b.t0))}" y="${fr2(y)}" width="${fr2(w)}" height="7" rx="1.5"
+              fill="${b.q==="nous"?CN:CE}" fill-opacity=".85"/>`;
+      }
+    }
+    return o;
+  })():"";
+
   const reperes=(moments||[]).map(m=>`<line x1="${fr2(x(m.t))}" y1="8"
       x2="${fr2(x(m.t))}" y2="${H-4}" stroke="var(--signal)" stroke-width="1"
       stroke-opacity=".55"/>`).join("");
@@ -4532,7 +4596,8 @@ function friseSVG(a, moments){
     + (SS?`<span class="t" style="top:${vh(Y.sc+HS/2)}%">score</span>`
         + `<span class="v" style="top:${vh(Y.sc)}%">100 %</span>`
         + `<span class="v" style="top:${vh(Y.sc+HS/2)}%">50 %</span>`
-        + `<span class="v" style="top:${vh(Y.sc+HS)}%">0 %</span>`:"");
+        + `<span class="v" style="top:${vh(Y.sc+HS)}%">0 %</span>`:"")
+    + (PO?`<span class="t" style="top:${vh(Y.po+PO.n*HP/2)}%">points<br>tenus</span>`:"");
 
   /* Les series pour le survol. Une globale plutot qu'un attribut `data` : la
      serie fait plusieurs milliers de valeurs et n'a rien a faire dans le DOM. */
@@ -4543,16 +4608,18 @@ function friseSVG(a, moments){
       <div class="frgut">${gut}</div><div class="frin">
       <svg viewBox="0 0 ${L} ${H}" class="frise" style="height:${Math.round(H*1.15)}px"
         preserveAspectRatio="none" role="img"
-        aria-label="Joueurs debout dans les deux camps et progression du score">
+        aria-label="Joueurs debout dans les deux camps, progression du score, et possession des points">
         ${grille}${filets}
         ${aire(f.eux, CE, ".14")}
         ${aire(f.nous, CN, ".14")}
         ${coins}
-        ${grad}${sc}${reperes}</svg>
+        ${grad}${sc}${poss}${reperes}</svg>
       ${lab}<div class="frcur"></div><div class="frtip"></div></div></div>
     <p class="frleg"><span class="frk" style="background:${CN}"></span>${TN}
       <span class="frk" style="background:${CE}"></span>${TE}
       ${SS?`<span class="frk" data-c="sc"></span>score ${LU?"lu sur l'écran":"(calé sur le score final)"}`:""}
+      ${PO?`<span class="frk" style="background:var(--ink-faint);opacity:.45"></span>point libre —
+        un blanc dans la rangée est une capture en cours`:""}
       <span class="frk" data-c="sig"></span>moment à revoir</p>
     ${bilanFrise(f, AV, SS, CN, CE, SF)}</div>`;
 }

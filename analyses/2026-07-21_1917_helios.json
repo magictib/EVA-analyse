@@ -52946,8 +52946,6 @@
     36,
     41,
     46,
-    51,
-    56,
     61,
     66,
     71,
@@ -52955,8 +52953,6 @@
     81,
     86,
     91,
-    96,
-    101,
     106,
     111,
     116,
@@ -53008,7 +53004,6 @@
     346,
     351,
     356,
-    361,
     366,
     371,
     376,
@@ -53024,9 +53019,7 @@
     426,
     431,
     436,
-    441,
     446,
-    451,
     456,
     461,
     466,
@@ -53037,33 +53030,23 @@
     491,
     496,
     501,
-    506,
     511,
     516,
     521,
     526,
     531,
-    536,
-    541,
-    546,
     551,
     556,
     561,
     566,
     571,
     576,
-    581,
-    586,
-    591,
     596,
     601,
     606,
     611,
     616,
-    621,
     626,
-    631,
-    636,
     641,
     646,
     651,
@@ -53077,7 +53060,6 @@
     691,
     696,
     701,
-    706,
     711,
     716,
     721,
@@ -53105,7 +53087,6 @@
     831,
     836,
     841,
-    846,
     851,
     856,
     861,
@@ -53113,7 +53094,6 @@
     871,
     876,
     881,
-    886,
     891,
     896,
     901,
@@ -53140,7 +53120,6 @@
     1006,
     1011,
     1016,
-    1021,
     1026,
     1031,
     1036,
@@ -53215,10 +53194,6 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
     0,
     null,
     null,
@@ -53267,7 +53242,6 @@
     null,
     null,
     null,
-    null,
     1,
     1,
     1,
@@ -53281,8 +53255,6 @@
     null,
     null,
     null,
-    null,
-    null,
     4,
     4,
     4,
@@ -53293,31 +53265,21 @@
     null,
     null,
     null,
-    null,
     6,
     6,
     6,
     6,
-    null,
-    null,
-    null,
     7,
     7,
     7,
     null,
     null,
     null,
-    null,
-    null,
-    null,
     9,
     9,
     9,
     9,
     9,
-    null,
-    null,
-    null,
     null,
     null,
     11,
@@ -53331,7 +53293,6 @@
     12,
     12,
     12,
-    null,
     null,
     null,
     null,
@@ -53361,7 +53322,6 @@
     null,
     null,
     null,
-    null,
     19,
     19,
     19,
@@ -53372,7 +53332,6 @@
     null,
     null,
     null,
-    null,
     21,
     21,
     21,
@@ -53395,7 +53354,6 @@
     21,
     null,
     21,
-    null,
     21,
     21,
     21,
@@ -53475,10 +53433,6 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
     1,
     1,
     1,
@@ -53518,7 +53472,6 @@
     17,
     null,
     null,
-    null,
     19,
     19,
     null,
@@ -53535,8 +53488,6 @@
     24,
     24,
     null,
-    null,
-    null,
     26,
     26,
     26,
@@ -53547,10 +53498,6 @@
     null,
     29,
     29,
-    null,
-    null,
-    null,
-    null,
     null,
     null,
     null,
@@ -53573,18 +53520,11 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     41,
     41,
     41,
     42,
     42,
-    null,
     null,
     null,
     null,
@@ -53629,8 +53569,6 @@
     null,
     null,
     null,
-    null,
-    null,
     61,
     61,
     61,
@@ -53649,7 +53587,6 @@
     66,
     null,
     66,
-    null,
     null,
     69,
     71,
@@ -53725,6 +53662,7 @@
     0,
     0,
     0,
+    null,
     0,
     0,
     0,
@@ -53735,26 +53673,7 @@
     0,
     0,
     0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    null,
     0,
     0,
     0,
@@ -53768,8 +53687,22 @@
     0,
     0,
     null,
-    null,
-    null,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
     0,
     1,
     1,
@@ -53779,97 +53712,49 @@
     1,
     1,
     1,
+    null,
+    0,
+    null,
+    null,
+    0,
+    null,
+    null,
+    null,
+    null,
+    0,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
     1,
     1,
     1,
     1,
+    null,
     1,
     1,
+    null,
+    null,
     1,
     1,
+    null,
     1,
     1,
+    null,
+    null,
     1,
     1,
     1,
+    null,
+    null,
+    null,
     1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
+    null,
     1,
     1,
     1,
@@ -53891,11 +53776,94 @@
     1,
     1,
     null,
+    1,
+    null,
+    null,
+    1,
+    null,
+    null,
+    1,
+    null,
+    1,
+    null,
+    1,
+    1,
+    1,
+    1,
+    null,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    null,
+    0,
+    0,
+    0,
     null,
     null,
     null,
     0,
     0,
+    null,
+    0,
+    0,
+    null,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    null,
+    0,
+    0,
+    null,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    null,
+    0,
+    0,
+    0,
+    0,
+    null,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    null,
+    null,
+    null,
+    0,
+    null,
     0,
     0,
     0,
@@ -53906,60 +53874,8 @@
     0,
     0,
     0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
+    null,
+    null
    ],
    "pts_rebels": [
     0,
@@ -53974,42 +53890,24 @@
     0,
     0,
     0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
     1,
     1,
     1,
     1,
     1,
     1,
-    1,
+    null,
+    2,
+    2,
+    2,
+    0,
     2,
     2,
     2,
     2,
     2,
-    2,
-    2,
-    2,
     3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
+    null,
     3,
     3,
     3,
@@ -54023,108 +53921,74 @@
     3,
     3,
     null,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    0,
+    3,
+    0,
+    3,
+    3,
+    3,
+    0,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    null,
+    0,
+    null,
+    null,
+    0,
+    null,
+    null,
+    null,
+    null,
+    0,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    2,
+    2,
+    2,
+    2,
+    null,
+    2,
+    2,
+    null,
+    null,
+    2,
+    2,
+    null,
+    2,
+    2,
     null,
     null,
     2,
     2,
     2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
-    2,
+    null,
+    null,
+    null,
+    2,
+    null,
     2,
     2,
     2,
@@ -54146,11 +54010,94 @@
     2,
     2,
     null,
+    2,
+    null,
+    null,
+    2,
+    null,
+    null,
+    2,
+    null,
+    2,
+    null,
+    2,
+    2,
+    2,
+    2,
+    null,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    3,
+    3,
+    0,
+    null,
+    3,
+    3,
+    3,
     null,
     null,
     null,
     3,
     3,
+    null,
+    3,
+    3,
+    null,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    null,
+    3,
+    3,
+    null,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    null,
+    3,
+    3,
+    3,
+    3,
+    null,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    null,
+    null,
+    null,
+    0,
+    null,
     3,
     3,
     3,
@@ -54161,63 +54108,11 @@
     3,
     3,
     3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3,
-    3
+    null,
+    null
    ],
    "points": 3,
-   "accord_points": 0.906
+   "accord_points": 0.812
   },
   "croix_ciblees": [
    {
@@ -60464,6 +60359,1396 @@
    "residu_m": 0.53,
    "m_par_px": 0.0665,
    "methode": "ajustement complet"
+  },
+  "points_hud": {
+   "carte": "Helios",
+   "centres": [
+    [
+     927,
+     175
+    ],
+    [
+     956,
+     175
+    ],
+    [
+     985,
+     175
+    ]
+   ],
+   "pas": 5,
+   "etats": {
+    "1": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "6": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "11": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "16": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "21": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "26": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "31": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "36": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "41": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "46": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "51": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "56": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "61": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "66": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "71": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "76": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "81": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "86": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "91": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "96": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "101": [
+     "libre",
+     "libre",
+     null
+    ],
+    "106": [
+     "libre",
+     "libre",
+     null
+    ],
+    "111": [
+     "libre",
+     "libre",
+     null
+    ],
+    "116": [
+     "libre",
+     "libre",
+     null
+    ],
+    "121": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "126": [
+     "libre",
+     "libre",
+     "rebels"
+    ],
+    "131": [
+     null,
+     "libre",
+     "rebels"
+    ],
+    "136": [
+     null,
+     "libre",
+     "rebels"
+    ],
+    "141": [
+     null,
+     "libre",
+     "rebels"
+    ],
+    "146": [
+     null,
+     null,
+     "rebels"
+    ],
+    "151": [
+     null,
+     "libre",
+     "rebels"
+    ],
+    "156": [
+     null,
+     "libre",
+     "rebels"
+    ],
+    "161": [
+     "rebels",
+     "libre",
+     "rebels"
+    ],
+    "166": [
+     "rebels",
+     "libre",
+     "rebels"
+    ],
+    "171": [
+     "rebels",
+     "libre",
+     "rebels"
+    ],
+    "176": [
+     "rebels",
+     "libre",
+     "rebels"
+    ],
+    "181": [
+     "rebels",
+     null,
+     "rebels"
+    ],
+    "186": [
+     "rebels",
+     null,
+     "rebels"
+    ],
+    "191": [
+     "rebels",
+     null,
+     "rebels"
+    ],
+    "196": [
+     "rebels",
+     null,
+     "rebels"
+    ],
+    "201": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "206": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "211": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "216": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "221": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "226": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "231": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "236": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "241": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "246": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "251": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "256": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "261": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "266": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "271": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "276": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "281": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "286": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "291": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "296": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "301": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "306": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "311": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "316": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "321": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "326": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "331": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "336": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "341": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "346": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "351": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "356": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "361": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "366": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "371": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "376": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "381": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "386": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "391": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "396": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "401": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "406": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "411": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "416": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "421": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "426": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "431": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "436": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "441": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "446": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "451": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "456": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "461": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "466": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "471": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "476": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "481": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "486": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "491": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "496": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "501": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "506": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "511": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "516": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "521": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "526": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "531": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "536": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "541": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "546": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "551": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "556": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "561": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "566": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "571": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "576": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "581": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "586": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "591": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "596": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "601": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "606": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "611": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "616": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "621": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "626": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "631": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "636": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "641": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "646": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "651": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "656": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "661": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "666": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "671": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "676": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "681": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "686": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "691": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "696": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "701": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "706": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "711": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "716": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "721": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "726": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "731": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "736": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "741": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "746": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "751": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "756": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "761": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "766": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "771": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "776": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "781": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "786": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "791": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "796": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "801": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "806": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "811": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "816": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "821": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "826": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "831": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "836": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "841": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "846": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "851": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "856": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "861": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "866": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "871": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "876": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "881": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "886": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "891": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "896": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "901": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "906": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "911": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "916": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "921": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "926": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "931": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "936": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "941": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "946": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "951": [
+     "alliance",
+     "rebels",
+     "rebels"
+    ],
+    "956": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "961": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "966": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "971": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "976": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "981": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "986": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "991": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "996": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1001": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1006": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1011": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1016": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1021": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1026": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1031": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1036": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1041": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1046": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1051": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1056": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1061": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1066": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1071": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1076": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1081": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1086": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1091": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1096": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1101": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1106": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1111": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1116": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1121": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1126": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1131": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1136": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1141": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1146": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1151": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1156": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1161": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1166": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1171": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1176": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1181": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1186": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1191": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1196": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1201": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1206": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1211": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1216": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1221": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1226": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1231": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1236": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1241": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1246": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1251": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1256": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1261": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1266": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1271": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1276": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1281": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1286": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1291": [
+     "rebels",
+     "rebels",
+     "rebels"
+    ],
+    "1296": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1301": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1306": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1311": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1316": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1321": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1326": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1331": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1336": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1341": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1346": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1351": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1356": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1361": [
+     "libre",
+     "libre",
+     "libre"
+    ],
+    "1366": [
+     "libre",
+     "libre",
+     "libre"
+    ]
+   }
   }
  },
  "terrain": {

@@ -57325,12 +57325,24 @@
   ],
   "score_lu": {
    "img": [
+    26,
+    31,
+    41,
+    46,
+    76,
     106,
+    231,
     296,
     311,
     346,
     426,
     476,
+    556,
+    576,
+    586,
+    591,
+    596,
+    611,
     621,
     641,
     651,
@@ -57393,6 +57405,7 @@
     961,
     966,
     971,
+    976,
     981,
     986,
     991,
@@ -57467,11 +57480,15 @@
     1361,
     1366,
     1381,
+    1426,
     1431,
+    1436,
     1441,
+    1446,
     1451,
     1456,
     1461,
+    1466,
     1471,
     1481,
     1486,
@@ -57479,8 +57496,10 @@
     1496,
     1501,
     1506,
+    1561,
     1571,
     1581,
+    1586,
     1596,
     1601,
     1611,
@@ -57490,7 +57509,19 @@
    ],
    "alliance": [
     null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
     0,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
     null,
     null,
     null,
@@ -57557,6 +57588,7 @@
     4,
     4,
     4,
+    null,
     4,
     4,
     4,
@@ -57640,7 +57672,12 @@
     null,
     null,
     null,
+    null,
+    null,
+    null,
+    null,
     12,
+    null,
     null,
     null,
     null,
@@ -57650,15 +57687,28 @@
     null,
     null,
     null,
+    null,
     null
    ],
    "rebels": [
+    null,
+    null,
+    null,
+    null,
+    null,
     9,
+    null,
     null,
     9,
     9,
     9,
     9,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
     9,
     9,
     null,
@@ -57719,6 +57769,7 @@
     11,
     11,
     12,
+    null,
     null,
     null,
     null,
@@ -57795,11 +57846,15 @@
     49,
     49,
     61,
+    null,
     62,
+    null,
     64,
+    null,
     66,
     67,
     67,
+    null,
     69,
     71,
     72,
@@ -57807,8 +57862,10 @@
     74,
     76,
     77,
+    null,
     92,
     94,
+    null,
     96,
     96,
     96,
@@ -57817,18 +57874,31 @@
     99
    ],
    "pts_alliance": [
+    0,
+    0,
+    0,
+    0,
+    1,
     null,
+    0,
     null,
     null,
     null,
     null,
     null,
+    0,
+    0,
+    2,
+    2,
+    0,
+    0,
     null,
     null,
     null,
     null,
     null,
     null,
+    0,
     null,
     null,
     null,
@@ -57884,6 +57954,7 @@
     null,
     null,
     null,
+    2,
     null,
     null,
     null,
@@ -57928,6 +57999,7 @@
     null,
     null,
     null,
+    0,
     null,
     null,
     null,
@@ -57950,29 +58022,33 @@
     null,
     null,
     null,
+    0,
     null,
     null,
     null,
     null,
     null,
     null,
+    0,
+    0,
+    0,
+    0,
+    0,
     null,
     null,
     null,
+    0,
     null,
     null,
     null,
     null,
     null,
     null,
+    0,
+    0,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    0,
     null,
     null,
     null,
@@ -57981,18 +58057,31 @@
     null
    ],
    "pts_rebels": [
+    2,
+    1,
+    2,
+    2,
+    0,
     null,
+    1,
     null,
     null,
     null,
     null,
     null,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
     null,
     null,
     null,
     null,
     null,
     null,
+    0,
     null,
     null,
     null,
@@ -58048,6 +58137,7 @@
     null,
     null,
     null,
+    0,
     null,
     null,
     null,
@@ -58092,6 +58182,7 @@
     null,
     null,
     null,
+    1,
     null,
     null,
     null,
@@ -58114,29 +58205,33 @@
     null,
     null,
     null,
+    0,
     null,
     null,
     null,
     null,
     null,
     null,
+    0,
+    0,
+    0,
+    0,
+    0,
     null,
     null,
     null,
+    2,
     null,
     null,
     null,
     null,
     null,
     null,
+    0,
+    0,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    0,
     null,
     null,
     null,
@@ -58144,8 +58239,8 @@
     null,
     null
    ],
-   "points": null,
-   "accord_points": 0.667
+   "points": 2,
+   "accord_points": 0.888
   },
   "croix_ciblees": [
    {
@@ -66278,6 +66373,1406 @@
    "lues": 29,
    "conformes": 4,
    "part": 0.14
+  },
+  "points_hud": {
+   "carte": "Horizon",
+   "centres": [
+    [
+     934,
+     175
+    ],
+    [
+     977,
+     175
+    ]
+   ],
+   "pas": 5,
+   "etats": {
+    "1": [
+     "libre",
+     "libre"
+    ],
+    "6": [
+     "libre",
+     "libre"
+    ],
+    "11": [
+     "libre",
+     "libre"
+    ],
+    "16": [
+     "libre",
+     "libre"
+    ],
+    "21": [
+     "libre",
+     "libre"
+    ],
+    "26": [
+     "rebels",
+     "rebels"
+    ],
+    "31": [
+     "rebels",
+     "rebels"
+    ],
+    "36": [
+     "rebels",
+     "rebels"
+    ],
+    "41": [
+     "rebels",
+     "rebels"
+    ],
+    "46": [
+     "rebels",
+     "rebels"
+    ],
+    "51": [
+     "libre",
+     "libre"
+    ],
+    "56": [
+     "libre",
+     "libre"
+    ],
+    "61": [
+     "libre",
+     "libre"
+    ],
+    "66": [
+     "libre",
+     "libre"
+    ],
+    "71": [
+     null,
+     "libre"
+    ],
+    "76": [
+     null,
+     null
+    ],
+    "81": [
+     null,
+     null
+    ],
+    "86": [
+     "libre",
+     "libre"
+    ],
+    "91": [
+     null,
+     null
+    ],
+    "96": [
+     null,
+     null
+    ],
+    "101": [
+     "libre",
+     "libre"
+    ],
+    "106": [
+     "libre",
+     "libre"
+    ],
+    "111": [
+     null,
+     "libre"
+    ],
+    "116": [
+     "libre",
+     "libre"
+    ],
+    "121": [
+     "libre",
+     "libre"
+    ],
+    "126": [
+     "libre",
+     "libre"
+    ],
+    "131": [
+     "libre",
+     "libre"
+    ],
+    "136": [
+     "libre",
+     "libre"
+    ],
+    "141": [
+     "libre",
+     "libre"
+    ],
+    "146": [
+     "libre",
+     "libre"
+    ],
+    "151": [
+     "libre",
+     "libre"
+    ],
+    "156": [
+     "libre",
+     "libre"
+    ],
+    "161": [
+     "libre",
+     "libre"
+    ],
+    "166": [
+     "libre",
+     "libre"
+    ],
+    "171": [
+     "libre",
+     "libre"
+    ],
+    "176": [
+     "libre",
+     "libre"
+    ],
+    "181": [
+     "libre",
+     "libre"
+    ],
+    "186": [
+     "libre",
+     "libre"
+    ],
+    "191": [
+     "libre",
+     "libre"
+    ],
+    "196": [
+     "libre",
+     "libre"
+    ],
+    "201": [
+     "libre",
+     "libre"
+    ],
+    "206": [
+     "libre",
+     "libre"
+    ],
+    "211": [
+     "libre",
+     "libre"
+    ],
+    "216": [
+     "libre",
+     "libre"
+    ],
+    "221": [
+     "libre",
+     "libre"
+    ],
+    "226": [
+     "libre",
+     "libre"
+    ],
+    "231": [
+     null,
+     "libre"
+    ],
+    "236": [
+     "libre",
+     "libre"
+    ],
+    "241": [
+     "libre",
+     null
+    ],
+    "246": [
+     "libre",
+     null
+    ],
+    "251": [
+     "libre",
+     "libre"
+    ],
+    "256": [
+     null,
+     "libre"
+    ],
+    "261": [
+     "libre",
+     "libre"
+    ],
+    "266": [
+     "libre",
+     "libre"
+    ],
+    "271": [
+     null,
+     null
+    ],
+    "276": [
+     "libre",
+     "libre"
+    ],
+    "281": [
+     "libre",
+     "libre"
+    ],
+    "286": [
+     null,
+     null
+    ],
+    "291": [
+     null,
+     null
+    ],
+    "296": [
+     null,
+     null
+    ],
+    "301": [
+     null,
+     null
+    ],
+    "306": [
+     "libre",
+     "libre"
+    ],
+    "311": [
+     "libre",
+     "libre"
+    ],
+    "316": [
+     "libre",
+     "libre"
+    ],
+    "321": [
+     "libre",
+     "libre"
+    ],
+    "326": [
+     "libre",
+     "libre"
+    ],
+    "331": [
+     "libre",
+     "libre"
+    ],
+    "336": [
+     "libre",
+     "libre"
+    ],
+    "341": [
+     "libre",
+     "libre"
+    ],
+    "346": [
+     "libre",
+     "libre"
+    ],
+    "351": [
+     "libre",
+     "libre"
+    ],
+    "356": [
+     "libre",
+     "libre"
+    ],
+    "361": [
+     "libre",
+     "libre"
+    ],
+    "366": [
+     "libre",
+     "libre"
+    ],
+    "371": [
+     "libre",
+     "libre"
+    ],
+    "376": [
+     "libre",
+     "libre"
+    ],
+    "381": [
+     "libre",
+     "libre"
+    ],
+    "386": [
+     "libre",
+     "libre"
+    ],
+    "391": [
+     "libre",
+     "libre"
+    ],
+    "396": [
+     "libre",
+     "libre"
+    ],
+    "401": [
+     "libre",
+     "libre"
+    ],
+    "406": [
+     null,
+     null
+    ],
+    "411": [
+     "libre",
+     "libre"
+    ],
+    "416": [
+     "libre",
+     "libre"
+    ],
+    "421": [
+     "libre",
+     "libre"
+    ],
+    "426": [
+     "libre",
+     "libre"
+    ],
+    "431": [
+     "libre",
+     "libre"
+    ],
+    "436": [
+     null,
+     null
+    ],
+    "441": [
+     "libre",
+     "libre"
+    ],
+    "446": [
+     "libre",
+     "libre"
+    ],
+    "451": [
+     "libre",
+     "libre"
+    ],
+    "456": [
+     "libre",
+     "libre"
+    ],
+    "461": [
+     "libre",
+     "libre"
+    ],
+    "466": [
+     "libre",
+     "libre"
+    ],
+    "471": [
+     null,
+     "libre"
+    ],
+    "476": [
+     "libre",
+     "libre"
+    ],
+    "481": [
+     "libre",
+     "libre"
+    ],
+    "486": [
+     "libre",
+     "libre"
+    ],
+    "491": [
+     "libre",
+     "libre"
+    ],
+    "496": [
+     "libre",
+     "libre"
+    ],
+    "501": [
+     "libre",
+     null
+    ],
+    "506": [
+     null,
+     "libre"
+    ],
+    "511": [
+     "libre",
+     "libre"
+    ],
+    "516": [
+     "libre",
+     "libre"
+    ],
+    "521": [
+     "libre",
+     "libre"
+    ],
+    "526": [
+     "libre",
+     "libre"
+    ],
+    "531": [
+     "libre",
+     "libre"
+    ],
+    "536": [
+     "libre",
+     "libre"
+    ],
+    "541": [
+     "libre",
+     "libre"
+    ],
+    "546": [
+     "libre",
+     "libre"
+    ],
+    "551": [
+     "libre",
+     "libre"
+    ],
+    "556": [
+     "libre",
+     "libre"
+    ],
+    "561": [
+     "libre",
+     null
+    ],
+    "566": [
+     "libre",
+     null
+    ],
+    "571": [
+     "libre",
+     "libre"
+    ],
+    "576": [
+     null,
+     null
+    ],
+    "581": [
+     "libre",
+     "libre"
+    ],
+    "586": [
+     "alliance",
+     null
+    ],
+    "591": [
+     "alliance",
+     null
+    ],
+    "596": [
+     null,
+     null
+    ],
+    "601": [
+     "libre",
+     null
+    ],
+    "606": [
+     "libre",
+     null
+    ],
+    "611": [
+     "libre",
+     null
+    ],
+    "616": [
+     "libre",
+     null
+    ],
+    "621": [
+     null,
+     "alliance"
+    ],
+    "626": [
+     "libre",
+     "alliance"
+    ],
+    "631": [
+     "libre",
+     "alliance"
+    ],
+    "636": [
+     "libre",
+     "alliance"
+    ],
+    "641": [
+     "alliance",
+     "alliance"
+    ],
+    "646": [
+     null,
+     "alliance"
+    ],
+    "651": [
+     "libre",
+     "alliance"
+    ],
+    "656": [
+     "libre",
+     "alliance"
+    ],
+    "661": [
+     "libre",
+     "alliance"
+    ],
+    "666": [
+     null,
+     "alliance"
+    ],
+    "671": [
+     "libre",
+     "alliance"
+    ],
+    "676": [
+     "libre",
+     "alliance"
+    ],
+    "681": [
+     "libre",
+     "alliance"
+    ],
+    "686": [
+     "libre",
+     "alliance"
+    ],
+    "691": [
+     "libre",
+     "alliance"
+    ],
+    "696": [
+     "libre",
+     "alliance"
+    ],
+    "701": [
+     "libre",
+     "alliance"
+    ],
+    "706": [
+     "libre",
+     "alliance"
+    ],
+    "711": [
+     null,
+     "rebels"
+    ],
+    "716": [
+     null,
+     "alliance"
+    ],
+    "721": [
+     "libre",
+     "alliance"
+    ],
+    "726": [
+     null,
+     "alliance"
+    ],
+    "731": [
+     "libre",
+     "alliance"
+    ],
+    "736": [
+     "libre",
+     "alliance"
+    ],
+    "741": [
+     null,
+     "alliance"
+    ],
+    "746": [
+     "libre",
+     "alliance"
+    ],
+    "751": [
+     "libre",
+     "alliance"
+    ],
+    "756": [
+     "libre",
+     "alliance"
+    ],
+    "761": [
+     "libre",
+     "alliance"
+    ],
+    "766": [
+     "libre",
+     "rebels"
+    ],
+    "771": [
+     "libre",
+     "rebels"
+    ],
+    "776": [
+     "libre",
+     "rebels"
+    ],
+    "781": [
+     "libre",
+     "rebels"
+    ],
+    "786": [
+     "libre",
+     "rebels"
+    ],
+    "791": [
+     "libre",
+     "rebels"
+    ],
+    "796": [
+     "libre",
+     "rebels"
+    ],
+    "801": [
+     null,
+     null
+    ],
+    "806": [
+     null,
+     null
+    ],
+    "811": [
+     null,
+     "libre"
+    ],
+    "816": [
+     null,
+     "libre"
+    ],
+    "821": [
+     null,
+     "libre"
+    ],
+    "826": [
+     "rebels",
+     null
+    ],
+    "831": [
+     "rebels",
+     "libre"
+    ],
+    "836": [
+     "rebels",
+     "libre"
+    ],
+    "841": [
+     "rebels",
+     null
+    ],
+    "846": [
+     "rebels",
+     "libre"
+    ],
+    "851": [
+     "rebels",
+     "libre"
+    ],
+    "856": [
+     "rebels",
+     "libre"
+    ],
+    "861": [
+     "rebels",
+     "libre"
+    ],
+    "866": [
+     "rebels",
+     "libre"
+    ],
+    "871": [
+     "rebels",
+     "libre"
+    ],
+    "876": [
+     "rebels",
+     "libre"
+    ],
+    "881": [
+     "rebels",
+     "libre"
+    ],
+    "886": [
+     "rebels",
+     "libre"
+    ],
+    "891": [
+     "rebels",
+     null
+    ],
+    "896": [
+     "rebels",
+     "libre"
+    ],
+    "901": [
+     "rebels",
+     "libre"
+    ],
+    "906": [
+     "rebels",
+     "libre"
+    ],
+    "911": [
+     "rebels",
+     null
+    ],
+    "916": [
+     "rebels",
+     "libre"
+    ],
+    "921": [
+     "rebels",
+     "alliance"
+    ],
+    "926": [
+     "rebels",
+     "libre"
+    ],
+    "931": [
+     "rebels",
+     "libre"
+    ],
+    "936": [
+     "rebels",
+     null
+    ],
+    "941": [
+     "rebels",
+     "libre"
+    ],
+    "946": [
+     "rebels",
+     "libre"
+    ],
+    "951": [
+     "rebels",
+     "libre"
+    ],
+    "956": [
+     "rebels",
+     "libre"
+    ],
+    "961": [
+     "rebels",
+     "libre"
+    ],
+    "966": [
+     "rebels",
+     "libre"
+    ],
+    "971": [
+     "rebels",
+     "libre"
+    ],
+    "976": [
+     "rebels",
+     "alliance"
+    ],
+    "981": [
+     "rebels",
+     "libre"
+    ],
+    "986": [
+     "rebels",
+     "libre"
+    ],
+    "991": [
+     "rebels",
+     null
+    ],
+    "996": [
+     "rebels",
+     "libre"
+    ],
+    "1001": [
+     "rebels",
+     "libre"
+    ],
+    "1006": [
+     "rebels",
+     null
+    ],
+    "1011": [
+     "rebels",
+     null
+    ],
+    "1016": [
+     "rebels",
+     "libre"
+    ],
+    "1021": [
+     "rebels",
+     "libre"
+    ],
+    "1026": [
+     "rebels",
+     null
+    ],
+    "1031": [
+     "rebels",
+     "libre"
+    ],
+    "1036": [
+     "rebels",
+     null
+    ],
+    "1041": [
+     "rebels",
+     null
+    ],
+    "1046": [
+     "rebels",
+     "libre"
+    ],
+    "1051": [
+     "rebels",
+     null
+    ],
+    "1056": [
+     "rebels",
+     null
+    ],
+    "1061": [
+     "rebels",
+     "libre"
+    ],
+    "1066": [
+     "rebels",
+     null
+    ],
+    "1071": [
+     "rebels",
+     null
+    ],
+    "1076": [
+     "rebels",
+     "libre"
+    ],
+    "1081": [
+     "rebels",
+     "libre"
+    ],
+    "1086": [
+     "rebels",
+     "libre"
+    ],
+    "1091": [
+     "rebels",
+     null
+    ],
+    "1096": [
+     "rebels",
+     "libre"
+    ],
+    "1101": [
+     "rebels",
+     "libre"
+    ],
+    "1106": [
+     "rebels",
+     null
+    ],
+    "1111": [
+     "rebels",
+     null
+    ],
+    "1116": [
+     "rebels",
+     null
+    ],
+    "1121": [
+     "rebels",
+     "libre"
+    ],
+    "1126": [
+     "rebels",
+     "libre"
+    ],
+    "1131": [
+     "rebels",
+     "libre"
+    ],
+    "1136": [
+     "rebels",
+     null
+    ],
+    "1141": [
+     "rebels",
+     "libre"
+    ],
+    "1146": [
+     "rebels",
+     null
+    ],
+    "1151": [
+     "rebels",
+     "libre"
+    ],
+    "1156": [
+     "rebels",
+     "libre"
+    ],
+    "1161": [
+     "rebels",
+     "libre"
+    ],
+    "1166": [
+     "rebels",
+     null
+    ],
+    "1171": [
+     "rebels",
+     "libre"
+    ],
+    "1176": [
+     "rebels",
+     "libre"
+    ],
+    "1181": [
+     "rebels",
+     "libre"
+    ],
+    "1186": [
+     "rebels",
+     "libre"
+    ],
+    "1191": [
+     "rebels",
+     "libre"
+    ],
+    "1196": [
+     "rebels",
+     "libre"
+    ],
+    "1201": [
+     "rebels",
+     "libre"
+    ],
+    "1206": [
+     "rebels",
+     "libre"
+    ],
+    "1211": [
+     "rebels",
+     null
+    ],
+    "1216": [
+     "rebels",
+     "libre"
+    ],
+    "1221": [
+     "rebels",
+     "libre"
+    ],
+    "1226": [
+     "rebels",
+     "libre"
+    ],
+    "1231": [
+     "rebels",
+     "libre"
+    ],
+    "1236": [
+     "rebels",
+     null
+    ],
+    "1241": [
+     "rebels",
+     "libre"
+    ],
+    "1246": [
+     "rebels",
+     "libre"
+    ],
+    "1251": [
+     "libre",
+     "libre"
+    ],
+    "1256": [
+     "libre",
+     "libre"
+    ],
+    "1261": [
+     null,
+     "libre"
+    ],
+    "1266": [
+     null,
+     "libre"
+    ],
+    "1271": [
+     null,
+     null
+    ],
+    "1276": [
+     "alliance",
+     null
+    ],
+    "1281": [
+     "alliance",
+     null
+    ],
+    "1286": [
+     "alliance",
+     null
+    ],
+    "1291": [
+     "alliance",
+     null
+    ],
+    "1296": [
+     "alliance",
+     "rebels"
+    ],
+    "1301": [
+     "alliance",
+     "rebels"
+    ],
+    "1306": [
+     "alliance",
+     "rebels"
+    ],
+    "1311": [
+     "alliance",
+     "rebels"
+    ],
+    "1316": [
+     "alliance",
+     "rebels"
+    ],
+    "1321": [
+     "alliance",
+     "rebels"
+    ],
+    "1326": [
+     "alliance",
+     "rebels"
+    ],
+    "1331": [
+     "alliance",
+     "rebels"
+    ],
+    "1336": [
+     "alliance",
+     "rebels"
+    ],
+    "1341": [
+     "alliance",
+     "rebels"
+    ],
+    "1346": [
+     "alliance",
+     "rebels"
+    ],
+    "1351": [
+     "alliance",
+     "rebels"
+    ],
+    "1356": [
+     "alliance",
+     "rebels"
+    ],
+    "1361": [
+     "alliance",
+     "rebels"
+    ],
+    "1366": [
+     "alliance",
+     "rebels"
+    ],
+    "1371": [
+     "alliance",
+     "rebels"
+    ],
+    "1376": [
+     "rebels",
+     "rebels"
+    ],
+    "1381": [
+     "rebels",
+     "rebels"
+    ],
+    "1386": [
+     "rebels",
+     "rebels"
+    ],
+    "1391": [
+     "rebels",
+     "rebels"
+    ],
+    "1396": [
+     "rebels",
+     "rebels"
+    ],
+    "1401": [
+     "rebels",
+     "rebels"
+    ],
+    "1406": [
+     "rebels",
+     "rebels"
+    ],
+    "1411": [
+     "rebels",
+     "rebels"
+    ],
+    "1416": [
+     "rebels",
+     "rebels"
+    ],
+    "1421": [
+     "rebels",
+     "rebels"
+    ],
+    "1426": [
+     "rebels",
+     "rebels"
+    ],
+    "1431": [
+     "rebels",
+     "rebels"
+    ],
+    "1436": [
+     "rebels",
+     "rebels"
+    ],
+    "1441": [
+     "rebels",
+     "rebels"
+    ],
+    "1446": [
+     "rebels",
+     "rebels"
+    ],
+    "1451": [
+     "rebels",
+     "rebels"
+    ],
+    "1456": [
+     "rebels",
+     "rebels"
+    ],
+    "1461": [
+     "rebels",
+     "rebels"
+    ],
+    "1466": [
+     "rebels",
+     "rebels"
+    ],
+    "1471": [
+     "rebels",
+     "rebels"
+    ],
+    "1476": [
+     "rebels",
+     "rebels"
+    ],
+    "1481": [
+     "rebels",
+     "rebels"
+    ],
+    "1486": [
+     "rebels",
+     "rebels"
+    ],
+    "1491": [
+     "rebels",
+     "rebels"
+    ],
+    "1496": [
+     "rebels",
+     "rebels"
+    ],
+    "1501": [
+     "rebels",
+     "rebels"
+    ],
+    "1506": [
+     "rebels",
+     "rebels"
+    ],
+    "1511": [
+     "rebels",
+     "rebels"
+    ],
+    "1516": [
+     "rebels",
+     "rebels"
+    ],
+    "1521": [
+     "rebels",
+     "rebels"
+    ],
+    "1526": [
+     "rebels",
+     "rebels"
+    ],
+    "1531": [
+     "rebels",
+     "rebels"
+    ],
+    "1536": [
+     "rebels",
+     "rebels"
+    ],
+    "1541": [
+     "rebels",
+     "rebels"
+    ],
+    "1546": [
+     "rebels",
+     "rebels"
+    ],
+    "1551": [
+     "rebels",
+     "rebels"
+    ],
+    "1556": [
+     "rebels",
+     "rebels"
+    ],
+    "1561": [
+     "rebels",
+     "rebels"
+    ],
+    "1566": [
+     "rebels",
+     "rebels"
+    ],
+    "1571": [
+     "rebels",
+     "rebels"
+    ],
+    "1576": [
+     "rebels",
+     "rebels"
+    ],
+    "1581": [
+     "rebels",
+     "rebels"
+    ],
+    "1586": [
+     "rebels",
+     "rebels"
+    ],
+    "1591": [
+     "rebels",
+     "rebels"
+    ],
+    "1596": [
+     "rebels",
+     "rebels"
+    ],
+    "1601": [
+     "rebels",
+     "rebels"
+    ],
+    "1606": [
+     "rebels",
+     "rebels"
+    ],
+    "1611": [
+     "rebels",
+     "rebels"
+    ],
+    "1616": [
+     "alliance",
+     "rebels"
+    ],
+    "1621": [
+     "alliance",
+     "rebels"
+    ],
+    "1626": [
+     "alliance",
+     "rebels"
+    ],
+    "1631": [
+     "libre",
+     "libre"
+    ],
+    "1636": [
+     "libre",
+     "libre"
+    ],
+    "1641": [
+     "libre",
+     "libre"
+    ],
+    "1646": [
+     "libre",
+     "libre"
+    ],
+    "1651": [
+     "libre",
+     "libre"
+    ],
+    "1656": [
+     "libre",
+     "libre"
+    ],
+    "1661": [
+     "libre",
+     "libre"
+    ],
+    "1666": [
+     "libre",
+     "libre"
+    ],
+    "1671": [
+     "libre",
+     "libre"
+    ],
+    "1676": [
+     "libre",
+     "libre"
+    ],
+    "1681": [
+     "libre",
+     "libre"
+    ],
+    "1686": [
+     "libre",
+     "libre"
+    ],
+    "1691": [
+     "libre",
+     "libre"
+    ],
+    "1696": [
+     "libre",
+     "libre"
+    ],
+    "1701": [
+     "libre",
+     "libre"
+    ],
+    "1706": [
+     "libre",
+     "libre"
+    ],
+    "1711": [
+     "libre",
+     "libre"
+    ],
+    "1716": [
+     "libre",
+     "libre"
+    ],
+    "1721": [
+     "libre",
+     "libre"
+    ],
+    "1726": [
+     "libre",
+     "libre"
+    ]
+   }
   }
  },
  "terrain": {

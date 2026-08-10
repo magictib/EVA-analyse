@@ -64856,119 +64856,38 @@
     1,
     6,
     11,
-    16,
     21,
     26,
     31,
-    36,
-    41,
-    46,
-    51,
-    56,
-    61,
-    66,
-    71,
-    76,
-    81,
-    86,
-    91,
-    96,
     101,
     106,
-    111,
-    116,
-    121,
-    126,
-    131,
-    136,
-    141,
-    146,
-    151,
-    156,
-    161,
-    166,
-    171,
     176,
-    181,
-    186,
-    191,
-    196,
-    201,
     206,
-    211,
-    216,
-    221,
-    226,
     231,
-    236,
-    241,
-    246,
-    251,
-    256,
-    261,
-    266,
-    271,
-    276,
-    281,
-    286,
-    291,
-    296,
     301,
-    306,
-    311,
-    316,
     321,
     326,
     331,
-    336,
-    341,
-    346,
     351,
     356,
     361,
     366,
-    371,
     376,
-    381,
-    386,
-    391,
-    396,
-    401,
-    406,
     411,
-    416,
-    421,
-    426,
     431,
-    436,
-    441,
     446,
     451,
     456,
     461,
-    466,
-    471,
-    476,
-    481,
-    486,
     491,
     496,
-    501,
-    506,
-    511,
     516,
-    521,
     526,
-    531,
     536,
-    541,
     556,
     561,
     566,
     571,
-    576,
-    581,
-    586,
     591,
     596,
     601,
@@ -64977,22 +64896,12 @@
     616,
     621,
     626,
-    631,
-    636,
-    641,
-    646,
-    651,
-    656,
     661,
     666,
-    671,
     676,
     681,
-    686,
     691,
-    696,
     701,
-    706,
     711,
     716,
     721,
@@ -65013,7 +64922,6 @@
     796,
     801,
     806,
-    811,
     816,
     821,
     826,
@@ -65032,61 +64940,28 @@
     891,
     896,
     901,
-    906,
     911,
     916,
     921,
     926,
-    931,
-    936,
-    941,
-    946,
-    951,
-    956,
     961,
     966,
-    971,
     976,
-    981,
-    986,
-    991,
-    996,
-    1001,
-    1006,
-    1011,
     1016,
-    1021,
-    1026,
-    1031,
     1036,
     1041,
-    1046,
-    1051,
     1056,
     1061,
     1066,
     1071,
-    1076,
     1081,
-    1086,
     1091,
     1096,
-    1101,
-    1106,
-    1111,
-    1116,
-    1121,
     1126,
-    1131,
-    1136,
     1141,
-    1146,
     1151,
     1156,
     1161,
-    1166,
-    1171,
-    1176,
     1186,
     1191,
     1196,
@@ -65096,139 +64971,37 @@
     1216,
     1221,
     1226,
-    1246,
-    1251,
-    1256,
-    1261,
-    1266,
     1271,
-    1276,
-    1281,
-    1286,
-    1291,
-    1296,
-    1301,
     1306,
-    1311,
     1316,
-    1331,
-    1336,
-    1341,
-    1346,
-    1351,
-    1356,
-    1361,
-    1366,
-    1371,
-    1376,
-    1381,
-    1386,
-    1391,
-    1396,
-    1401,
-    1406,
-    1411,
-    1416,
-    1421,
-    1426,
-    1431,
-    1436,
     1441,
-    1446,
-    1451,
     1456,
-    1461,
-    1466,
     1471,
-    1476,
-    1481,
-    1486,
-    1491,
-    1496,
     1501,
-    1506,
-    1511,
-    1516,
     1521,
     1546,
     1551,
-    1556,
-    1561,
-    1566,
-    1571,
-    1576,
     1581,
     1586,
-    1591,
-    1596,
     1601,
     1606,
-    1611,
     1616,
     1621,
-    1626,
     1631,
-    1636,
-    1641,
     1646,
     1651,
-    1656,
-    1661,
-    1666,
     1671,
     1676,
     1681,
-    1686,
-    1691,
-    1696,
-    1701,
-    1706,
-    1711,
-    1716,
     1721,
-    1726,
     1741,
-    1746,
     1751,
     1756,
-    1761,
-    1766,
-    1771,
-    1776,
     1781,
-    1786,
-    1791,
-    1796,
-    1801,
-    1806,
-    1811,
-    1816,
-    1821,
-    1826,
-    1831,
-    1836,
     1841,
-    1846,
-    1851,
-    1856,
     1861,
-    1866,
     1871,
-    1876,
-    1881,
-    1886,
-    1891,
-    1896,
-    1901,
-    1906,
-    1911,
-    1916,
-    1921,
-    1926,
-    1931,
-    1936,
-    1941,
-    1946
+    1926
    ],
    "alliance": [
     0,
@@ -65236,105 +65009,27 @@
     0,
     null,
     null,
-    null,
-    0,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    0,
-    0,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    0,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    0,
-    null,
-    null,
-    null,
-    null,
-    0,
-    0,
-    null,
-    null,
-    null,
-    0,
     0,
     0,
     0,
     null,
     0,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
     0,
-    null,
-    null,
-    null,
-    0,
-    null,
     null,
     0,
     0,
     0,
     0,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
     null,
     null,
     null,
@@ -65344,9 +65039,6 @@
     0,
     0,
     1,
-    null,
-    null,
-    null,
     null,
     1,
     1,
@@ -65355,22 +65047,10 @@
     5,
     7,
     7,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     11,
     null,
     null,
-    null,
     11,
-    null,
-    15,
-    null,
-    15,
-    null,
     15,
     15,
     15,
@@ -65391,7 +65071,6 @@
     15,
     15,
     15,
-    null,
     15,
     15,
     15,
@@ -65410,7 +65089,8 @@
     15,
     15,
     15,
-    null,
+    15,
+    15,
     17,
     17,
     18,
@@ -65419,52 +65099,20 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     31,
     31,
-    null,
-    null,
     33,
     null,
     34,
     35,
-    null,
     35,
-    null,
     37,
     38,
-    null,
-    null,
-    null,
-    null,
-    null,
     41,
-    null,
-    null,
-    43,
-    null,
     43,
     43,
     43,
-    null,
-    null,
-    null,
+    43,
     44,
     44,
     44,
@@ -65474,50 +65122,7 @@
     44,
     44,
     44,
-    null,
-    null,
-    null,
-    null,
-    null,
     45,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     null,
     null,
     null,
@@ -65525,29 +65130,15 @@
     null,
     48,
     null,
-    null,
-    null,
-    null,
     49,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
     51,
     51,
     null,
-    null,
-    null,
     51,
-    null,
     55,
     55,
-    null,
     57,
-    null,
-    null,
     58,
     59,
     null,
@@ -65555,123 +65146,26 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     85,
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     85,
-    null,
     88,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     null
    ],
    "rebels": [
     0,
     0,
     0,
-    null,
     0,
     0,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     null,
     null,
     null,
     1,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     7,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     null,
     17,
     null,
@@ -65687,44 +65181,15 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     37,
     37,
-    null,
-    null,
-    null,
     38,
-    null,
-    41,
-    null,
-    41,
-    null,
     41,
     41,
     41,
     41,
-    null,
-    null,
-    null,
+    41,
+    41,
     41,
     41,
     null,
@@ -65733,20 +65198,10 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     41,
     41,
-    null,
     41,
     41,
-    null,
-    null,
-    null,
     null,
     null,
     null,
@@ -65771,7 +65226,6 @@
     53,
     null,
     null,
-    null,
     54,
     null,
     55,
@@ -65788,34 +65242,14 @@
     null,
     null,
     null,
-    null,
     58,
     58,
     58,
     58,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     58,
     58,
-    null,
     58,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     58,
-    null,
-    null,
-    null,
-    null,
-    null,
     null,
     null,
     null,
@@ -65840,109 +65274,14 @@
     null,
     null,
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     58,
-    null,
     58,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     70,
-    null,
-    null,
     71,
-    null,
-    null,
     73,
-    null,
-    null,
-    null,
-    null,
-    null,
-    77,
-    null,
-    null,
-    null,
     77,
     77,
     77,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    77,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    77,
-    null,
-    null,
-    null,
-    77,
-    77,
-    77,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    77,
-    null,
     77,
     null,
     null,
@@ -65951,21 +65290,22 @@
     null,
     null,
     null,
+    null,
+    77,
+    77,
+    77,
+    77,
+    77,
+    77,
+    null,
+    77,
     80,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
     87,
     null,
     null,
+    87
+   ],
+   "pts_alliance": [
     null,
     null,
     null,
@@ -65980,770 +65320,295 @@
     null,
     null,
     null,
-    87,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
     null,
     null,
     null,
     null
    ],
-   "pts_alliance": [
-    null,
-    null,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    null,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    null,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
-   ],
    "pts_rebels": [
     null,
     null,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
     null,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
     null,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
    ],
-   "points": 1,
-   "accord_points": 0.818
+   "points": null,
+   "accord_points": 0.716
   },
   "croix_ciblees": [
    {
@@ -77124,6 +75989,1245 @@
    "lues": 33,
    "conformes": 25,
    "part": 0.76
+  },
+  "points_hud": {
+   "carte": "Polaris",
+   "centres": [
+    [
+     956,
+     175
+    ]
+   ],
+   "pas": 5,
+   "etats": {
+    "1": [
+     "libre"
+    ],
+    "6": [
+     "libre"
+    ],
+    "11": [
+     "libre"
+    ],
+    "16": [
+     "libre"
+    ],
+    "21": [
+     "libre"
+    ],
+    "26": [
+     "libre"
+    ],
+    "31": [
+     "libre"
+    ],
+    "36": [
+     "libre"
+    ],
+    "41": [
+     "libre"
+    ],
+    "46": [
+     "libre"
+    ],
+    "51": [
+     "libre"
+    ],
+    "56": [
+     "libre"
+    ],
+    "61": [
+     "libre"
+    ],
+    "66": [
+     "libre"
+    ],
+    "71": [
+     "libre"
+    ],
+    "76": [
+     "libre"
+    ],
+    "81": [
+     "libre"
+    ],
+    "86": [
+     "libre"
+    ],
+    "91": [
+     "libre"
+    ],
+    "96": [
+     "libre"
+    ],
+    "101": [
+     "libre"
+    ],
+    "106": [
+     "libre"
+    ],
+    "111": [
+     "libre"
+    ],
+    "116": [
+     "libre"
+    ],
+    "121": [
+     "libre"
+    ],
+    "126": [
+     "libre"
+    ],
+    "131": [
+     "libre"
+    ],
+    "136": [
+     "libre"
+    ],
+    "141": [
+     "libre"
+    ],
+    "146": [
+     "libre"
+    ],
+    "151": [
+     null
+    ],
+    "156": [
+     null
+    ],
+    "161": [
+     "rebels"
+    ],
+    "166": [
+     "rebels"
+    ],
+    "171": [
+     "rebels"
+    ],
+    "176": [
+     "rebels"
+    ],
+    "181": [
+     "rebels"
+    ],
+    "186": [
+     "rebels"
+    ],
+    "191": [
+     "rebels"
+    ],
+    "196": [
+     "rebels"
+    ],
+    "201": [
+     "rebels"
+    ],
+    "206": [
+     "rebels"
+    ],
+    "211": [
+     "rebels"
+    ],
+    "216": [
+     "rebels"
+    ],
+    "221": [
+     "rebels"
+    ],
+    "226": [
+     "rebels"
+    ],
+    "231": [
+     "rebels"
+    ],
+    "236": [
+     "rebels"
+    ],
+    "241": [
+     "rebels"
+    ],
+    "246": [
+     "rebels"
+    ],
+    "251": [
+     "rebels"
+    ],
+    "256": [
+     "rebels"
+    ],
+    "261": [
+     "rebels"
+    ],
+    "266": [
+     "rebels"
+    ],
+    "271": [
+     "rebels"
+    ],
+    "276": [
+     "rebels"
+    ],
+    "281": [
+     "rebels"
+    ],
+    "286": [
+     "rebels"
+    ],
+    "291": [
+     "rebels"
+    ],
+    "296": [
+     "rebels"
+    ],
+    "301": [
+     "rebels"
+    ],
+    "306": [
+     "rebels"
+    ],
+    "311": [
+     "rebels"
+    ],
+    "316": [
+     "rebels"
+    ],
+    "321": [
+     "rebels"
+    ],
+    "326": [
+     "rebels"
+    ],
+    "331": [
+     "rebels"
+    ],
+    "336": [
+     "rebels"
+    ],
+    "341": [
+     "rebels"
+    ],
+    "346": [
+     "rebels"
+    ],
+    "351": [
+     "rebels"
+    ],
+    "356": [
+     "rebels"
+    ],
+    "361": [
+     "rebels"
+    ],
+    "366": [
+     "rebels"
+    ],
+    "371": [
+     "rebels"
+    ],
+    "376": [
+     "rebels"
+    ],
+    "381": [
+     "rebels"
+    ],
+    "386": [
+     "rebels"
+    ],
+    "391": [
+     "rebels"
+    ],
+    "396": [
+     "rebels"
+    ],
+    "401": [
+     "rebels"
+    ],
+    "406": [
+     "rebels"
+    ],
+    "411": [
+     "rebels"
+    ],
+    "416": [
+     "rebels"
+    ],
+    "421": [
+     "rebels"
+    ],
+    "426": [
+     "rebels"
+    ],
+    "431": [
+     "rebels"
+    ],
+    "436": [
+     "rebels"
+    ],
+    "441": [
+     "rebels"
+    ],
+    "446": [
+     "rebels"
+    ],
+    "451": [
+     "rebels"
+    ],
+    "456": [
+     "rebels"
+    ],
+    "461": [
+     "rebels"
+    ],
+    "466": [
+     "rebels"
+    ],
+    "471": [
+     "rebels"
+    ],
+    "476": [
+     "rebels"
+    ],
+    "481": [
+     "rebels"
+    ],
+    "486": [
+     "rebels"
+    ],
+    "491": [
+     "rebels"
+    ],
+    "496": [
+     "rebels"
+    ],
+    "501": [
+     "rebels"
+    ],
+    "506": [
+     "rebels"
+    ],
+    "511": [
+     "rebels"
+    ],
+    "516": [
+     "rebels"
+    ],
+    "521": [
+     "rebels"
+    ],
+    "526": [
+     "rebels"
+    ],
+    "531": [
+     "rebels"
+    ],
+    "536": [
+     "rebels"
+    ],
+    "541": [
+     "rebels"
+    ],
+    "546": [
+     "alliance"
+    ],
+    "551": [
+     "alliance"
+    ],
+    "556": [
+     "alliance"
+    ],
+    "561": [
+     "alliance"
+    ],
+    "566": [
+     "alliance"
+    ],
+    "571": [
+     "alliance"
+    ],
+    "576": [
+     "alliance"
+    ],
+    "581": [
+     "alliance"
+    ],
+    "586": [
+     "alliance"
+    ],
+    "591": [
+     "alliance"
+    ],
+    "596": [
+     "alliance"
+    ],
+    "601": [
+     "alliance"
+    ],
+    "606": [
+     "alliance"
+    ],
+    "611": [
+     "alliance"
+    ],
+    "616": [
+     "alliance"
+    ],
+    "621": [
+     "alliance"
+    ],
+    "626": [
+     "alliance"
+    ],
+    "631": [
+     "alliance"
+    ],
+    "636": [
+     "alliance"
+    ],
+    "641": [
+     "alliance"
+    ],
+    "646": [
+     "alliance"
+    ],
+    "651": [
+     "alliance"
+    ],
+    "656": [
+     "alliance"
+    ],
+    "661": [
+     "alliance"
+    ],
+    "666": [
+     "alliance"
+    ],
+    "671": [
+     "alliance"
+    ],
+    "676": [
+     "alliance"
+    ],
+    "681": [
+     "alliance"
+    ],
+    "686": [
+     "alliance"
+    ],
+    "691": [
+     "alliance"
+    ],
+    "696": [
+     "alliance"
+    ],
+    "701": [
+     "alliance"
+    ],
+    "706": [
+     "rebels"
+    ],
+    "711": [
+     "rebels"
+    ],
+    "716": [
+     "rebels"
+    ],
+    "721": [
+     "rebels"
+    ],
+    "726": [
+     "rebels"
+    ],
+    "731": [
+     "rebels"
+    ],
+    "736": [
+     "rebels"
+    ],
+    "741": [
+     "rebels"
+    ],
+    "746": [
+     "rebels"
+    ],
+    "751": [
+     "rebels"
+    ],
+    "756": [
+     "rebels"
+    ],
+    "761": [
+     "rebels"
+    ],
+    "766": [
+     "rebels"
+    ],
+    "771": [
+     "rebels"
+    ],
+    "776": [
+     "rebels"
+    ],
+    "781": [
+     "rebels"
+    ],
+    "786": [
+     "rebels"
+    ],
+    "791": [
+     "rebels"
+    ],
+    "796": [
+     "rebels"
+    ],
+    "801": [
+     "rebels"
+    ],
+    "806": [
+     "rebels"
+    ],
+    "811": [
+     "rebels"
+    ],
+    "816": [
+     "rebels"
+    ],
+    "821": [
+     "rebels"
+    ],
+    "826": [
+     "rebels"
+    ],
+    "831": [
+     "rebels"
+    ],
+    "836": [
+     "rebels"
+    ],
+    "841": [
+     "rebels"
+    ],
+    "846": [
+     "rebels"
+    ],
+    "851": [
+     "rebels"
+    ],
+    "856": [
+     "rebels"
+    ],
+    "861": [
+     "rebels"
+    ],
+    "866": [
+     "rebels"
+    ],
+    "871": [
+     "rebels"
+    ],
+    "876": [
+     "rebels"
+    ],
+    "881": [
+     "alliance"
+    ],
+    "886": [
+     "alliance"
+    ],
+    "891": [
+     "alliance"
+    ],
+    "896": [
+     "alliance"
+    ],
+    "901": [
+     "alliance"
+    ],
+    "906": [
+     "alliance"
+    ],
+    "911": [
+     "alliance"
+    ],
+    "916": [
+     "alliance"
+    ],
+    "921": [
+     "alliance"
+    ],
+    "926": [
+     "alliance"
+    ],
+    "931": [
+     "alliance"
+    ],
+    "936": [
+     "alliance"
+    ],
+    "941": [
+     "alliance"
+    ],
+    "946": [
+     "alliance"
+    ],
+    "951": [
+     "alliance"
+    ],
+    "956": [
+     "alliance"
+    ],
+    "961": [
+     "alliance"
+    ],
+    "966": [
+     "alliance"
+    ],
+    "971": [
+     "alliance"
+    ],
+    "976": [
+     "alliance"
+    ],
+    "981": [
+     "alliance"
+    ],
+    "986": [
+     "alliance"
+    ],
+    "991": [
+     "alliance"
+    ],
+    "996": [
+     "alliance"
+    ],
+    "1001": [
+     "alliance"
+    ],
+    "1006": [
+     "alliance"
+    ],
+    "1011": [
+     "alliance"
+    ],
+    "1016": [
+     "alliance"
+    ],
+    "1021": [
+     "alliance"
+    ],
+    "1026": [
+     "alliance"
+    ],
+    "1031": [
+     "alliance"
+    ],
+    "1036": [
+     "alliance"
+    ],
+    "1041": [
+     "alliance"
+    ],
+    "1046": [
+     "alliance"
+    ],
+    "1051": [
+     "alliance"
+    ],
+    "1056": [
+     "alliance"
+    ],
+    "1061": [
+     "alliance"
+    ],
+    "1066": [
+     "alliance"
+    ],
+    "1071": [
+     "alliance"
+    ],
+    "1076": [
+     "alliance"
+    ],
+    "1081": [
+     "alliance"
+    ],
+    "1086": [
+     "alliance"
+    ],
+    "1091": [
+     "alliance"
+    ],
+    "1096": [
+     "alliance"
+    ],
+    "1101": [
+     "alliance"
+    ],
+    "1106": [
+     "alliance"
+    ],
+    "1111": [
+     "alliance"
+    ],
+    "1116": [
+     "alliance"
+    ],
+    "1121": [
+     "alliance"
+    ],
+    "1126": [
+     "alliance"
+    ],
+    "1131": [
+     "alliance"
+    ],
+    "1136": [
+     "alliance"
+    ],
+    "1141": [
+     "alliance"
+    ],
+    "1146": [
+     "alliance"
+    ],
+    "1151": [
+     "alliance"
+    ],
+    "1156": [
+     "alliance"
+    ],
+    "1161": [
+     "alliance"
+    ],
+    "1166": [
+     "alliance"
+    ],
+    "1171": [
+     "alliance"
+    ],
+    "1176": [
+     "alliance"
+    ],
+    "1181": [
+     "alliance"
+    ],
+    "1186": [
+     "alliance"
+    ],
+    "1191": [
+     "alliance"
+    ],
+    "1196": [
+     "rebels"
+    ],
+    "1201": [
+     "rebels"
+    ],
+    "1206": [
+     "rebels"
+    ],
+    "1211": [
+     "rebels"
+    ],
+    "1216": [
+     "rebels"
+    ],
+    "1221": [
+     "rebels"
+    ],
+    "1226": [
+     "rebels"
+    ],
+    "1231": [
+     "rebels"
+    ],
+    "1236": [
+     "alliance"
+    ],
+    "1241": [
+     "alliance"
+    ],
+    "1246": [
+     "alliance"
+    ],
+    "1251": [
+     "alliance"
+    ],
+    "1256": [
+     "alliance"
+    ],
+    "1261": [
+     "alliance"
+    ],
+    "1266": [
+     "alliance"
+    ],
+    "1271": [
+     "alliance"
+    ],
+    "1276": [
+     "alliance"
+    ],
+    "1281": [
+     "alliance"
+    ],
+    "1286": [
+     "alliance"
+    ],
+    "1291": [
+     "alliance"
+    ],
+    "1296": [
+     "alliance"
+    ],
+    "1301": [
+     "alliance"
+    ],
+    "1306": [
+     "alliance"
+    ],
+    "1311": [
+     "alliance"
+    ],
+    "1316": [
+     "alliance"
+    ],
+    "1321": [
+     "alliance"
+    ],
+    "1326": [
+     "rebels"
+    ],
+    "1331": [
+     "rebels"
+    ],
+    "1336": [
+     "rebels"
+    ],
+    "1341": [
+     "rebels"
+    ],
+    "1346": [
+     "rebels"
+    ],
+    "1351": [
+     "rebels"
+    ],
+    "1356": [
+     "rebels"
+    ],
+    "1361": [
+     "rebels"
+    ],
+    "1366": [
+     "rebels"
+    ],
+    "1371": [
+     "rebels"
+    ],
+    "1376": [
+     "rebels"
+    ],
+    "1381": [
+     "rebels"
+    ],
+    "1386": [
+     "rebels"
+    ],
+    "1391": [
+     "rebels"
+    ],
+    "1396": [
+     "rebels"
+    ],
+    "1401": [
+     "rebels"
+    ],
+    "1406": [
+     "rebels"
+    ],
+    "1411": [
+     "rebels"
+    ],
+    "1416": [
+     "rebels"
+    ],
+    "1421": [
+     "rebels"
+    ],
+    "1426": [
+     "rebels"
+    ],
+    "1431": [
+     "rebels"
+    ],
+    "1436": [
+     "rebels"
+    ],
+    "1441": [
+     "rebels"
+    ],
+    "1446": [
+     "rebels"
+    ],
+    "1451": [
+     "rebels"
+    ],
+    "1456": [
+     "rebels"
+    ],
+    "1461": [
+     "rebels"
+    ],
+    "1466": [
+     "rebels"
+    ],
+    "1471": [
+     "rebels"
+    ],
+    "1476": [
+     "rebels"
+    ],
+    "1481": [
+     "rebels"
+    ],
+    "1486": [
+     "rebels"
+    ],
+    "1491": [
+     "rebels"
+    ],
+    "1496": [
+     "rebels"
+    ],
+    "1501": [
+     "rebels"
+    ],
+    "1506": [
+     "rebels"
+    ],
+    "1511": [
+     "rebels"
+    ],
+    "1516": [
+     "rebels"
+    ],
+    "1521": [
+     "rebels"
+    ],
+    "1526": [
+     "rebels"
+    ],
+    "1531": [
+     "rebels"
+    ],
+    "1536": [
+     "alliance"
+    ],
+    "1541": [
+     "alliance"
+    ],
+    "1546": [
+     "alliance"
+    ],
+    "1551": [
+     "alliance"
+    ],
+    "1556": [
+     "alliance"
+    ],
+    "1561": [
+     "alliance"
+    ],
+    "1566": [
+     "alliance"
+    ],
+    "1571": [
+     "alliance"
+    ],
+    "1576": [
+     "alliance"
+    ],
+    "1581": [
+     "alliance"
+    ],
+    "1586": [
+     "alliance"
+    ],
+    "1591": [
+     "alliance"
+    ],
+    "1596": [
+     "alliance"
+    ],
+    "1601": [
+     "alliance"
+    ],
+    "1606": [
+     "alliance"
+    ],
+    "1611": [
+     "alliance"
+    ],
+    "1616": [
+     "alliance"
+    ],
+    "1621": [
+     "alliance"
+    ],
+    "1626": [
+     "alliance"
+    ],
+    "1631": [
+     "alliance"
+    ],
+    "1636": [
+     "alliance"
+    ],
+    "1641": [
+     "alliance"
+    ],
+    "1646": [
+     "alliance"
+    ],
+    "1651": [
+     "alliance"
+    ],
+    "1656": [
+     "alliance"
+    ],
+    "1661": [
+     "alliance"
+    ],
+    "1666": [
+     "alliance"
+    ],
+    "1671": [
+     "alliance"
+    ],
+    "1676": [
+     "alliance"
+    ],
+    "1681": [
+     "alliance"
+    ],
+    "1686": [
+     "alliance"
+    ],
+    "1691": [
+     "alliance"
+    ],
+    "1696": [
+     "alliance"
+    ],
+    "1701": [
+     "alliance"
+    ],
+    "1706": [
+     "alliance"
+    ],
+    "1711": [
+     "alliance"
+    ],
+    "1716": [
+     "alliance"
+    ],
+    "1721": [
+     "alliance"
+    ],
+    "1726": [
+     "alliance"
+    ],
+    "1731": [
+     "alliance"
+    ],
+    "1736": [
+     "alliance"
+    ],
+    "1741": [
+     "rebels"
+    ],
+    "1746": [
+     "rebels"
+    ],
+    "1751": [
+     "rebels"
+    ],
+    "1756": [
+     "rebels"
+    ],
+    "1761": [
+     "rebels"
+    ],
+    "1766": [
+     "rebels"
+    ],
+    "1771": [
+     "rebels"
+    ],
+    "1776": [
+     "rebels"
+    ],
+    "1781": [
+     "rebels"
+    ],
+    "1786": [
+     "rebels"
+    ],
+    "1791": [
+     "rebels"
+    ],
+    "1796": [
+     "rebels"
+    ],
+    "1801": [
+     "rebels"
+    ],
+    "1806": [
+     "rebels"
+    ],
+    "1811": [
+     "rebels"
+    ],
+    "1816": [
+     "rebels"
+    ],
+    "1821": [
+     "rebels"
+    ],
+    "1826": [
+     "rebels"
+    ],
+    "1831": [
+     "rebels"
+    ],
+    "1836": [
+     "rebels"
+    ],
+    "1841": [
+     "rebels"
+    ],
+    "1846": [
+     "rebels"
+    ],
+    "1851": [
+     "rebels"
+    ],
+    "1856": [
+     "rebels"
+    ],
+    "1861": [
+     "rebels"
+    ],
+    "1866": [
+     "rebels"
+    ],
+    "1871": [
+     "rebels"
+    ],
+    "1876": [
+     "rebels"
+    ],
+    "1881": [
+     "rebels"
+    ],
+    "1886": [
+     "rebels"
+    ],
+    "1891": [
+     "rebels"
+    ],
+    "1896": [
+     "rebels"
+    ],
+    "1901": [
+     "rebels"
+    ],
+    "1906": [
+     "rebels"
+    ],
+    "1911": [
+     "rebels"
+    ],
+    "1916": [
+     "rebels"
+    ],
+    "1921": [
+     "rebels"
+    ],
+    "1926": [
+     "rebels"
+    ],
+    "1931": [
+     "rebels"
+    ],
+    "1936": [
+     "rebels"
+    ],
+    "1941": [
+     "rebels"
+    ],
+    "1946": [
+     "rebels"
+    ],
+    "1951": [
+     "libre"
+    ],
+    "1956": [
+     "libre"
+    ],
+    "1961": [
+     "libre"
+    ],
+    "1966": [
+     "libre"
+    ],
+    "1971": [
+     "libre"
+    ],
+    "1976": [
+     "libre"
+    ],
+    "1981": [
+     "libre"
+    ],
+    "1986": [
+     null
+    ],
+    "1991": [
+     null
+    ],
+    "1996": [
+     null
+    ],
+    "2001": [
+     null
+    ],
+    "2006": [
+     null
+    ],
+    "2011": [
+     null
+    ],
+    "2016": [
+     null
+    ],
+    "2021": [
+     null
+    ],
+    "2026": [
+     null
+    ],
+    "2031": [
+     "libre"
+    ],
+    "2036": [
+     "libre"
+    ],
+    "2041": [
+     "libre"
+    ]
+   }
   }
  },
  "terrain": {
