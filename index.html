@@ -410,6 +410,11 @@
   .crstrat select{background:var(--panel-2);color:var(--ink);border:1px solid var(--rule);
     border-radius:4px;padding:4px 7px;font:inherit;font-size:.82rem}
   .crstrat .crres{text-decoration:none;color:var(--ink-faint);font-size:.74rem}
+  .crstrat label.crdepl{display:inline-flex;align-items:center;gap:5px;cursor:pointer}
+  .crstrat label.crdepl input{margin:0;cursor:pointer}
+  /* « ouvertures seules » : on cache les vies suivantes, on ne les redessine pas.
+     `display` plutot que `visibility`, que le curseur de temps pilote deja. */
+  .crwrap.crdep .crsvg path[data-t]:not([data-prem]){display:none}
   .crsvg{width:100%;height:auto;display:block;background:#05070c;
     border:1px solid var(--rule);border-radius:6px}
   .donh,.donr{display:grid;gap:6px;align-items:center;
@@ -7683,13 +7688,24 @@ function crSVG(a, fond, strat){
              pts: t.points.map(p=>[p[0], X(p[1],p[2]), Y(p[1],p[2])])})),
            croix: (sp.croix_ciblees||[]).map((c,i)=>({i, slot:c.slot, img:c.image})),
            deb: sp.partie_debut||0, ps: sp.par_seconde||5, saut, hors};
+  /* LE PREMIER TRAJET DE CHAQUE JOUEUR, c'est l'OUVERTURE — la seule chose qu'une
+     strat de « start » prescrit. Melangee aux dix vies suivantes elle est illisible.
+     On marque donc, par joueur, le trajet qui commence le plus tot. */
+  const premier = new Map();
+  for(const t of CARTE.t){
+    const t0 = t.pts.length ? t.pts[0][0] : Infinity;
+    const d = premier.get(t.slot);
+    if(!d || t0 < d.t0) premier.set(t.slot, {i: t.i, t0});
+  }
+  const estPremier = new Set([...premier.values()].map(v=>v.i));
   const traces = CARTE.t.map(t=>{
     const [dd, dh] = crChemin(t.pts, saut, hors);
-    return `<path data-s="${t.slot}" data-t="${t.i}"
+    const pr = estPremier.has(t.i) ? ' data-prem="1"' : "";
+    return `<path${pr} data-s="${t.slot}" data-t="${t.i}"
       d="${dd}" fill="none" stroke="${coul(t.slot)}"
       stroke-width="${plan?2.6:1.1}" stroke-opacity=".55"
       stroke-linejoin="round" stroke-linecap="round"/>
-    <path data-s="${t.slot}" data-t="${t.i}" data-hors="1"
+    <path${pr} data-s="${t.slot}" data-t="${t.i}" data-hors="1"
       d="${dh}" fill="none" stroke="${coul(t.slot)}"
       stroke-width="${plan?2.6:1.1}" stroke-opacity=".16"
       stroke-dasharray="4 6" stroke-linejoin="round" stroke-linecap="round"/>`;
@@ -7712,17 +7728,50 @@ function crSVG(a, fond, strat){
   /* LA STRAT SE DESSINE DANS SON PROPRE REPERE, sans conversion : c'est celui du
      plan. Elle n'a donc de sens qu'avec le plan pour fond, ce que l'interface
      impose. */
+  /* UNE STRAT N'EST PAS HUIT RONDS. Elle porte quatre couches — `shapes` les zones,
+     `strokes` les traces libres, `labels` les reperes de communication, `players`
+     les postes AVEC leur chemin prevu — et l'on n'en dessinait qu'une : les ronds.
+     Thibaud : « il n'y a pas d'endroit pour afficher les points de strat ». Il y en
+     avait un, il etait presque vide. On reprend ici le vocabulaire exact de l'onglet
+     Cartes, pour qu'une strat se reconnaisse d'une vue a l'autre. */
   let st = "";
   const S = plan && strat && (typeof SCACHE!=="undefined")
         && ((SCACHE[cal.cle]||{})[strat]);
-  if(S && Array.isArray(S.players)){
-    st = S.players.map(p=>`<g opacity=".9">
+  if(S){
+    const g = [];
+    for(const z of (S.shapes||[]))
+      g.push(`<rect x="${fr2(Math.min(z.x,z.x2))}" y="${fr2(Math.min(z.y,z.y2))}"
+        width="${fr2(Math.abs(z.x2-z.x))}" height="${fr2(Math.abs(z.y2-z.y))}"
+        fill="${z.c}" fill-opacity=".13" stroke="${z.c}" stroke-width="2.5"
+        stroke-dasharray="8 5"/>`);
+    for(const s of (S.strokes||[]))
+      g.push(`<path d="M${(s.p||[]).map(q=>fr2(q[0])+","+fr2(q[1])).join("L")}"
+        fill="none" stroke="${s.c}" stroke-width="5" stroke-linecap="round"
+        stroke-linejoin="round" opacity=".85"/>`);
+    for(const p of (S.players||[])){
+      const c = p.team==="o" ? CAMP_ORANGE : CAMP_BLEU;
+      /* le chemin PREVU, en pointillé : c'est lui qu'on compare au trajet reel */
+      if(Array.isArray(p.path) && p.path.length > 1)
+        g.push(`<path d="M${p.path.map(q=>fr2(q[0])+","+fr2(q[1])).join("L")}"
+          fill="none" stroke="${c}" stroke-width="3.5" stroke-dasharray="12 8"
+          opacity=".6" stroke-linecap="round" stroke-linejoin="round"/>`);
+      g.push(`<g opacity=".9">
         <circle cx="${fr2(p.x)}" cy="${fr2(p.y)}" r="15" fill="none"
-          stroke="${p.team==="o"?CAMP_ORANGE:CAMP_BLEU}" stroke-width="3"
-          stroke-dasharray="6 4"/>
+          stroke="${c}" stroke-width="3" stroke-dasharray="6 4"/>
         <text x="${fr2(p.x)}" y="${fr2(p.y)+5}" font-size="16" font-weight="700"
-          text-anchor="middle" fill="${p.team==="o"?CAMP_ORANGE:CAMP_BLEU}"
-          >${p.id||""}</text></g>`).join("");
+          text-anchor="middle" fill="${c}">${p.id||""}</text></g>`);
+    }
+    for(const l of (S.labels||[])){
+      const larg = Math.max(38, String(l.t).length*11 + 18);
+      g.push(`<g opacity=".95">
+        <rect x="${fr2(l.x-larg/2)}" y="${fr2(l.y-15)}" width="${fr2(larg)}" height="30"
+          rx="5" fill="#0B0F14" fill-opacity=".72" stroke="${l.c||"#F5A524"}"
+          stroke-width="2"/>
+        <text x="${fr2(l.x)}" y="${fr2(l.y)+6}" fill="#EAF0F7" font-size="17"
+          font-family="monospace" text-anchor="middle"
+          >${String(l.t).replace(/[<>&]/g,"")}</text></g>`);
+    }
+    st = g.join("");
   }
 
   return `<svg viewBox="0 0 ${L} ${H}" class="crsvg" role="img"
@@ -7808,6 +7857,7 @@ function carteRevue(a){
         <option value="plan">plan à l'échelle</option></select>
       <label>strat</label>
       <select data-crstrat><option value="">aucune</option>${crGroupes(cal.cle, stratsIci)}</select>
+      <label class="crdepl"><input type="checkbox" data-crdep> ouvertures seules</label>
       <s class="crres">calage à ${fr2(cal.residu_m)} m près${
         dehors ? ` · ${(phors*100).toFixed(1)} % du trajet hors zone` : ""}</s></div>` : ""}
     <div class="crtemps"><label>jusqu'à</label>
@@ -7871,6 +7921,13 @@ document.addEventListener("change", ev => {
     if(!c.checked) c.dispatchEvent(new Event("change", {bubbles:true}));
   const r = w.querySelector("[data-crt]");
   if(r && +r.value < +r.max) crCouper(w, +r.value);
+});
+
+/* « Ouvertures seules » NE REDESSINE PAS : elle cache. Les vies suivantes restent
+   dans le DOM, prêtes a revenir, et le curseur de temps continue de les piloter. */
+document.addEventListener("change", ev => {
+  const c = ev.target.closest("[data-crdep]"); if(!c) return;
+  const w = c.closest(".crwrap"); if(w) w.classList.toggle("crdep", c.checked);
 });
 
 /* Derouler la partie : c'est la seule facon de voir une rotation se faire, plutot
