@@ -6924,9 +6924,23 @@ function parAdversaire(){
     o.n++; o.v+=m.res==="V"?1:0;
     const q=maLigne(m); if(q){ o.k+=q.k||0; o.m+=q.m||0; o.a+=q.a||0; }
     /* ek/em couvre tout le camp d'en face, y compris les joueurs sans tag : c'est
-       bien l'equipe entiere qui t'a battu. L'effectif nomme, lui, ne compte que
-       les porteurs du tag — un mercenaire sans tag n'appartient pas a l'equipe. */
-    for(const p of c.adv){ o.ek+=p.k||0; o.em+=p.m||0; if(tagDe(p.n)===tagAdv) o.noms.add(p.n); }
+       bien l'equipe entiere qui t'a battu.
+
+       L'EFFECTIF SE COMPTE PAR EXCLUSION, PAS PAR INCLUSION. La regle d'avant
+       n'ajoutait que les pseudos PORTANT le tag, pour ecarter un mercenaire. Mais
+       quand aucun pseudo ne le porte — le tableau colle sans tag, ce qui est le cas
+       de la seance HWD — l'effectif tombe a ZERO, et le site affiche « 0 joueur
+       vus » sous une equipe rencontree huit fois. Thibaud l'a signale deux fois.
+
+       Le camp adverse, lui, est MESURE : `c.adv` ne contient que des adversaires.
+       On compte donc ceux qui en sont, et l'on n'ecarte que celui qui porte le tag
+       d'une AUTRE equipe — ce qui est exactement le mercenaire que la regle visait,
+       et rien d'autre. */
+    for(const p of c.adv){
+      o.ek+=p.k||0; o.em+=p.m||0;
+      const t=tagDe(p.n);
+      if(!t || t===tagAdv) o.noms.add(p.n);
+    }
     g.set(tagAdv,o);
   }
   return [...g.entries()].sort((a,b)=>b[1].n-a[1].n||a[1].v/a[1].n-b[1].v/b[1].n);
