@@ -6616,8 +6616,38 @@ function parJoueur(){
    la liste des tags reconnus est affichee : une bizarrerie doit se voir plutot que
    de contaminer silencieusement un tableau. */
 const RE_TAG=/^([A-Z0-9]{2,6})x([A-Za-z0-9].*)$/;
-const tagDe  = n => { const g=String(n||"").match(RE_TAG); return g?g[1]:null; };
-const sansTag= n => { const g=String(n||"").match(RE_TAG); return g?g[2]:String(n||""); };
+
+/* DEUX REGLES POUR LA MEME CHOSE, ET ELLES SE CONTREDISAIENT. A la saisie, `sbTag`
+   coupe au premier « x » et rend « HwD » ; a la relecture, la regle ci-dessus exige
+   des MAJUSCULES avant le x et rend `null`. La base porte donc bien `HwD` sur les
+   huit parties du 09/08, et le site n'y voyait aucune equipe : le classement par
+   adversaire s'arretait a FXC, GUN et END. Thibaud l'a vu, et a demande pourquoi les
+   pseudos n'avaient pas ete detectes — ils l'avaient ete, c'est la relecture qui les
+   perdait.
+
+   ON NE RELACHE PAS LA REGLE : sans majuscules exigees, « Maxence » se couperait en
+   « Ma » + « ence », ce que ce fichier signale depuis longtemps. On ajoute un
+   RATTRAPAGE par les tags REELLEMENT VUS dans les matchs — `notre_tag` et
+   `adverse_tag`, que la base range en majuscules. C'est une liste DATEE, tiree des
+   parties elles-memes, pas un repertoire fige : la meme discipline que pour les
+   camps, ou le tag doit etre relu sur la partie et jamais suppose. */
+function tagsConnus(){
+  const s=new Set();
+  for(const m of (typeof MATCHS!=="undefined"?MATCHS:[])){
+    if(m.tagN) s.add(String(m.tagN).toUpperCase());
+    if(m.tagA) s.add(String(m.tagA).toUpperCase());
+  }
+  return s;
+}
+const _coupe = n => { const i=String(n||"").indexOf("x");
+  return i>0 ? [String(n).slice(0,i), String(n).slice(i+1)] : null; };
+const tagDe  = n => { const g=String(n||"").match(RE_TAG); if(g) return g[1];
+  const c=_coupe(n);
+  return c && tagsConnus().has(c[0].toUpperCase()) ? c[0].toUpperCase() : null; };
+const sansTag= n => { const g=String(n||"").match(RE_TAG); if(g) return g[2];
+  const c=_coupe(n);
+  if(c && tagsConnus().has(c[0].toUpperCase())) return c[1];
+  return String(n||""); };
 
 /* ---------- un joueur qui change de pseudo reste le meme joueur ----------
 
