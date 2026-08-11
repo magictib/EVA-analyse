@@ -6829,19 +6829,33 @@ function parCamp(){
 }
 /* Par equipe rencontree. Trie par nombre de rencontres puis par difficulte :
    celles qui te battent le plus remontent, ce sont celles a preparer. */
+/* L'ANALYSE SAIT LE TAG QUAND LE TABLEAU NE LE DIT PAS. `camps` deduit l'equipe
+   adverse du tag majoritaire de ses pseudos ; si le tableau a ete colle avec des
+   pseudos SANS tag, il ne trouve rien et la partie disparait du classement sans
+   un mot — c'est ce qui a fait manquer les huit parties HWD, que Thibaud a vues
+   absentes. Or `publier` inscrit `adverse_tag` dans chaque analyse depuis le
+   10/08. On s'en sert comme filet, en dernier recours. */
+function tagAdverseDeLAnalyse(m){
+  const cle=cleMatch(m);
+  const a=ANALYSES.find(x=>cleAna(x)===cle);
+  return (a && a.partie && a.partie.adverse_tag) || null;
+}
+
 function parAdversaire(){
   const g=new Map();
   for(const m of LOT){
     if(!m.sb) continue;
-    const c=camps(m); if(!c.tagAdv) continue;
-    const o=g.get(c.tagAdv)||{n:0,v:0,k:0,m:0,a:0,ek:0,em:0,noms:new Set()};
+    const c=camps(m);
+    const tagAdv=c.tagAdv || tagAdverseDeLAnalyse(m);
+    if(!tagAdv) continue;
+    const o=g.get(tagAdv)||{n:0,v:0,k:0,m:0,a:0,ek:0,em:0,noms:new Set()};
     o.n++; o.v+=m.res==="V"?1:0;
     const q=maLigne(m); if(q){ o.k+=q.k||0; o.m+=q.m||0; o.a+=q.a||0; }
     /* ek/em couvre tout le camp d'en face, y compris les joueurs sans tag : c'est
        bien l'equipe entiere qui t'a battu. L'effectif nomme, lui, ne compte que
        les porteurs du tag — un mercenaire sans tag n'appartient pas a l'equipe. */
-    for(const p of c.adv){ o.ek+=p.k||0; o.em+=p.m||0; if(tagDe(p.n)===c.tagAdv) o.noms.add(p.n); }
-    g.set(c.tagAdv,o);
+    for(const p of c.adv){ o.ek+=p.k||0; o.em+=p.m||0; if(tagDe(p.n)===tagAdv) o.noms.add(p.n); }
+    g.set(tagAdv,o);
   }
   return [...g.entries()].sort((a,b)=>b[1].n-a[1].n||a[1].v/a[1].n-b[1].v/b[1].n);
 }
