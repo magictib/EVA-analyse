@@ -7787,6 +7787,28 @@ function crSVG(a, fond, strat){
   /* LA STRAT SE DESSINE DANS SON PROPRE REPERE, sans conversion : c'est celui du
      plan. Elle n'a donc de sens qu'avec le plan pour fond, ce que l'interface
      impose. */
+  /* LA STRAT VIENT AU TRAJET, ET NON L'INVERSE. Thibaud : « pour les positions de
+     strat on peut comparer par rapport a la minimap peut-etre ? ». Ce fichier
+     soutenait le contraire — « la superposer a la minimap demanderait de la
+     convertir, donc d'ajouter une erreur » — et l'argument ne tient pas : la
+     conversion a lieu dans les DEUX sens, avec le meme residu. Ce qui change est
+     CE QU'ON CONVERTIT.
+
+       vers le plan     15 000 points de trajet passent par une similitude
+                        imprecise, et les erreurs les jettent hors zone jouable
+       vers la minimap  HUIT postes de strat passent par son inverse ; les
+                        trajets restent exactement la ou ils ont ete mesures
+
+     La comparaison en metres est aussi juste des deux cotes, mais le dessin ne
+     ment plus : rien ne tombe dans le noir a cause du calage. Sur les cartes ou
+     le calage est lache — Silva a 5,68 m — c'est la seule vue lisible. */
+  const versMini = (x, y) => {
+    const dx = x - cal.bx, dy = y - cal.by;
+    return [(dx*co + dy*si)/cal.a, (-dx*si + dy*co)/cal.a];
+  };
+  const SX = plan ? (x=>x) : (x, y) => versMini(x, y)[0];
+  const SY = plan ? ((x,y)=>y) : (x, y) => versMini(x, y)[1];
+
   /* UNE STRAT N'EST PAS HUIT RONDS. Elle porte quatre couches — `shapes` les zones,
      `strokes` les traces libres, `labels` les reperes de communication, `players`
      les postes AVEC leur chemin prevu — et l'on n'en dessinait qu'une : les ronds.
@@ -7794,40 +7816,54 @@ function crSVG(a, fond, strat){
      avait un, il etait presque vide. On reprend ici le vocabulaire exact de l'onglet
      Cartes, pour qu'une strat se reconnaisse d'une vue a l'autre. */
   let st = "";
-  const S = plan && strat && (typeof SCACHE!=="undefined")
+  const S = cal && strat && (typeof SCACHE!=="undefined")
         && ((SCACHE[cal.cle]||{})[strat]);
   if(S){
+    /* LES EPAISSEURS SUIVENT LE REPERE, comme le seuil de coupure. Elles sont
+       ecrites en pixels de PLAN ; sur une minimap de 460 px de large elles
+       couvriraient la carte. On les divise par l'echelle du calage. */
+    const e = plan ? 1 : 1/cal.a;
+    const P = (x, y) => fr2(SX(x, y)) + "," + fr2(SY(x, y));
     const g = [];
-    for(const z of (S.shapes||[]))
-      g.push(`<rect x="${fr2(Math.min(z.x,z.x2))}" y="${fr2(Math.min(z.y,z.y2))}"
-        width="${fr2(Math.abs(z.x2-z.x))}" height="${fr2(Math.abs(z.y2-z.y))}"
-        fill="${z.c}" fill-opacity=".13" stroke="${z.c}" stroke-width="2.5"
-        stroke-dasharray="8 5"/>`);
+    for(const z of (S.shapes||[])){
+      /* une zone reste un RECTANGLE DROIT dans son repere ; sous rotation on la
+         dessine donc comme un quadrilatere, sinon ses coins mentent */
+      const q = [[z.x,z.y],[z.x2,z.y],[z.x2,z.y2],[z.x,z.y2]];
+      g.push(`<polygon points="${q.map(([x,y])=>P(x,y)).join(" ")}"
+        fill="${z.c}" fill-opacity=".13" stroke="${z.c}"
+        stroke-width="${fr2(2.5*e)}" stroke-dasharray="${fr2(8*e)} ${fr2(5*e)}"/>`);
+    }
     for(const s of (S.strokes||[]))
-      g.push(`<path d="M${(s.p||[]).map(q=>fr2(q[0])+","+fr2(q[1])).join("L")}"
-        fill="none" stroke="${s.c}" stroke-width="5" stroke-linecap="round"
+      g.push(`<path d="M${(s.p||[]).map(q=>P(q[0],q[1])).join("L")}"
+        fill="none" stroke="${s.c}" stroke-width="${fr2(5*e)}" stroke-linecap="round"
         stroke-linejoin="round" opacity=".85"/>`);
     for(const p of (S.players||[])){
       const c = p.team==="o" ? CAMP_ORANGE : CAMP_BLEU;
       /* le chemin PREVU, en pointillé : c'est lui qu'on compare au trajet reel */
       if(Array.isArray(p.path) && p.path.length > 1)
-        g.push(`<path d="M${p.path.map(q=>fr2(q[0])+","+fr2(q[1])).join("L")}"
-          fill="none" stroke="${c}" stroke-width="3.5" stroke-dasharray="12 8"
+        g.push(`<path d="M${p.path.map(q=>P(q[0],q[1])).join("L")}"
+          fill="none" stroke="${c}" stroke-width="${fr2(3.5*e)}"
+          stroke-dasharray="${fr2(12*e)} ${fr2(8*e)}"
           opacity=".6" stroke-linecap="round" stroke-linejoin="round"/>`);
       g.push(`<g opacity=".9">
-        <circle cx="${fr2(p.x)}" cy="${fr2(p.y)}" r="15" fill="none"
-          stroke="${c}" stroke-width="3" stroke-dasharray="6 4"/>
-        <text x="${fr2(p.x)}" y="${fr2(p.y)+5}" font-size="16" font-weight="700"
+        <circle cx="${fr2(SX(p.x,p.y))}" cy="${fr2(SY(p.x,p.y))}" r="${fr2(15*e)}"
+          fill="none" stroke="${c}" stroke-width="${fr2(3*e)}"
+          stroke-dasharray="${fr2(6*e)} ${fr2(4*e)}"/>
+        <text x="${fr2(SX(p.x,p.y))}" y="${fr2(SY(p.x,p.y)+5*e)}"
+          font-size="${fr2(16*e)}" font-weight="700"
           text-anchor="middle" fill="${c}">${p.id||""}</text></g>`);
     }
+    /* L'ETIQUETTE NE TOURNE PAS AVEC LA CARTE : un texte incline ne se lit plus.
+       On place son ANCRE dans le bon repere et on la dessine droite. */
     for(const l of (S.labels||[])){
-      const larg = Math.max(38, String(l.t).length*11 + 18);
+      const larg = Math.max(38, String(l.t).length*11 + 18) * e;
+      const lx = SX(l.x, l.y), ly = SY(l.x, l.y);
       g.push(`<g opacity=".95">
-        <rect x="${fr2(l.x-larg/2)}" y="${fr2(l.y-15)}" width="${fr2(larg)}" height="30"
-          rx="5" fill="#0B0F14" fill-opacity=".72" stroke="${l.c||"#F5A524"}"
-          stroke-width="2"/>
-        <text x="${fr2(l.x)}" y="${fr2(l.y)+6}" fill="#EAF0F7" font-size="17"
-          font-family="monospace" text-anchor="middle"
+        <rect x="${fr2(lx-larg/2)}" y="${fr2(ly-15*e)}" width="${fr2(larg)}"
+          height="${fr2(30*e)}" rx="${fr2(5*e)}" fill="#0B0F14" fill-opacity=".72"
+          stroke="${l.c||"#F5A524"}" stroke-width="${fr2(2*e)}"/>
+        <text x="${fr2(lx)}" y="${fr2(ly+6*e)}" fill="#EAF0F7"
+          font-size="${fr2(17*e)}" font-family="monospace" text-anchor="middle"
           >${String(l.t).replace(/[<>&]/g,"")}</text></g>`);
     }
     st = g.join("");
@@ -7927,8 +7963,9 @@ function carteRevue(a){
     <p class="note">Le trait fin est un <b>trajet</b>, le X une <b>mort</b> — même
       couleur pour le même joueur, celle de son camp. ${ntr} trajets et ${nb} morts
       situées ici. Les cercles pointillés sont les zones de réapparition.
-      ${Object.keys(stratsIci).length ? `La strat se superpose sur le
-        <b>plan à l'échelle</b>, qui est son repère.` : ""}
+      ${Object.keys(stratsIci).length ? `La strat se superpose sur <b>les deux
+        fonds</b> : sur la minimap, ce sont ses huit postes qui sont convertis, et
+        les trajets restent là où ils ont été mesurés.` : ""}
       ${dehors ? `Sur le plan, ce qui tombe <b>hors de la zone jouable</b> est tracé
         en pointillé pâle : c'est un suivi douteux, à ne pas comparer à une strat.` : ""}</p>
   </div>`;
