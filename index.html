@@ -6675,10 +6675,18 @@ const RE_TAG=/^([A-Z0-9]{2,6})x([A-Za-z0-9].*)$/;
    camps, ou le tag doit etre relu sur la partie et jamais suppose. */
 function tagsConnus(){
   const s=new Set();
-  for(const m of (typeof MATCHS!=="undefined"?MATCHS:[])){
-    if(m.tagN) s.add(String(m.tagN).toUpperCase());
-    if(m.tagA) s.add(String(m.tagA).toUpperCase());
-  }
+  /* `typeof` NE PROTEGE PAS D'UN `let` NON ENCORE INITIALISE, contrairement a ce
+     qu'on croit : sur une declaration `let`, `typeof MATCHS` LEVE une ReferenceError
+     tant qu'on est avant sa ligne — c'est la zone morte temporelle. Or `tagDe` est
+     appele des le depouillement des parties collees, donc parfois avant. Le garde-fou
+     que je croyais poser jetait donc l'exception qu'il devait eviter, et l'equipe
+     entiere disparaissait du classement. Seul un try/catch protege ici. */
+  try{
+    for(const m of MATCHS){
+      if(m.tagN) s.add(String(m.tagN).toUpperCase());
+      if(m.tagA) s.add(String(m.tagA).toUpperCase());
+    }
+  }catch(e){}
   return s;
 }
 const _coupe = n => { const i=String(n||"").indexOf("x");
