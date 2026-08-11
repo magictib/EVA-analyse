@@ -412,9 +412,10 @@
   .crstrat .crres{text-decoration:none;color:var(--ink-faint);font-size:.74rem}
   .crstrat label.crdepl{display:inline-flex;align-items:center;gap:5px;cursor:pointer}
   .crstrat label.crdepl input{margin:0;cursor:pointer}
-  /* « ouvertures seules » : on cache les vies suivantes, on ne les redessine pas.
+  /* « ouverture » : seuls NOS joueurs, et seule la mort qui borne leur trajet.
      `display` plutot que `visibility`, que le curseur de temps pilote deja. */
-  .crwrap.crdep .crsvg path[data-t]:not([data-prem]){display:none}
+  .crwrap.crdep .crsvg path[data-t]:not([data-nous]),
+  .crwrap.crdep .crsvg g[data-x]:not([data-nous]){display:none}
   .crsvg{width:100%;height:auto;display:block;background:#05070c;
     border:1px solid var(--rule);border-radius:6px}
   .donh,.donr{display:grid;gap:6px;align-items:center;
@@ -7747,19 +7748,27 @@ function crSVG(a, fond, strat){
            croix: (sp.croix_ciblees||[]).map((c,i)=>({i, slot:c.slot, img:c.image})),
            deb: sp.partie_debut||0, ps: sp.par_seconde||5, saut, hors,
            cle: plan ? cal.cle : null};
-  /* LE PREMIER TRAJET DE CHAQUE JOUEUR, c'est l'OUVERTURE — la seule chose qu'une
-     strat de « start » prescrit. Melangee aux dix vies suivantes elle est illisible.
-     On marque donc, par joueur, le trajet qui commence le plus tot. */
-  const premier = new Map();
-  for(const t of CARTE.t){
-    const t0 = t.pts.length ? t.pts[0][0] : Infinity;
-    const d = premier.get(t.slot);
-    if(!d || t0 < d.t0) premier.set(t.slot, {i: t.i, t0});
+  /* L'OUVERTURE VA DU DEBUT A LA PREMIERE MORT, ET RIEN D'AUTRE. Thibaud :
+     « il faut juste afficher le trajet de chaque joueur de notre equipe jusqu'a la
+     premiere mort ».
+
+     MA PREMIERE VERSION PRENAIT LE PREMIER TRAJET, ce qui n'est pas la meme chose et
+     ne voulait rien dire : un `trajet` est un troncon de SUIVI, coupe des que le
+     marqueur est perdu de vue. Le premier peut durer deux secondes. D'ou « l'ouverture
+     est mauvaise ». La borne juste est la premiere CROIX du joueur — sa mort —, qui
+     est mesuree et datee.
+
+     Un joueur qui ne meurt jamais garde tout son trajet : c'est encore son ouverture. */
+  const mort1 = {};
+  for(const c of (sp.croix_ciblees||[])){
+    if(c.slot == null || c.image == null) continue;
+    if(mort1[c.slot] == null || c.image < mort1[c.slot]) mort1[c.slot] = c.image;
   }
-  const estPremier = new Set([...premier.values()].map(v=>v.i));
+  CARTE.mort1 = mort1;
+  CARTE.nous = [...nous];
   const traces = CARTE.t.map(t=>{
     const [dd, dh] = crChemin(t.pts, saut, hors);
-    const pr = estPremier.has(t.i) ? ' data-prem="1"' : "";
+    const pr = nous.has(t.slot) ? ' data-nous="1"' : "";
     return `<path${pr} data-s="${t.slot}" data-t="${t.i}"
       d="${dd}" fill="none" stroke="${coul(t.slot)}"
       stroke-width="${plan?2.6:1.1}" stroke-opacity=".55"
@@ -7773,10 +7782,43 @@ function crSVG(a, fond, strat){
   const r = plan ? 9 : 3.4;
   const croix = (sp.croix_ciblees||[]).map((c,i)=>{
     const x=fr2(X(c.x,c.y)), y=fr2(Y(c.x,c.y));
-    return `<g data-s="${c.slot}" data-x="${i}" stroke="${coul(c.slot)}"
+    /* en mode ouverture on ne garde que LA mort qui borne le trajet */
+    const pr = (nous.has(c.slot) && c.image === mort1[c.slot]) ? ' data-nous="1"' : "";
+    return `<g${pr} data-s="${c.slot}" data-x="${i}" stroke="${coul(c.slot)}"
         stroke-width="${plan?4:1.8}" stroke-opacity=".95" stroke-linecap="round">
       <line x1="${fr2(x-r)}" y1="${fr2(y-r)}" x2="${fr2(x+r)}" y2="${fr2(y+r)}"/>
       <line x1="${fr2(x-r)}" y1="${fr2(y+r)}" x2="${fr2(x+r)}" y2="${fr2(y-r)}"/></g>`;
+  }).join("");
+
+  /* OU PASSE-T-ON LE PLUS DE TEMPS. Thibaud : « afficher les endroits ou l'on passe
+     le plus de temps sur la carte pour voir si cela correspond a une strat ».
+
+     UN RELEVE = UN INSTANT DE PRESENCE, et rien de plus. Les positions sont prises a
+     cadence constante, donc COMPTER les releves dans une case compte du temps — pas
+     besoin d'integrer quoi que ce soit. On ne lisse pas non plus : un flou ferait
+     deborder la presence sur des murs ou personne n'est jamais alle.
+
+     L'ECHELLE EST LA RACINE, pas le compte brut. Les spawns et les points de capture
+     ecrasent tout le reste — un joueur y stationne des minutes — et une echelle
+     lineaire rendrait la carte noire avec trois taches. La racine garde l'ordre tout
+     en laissant voir les couloirs. */
+  const CASE = plan ? 26 : 8;
+  const grille = new Map();
+  let pic = 0;
+  for(const t of CARTE.t){
+    for(const p of t.pts){
+      const k = ((p[1]/CASE)|0) + "," + ((p[2]/CASE)|0);
+      const n = (grille.get(k) || 0) + 1;
+      grille.set(k, n);
+      if(n > pic) pic = n;
+    }
+  }
+  const chaleur = pic < 3 ? "" : [...grille].map(([k, n])=>{
+    if(n < 2) return "";
+    const [i, j] = k.split(",");
+    const o = Math.sqrt(n / pic);
+    return `<rect x="${i*CASE}" y="${j*CASE}" width="${CASE}" height="${CASE}"
+      fill="#ff8a2b" fill-opacity="${fr2(Math.min(.72, o*.72))}"/>`;
   }).join("");
 
   const dep = Object.entries(sp.spawns||{}).map(([tag,p])=>Array.isArray(p)
@@ -7823,7 +7865,20 @@ function crSVG(a, fond, strat){
        ecrites en pixels de PLAN ; sur une minimap de 460 px de large elles
        couvriraient la carte. On les divise par l'echelle du calage. */
     const e = plan ? 1 : 1/cal.a;
-    const P = (x, y) => fr2(SX(x, y)) + "," + fr2(SY(x, y));
+    /* LA STRAT SE RETOURNE SELON LE CAMP QU'ON JOUE. Thibaud : « il faut adapter la
+       strat par rapport a la couleur que nous jouons pour que cela puisse se
+       comparer ». Une strat est dessinee depuis UN spawn ; jouee depuis l'autre, elle
+       est la meme a 180 degres pres. Superposee sans retournement, elle place nos
+       postes chez l'adversaire et la comparaison ne veut plus rien dire.
+
+       LE SENS N'EST PAS DEVINE ICI, IL EST MESURE AILLEURS. `comparer_strat` essaie
+       les deux et garde celui qui colle le mieux aux positions reellement tenues ; il
+       range le resultat dans `spatial.strats`, camp par camp. On le relit. */
+    const z = (sp.strats||[]).find(x => x.camp === campNous(a) && x.strat === strat);
+    const retourne = z && z.sens === "symetrique";
+    const RS = retourne ? ((x, y) => [cal.w - x, cal.h - y]) : ((x, y) => [x, y]);
+    const Q = (x, y) => { const [u, v] = RS(x, y); return [SX(u, v), SY(u, v)]; };
+    const P = (x, y) => { const [u, v] = Q(x, y); return fr2(u) + "," + fr2(v); };
     const g = [];
     for(const z of (S.shapes||[])){
       /* une zone reste un RECTANGLE DROIT dans son repere ; sous rotation on la
@@ -7845,11 +7900,12 @@ function crSVG(a, fond, strat){
           fill="none" stroke="${c}" stroke-width="${fr2(3.5*e)}"
           stroke-dasharray="${fr2(12*e)} ${fr2(8*e)}"
           opacity=".6" stroke-linecap="round" stroke-linejoin="round"/>`);
+      const [qx, qy] = Q(p.x, p.y);
       g.push(`<g opacity=".9">
-        <circle cx="${fr2(SX(p.x,p.y))}" cy="${fr2(SY(p.x,p.y))}" r="${fr2(15*e)}"
+        <circle cx="${fr2(qx)}" cy="${fr2(qy)}" r="${fr2(15*e)}"
           fill="none" stroke="${c}" stroke-width="${fr2(3*e)}"
           stroke-dasharray="${fr2(6*e)} ${fr2(4*e)}"/>
-        <text x="${fr2(SX(p.x,p.y))}" y="${fr2(SY(p.x,p.y)+5*e)}"
+        <text x="${fr2(qx)}" y="${fr2(qy+5*e)}"
           font-size="${fr2(16*e)}" font-weight="700"
           text-anchor="middle" fill="${c}">${p.id||""}</text></g>`);
     }
@@ -7857,7 +7913,7 @@ function crSVG(a, fond, strat){
        On place son ANCRE dans le bon repere et on la dessine droite. */
     for(const l of (S.labels||[])){
       const larg = Math.max(38, String(l.t).length*11 + 18) * e;
-      const lx = SX(l.x, l.y), ly = SY(l.x, l.y);
+      const [lx, ly] = Q(l.x, l.y);
       g.push(`<g opacity=".95">
         <rect x="${fr2(lx-larg/2)}" y="${fr2(ly-15*e)}" width="${fr2(larg)}"
           height="${fr2(30*e)}" rx="${fr2(5*e)}" fill="#0B0F14" fill-opacity=".72"
@@ -7872,6 +7928,7 @@ function crSVG(a, fond, strat){
   return `<svg viewBox="0 0 ${L} ${H}" class="crsvg" role="img"
       aria-label="Trajets et lieux de mort des joueurs sélectionnés">
       <image href="${img}" x="0" y="0" width="${L}" height="${H}" opacity=".55"/>
+      <g data-crchaleur hidden>${chaleur}</g>
       ${dep}${traces}${croix}${st}</svg>`;
 }
 
@@ -7952,7 +8009,10 @@ function carteRevue(a){
         <option value="plan">plan à l'échelle</option></select>
       <label>strat</label>
       <select data-crstrat><option value="">aucune</option>${crGroupes(cal.cle, stratsIci)}</select>
-      <label class="crdepl"><input type="checkbox" data-crdep> ouvertures seules</label>
+      <label class="crdepl"><input type="checkbox" data-crdep> ouverture : nous,
+        jusqu'à la 1re mort</label>
+      <label class="crdepl"><input type="checkbox" data-crchal> temps passé</label>
+      <s class="crres" data-crecart></s>
       <s class="crres">calage à ${fr2(cal.residu_m)} m près<span data-crhors>${
         dehors ? ` · ${(phors*100).toFixed(1)} % du trajet hors zone` : ""}</span></s></div>` : ""}
     <div class="crtemps"><label>jusqu'à</label>
@@ -7978,12 +8038,18 @@ function carteRevue(a){
 function crCouper(w, t){
   if(!CARTE) return;
   const img = CARTE.deb + t * CARTE.ps;
+  /* EN MODE OUVERTURE, LA BORNE EST PROPRE A CHAQUE JOUEUR : sa premiere mort. Le
+     curseur de temps continue de s'appliquer par-dessus — on prend le plus tot des
+     deux, sinon l'un annulerait l'autre. */
+  const ouv = w.classList.contains("crdep");
   const fait = new Map();          // un trajet, deux traits : on ne recoupe qu'une fois
   for(const e of w.querySelectorAll(".crsvg path[data-t]")){
     const d = CARTE.t[+e.dataset.t]; if(!d) continue;
     let m = fait.get(d.i);
     if(!m){
-      const pts = d.pts.filter(p => p[0] <= img);
+      const m1 = ouv ? CARTE.mort1[d.slot] : null;
+      const lim = (m1 == null) ? img : Math.min(img, m1);
+      const pts = d.pts.filter(p => p[0] <= lim);
       m = {n: pts.length, d: crChemin(pts, CARTE.saut, CARTE.hors)};
       fait.set(d.i, m);
     }
@@ -8018,6 +8084,19 @@ document.addEventListener("change", ev => {
   const r = w.querySelector("[data-crt]");
   if(r && +r.value < +r.max) crCouper(w, +r.value);
   crAffiner(w);
+
+  /* CE QUE VAUT LA STRAT CHOISIE, en metres, et A QUEL MOMENT elle a le mieux
+     colle. C'est `comparer_strat` qui l'a mesure sur les positions reellement
+     tenues ; le site ne fait que le relire, pour NOTRE camp. */
+  const e = w.querySelector("[data-crecart]");
+  if(e){
+    const z = ((CRANA.spatial||{}).strats||[])
+      .find(x => x.camp === campNous(CRANA) && x.strat === strat);
+    e.textContent = z
+      ? `tenue à ${fr2(z.ecart_m)} m près vers ${mmss((z.image - (CRANA.spatial.partie_debut||0))
+          / (CRANA.spatial.par_seconde||5))}` + (z.sens === "symetrique" ? " · retournée" : "")
+      : "";
+  }
 });
 
 /* LE DESSIN SORT D'ABORD, LE MASQUE ARRIVE ENSUITE. Lire l'image demande un
@@ -8046,7 +8125,18 @@ async function crAffiner(w){
    dans le DOM, prêtes a revenir, et le curseur de temps continue de les piloter. */
 document.addEventListener("change", ev => {
   const c = ev.target.closest("[data-crdep]"); if(!c) return;
-  const w = c.closest(".crwrap"); if(w) w.classList.toggle("crdep", c.checked);
+  const w = c.closest(".crwrap"); if(!w) return;
+  w.classList.toggle("crdep", c.checked);
+  const r = w.querySelector("[data-crt]");
+  crCouper(w, r ? +r.value : 1e9);      /* la borne par joueur change : on recoupe */
+});
+
+/* Le temps passe se montre ou se cache ; il est deja dessine. */
+document.addEventListener("change", ev => {
+  const c = ev.target.closest("[data-crchal]"); if(!c) return;
+  const w = c.closest(".crwrap"); if(!w) return;
+  const g = w.querySelector("[data-crchaleur]");
+  if(g) g.hidden = !c.checked;
 });
 
 /* Derouler la partie : c'est la seule facon de voir une rotation se faire, plutot
