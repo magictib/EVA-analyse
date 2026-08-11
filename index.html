@@ -395,6 +395,14 @@
   .crsel button{background:none;border:1px solid var(--rule);color:var(--ink-faint);
     border-radius:20px;padding:3px 11px;font:inherit;font-size:.76rem;cursor:pointer}
   .crsel button:hover{color:var(--ink);border-color:var(--signal)}
+  .crtemps{display:flex;align-items:center;gap:9px;margin:2px 0 9px;font-size:.82rem}
+  .crtemps label{color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em;
+    font-size:.72rem}
+  .crtemps input[type=range]{flex:1;accent-color:var(--signal);min-width:120px}
+  .crtemps b{font-variant-numeric:tabular-nums;min-width:44px}
+  .crtemps button{background:none;border:1px solid var(--rule);color:var(--ink-faint);
+    border-radius:4px;padding:2px 9px;font:inherit;cursor:pointer}
+  .crtemps button:hover{color:var(--ink);border-color:var(--signal)}
   .crsvg{width:100%;height:auto;display:block;background:#05070c;
     border:1px solid var(--rule);border-radius:6px}
   .donh,.donr{display:grid;gap:6px;align-items:center;
@@ -7577,6 +7585,9 @@ document.addEventListener("click", async ev => {
    sans legende : le trajet est un trait fin de la couleur du camp, la croix un X
    plein plus gros. Les deux portent le meme ton pour qu'on suive un joueur d'un
    symbole a l'autre. */
+let CARTE = null;
+const mmss = t => `${Math.floor(t/60)}:${String(Math.round(t%60)).padStart(2,"0")}`;
+
 function carteRevue(a){
   const sp=(a&&a.spatial)||{};
   const L=sp.largeur, H=sp.hauteur;
@@ -7594,22 +7605,31 @@ function carteRevue(a){
       ${sansTag(noms[String(s)]||"")}</label>`).join("");
 
   const tr = (sp.trajets||[]).filter(t=>t.slot!=null && (t.points||[]).length>1);
-  const traces = tr.map(t=>{
+  /* LE CURSEUR A BESOIN DES POINTS, PAS D'UN ATTRIBUT. Les remettre dans le DOM a
+     chaque deplacement coute des milliers de coordonnees ; on les garde ici et l'on
+     ne reecrit que le `points` de chaque trace. */
+  CARTE = {t: tr.map((t,i)=>({i, slot:t.slot, pts:t.points})),
+           croix: (sp.croix_ciblees||[]).map((c,i)=>({i, slot:c.slot, img:c.image})),
+           deb: sp.partie_debut||0, ps: sp.par_seconde||5,
+           fin: sp.partie_fin||0};
+  const traces = tr.map((t,i)=>{
     const d = t.points.map(p=>`${fr2(p[1])},${fr2(p[2])}`).join(" ");
-    return `<polyline data-s="${t.slot}" points="${d}" fill="none"
+    return `<polyline data-s="${t.slot}" data-t="${i}" points="${d}" fill="none"
        stroke="${coul(t.slot)}" stroke-width="1.1" stroke-opacity=".55"
        stroke-linejoin="round" stroke-linecap="round"/>`;
   }).join("");
 
   /* LA CROIX PORTE LE SLOT DE CELUI QUI EST MORT, pas de son tueur. */
-  const croix = (sp.croix_ciblees||[]).map(c=>{
+  const croix = (sp.croix_ciblees||[]).map((c,i)=>{
     const x=fr2(c.x), y=fr2(c.y), r=3.4;
-    return `<g data-s="${c.slot}" stroke="${coul(c.slot)}" stroke-width="1.8"
+    return `<g data-s="${c.slot}" data-x="${i}" stroke="${coul(c.slot)}" stroke-width="1.8"
         stroke-opacity=".95" stroke-linecap="round">
       <line x1="${x-r}" y1="${y-r}" x2="${x+r}" y2="${y+r}"/>
       <line x1="${x-r}" y1="${y+r}" x2="${x+r}" y2="${y-r}"/></g>`;
   }).join("");
 
+  const duree = Math.max(1, Math.round(((sp.partie_fin||0)-(sp.partie_debut||0))
+                                       / (sp.par_seconde||5)));
   const sp2=(sp.spawns)||{};
   const dep = Object.entries(sp2).map(([tag,p])=>Array.isArray(p)
     ? `<g><circle cx="${fr2(p[0])}" cy="${fr2(p[1])}" r="5" fill="none"
@@ -7623,6 +7643,13 @@ function carteRevue(a){
       <button data-act="crtous">tous</button>
       <button data-act="craucun">aucun</button>
       <button data-act="crnous">notre équipe</button></div>
+    <!-- UNE STRAT DE START NE SE JUGE PAS SUR DIX MINUTES. Le cumul de la partie
+         entiere melange l'ouverture, la tenue et les retakes ; le curseur rend a
+         chaque phase son image. Il coupe les trajets et masque les morts a venir. -->
+    <div class="crtemps"><label>jusqu'à</label>
+      <input type="range" data-crt min="0" max="${duree}" value="${duree}" step="1">
+      <b data-crtv>${mmss(duree)}</b>
+      <button data-act="crjouer" title="dérouler la partie">▶</button></div>
     <svg viewBox="0 0 ${L} ${H}" class="crsvg" role="img"
       aria-label="Trajets et lieux de mort des joueurs sélectionnés">
       <image href="${sp.fond}" x="0" y="0" width="${L}" height="${H}"
@@ -7635,6 +7662,49 @@ function carteRevue(a){
       Les cercles pointillés sont les zones de réapparition.</p>
   </div>`;
 }
+
+/* LE CURSEUR COUPE, IL NE FILTRE PAS. Un trajet montre le chemin PARCOURU jusqu'a
+   l'instant choisi ; une mort n'apparait que si elle a eu lieu. Montrer un trajet
+   entier en masquant sa fin donnerait a lire un joueur deja passe la ou il n'est pas
+   encore. */
+function crCouper(w, t){
+  if(!CARTE) return;
+  const img = CARTE.deb + t * CARTE.ps;
+  for(const e of w.querySelectorAll(".crsvg polyline[data-t]")){
+    const d = CARTE.t[+e.dataset.t]; if(!d) continue;
+    const pts = d.pts.filter(p => p[0] <= img);
+    e.setAttribute("points", pts.map(p=>`${fr2(p[1])},${fr2(p[2])}`).join(" "));
+    e.style.visibility = pts.length > 1 ? "" : "hidden";
+  }
+  for(const e of w.querySelectorAll('.crsvg g[data-x]')){
+    const c = CARTE.croix[+e.dataset.x]; if(!c) continue;
+    e.style.visibility = (c.img == null || c.img <= img) ? "" : "hidden";
+  }
+  const v = w.querySelector("[data-crtv]"); if(v) v.textContent = mmss(t);
+}
+
+document.addEventListener("input", ev => {
+  const r = ev.target.closest("[data-crt]"); if(!r) return;
+  const w = r.closest(".crwrap"); if(w) crCouper(w, +r.value);
+});
+
+/* Derouler la partie : c'est la seule facon de voir une rotation se faire, plutot
+   que de la deviner d'un trace fini. */
+let CRJEU = null;
+document.addEventListener("click", ev => {
+  const b = ev.target.closest('[data-act="crjouer"]'); if(!b) return;
+  const w = b.closest(".crwrap"); if(!w) return;
+  const r = w.querySelector("[data-crt]"); if(!r) return;
+  if(CRJEU){ clearInterval(CRJEU); CRJEU = null; b.textContent = "▶"; return; }
+  b.textContent = "■";
+  if(+r.value >= +r.max) r.value = 0;
+  CRJEU = setInterval(() => {
+    const v = +r.value + 4;
+    if(v >= +r.max){ r.value = r.max; crCouper(w, +r.max);
+      clearInterval(CRJEU); CRJEU = null; b.textContent = "▶"; return; }
+    r.value = v; crCouper(w, v);
+  }, 90);
+});
 
 /* Les cases a cocher ne redessinent rien : elles montrent ou cachent. Redessiner
    couterait un rendu complet de l'onglet a chaque clic, pour un resultat identique. */
