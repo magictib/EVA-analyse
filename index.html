@@ -7688,6 +7688,26 @@ function crSVG(a, fond, strat){
       ${dep}${traces}${croix}${st}</svg>`;
 }
 
+/* Les strats rangees par phase, l'ordre etant celui du jeu : on commence, on tient,
+   on reprend. Celles qu'aucune categorie ne classe restent visibles — les cacher
+   ferait disparaitre du travail deja fait. */
+const ORDRE_STRAT = ["start", "tenue de point", "retake"];
+let SCAT = {};
+
+function crGroupes(cle, strats){
+  const cat = (SCAT && SCAT[cle]) || {};
+  const par = new Map();
+  for(const n of Object.keys(strats).sort()){
+    const c = cat[n] || "à classer";
+    if(!par.has(c)) par.set(c, []);
+    par.get(c).push(n);
+  }
+  const rang = c => { const i = ORDRE_STRAT.indexOf(c); return i < 0 ? 9 : i; };
+  return [...par.entries()].sort((x,y)=>rang(x[0])-rang(y[0])||x[0].localeCompare(y[0]))
+    .map(([c,L])=>`<optgroup label="${c}">${
+      L.map(n=>`<option>${n}</option>`).join("")}</optgroup>`).join("");
+}
+
 function carteRevue(a){
   CRANA = a;                       // l'analyse dessinee, pour les bascules de fond
   const sp=(a&&a.spatial)||{};
@@ -7726,8 +7746,7 @@ function carteRevue(a){
       <select data-crfond><option value="mini">minimap</option>
         <option value="plan">plan à l'échelle</option></select>
       <label>strat</label>
-      <select data-crstrat><option value="">aucune</option>${
-        Object.keys(stratsIci).sort().map(n=>`<option>${n}</option>`).join("")}</select>
+      <select data-crstrat><option value="">aucune</option>${crGroupes(cal.cle, stratsIci)}</select>
       <s class="crres">calage à ${fr2(cal.residu_m)} m près</s></div>` : ""}
     <div class="crtemps"><label>jusqu'à</label>
       <input type="range" data-crt min="0" max="${duree}" value="${duree}" step="1">
@@ -8638,10 +8657,16 @@ async function pushStrats(o){
 }
 async function pullStrats(){
   try{
-    const r=await fetch(SB_URL+"/rest/v1/strats?select=carte,nom,snapshot", {headers:SB_H});
+    const r=await fetch(SB_URL+"/rest/v1/strats?select=carte,nom,snapshot,categorie",
+      {headers:SB_H});
     if(!r.ok) throw new Error(await r.text());
     const o={};
-    for(const x of await r.json()){ if(!o[x.carte]) o[x.carte]={}; o[x.carte][x.nom]=x.snapshot; }
+    /* UNE STRAT REPOND A UNE PHASE, PAS A UNE PARTIE. La categorie — start, tenue de
+       point, retake — sert a ranger la liste, et surtout a comparer une phase a la
+       BONNE strat : jugee sur dix minutes, une strat de start ne veut rien dire. */
+    SCAT={};
+    for(const x of await r.json()){ if(!o[x.carte]) o[x.carte]={}; o[x.carte][x.nom]=x.snapshot;
+      if(!SCAT[x.carte]) SCAT[x.carte]={}; SCAT[x.carte][x.nom]=x.categorie||null; }
     SPREV=JSON.stringify(o);
     /* une strat creee reseau coupe n'existe pas cote serveur : on la garde et on
        la pousse. En cas de meme nom, la version distante gagne. */
