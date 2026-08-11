@@ -7588,6 +7588,31 @@ document.addEventListener("click", async ev => {
 let CARTE = null;
 const mmss = t => `${Math.floor(t/60)}:${String(Math.round(t%60)).padStart(2,"0")}`;
 
+/* ON NE RELIE PAS DEUX POINTS QUI NE SE SUIVENT PAS. Thibaud, le 11/08 : « les
+   trajets sont hors map pour certains ». Ils ne l'etaient pas : ZERO point sur les
+   377 000 releves tombe hors du cadre. Ce qui sortait de la zone jouable, c'etait le
+   TRAIT — une droite tiree entre deux points eloignes, quand le marqueur est perdu de
+   vue puis retrouve ailleurs. Elle traverse alors le vide noir et donne a lire un
+   chemin qui n'a pas eu lieu.
+
+   Mesure : 11 638 segments depassent 25 px et 3 138 depassent 60, sur 355 239. On
+   coupe donc le trace des qu'un saut depasse `SAUT`, ou qu'un trou de temps le rend
+   douteux. Un chemin interrompu est honnete ; un chemin invente ne l'est pas. */
+const SAUT = 28;        // pixels de minimap entre deux releves successifs
+const TROU = 12;        // images sans releve, soit ~2,4 s a 5 img/s
+
+function crChemin(points){
+  let d = "", pose = false;
+  for(let k = 0; k < points.length; k++){
+    const p = points[k], q = k ? points[k-1] : null;
+    const rupture = !q || (p[0] - q[0] > TROU) ||
+      (Math.hypot(p[1]-q[1], p[2]-q[2]) > SAUT);
+    d += (rupture ? "M" : "L") + fr2(p[1]) + "," + fr2(p[2]) + " ";
+    pose = true;
+  }
+  return pose ? d.trim() : "";
+}
+
 function carteRevue(a){
   const sp=(a&&a.spatial)||{};
   const L=sp.largeur, H=sp.hauteur;
@@ -7612,12 +7637,10 @@ function carteRevue(a){
            croix: (sp.croix_ciblees||[]).map((c,i)=>({i, slot:c.slot, img:c.image})),
            deb: sp.partie_debut||0, ps: sp.par_seconde||5,
            fin: sp.partie_fin||0};
-  const traces = tr.map((t,i)=>{
-    const d = t.points.map(p=>`${fr2(p[1])},${fr2(p[2])}`).join(" ");
-    return `<polyline data-s="${t.slot}" data-t="${i}" points="${d}" fill="none"
+  const traces = tr.map((t,i)=>`<path data-s="${t.slot}" data-t="${i}"
+       d="${crChemin(t.points)}" fill="none"
        stroke="${coul(t.slot)}" stroke-width="1.1" stroke-opacity=".55"
-       stroke-linejoin="round" stroke-linecap="round"/>`;
-  }).join("");
+       stroke-linejoin="round" stroke-linecap="round"/>`).join("");
 
   /* LA CROIX PORTE LE SLOT DE CELUI QUI EST MORT, pas de son tueur. */
   const croix = (sp.croix_ciblees||[]).map((c,i)=>{
@@ -7670,10 +7693,10 @@ function carteRevue(a){
 function crCouper(w, t){
   if(!CARTE) return;
   const img = CARTE.deb + t * CARTE.ps;
-  for(const e of w.querySelectorAll(".crsvg polyline[data-t]")){
+  for(const e of w.querySelectorAll(".crsvg path[data-t]")){
     const d = CARTE.t[+e.dataset.t]; if(!d) continue;
     const pts = d.pts.filter(p => p[0] <= img);
-    e.setAttribute("points", pts.map(p=>`${fr2(p[1])},${fr2(p[2])}`).join(" "));
+    e.setAttribute("d", crChemin(pts));
     e.style.visibility = pts.length > 1 ? "" : "hidden";
   }
   for(const e of w.querySelectorAll('.crsvg g[data-x]')){
