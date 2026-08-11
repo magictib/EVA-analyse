@@ -7467,10 +7467,61 @@ function drawDon(){
       <input type="date" data-c="depuis"><input type="date" data-c="jusqu_a">
       <button data-act="donsave">ajouter</button>
     </div>
+    <h3>Recenser les joueurs vus</h3>
+    <p class="note">Les joueurs ne s'ajoutent pas tout seuls, et c'est voulu : une
+      insertion silencieuse fabriquerait des lignes qu'on ne relit jamais. Ce bouton
+      compare la table aux <b>tableaux de fin déjà saisis</b> et propose ce qui manque
+      — à toi de corriger la personne et les dates avant d'enregistrer.</p>
+    <p><button data-act="donrecense">Chercher les joueurs absents de la table</button></p>
+    <div id="donvus"></div>
     <p class="note" id="donmsg"></p>`;
 }
 
+/* CE QUI EST VU DANS LES PARTIES ET ABSENT DE LA TABLE. Thibaud, le 11/08 : « est-ce
+   que lors de notre prochaine partie, les joueurs adverses seront ajoutes
+   automatiquement ? ». Non, et c'est delibere : une insertion silencieuse fabriquerait
+   des lignes que personne ne relit — la table servirait alors a nommer ce qu'elle
+   aurait elle-meme invente. On propose, il valide.
+
+   La proposition sort des TABLEAUX DE FIN, donc de ce que les parties ont montre, et
+   porte les dates extremes ou le pseudo a ete vu. */
+function joueursVus(){
+  const g=new Map();
+  for(const m of MATCHS){
+    for(const p of sbOk(m)){
+      const nom=String(p.n||"").trim(); if(!nom) continue;
+      const o=g.get(nom)||{pseudo:nom, tag:tagDe(nom), nous:false,
+                           depuis:m.dt||"", jusqu_a:m.dt||""};
+      if(m.dt){ if(!o.depuis||m.dt<o.depuis) o.depuis=m.dt;
+                if(!o.jusqu_a||m.dt>o.jusqu_a) o.jusqu_a=m.dt; }
+      if(p.mien) o.nous=true;
+      g.set(nom,o);
+    }
+  }
+  const connus=new Set((JOUEURS||[]).map(j=>String(j.pseudo||"").toLowerCase()));
+  return [...g.values()].filter(o=>!connus.has(o.pseudo.toLowerCase()));
+}
+
 document.addEventListener("click", async ev => {
+  if(ev.target.closest('[data-act="donrecense"]')){
+    const z=$("#donvus"); if(!z) return;
+    const L=joueursVus();
+    if(!L.length){ z.innerHTML=`<p class="note">Tous les joueurs vus dans tes parties
+      sont déjà dans la table.</p>`; return; }
+    z.innerHTML = `<p class="note">${L.length} joueur${L.length>1?"s":""} vu${
+        L.length>1?"s":""} dans tes parties et absent${L.length>1?"s":""} de la table.
+      Corrige la personne si besoin, puis enregistre.</p>`
+      + L.map(o=>`<div class="donr" data-id="">
+          <input class="donp" value="${sansTag(o.pseudo)}" data-c="personne">
+          <input value="${o.pseudo}" data-c="pseudo">
+          <input value="${o.tag||""}" data-c="tag" size="5">
+          <label class="donn"><input type="checkbox" data-c="nous"${
+            o.nous?" checked":""}> nous</label>
+          <input type="date" value="${o.depuis}" data-c="depuis">
+          <input type="date" data-c="jusqu_a">
+          <button data-act="donsave">ajouter</button></div>`).join("");
+    return;
+  }
   const b = ev.target.closest('[data-act="donsave"]'); if(!b) return;
   const r = b.closest(".donr"); if(!r) return;
   const val = c => { const e = r.querySelector(`[data-c="${c}"]`); if(!e) return null;
