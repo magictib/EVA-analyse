@@ -3359,7 +3359,12 @@ async function chargeMatchsEnLigne(){
        de tag, tout le monde sauf toi basculait chez l'adversaire, et l'effectif
        de ton equipe se reduisait a une ligne. Le drapeau de la base fait foi ;
        le tag ne sert plus que de secours pour les parties collees a la main. */
-    scores = await sbFetch("scores_match?select=match_id,nom,kills,morts,assists,score,notre_equipe");
+    /* LE TAG EST DEMANDE, ET IL NE L'ETAIT PAS. La base range le pseudo en deux
+       colonnes, `tag` et `nom` ; le site ne lisait que la seconde. Les joueurs
+       venus d'ici s'appelaient donc « Thyr » tout court, et plus rien ne les
+       rattachait a une equipe : le classement par adversaire affichait HWD avec
+       « 0 joueur vus ». Thibaud l'a vu deux fois de suite. */
+    scores = await sbFetch("scores_match?select=match_id,tag,nom,kills,morts,assists,score,notre_equipe");
     EVA_SB_OK = true;
   }catch(e){ EVA_SB_OK = false; return; }
   if(!Array.isArray(lignes) || !lignes.length) return;
@@ -3367,7 +3372,10 @@ async function chargeMatchsEnLigne(){
   const parMatch = new Map();
   for(const s of scores || []){
     if(!parMatch.has(s.match_id)) parMatch.set(s.match_id, []);
-    parMatch.get(s.match_id).push({n:s.nom, k:s.kills, m:s.morts,
+    /* On rend le pseudo ENTIER, comme il s'ecrit a l'ecran : c'est lui que tout
+       le reste du site attend, et le decouper etait le geste de trop. */
+    const nom = s.tag ? `${s.tag}x${s.nom}` : s.nom;
+    parMatch.get(s.match_id).push({n:nom, k:s.kills, m:s.morts,
                                    a:s.assists, s:s.score,
                                    mien:s.notre_equipe===null||s.notre_equipe===undefined
                                         ? undefined : !!s.notre_equipe});
