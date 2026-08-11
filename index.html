@@ -403,6 +403,13 @@
   .crtemps button{background:none;border:1px solid var(--rule);color:var(--ink-faint);
     border-radius:4px;padding:2px 9px;font:inherit;cursor:pointer}
   .crtemps button:hover{color:var(--ink);border-color:var(--signal)}
+  .crstrat{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 9px;
+    font-size:.82rem}
+  .crstrat label{color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em;
+    font-size:.72rem}
+  .crstrat select{background:var(--panel-2);color:var(--ink);border:1px solid var(--rule);
+    border-radius:4px;padding:4px 7px;font:inherit;font-size:.82rem}
+  .crstrat .crres{text-decoration:none;color:var(--ink-faint);font-size:.74rem}
   .crsvg{width:100%;height:auto;display:block;background:#05070c;
     border:1px solid var(--rule);border-radius:6px}
   .donh,.donr{display:grid;gap:6px;align-items:center;
@@ -7613,52 +7620,100 @@ function crChemin(points){
   return pose ? d.trim() : "";
 }
 
+/* LE MEME DESSIN DANS DEUX REPERES. `fond` vaut "mini" (la minimap, repere natif des
+   trajets) ou "plan" (le plan a l'echelle, repere des STRATS). Le passage de l'un a
+   l'autre est le `calage` de l'analyse, deja mesure : une similitude — echelle,
+   rotation, translation — dont le residu en metres est affiche a cote du choix.
+
+   TOUT PASSE PAR `X` ET `Y`, UN SEUL POINT DE CONVERSION. C'est deja la regle de la
+   vue « Cartes » de ce fichier, et c'est ce qui evite qu'un trace et une croix
+   finissent dans deux reperes differents sans que rien ne le dise. */
+function crSVG(a, fond, strat){
+  const sp=(a&&a.spatial)||{}, cal=sp.calage;
+  const plan = fond==="plan" && cal && typeof MAPS!=="undefined" && MAPS[cal.cle];
+  const co = Math.cos(cal?cal.theta:0), si = Math.sin(cal?cal.theta:0);
+  const X = (x,y) => plan ? cal.a*(co*x - si*y) + cal.bx : x;
+  const Y = (x,y) => plan ? cal.a*(si*x + co*y) + cal.by : y;
+  const L = plan ? cal.w : sp.largeur, H = plan ? cal.h : sp.hauteur;
+  const img = plan ? MAPS[cal.cle].img : sp.fond;
+
+  const noms=a.noms||{}, nous=new Set(((a.partie||{}).nous)||[]);
+  const orange = campNous(a)==="alliance";
+  const CN = orange?CAMP_ORANGE:CAMP_BLEU, CE = orange?CAMP_BLEU:CAMP_ORANGE;
+  const coul = s => nous.has(s) ? CN : CE;
+
+  const tr = (sp.trajets||[]).filter(t=>t.slot!=null && (t.points||[]).length>1);
+  CARTE = {t: tr.map((t,i)=>({i, slot:t.slot,
+             pts: t.points.map(p=>[p[0], X(p[1],p[2]), Y(p[1],p[2])])})),
+           croix: (sp.croix_ciblees||[]).map((c,i)=>({i, slot:c.slot, img:c.image})),
+           deb: sp.partie_debut||0, ps: sp.par_seconde||5};
+  const traces = CARTE.t.map(t=>`<path data-s="${t.slot}" data-t="${t.i}"
+      d="${crChemin(t.pts)}" fill="none" stroke="${coul(t.slot)}"
+      stroke-width="${plan?2.6:1.1}" stroke-opacity=".55"
+      stroke-linejoin="round" stroke-linecap="round"/>`).join("");
+
+  const r = plan ? 9 : 3.4;
+  const croix = (sp.croix_ciblees||[]).map((c,i)=>{
+    const x=fr2(X(c.x,c.y)), y=fr2(Y(c.x,c.y));
+    return `<g data-s="${c.slot}" data-x="${i}" stroke="${coul(c.slot)}"
+        stroke-width="${plan?4:1.8}" stroke-opacity=".95" stroke-linecap="round">
+      <line x1="${fr2(x-r)}" y1="${fr2(y-r)}" x2="${fr2(x+r)}" y2="${fr2(y+r)}"/>
+      <line x1="${fr2(x-r)}" y1="${fr2(y+r)}" x2="${fr2(x+r)}" y2="${fr2(y-r)}"/></g>`;
+  }).join("");
+
+  const dep = Object.entries(sp.spawns||{}).map(([tag,p])=>Array.isArray(p)
+    ? `<circle cx="${fr2(X(p[0],p[1]))}" cy="${fr2(Y(p[0],p[1]))}" r="${plan?14:5}"
+         fill="none" stroke="var(--ink-faint)" stroke-opacity=".7"
+         stroke-dasharray="${plan?"5 5":"2 2"}"/>` : "").join("");
+
+  /* LA STRAT SE DESSINE DANS SON PROPRE REPERE, sans conversion : c'est celui du
+     plan. Elle n'a donc de sens qu'avec le plan pour fond, ce que l'interface
+     impose. */
+  let st = "";
+  const S = plan && strat && (typeof SCACHE!=="undefined")
+        && ((SCACHE[cal.cle]||{})[strat]);
+  if(S && Array.isArray(S.players)){
+    st = S.players.map(p=>`<g opacity=".9">
+        <circle cx="${fr2(p.x)}" cy="${fr2(p.y)}" r="15" fill="none"
+          stroke="${p.team==="o"?CAMP_ORANGE:CAMP_BLEU}" stroke-width="3"
+          stroke-dasharray="6 4"/>
+        <text x="${fr2(p.x)}" y="${fr2(p.y)+5}" font-size="16" font-weight="700"
+          text-anchor="middle" fill="${p.team==="o"?CAMP_ORANGE:CAMP_BLEU}"
+          >${p.id||""}</text></g>`).join("");
+  }
+
+  return `<svg viewBox="0 0 ${L} ${H}" class="crsvg" role="img"
+      aria-label="Trajets et lieux de mort des joueurs sélectionnés">
+      <image href="${img}" x="0" y="0" width="${L}" height="${H}" opacity=".55"/>
+      ${dep}${traces}${croix}${st}</svg>`;
+}
+
 function carteRevue(a){
+  CRANA = a;                       // l'analyse dessinee, pour les bascules de fond
   const sp=(a&&a.spatial)||{};
-  const L=sp.largeur, H=sp.hauteur;
-  if(!L || !H || !sp.fond) return "";
+  if(!sp.largeur || !sp.hauteur || !sp.fond) return "";
   const noms=a.noms||{};
   const slots=Object.keys(noms).map(Number).sort((x,y)=>x-y);
   if(!slots.length) return "";
   const nous=new Set(((a.partie||{}).nous)||[]);
   const orange = campNous(a)==="alliance";
-  const CN = orange?CAMP_ORANGE:CAMP_BLEU, CE = orange?CAMP_BLEU:CAMP_ORANGE;
-  const coul = s => nous.has(s) ? CN : CE;
-
+  const coul = s => nous.has(s) ? (orange?CAMP_ORANGE:CAMP_BLEU)
+                                : (orange?CAMP_BLEU:CAMP_ORANGE);
   const cases = slots.map(s=>`<label class="crjc" style="--c:${coul(s)}">
       <input type="checkbox" data-cr="${s}" data-nous="${nous.has(s)?1:0}" checked>
       ${sansTag(noms[String(s)]||"")}</label>`).join("");
-
-  const tr = (sp.trajets||[]).filter(t=>t.slot!=null && (t.points||[]).length>1);
-  /* LE CURSEUR A BESOIN DES POINTS, PAS D'UN ATTRIBUT. Les remettre dans le DOM a
-     chaque deplacement coute des milliers de coordonnees ; on les garde ici et l'on
-     ne reecrit que le `points` de chaque trace. */
-  CARTE = {t: tr.map((t,i)=>({i, slot:t.slot, pts:t.points})),
-           croix: (sp.croix_ciblees||[]).map((c,i)=>({i, slot:c.slot, img:c.image})),
-           deb: sp.partie_debut||0, ps: sp.par_seconde||5,
-           fin: sp.partie_fin||0};
-  const traces = tr.map((t,i)=>`<path data-s="${t.slot}" data-t="${i}"
-       d="${crChemin(t.points)}" fill="none"
-       stroke="${coul(t.slot)}" stroke-width="1.1" stroke-opacity=".55"
-       stroke-linejoin="round" stroke-linecap="round"/>`).join("");
-
-  /* LA CROIX PORTE LE SLOT DE CELUI QUI EST MORT, pas de son tueur. */
-  const croix = (sp.croix_ciblees||[]).map((c,i)=>{
-    const x=fr2(c.x), y=fr2(c.y), r=3.4;
-    return `<g data-s="${c.slot}" data-x="${i}" stroke="${coul(c.slot)}" stroke-width="1.8"
-        stroke-opacity=".95" stroke-linecap="round">
-      <line x1="${x-r}" y1="${y-r}" x2="${x+r}" y2="${y+r}"/>
-      <line x1="${x-r}" y1="${y+r}" x2="${x+r}" y2="${y-r}"/></g>`;
-  }).join("");
-
   const duree = Math.max(1, Math.round(((sp.partie_fin||0)-(sp.partie_debut||0))
                                        / (sp.par_seconde||5)));
-  const sp2=(sp.spawns)||{};
-  const dep = Object.entries(sp2).map(([tag,p])=>Array.isArray(p)
-    ? `<g><circle cx="${fr2(p[0])}" cy="${fr2(p[1])}" r="5" fill="none"
-         stroke="var(--ink-faint)" stroke-opacity=".7" stroke-dasharray="2 2"/>
-       <text x="${fr2(p[0])}" y="${fr2(p[1])-8}" fill="var(--ink-faint)"
-         font-size="8" text-anchor="middle">${tag}</text></g>` : "").join("");
+  /* LE CALAGE EXISTE DEJA, ET IL PORTE SON RESIDU. Chaque analyse le mesure — echelle,
+     rotation, translation de la minimap vers le PLAN A L'ECHELLE — et dit a combien de
+     metres pres il tombe. C'est le repere des STRATS : les superposer ne demande donc
+     rien d'invente. On affiche le residu, parce qu'un coach doit savoir a quelle
+     finesse il compare. */
+  const cal = sp.calage;
+  const stratsIci = (cal && typeof SCACHE!=="undefined" && SCACHE[cal.cle]) || {};
+  const avecPlan = cal && typeof MAPS!=="undefined" && MAPS[cal.cle];
+  const nb = (sp.croix_ciblees||[]).length;
+  const ntr = (sp.trajets||[]).filter(t=>t.slot!=null).length;
 
   return `<div class="crwrap" data-carte>
     <h4>La carte, joueur par joueur</h4>
@@ -7666,23 +7721,24 @@ function carteRevue(a){
       <button data-act="crtous">tous</button>
       <button data-act="craucun">aucun</button>
       <button data-act="crnous">notre équipe</button></div>
-    <!-- UNE STRAT DE START NE SE JUGE PAS SUR DIX MINUTES. Le cumul de la partie
-         entiere melange l'ouverture, la tenue et les retakes ; le curseur rend a
-         chaque phase son image. Il coupe les trajets et masque les morts a venir. -->
+    ${avecPlan ? `<div class="crstrat">
+      <label>fond</label>
+      <select data-crfond><option value="mini">minimap</option>
+        <option value="plan">plan à l'échelle</option></select>
+      <label>strat</label>
+      <select data-crstrat><option value="">aucune</option>${
+        Object.keys(stratsIci).sort().map(n=>`<option>${n}</option>`).join("")}</select>
+      <s class="crres">calage à ${fr2(cal.residu_m)} m près</s></div>` : ""}
     <div class="crtemps"><label>jusqu'à</label>
       <input type="range" data-crt min="0" max="${duree}" value="${duree}" step="1">
       <b data-crtv>${mmss(duree)}</b>
       <button data-act="crjouer" title="dérouler la partie">▶</button></div>
-    <svg viewBox="0 0 ${L} ${H}" class="crsvg" role="img"
-      aria-label="Trajets et lieux de mort des joueurs sélectionnés">
-      <image href="${sp.fond}" x="0" y="0" width="${L}" height="${H}"
-        opacity=".55"/>
-      ${dep}${traces}${croix}
-    </svg>
+    <div data-crzone>${crSVG(a, "mini", "")}</div>
     <p class="note">Le trait fin est un <b>trajet</b>, le X une <b>mort</b> — même
-      couleur pour le même joueur, celle de son camp. ${tr.length} trajets et
-      ${(sp.croix_ciblees||[]).length} morts situées sur cette partie.
-      Les cercles pointillés sont les zones de réapparition.</p>
+      couleur pour le même joueur, celle de son camp. ${ntr} trajets et ${nb} morts
+      situées ici. Les cercles pointillés sont les zones de réapparition.
+      ${Object.keys(stratsIci).length ? `La strat se superpose sur le
+        <b>plan à l'échelle</b>, qui est son repère.` : ""}</p>
   </div>`;
 }
 
@@ -7709,6 +7765,23 @@ function crCouper(w, t){
 document.addEventListener("input", ev => {
   const r = ev.target.closest("[data-crt]"); if(!r) return;
   const w = r.closest(".crwrap"); if(w) crCouper(w, +r.value);
+});
+
+/* CHANGER DE FOND REDESSINE, il n'y a pas de raccourci : les coordonnees elles-memes
+   changent de repere. On garde en revanche la selection de joueurs et l'instant du
+   curseur — les perdre a chaque bascule rendrait la comparaison penible. */
+let CRANA = null;
+document.addEventListener("change", ev => {
+  const sel = ev.target.closest("[data-crfond],[data-crstrat]"); if(!sel) return;
+  const w = sel.closest(".crwrap"); if(!w || !CRANA) return;
+  const fond = (w.querySelector("[data-crfond]")||{}).value || "mini";
+  const strat = (w.querySelector("[data-crstrat]")||{}).value || "";
+  const zone = w.querySelector("[data-crzone]"); if(!zone) return;
+  zone.innerHTML = crSVG(CRANA, fond, strat);
+  for(const c of w.querySelectorAll("[data-cr]"))
+    if(!c.checked) c.dispatchEvent(new Event("change", {bubbles:true}));
+  const r = w.querySelector("[data-crt]");
+  if(r && +r.value < +r.max) crCouper(w, +r.value);
 });
 
 /* Derouler la partie : c'est la seule facon de voir une rotation se faire, plutot
