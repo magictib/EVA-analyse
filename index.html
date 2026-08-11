@@ -7608,16 +7608,47 @@ const mmss = t => `${Math.floor(t/60)}:${String(Math.round(t%60)).padStart(2,"0"
 const SAUT = 28;        // pixels de minimap entre deux releves successifs
 const TROU = 12;        // images sans releve, soit ~2,4 s a 5 img/s
 
-function crChemin(points){
-  let d = "", pose = false;
+/* LE SEUIL SUIT LE REPERE. `SAUT` est en pixels de MINIMAP, et l'on passe ici des
+   coordonnees DEJA converties : sur le plan elles sont ~3,2 fois plus grandes. Le
+   seuil doit donc etre multiplie par l'echelle du calage, faute de quoi la vue plan
+   coupe un trajet normal tous les dix releves et donne a lire un joueur qui
+   clignote. C'est `saut` : le meme seuil physique, exprime dans le bon repere.
+
+   LE TRACE REVIENT EN DEUX MORCEAUX, et c'est une mesure qui l'impose. 2 042 points
+   sur 224 926 (0,9 %) tombent hors du plan une fois convertis. Trois explications
+   ont ete essayees et deux REFUTEES :
+
+     - le point aberrant isole  : il n'explique que 46 des 2 042 ;
+     - l'echelle du calage      : Outlaw et Helios sont cales a 0,5 m pres et
+                                  reclameraient quand meme un retrecissement de 18 % —
+                                  un plan juste a 50 cm ne peut pas etre faux de 18 %.
+
+   Reste la seule qui tienne : des PORTIONS COHERENTES de suivi errone, quand le
+   lecteur suit la mauvaise pastille un moment. On ne sait pas les corriger ; on les
+   distingue, pour qu'une portion fausse ne se compare pas a une strat comme si elle
+   etait une position reelle. */
+function crChemin(points, saut, hors){
+  saut = saut || SAUT;
+  const out = {d: "", h: ""};
+  let etat = null;
   for(let k = 0; k < points.length; k++){
     const p = points[k], q = k ? points[k-1] : null;
     const rupture = !q || (p[0] - q[0] > TROU) ||
-      (Math.hypot(p[1]-q[1], p[2]-q[2]) > SAUT);
-    d += (rupture ? "M" : "L") + fr2(p[1]) + "," + fr2(p[2]) + " ";
-    pose = true;
+      (Math.hypot(p[1]-q[1], p[2]-q[2]) > saut);
+    const cle = (hors && hors(p)) ? "h" : "d";
+    if(rupture){
+      out[cle] += "M" + fr2(p[1]) + "," + fr2(p[2]) + " ";
+    } else if(cle !== etat){
+      /* on change de morceau sans rupture : le nouveau reprend au point precedent,
+         sinon le trajet montrerait un blanc la ou il est continu */
+      out[cle] += "M" + fr2(q[1]) + "," + fr2(q[2]) +
+                  " L" + fr2(p[1]) + "," + fr2(p[2]) + " ";
+    } else {
+      out[cle] += "L" + fr2(p[1]) + "," + fr2(p[2]) + " ";
+    }
+    etat = cle;
   }
-  return pose ? d.trim() : "";
+  return [out.d.trim(), out.h.trim()];
 }
 
 /* LE MEME DESSIN DANS DEUX REPERES. `fond` vaut "mini" (la minimap, repere natif des
@@ -7643,14 +7674,26 @@ function crSVG(a, fond, strat){
   const coul = s => nous.has(s) ? CN : CE;
 
   const tr = (sp.trajets||[]).filter(t=>t.slot!=null && (t.points||[]).length>1);
+  /* hors du plan = hors de la zone jouable. Sur la minimap la question ne se pose
+     pas : c'est mesure, 37 releves sur 224 926 effleurent le bord du cadre et AUCUN
+     n'en sort — le marqueur y est borne. Le probleme nait de la conversion. */
+  const hors = plan ? (p => p[1] < 0 || p[2] < 0 || p[1] > L || p[2] > H) : null;
+  const saut = plan ? SAUT * cal.a : SAUT;
   CARTE = {t: tr.map((t,i)=>({i, slot:t.slot,
              pts: t.points.map(p=>[p[0], X(p[1],p[2]), Y(p[1],p[2])])})),
            croix: (sp.croix_ciblees||[]).map((c,i)=>({i, slot:c.slot, img:c.image})),
-           deb: sp.partie_debut||0, ps: sp.par_seconde||5};
-  const traces = CARTE.t.map(t=>`<path data-s="${t.slot}" data-t="${t.i}"
-      d="${crChemin(t.pts)}" fill="none" stroke="${coul(t.slot)}"
+           deb: sp.partie_debut||0, ps: sp.par_seconde||5, saut, hors};
+  const traces = CARTE.t.map(t=>{
+    const [dd, dh] = crChemin(t.pts, saut, hors);
+    return `<path data-s="${t.slot}" data-t="${t.i}"
+      d="${dd}" fill="none" stroke="${coul(t.slot)}"
       stroke-width="${plan?2.6:1.1}" stroke-opacity=".55"
-      stroke-linejoin="round" stroke-linecap="round"/>`).join("");
+      stroke-linejoin="round" stroke-linecap="round"/>
+    <path data-s="${t.slot}" data-t="${t.i}" data-hors="1"
+      d="${dh}" fill="none" stroke="${coul(t.slot)}"
+      stroke-width="${plan?2.6:1.1}" stroke-opacity=".16"
+      stroke-dasharray="4 6" stroke-linejoin="round" stroke-linecap="round"/>`;
+  }).join("");
 
   const r = plan ? 9 : 3.4;
   const croix = (sp.croix_ciblees||[]).map((c,i)=>{
@@ -7735,6 +7778,24 @@ function carteRevue(a){
   const nb = (sp.croix_ciblees||[]).length;
   const ntr = (sp.trajets||[]).filter(t=>t.slot!=null).length;
 
+  /* CE QUI TOMBE HORS DE LA ZONE JOUABLE SE DIT, il ne se cache pas. Un coach qui
+     compare une position a une strat doit savoir quelle part du trajet n'est pas
+     comparable. Le trait pointille pale sur le plan, c'est cette part-la. */
+  let dehors = 0, tous = 0;
+  if(avecPlan){
+    const co = Math.cos(cal.theta), si = Math.sin(cal.theta);
+    for(const t of (sp.trajets||[])){
+      if(t.slot == null) continue;
+      for(const p of (t.points||[])){
+        tous++;
+        const px = cal.a*(co*p[1] - si*p[2]) + cal.bx;
+        const py = cal.a*(si*p[1] + co*p[2]) + cal.by;
+        if(px < 0 || py < 0 || px > cal.w || py > cal.h) dehors++;
+      }
+    }
+  }
+  const phors = tous ? dehors/tous : 0;
+
   return `<div class="crwrap" data-carte>
     <h4>La carte, joueur par joueur</h4>
     <div class="crsel">${cases}
@@ -7747,7 +7808,8 @@ function carteRevue(a){
         <option value="plan">plan à l'échelle</option></select>
       <label>strat</label>
       <select data-crstrat><option value="">aucune</option>${crGroupes(cal.cle, stratsIci)}</select>
-      <s class="crres">calage à ${fr2(cal.residu_m)} m près</s></div>` : ""}
+      <s class="crres">calage à ${fr2(cal.residu_m)} m près${
+        dehors ? ` · ${(phors*100).toFixed(1)} % du trajet hors zone` : ""}</s></div>` : ""}
     <div class="crtemps"><label>jusqu'à</label>
       <input type="range" data-crt min="0" max="${duree}" value="${duree}" step="1">
       <b data-crtv>${mmss(duree)}</b>
@@ -7757,7 +7819,9 @@ function carteRevue(a){
       couleur pour le même joueur, celle de son camp. ${ntr} trajets et ${nb} morts
       situées ici. Les cercles pointillés sont les zones de réapparition.
       ${Object.keys(stratsIci).length ? `La strat se superpose sur le
-        <b>plan à l'échelle</b>, qui est son repère.` : ""}</p>
+        <b>plan à l'échelle</b>, qui est son repère.` : ""}
+      ${dehors ? `Sur le plan, ce qui tombe <b>hors de la zone jouable</b> est tracé
+        en pointillé pâle : c'est un suivi douteux, à ne pas comparer à une strat.` : ""}</p>
   </div>`;
 }
 
@@ -7768,11 +7832,17 @@ function carteRevue(a){
 function crCouper(w, t){
   if(!CARTE) return;
   const img = CARTE.deb + t * CARTE.ps;
+  const fait = new Map();          // un trajet, deux traits : on ne recoupe qu'une fois
   for(const e of w.querySelectorAll(".crsvg path[data-t]")){
     const d = CARTE.t[+e.dataset.t]; if(!d) continue;
-    const pts = d.pts.filter(p => p[0] <= img);
-    e.setAttribute("d", crChemin(pts));
-    e.style.visibility = pts.length > 1 ? "" : "hidden";
+    let m = fait.get(d.i);
+    if(!m){
+      const pts = d.pts.filter(p => p[0] <= img);
+      m = {n: pts.length, d: crChemin(pts, CARTE.saut, CARTE.hors)};
+      fait.set(d.i, m);
+    }
+    e.setAttribute("d", e.dataset.hors ? m.d[1] : m.d[0]);
+    e.style.visibility = m.n > 1 ? "" : "hidden";
   }
   for(const e of w.querySelectorAll('.crsvg g[data-x]')){
     const c = CARTE.croix[+e.dataset.x]; if(!c) continue;
