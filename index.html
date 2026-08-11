@@ -384,6 +384,19 @@
   .nav button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--signal)}
   /* Les donnees de reference : une grille dont les colonnes tiennent d'une ligne a
      l'autre, sinon l'oeil ne suit pas une personne a travers ses periodes. */
+  /* La carte de la partie revue. Le fond de minimap donne le repere ; on ne
+     convertit rien, on cadre le SVG dessus. */
+  .crwrap{margin-top:22px}
+  .crsel{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 10px}
+  .crjc{display:inline-flex;align-items:center;gap:5px;font-size:.82rem;
+    padding:3px 9px 3px 6px;border:1px solid var(--rule);border-radius:20px;
+    border-left:3px solid var(--c);cursor:pointer;white-space:nowrap}
+  .crjc:hover{border-color:var(--c)}
+  .crsel button{background:none;border:1px solid var(--rule);color:var(--ink-faint);
+    border-radius:20px;padding:3px 11px;font:inherit;font-size:.76rem;cursor:pointer}
+  .crsel button:hover{color:var(--ink);border-color:var(--signal)}
+  .crsvg{width:100%;height:auto;display:block;background:#05070c;
+    border:1px solid var(--rule);border-radius:6px}
   .donh,.donr{display:grid;gap:6px;align-items:center;
     grid-template-columns:1.2fr 1.6fr .5fr .6fr .9fr .9fr auto;padding:4px 0}
   .donh{border-bottom:1px solid var(--rule);padding-bottom:6px;margin-top:14px}
@@ -5529,6 +5542,7 @@ function drawAnaBrut(){
         </select></div>`:""}
       ${friseSVG(choisie, M)}${(()=>{
         fScore=!!(FRISE&&FRISE.cale); fLu=!!(FRISE&&FRISE.lu); return "";})()}
+      ${carteRevue(choisie)}
       ${(()=>{
         /* LE BILAN EN TROIS NOMBRES, qui est ce qu'un coach regarde avant le
            detail. Chacun porte son denominateur : « 5 combats gagnes » ne veut
@@ -7541,6 +7555,106 @@ document.addEventListener("click", async ev => {
   }catch(e){
     b.disabled = false;
     if(msg) msg.textContent = "Échec de l'enregistrement : " + e.message;
+  }
+});
+
+/* ---------- LA CARTE DE LA PARTIE REVUE ----------
+
+   Thibaud, le 11/08 : *« j'aimerais avoir sous la partie revue, la map avec la
+   selection des joueurs pour afficher les trajets, toutes les croix des personnes
+   selectionnees »*.
+
+   TOUT EXISTE DEJA DANS L'ANALYSE, ET RIEN N'ETAIT DESSINE. `spatial.fond` porte le
+   fond de minimap en base64, `trajets` des suites [image, x, y] en pixels de minimap,
+   `croix_ciblees` la position de chaque mort avec le SLOT de celui qui l'a subie. Le
+   site se contentait de les compter.
+
+   ON DESSINE DANS LE REPERE DE LA MINIMAP, sans conversion : `largeur` et `hauteur`
+   le donnent, et le fond est cadre dessus. Toute conversion serait un raccord de plus
+   a payer, et ce projet en a paye assez.
+
+   LA CROIX EST UNE MORT, LE TRAJET EST UN CHEMIN, et il faut que l'oeil les separe
+   sans legende : le trajet est un trait fin de la couleur du camp, la croix un X
+   plein plus gros. Les deux portent le meme ton pour qu'on suive un joueur d'un
+   symbole a l'autre. */
+function carteRevue(a){
+  const sp=(a&&a.spatial)||{};
+  const L=sp.largeur, H=sp.hauteur;
+  if(!L || !H || !sp.fond) return "";
+  const noms=a.noms||{};
+  const slots=Object.keys(noms).map(Number).sort((x,y)=>x-y);
+  if(!slots.length) return "";
+  const nous=new Set(((a.partie||{}).nous)||[]);
+  const orange = campNous(a)==="alliance";
+  const CN = orange?CAMP_ORANGE:CAMP_BLEU, CE = orange?CAMP_BLEU:CAMP_ORANGE;
+  const coul = s => nous.has(s) ? CN : CE;
+
+  const cases = slots.map(s=>`<label class="crjc" style="--c:${coul(s)}">
+      <input type="checkbox" data-cr="${s}" data-nous="${nous.has(s)?1:0}" checked>
+      ${sansTag(noms[String(s)]||"")}</label>`).join("");
+
+  const tr = (sp.trajets||[]).filter(t=>t.slot!=null && (t.points||[]).length>1);
+  const traces = tr.map(t=>{
+    const d = t.points.map(p=>`${fr2(p[1])},${fr2(p[2])}`).join(" ");
+    return `<polyline data-s="${t.slot}" points="${d}" fill="none"
+       stroke="${coul(t.slot)}" stroke-width="1.1" stroke-opacity=".55"
+       stroke-linejoin="round" stroke-linecap="round"/>`;
+  }).join("");
+
+  /* LA CROIX PORTE LE SLOT DE CELUI QUI EST MORT, pas de son tueur. */
+  const croix = (sp.croix_ciblees||[]).map(c=>{
+    const x=fr2(c.x), y=fr2(c.y), r=3.4;
+    return `<g data-s="${c.slot}" stroke="${coul(c.slot)}" stroke-width="1.8"
+        stroke-opacity=".95" stroke-linecap="round">
+      <line x1="${x-r}" y1="${y-r}" x2="${x+r}" y2="${y+r}"/>
+      <line x1="${x-r}" y1="${y+r}" x2="${x+r}" y2="${y-r}"/></g>`;
+  }).join("");
+
+  const sp2=(sp.spawns)||{};
+  const dep = Object.entries(sp2).map(([tag,p])=>Array.isArray(p)
+    ? `<g><circle cx="${fr2(p[0])}" cy="${fr2(p[1])}" r="5" fill="none"
+         stroke="var(--ink-faint)" stroke-opacity=".7" stroke-dasharray="2 2"/>
+       <text x="${fr2(p[0])}" y="${fr2(p[1])-8}" fill="var(--ink-faint)"
+         font-size="8" text-anchor="middle">${tag}</text></g>` : "").join("");
+
+  return `<div class="crwrap" data-carte>
+    <h4>La carte, joueur par joueur</h4>
+    <div class="crsel">${cases}
+      <button data-act="crtous">tous</button>
+      <button data-act="craucun">aucun</button>
+      <button data-act="crnous">notre équipe</button></div>
+    <svg viewBox="0 0 ${L} ${H}" class="crsvg" role="img"
+      aria-label="Trajets et lieux de mort des joueurs sélectionnés">
+      <image href="${sp.fond}" x="0" y="0" width="${L}" height="${H}"
+        opacity=".55"/>
+      ${dep}${traces}${croix}
+    </svg>
+    <p class="note">Le trait fin est un <b>trajet</b>, le X une <b>mort</b> — même
+      couleur pour le même joueur, celle de son camp. ${tr.length} trajets et
+      ${(sp.croix_ciblees||[]).length} morts situées sur cette partie.
+      Les cercles pointillés sont les zones de réapparition.</p>
+  </div>`;
+}
+
+/* Les cases a cocher ne redessinent rien : elles montrent ou cachent. Redessiner
+   couterait un rendu complet de l'onglet a chaque clic, pour un resultat identique. */
+document.addEventListener("change", ev => {
+  const b = ev.target.closest("[data-cr]"); if(!b) return;
+  const w = b.closest(".crwrap"); if(!w) return;
+  const s = b.dataset.cr, v = b.checked;
+  for(const e of w.querySelectorAll(`.crsvg [data-s="${s}"]`))
+    e.style.display = v ? "" : "none";
+});
+document.addEventListener("click", ev => {
+  const b = ev.target.closest('[data-act="crtous"],[data-act="craucun"],[data-act="crnous"]');
+  if(!b) return;
+  const w = b.closest(".crwrap"); if(!w) return;
+  const quoi = b.dataset.act;
+  for(const c of w.querySelectorAll("[data-cr]")){
+    c.checked = quoi==="crtous" ? true
+              : quoi==="craucun" ? false
+              : c.dataset.nous === "1";
+    c.dispatchEvent(new Event("change", {bubbles:true}));
   }
 });
 
