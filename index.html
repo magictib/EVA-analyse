@@ -382,6 +382,24 @@
     padding:8px 10px 9px;transition:color .12s,border-color .12s;
   }
   .nav button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--signal)}
+  /* Les donnees de reference : une grille dont les colonnes tiennent d'une ligne a
+     l'autre, sinon l'oeil ne suit pas une personne a travers ses periodes. */
+  .donh,.donr{display:grid;gap:6px;align-items:center;
+    grid-template-columns:1.2fr 1.6fr .5fr .6fr .9fr .9fr auto;padding:4px 0}
+  .donh{border-bottom:1px solid var(--rule);padding-bottom:6px;margin-top:14px}
+  .donh s{text-decoration:none;font-size:.72rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-faint)}
+  .donr input[type=text],.donr input:not([type]),.donr input[type=date]{
+    width:100%;background:var(--panel-2);color:var(--ink);
+    border:1px solid var(--rule);border-radius:4px;padding:5px 7px;font:inherit;font-size:.86rem}
+  .donr .donp{font-weight:600}
+  .donr .donn{font-size:.78rem;color:var(--ink-faint);white-space:nowrap}
+  .donr button{background:none;border:1px solid var(--rule);color:var(--ink-faint);
+    border-radius:4px;padding:5px 9px;font:inherit;font-size:.78rem;cursor:pointer}
+  .donr button:hover{color:var(--ink);border-color:var(--signal)}
+  @media (max-width:760px){ .donh{display:none}
+    .donr{grid-template-columns:1fr 1fr;gap:4px;border-bottom:1px solid var(--rule);
+      padding-bottom:10px;margin-bottom:6px} }
   .nav button:focus-visible{outline:2px solid var(--cold);outline-offset:-2px}
   .nav .sep{flex:0 0 auto;width:1px;background:var(--rule);margin:7px 7px 9px}
 
@@ -999,6 +1017,12 @@
     <button role="tab" aria-selected="false" data-v="ana">Analyse</button>
     <button role="tab" aria-selected="false" data-v="prof">Profils</button>
     <button role="tab" aria-selected="false" data-v="cart">Cartes</button>
+    <!-- LES DONNEES DE REFERENCE, EN MODE EDITION SEULEMENT. Thibaud, le 11/08 :
+         « la table des joueurs ne sera dispo que dans le mode editeur qui affichera
+         un onglet Donnees ou je peux mettre le nom des joueurs et leur equipe ». Le
+         bouton est retire du DOM en lecture, pas seulement cache : un onglet qu'on
+         voit sans pouvoir s'en servir se lit comme une panne. -->
+    <button role="tab" aria-selected="false" data-v="don" data-edition>Données</button>
     <!-- QUI TU ES, TOUJOURS VISIBLE ET TOUJOURS AU MEME ENDROIT. Il fallait
          auparavant deplier « Reglages » dans l'onglet Matchs pour le trouver, et
          Thibaud n'a pas su dire d'ou venait le choix. La liste ne montre que le
@@ -1218,6 +1242,7 @@
 <section id="mat" hidden></section>
 <section id="ana" hidden></section>
 <section id="prof" hidden></section>
+<section id="don" hidden></section>
 
 
 </div>
@@ -1517,6 +1542,15 @@ let EDITION=(()=>{ try{ return localStorage.getItem("eva-edition-v1")==="1"; }
 (()=>{ const h=(location.hash||"").toLowerCase();
   if(h==="#edition"){ EDITION=true;  try{ localStorage.setItem("eva-edition-v1","1"); }catch(e){} }
   if(h==="#lecture"){ EDITION=false; try{ localStorage.removeItem("eva-edition-v1"); }catch(e){} } })();
+
+/* ON RETIRE DU DOM, ON NE CACHE PAS. Un onglet visible qu'on ne peut pas utiliser se
+   lit comme une panne — c'est la lecon de la zone d'ajout disparue le 10/08, ou
+   Thibaud a cru le site casse. Ce qui est reserve a l'edition n'existe pas en
+   lecture. */
+document.addEventListener("DOMContentLoaded", () => {
+  if(EDITION) return;
+  for(const e of document.querySelectorAll("[data-edition]")) e.remove();
+});
 
 /* ---------- le panneau des reglages ----------
 
@@ -7296,6 +7330,132 @@ function catArmes(cle){
 
    ON NE TOUCHE PAS A `LOT`. Les autres onglets s'en servent ; les fiches travaillent
    sur leur propre copie complete. */
+/* ---------- les donnees de reference ----------
+
+   POURQUOI UNE TABLE PLUTOT QUE DU CODE. Trois mecanismes bricoles faisaient chacun
+   un morceau de ce travail : `ALIAS` en dur pour CROM -> CROMx, la regle de tag qui
+   refusait « HwD » ecrit avec un w minuscule, et la liste de notre equipe. Une table
+   declaree les remplace tous les trois, et c'est Thibaud qui la tient au lieu que le
+   site devine.
+
+   UNE LIGNE PAR PERIODE, PAS PAR JOUEUR. Le tag est DATE — un mercato a lieu en fin
+   d'annee — et le pseudo aussi : CROMx est devenu CROM le 09/08. Un repertoire fige
+   serait faux retroactivement, ce que ce projet refuse depuis juillet. Avec `depuis`
+   et `jusqu_a` on obtient les deux lectures : la personne sur toute la saison, et le
+   detail par pseudo.
+
+   ELLE NOMME, ELLE NE DECIDE PAS DES CAMPS. Ce que la partie a mesure — quel casque,
+   quel camp, quel tag a l'ecran — reste souverain. Si la table dit BVS et que la
+   partie montre NT, c'est la table qui est a corriger. Sans cette regle on
+   reintroduit exactement le repertoire fige qu'on voulait eviter. */
+let JOUEURS = null;
+
+async function chargeJoueurs(){
+  try{
+    JOUEURS = await sbFetch("joueurs?select=id,personne,pseudo,tag,nous,depuis,jusqu_a,note"
+                            + "&order=personne,depuis") || [];
+    EVA_SB_OK = true;
+  }catch(e){ JOUEURS = null; }
+  return JOUEURS;
+}
+
+/* La personne derriere un pseudo, A UNE DATE DONNEE. Sans date, la ligne la plus
+   recente qui porte ce pseudo. Rend null si la table ne le connait pas — auquel cas
+   les regles d'avant s'appliquent, et rien ne casse. */
+function personneDe(pseudo, dt){
+  if(!JOUEURS || !pseudo) return null;
+  const p = String(pseudo).toLowerCase();
+  const cand = JOUEURS.filter(j => String(j.pseudo||"").toLowerCase() === p);
+  if(!cand.length) return null;
+  const dans = j => (!dt) || ((!j.depuis || j.depuis <= dt) && (!j.jusqu_a || dt <= j.jusqu_a));
+  return (cand.find(dans) || cand[cand.length-1]).personne || null;
+}
+
+async function enregistreJoueur(ligne){
+  const {id, ...corps} = ligne;
+  corps.maj = new Date().toISOString();
+  if(id) return sbFetch("joueurs?id=eq."+encodeURIComponent(id),
+                        {method:"PATCH", headers:{Prefer:"return=representation"},
+                         body:JSON.stringify(corps)});
+  return sbFetch("joueurs", {method:"POST",
+                             headers:{Prefer:"return=representation"},
+                             body:JSON.stringify(corps)});
+}
+
+function drawDon(){
+  const el = $("#don"); if(!el) return;
+  if(!EDITION){
+    el.innerHTML = `<p class="lead">Les données de référence ne se modifient qu'en
+      mode édition. Le bouton est dans les réglages, en haut à droite.</p>`;
+    return;
+  }
+  if(JOUEURS === null){
+    el.innerHTML = `<p class="lead">Chargement des joueurs…</p>`;
+    chargeJoueurs().then(drawDon);
+    return;
+  }
+  const par = new Map();
+  for(const j of JOUEURS){
+    if(!par.has(j.personne)) par.set(j.personne, []);
+    par.get(j.personne).push(j);
+  }
+  const opt = (v, L) => L.map(x=>`<option value="${x}"${x===v?" selected":""}>${x||"—"}</option>`).join("");
+  const tags = [...new Set(JOUEURS.map(j=>j.tag).filter(Boolean))].sort();
+  const lignes = [...par.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([nom,L])=>
+    L.map((j,k)=>`<div class="donr" data-id="${j.id}">
+        <input class="donp" value="${nom}" data-c="personne"${k?' style="opacity:.45"':''}>
+        <input value="${j.pseudo||""}" data-c="pseudo">
+        <input value="${j.tag||""}" data-c="tag" size="5">
+        <label class="donn"><input type="checkbox" data-c="nous"${j.nous?" checked":""}> nous</label>
+        <input type="date" value="${j.depuis||""}" data-c="depuis">
+        <input type="date" value="${j.jusqu_a||""}" data-c="jusqu_a">
+        <button data-act="donsave">enregistrer</button>
+      </div>`).join("")).join("");
+
+  el.innerHTML = `<h2>Données de référence</h2>
+    <p class="lead">Qui est qui, et sous quel nom à quelle date. Une ligne par
+      <b>période</b> : un joueur qui change de pseudo ou d'équipe garde ses lignes
+      passées, donc ses statistiques restent entières.</p>
+    <p class="note">Cette table <b>nomme</b>, elle ne décide pas des camps : ce que
+      la partie a mesuré reste souverain. Si elle contredit une partie, c'est elle
+      qu'il faut corriger.</p>
+    <div class="donh"><s>personne</s><s>pseudo à l'écran</s><s>tag</s><s>camp</s>
+      <s>depuis</s><s>jusqu'à</s><s></s></div>
+    ${lignes}
+    <div class="donr" data-id="">
+      <input class="donp" placeholder="personne" data-c="personne">
+      <input placeholder="TAGxPseudo" data-c="pseudo">
+      <input placeholder="TAG" data-c="tag" size="5">
+      <label class="donn"><input type="checkbox" data-c="nous"> nous</label>
+      <input type="date" data-c="depuis"><input type="date" data-c="jusqu_a">
+      <button data-act="donsave">ajouter</button>
+    </div>
+    <p class="note" id="donmsg"></p>`;
+}
+
+document.addEventListener("click", async ev => {
+  const b = ev.target.closest('[data-act="donsave"]'); if(!b) return;
+  const r = b.closest(".donr"); if(!r) return;
+  const val = c => { const e = r.querySelector(`[data-c="${c}"]`); if(!e) return null;
+    return e.type === "checkbox" ? e.checked : (String(e.value).trim() || null); };
+  const ligne = {id: r.dataset.id || null, personne: val("personne"),
+                 pseudo: val("pseudo"), tag: val("tag") ? val("tag").toUpperCase() : null,
+                 nous: !!val("nous"), depuis: val("depuis"), jusqu_a: val("jusqu_a")};
+  const msg = $("#donmsg");
+  if(!ligne.personne || !ligne.pseudo){
+    if(msg) msg.textContent = "Il faut au moins une personne et un pseudo."; return; }
+  b.disabled = true;
+  try{
+    await enregistreJoueur(ligne);
+    await chargeJoueurs();
+    drawDon();
+    const m2 = $("#donmsg"); if(m2) m2.textContent = `${ligne.pseudo} enregistré.`;
+  }catch(e){
+    b.disabled = false;
+    if(msg) msg.textContent = "Échec de l'enregistrement : " + e.message;
+  }
+});
+
 function drawProf(){
   const el=$("#prof"); if(!el) return;
   const lot=ANALYSES.slice();
@@ -10510,6 +10670,7 @@ function go(v){
   if(v==="mat"){ drawMat(); return; }
   if(v==="ana"){ drawAna(); return; }
   if(v==="prof"){ drawProf(); return; }
+  if(v==="don"){ drawDon(); return; }
   if(v==="cart"){ drawCat(); return; }
   if(v==="guns"){ drawGuns(); syncURL(); return; }
   if(v==="map"){ loadLOS(MK); drawMap(); return; }
