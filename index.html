@@ -7613,6 +7613,64 @@ const mmss = t => `${Math.floor(t/60)}:${String(Math.round(t%60)).padStart(2,"0"
 const SAUT = 28;        // pixels de minimap entre deux releves successifs
 const TROU = 12;        // images sans releve, soit ~2,4 s a 5 img/s
 
+/* LA ZONE JOUABLE SE LIT DANS L'IMAGE DU PLAN, ELLE NE SE DEVINE PAS.
+   Thibaud, apres un premier correctif : « je crois que la map n'a pas change ». Il
+   avait raison, et la mesure dit pourquoi : je ne signalais que ce qui sortait du
+   RECTANGLE du plan, alors que le rectangle contient un large fond hors-arene --
+   8,5 % de sa surface sur Engine. Un point pose sur ce noir est aussi faux qu'un
+   point sorti du cadre, et il etait tu.
+
+       carte             hors rectangle   sur le fond noir   total hors zone
+       Lunar Outpost           23              2 599              35,2 %
+       Helios                 111              1 302              21,3 %
+       Horizon                384                596              14,4 %
+       Outlaw                 219                369               7,0 %
+       Engine                 400                950               5,0 %
+       Ceres                  246                541               4,2 %
+       Atlantis                55                 63               0,2 %
+
+   6 420 des 7 858 points hors zone n'etaient PAS signales : mon test en attrapait
+   moins d'un cinquieme.
+
+   ON NE TRANSPORTE AUCUN MASQUE. Le fond hors-arene a ete repeint en #0E1319, une
+   teinte connue et unique ; le navigateur a deja l'image du plan en memoire. Un
+   canvas la lit une fois par carte, et la question « ce point est-il jouable ? »
+   devient une lecture de pixel. Zero octet de plus a telecharger, et le masque ne
+   peut pas se desynchroniser du plan puisqu'il EST le plan. */
+const MASQUES = new Map();
+function masqueArene(cle){
+  if(MASQUES.has(cle)) return MASQUES.get(cle);
+  const P = new Promise(res => {
+    const m = (typeof MAPS !== "undefined") && MAPS[cle];
+    if(!m || !m.img) return res(null);
+    const im = new Image();
+    im.onerror = () => res(null);
+    im.onload = () => {
+      try{
+        const cv = document.createElement("canvas");
+        cv.width = im.naturalWidth; cv.height = im.naturalHeight;
+        const cx = cv.getContext("2d", {willReadFrequently: true});
+        cx.drawImage(im, 0, 0);
+        const D = cx.getImageData(0, 0, cv.width, cv.height).data;
+        /* l'image est stockee plus grande que le repere du calage — 1842 px pour
+           1474 sur Engine. Sonder sans ce facteur revient a lire ailleurs. */
+        const kx = cv.width / m.w, ky = cv.height / m.h;
+        res((x, y) => {
+          if(x < 0 || y < 0 || x >= m.w || y >= m.h) return true;
+          const px = Math.min(cv.width - 1, x * kx | 0);
+          const py = Math.min(cv.height - 1, y * ky | 0);
+          const o = (py * cv.width + px) * 4;
+          return Math.abs(D[o] - 0x0E) <= 8 && Math.abs(D[o+1] - 0x13) <= 8
+              && Math.abs(D[o+2] - 0x19) <= 8;
+        });
+      }catch(e){ res(null); }      /* canvas indisponible : on garde le rectangle */
+    };
+    im.src = m.img;
+  });
+  MASQUES.set(cle, P);
+  return P;
+}
+
 /* LE SEUIL SUIT LE REPERE. `SAUT` est en pixels de MINIMAP, et l'on passe ici des
    coordonnees DEJA converties : sur le plan elles sont ~3,2 fois plus grandes. Le
    seuil doit donc etre multiplie par l'echelle du calage, faute de quoi la vue plan
@@ -7687,7 +7745,8 @@ function crSVG(a, fond, strat){
   CARTE = {t: tr.map((t,i)=>({i, slot:t.slot,
              pts: t.points.map(p=>[p[0], X(p[1],p[2]), Y(p[1],p[2])])})),
            croix: (sp.croix_ciblees||[]).map((c,i)=>({i, slot:c.slot, img:c.image})),
-           deb: sp.partie_debut||0, ps: sp.par_seconde||5, saut, hors};
+           deb: sp.partie_debut||0, ps: sp.par_seconde||5, saut, hors,
+           cle: plan ? cal.cle : null};
   /* LE PREMIER TRAJET DE CHAQUE JOUEUR, c'est l'OUVERTURE — la seule chose qu'une
      strat de « start » prescrit. Melangee aux dix vies suivantes elle est illisible.
      On marque donc, par joueur, le trajet qui commence le plus tot. */
@@ -7858,8 +7917,8 @@ function carteRevue(a){
       <label>strat</label>
       <select data-crstrat><option value="">aucune</option>${crGroupes(cal.cle, stratsIci)}</select>
       <label class="crdepl"><input type="checkbox" data-crdep> ouvertures seules</label>
-      <s class="crres">calage à ${fr2(cal.residu_m)} m près${
-        dehors ? ` · ${(phors*100).toFixed(1)} % du trajet hors zone` : ""}</s></div>` : ""}
+      <s class="crres">calage à ${fr2(cal.residu_m)} m près<span data-crhors>${
+        dehors ? ` · ${(phors*100).toFixed(1)} % du trajet hors zone` : ""}</span></s></div>` : ""}
     <div class="crtemps"><label>jusqu'à</label>
       <input type="range" data-crt min="0" max="${duree}" value="${duree}" step="1">
       <b data-crtv>${mmss(duree)}</b>
@@ -7921,7 +7980,30 @@ document.addEventListener("change", ev => {
     if(!c.checked) c.dispatchEvent(new Event("change", {bubbles:true}));
   const r = w.querySelector("[data-crt]");
   if(r && +r.value < +r.max) crCouper(w, +r.value);
+  crAffiner(w);
 });
+
+/* LE DESSIN SORT D'ABORD, LE MASQUE ARRIVE ENSUITE. Lire l'image demande un
+   chargement ; on ne fait pas attendre la carte pour ca. Le trace parait avec le
+   test grossier — le rectangle — puis se corrige des que le masque est pret. La
+   part hors zone affichee est recalculee en meme temps, sinon l'etiquette
+   annoncerait une finesse que le dessin n'a plus. */
+async function crAffiner(w){
+  if(!CARTE || !CARTE.cle || !CARTE.hors) return;
+  const cle = CARTE.cle;
+  const test = await masqueArene(cle);
+  /* la vue a pu changer pendant le chargement : on n'ecrit pas sur un autre dessin */
+  if(!test || !CARTE || CARTE.cle !== cle) return;
+  CARTE.hors = p => test(p[1], p[2]);
+  const r = w.querySelector("[data-crt]");
+  crCouper(w, r ? +r.value : 1e9);
+  const e = w.querySelector("[data-crhors]");
+  if(e){
+    let n = 0, t = 0;
+    for(const d of CARTE.t) for(const p of d.pts){ t++; if(CARTE.hors(p)) n++; }
+    e.textContent = n ? ` · ${(n/t*100).toFixed(1)} % du trajet hors zone` : "";
+  }
+}
 
 /* « Ouvertures seules » NE REDESSINE PAS : elle cache. Les vies suivantes restent
    dans le DOM, prêtes a revenir, et le curseur de temps continue de les piloter. */
