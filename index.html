@@ -416,7 +416,13 @@
      `display` plutot que `visibility`, que le curseur de temps pilote deja. */
   .crwrap.crdep .crsvg path[data-t]:not([data-nous]),
   .crwrap.crdep .crsvg g[data-x]:not([data-nous]){display:none}
+  /* LA CARTE DOIT TENIR DANS L'ECRAN AVEC SON CURSEUR. Thibaud : « il faut mettre
+     cette partie plus petite car je ne vois pas l'ensemble de la carte lorsque
+     j'avance sur le curseur ». Deplacer le curseur et regarder la carte sont le
+     MEME geste : si l'un chasse l'autre hors de l'ecran, la vue ne sert a rien.
+     On borne donc la hauteur au reste de la fenetre, cases et curseur deduits. */
   .crsvg{width:100%;height:auto;display:block;background:#05070c;
+    max-height:calc(100vh - 230px);object-fit:contain;
     border:1px solid var(--rule);border-radius:6px}
   .donh,.donr{display:grid;gap:6px;align-items:center;
     grid-template-columns:1.2fr 1.6fr .5fr .6fr .9fr .9fr auto;padding:4px 0}
@@ -7743,9 +7749,15 @@ function crSVG(a, fond, strat){
      n'en sort — le marqueur y est borne. Le probleme nait de la conversion. */
   const hors = plan ? (p => p[1] < 0 || p[2] < 0 || p[1] > L || p[2] > H) : null;
   const saut = plan ? SAUT * cal.a : SAUT;
+  /* TOUTES LES MORTS LOCALISEES, PAS SEULEMENT CELLES QUI ONT UNE CROIX. Le site
+     ne dessinait que `croix_ciblees`, soit 25 % des morts : LiX a quatre morts sur
+     The Cliff et pas une seule croix, donc pas un seul X sur la carte. `lieux_morts`
+     en porte 97 %, la croix quand elle existe et le BOUT DU TRAJET sinon. */
+  const morts = (sp.lieux_morts && sp.lieux_morts.length)
+        ? sp.lieux_morts : (sp.croix_ciblees||[]).map(c=>({...c, source:"croix"}));
   CARTE = {t: tr.map((t,i)=>({i, slot:t.slot,
              pts: t.points.map(p=>[p[0], X(p[1],p[2]), Y(p[1],p[2])])})),
-           croix: (sp.croix_ciblees||[]).map((c,i)=>({i, slot:c.slot, img:c.image})),
+           croix: morts.map((c,i)=>({i, slot:c.slot, img:c.image})),
            deb: sp.partie_debut||0, ps: sp.par_seconde||5, saut, hors,
            cle: plan ? cal.cle : null, vies: sp.vies||null};
   /* L'OUVERTURE VA DU DEBUT A LA PREMIERE MORT, ET RIEN D'AUTRE. Thibaud :
@@ -7760,7 +7772,7 @@ function crSVG(a, fond, strat){
 
      Un joueur qui ne meurt jamais garde tout son trajet : c'est encore son ouverture. */
   const mort1 = {};
-  for(const c of (sp.croix_ciblees||[])){
+  for(const c of morts){
     if(c.slot == null || c.image == null) continue;
     if(mort1[c.slot] == null || c.image < mort1[c.slot]) mort1[c.slot] = c.image;
   }
@@ -7779,13 +7791,24 @@ function crSVG(a, fond, strat){
       stroke-dasharray="4 6" stroke-linejoin="round" stroke-linecap="round"/>`;
   }).join("");
 
-  const r = plan ? 9 : 3.4;
-  const croix = (sp.croix_ciblees||[]).map((c,i)=>{
+  /* TOUTES LES MORTS LOCALISEES, PAS SEULEMENT CELLES QUI ONT UNE CROIX. Le site
+     ne dessinait que `croix_ciblees`, soit 25 % des morts : LiX a quatre morts sur
+     The Cliff et pas une seule croix, donc pas un seul X sur la carte. `lieux_morts`
+     en porte 97 %, la croix quand elle existe et le BOUT DU TRAJET sinon.
+
+     LES DEUX SOURCES NE SE VALENT PAS ET NE SE DESSINENT PAS PAREIL. Le bout du
+     trajet est la DERNIERE POSITION VUE, pas le lieu exact de la mort ; il sort donc
+     plus petit et en trait fin. Les faire identiques ferait passer une approximation
+     pour une mesure. */
+  const croix = morts.map((c,i)=>{
+    const sur = c.source !== "bout de trajet";
+    const r = (plan ? 9 : 3.4) * (sur ? 1 : .72);
     const x=fr2(X(c.x,c.y)), y=fr2(Y(c.x,c.y));
     /* en mode ouverture on ne garde que LA mort qui borne le trajet */
     const pr = (nous.has(c.slot) && c.image === mort1[c.slot]) ? ' data-nous="1"' : "";
     return `<g${pr} data-s="${c.slot}" data-x="${i}" stroke="${coul(c.slot)}"
-        stroke-width="${plan?4:1.8}" stroke-opacity=".95" stroke-linecap="round">
+        stroke-width="${(plan?4:1.8) * (sur ? 1 : .6)}"
+        stroke-opacity="${sur ? .95 : .5}" stroke-linecap="round">
       <line x1="${fr2(x-r)}" y1="${fr2(y-r)}" x2="${fr2(x+r)}" y2="${fr2(y+r)}"/>
       <line x1="${fr2(x-r)}" y1="${fr2(y+r)}" x2="${fr2(x+r)}" y2="${fr2(y-r)}"/></g>`;
   }).join("");
@@ -8086,9 +8109,16 @@ function crCouper(w, t){
     e.setAttribute("d", e.dataset.hors ? m.d[1] : m.d[0]);
     e.style.visibility = m.n > 1 ? "" : "hidden";
   }
+  /* LES CROIX SUIVENT LA MEME BORNE QUE LES TRACES. En « vie en cours » elles ne
+     le faisaient pas, et l'on voyait toutes les morts de la partie par-dessus des
+     trajets qui, eux, ne montraient qu'une vie — Thibaud : « pour les vies en cours
+     j'ai toutes les croix affichees ». Une croix hors de la vie affichee raconte un
+     autre moment que le trace qu'elle surplombe. */
   for(const e of w.querySelectorAll('.crsvg g[data-x]')){
     const c = CARTE.croix[+e.dataset.x]; if(!c) continue;
-    e.style.visibility = (c.img == null || c.img <= img) ? "" : "hidden";
+    const bas = vie ? debutVie(c.slot) : 0;
+    e.style.visibility = (c.img == null || (c.img <= img && c.img >= bas))
+      ? "" : "hidden";
   }
 
   /* le disque de position : le dernier releve du joueur a cet instant, dans sa vie
