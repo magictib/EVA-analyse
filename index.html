@@ -573,6 +573,26 @@
      tant de balles, donc tant de millisecondes. Les trois se lisent ensemble ou
      ne se lisent pas : c'est la meme chaine de calcul, montree dans son ordre.
      Meme forme que l'infobulle de la frise, pour n'apprendre qu'une fois. */
+  /* La silhouette se pose A DROITE de la courbe, et passe DESSOUS quand la place
+     manque : sur telephone, une colonne de 150 px volerait la moitie du graphe. */
+  .cvcol{display:grid;grid-template-columns:1fr 168px;gap:14px;align-items:start}
+  @media (max-width:720px){ .cvcol{grid-template-columns:1fr} }
+  .cvsil{border:1px solid var(--rule);border-radius:6px;padding:9px 10px;
+    background:var(--panel-2)}
+  .cvsil .silt{font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ink-faint);margin-bottom:6px}
+  .cvsil svg{width:100%;height:auto;display:block;max-height:230px}
+  #silz [data-sz]{fill:#2A3646;stroke:#41505F;stroke-width:1.5;cursor:pointer;
+    transition:fill .12s}
+  #silz [data-sz]:hover{fill:#3A4A5E}
+  #silz [data-sz][data-n]{fill:var(--signal);stroke:var(--signal)}
+  .silq{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0 6px;min-height:22px}
+  .silq b{font:inherit;font-size:.72rem;background:var(--panel);border:1px solid var(--rule);
+    border-radius:3px;padding:2px 6px;color:var(--ink)}
+  .silb{display:flex;gap:5px;flex-wrap:wrap}
+  .silb button{font:inherit;font-size:.7rem;padding:3px 7px;border-radius:4px;
+    border:1px solid var(--rule);background:var(--panel);color:var(--ink);cursor:pointer}
+  .silnote{font-size:.68rem;color:var(--ink-faint);margin:7px 0 0;line-height:1.35}
   .cvwrap{position:relative}
   .cvcur{position:absolute;top:0;bottom:0;width:1px;background:var(--signal);
     opacity:0;pointer-events:none;transition:opacity .08s}
@@ -1172,9 +1192,33 @@
 <section id="curve" hidden>
   <div class="picks" id="picks"></div>
   <div class="chart-cap"><span>TTK (ms) · plus bas = tue plus vite</span><span id="capnote"></span></div>
+  <div class="cvcol">
   <div class="cvwrap" id="cvwrap">
     <svg id="chart" viewBox="0 0 660 250" role="img" aria-label="TTK en fonction de la distance"></svg>
     <div class="cvcur"></div><div class="cvtip"></div>
+  </div>
+  <!-- LA SILHOUETTE : on clique une zone, elle s'ajoute a la sequence. Les trois
+       zones sont celles que le modele de degats connait — il n'y en a pas d'autres,
+       et en dessiner davantage laisserait croire a une finesse qui n'existe pas. -->
+  <aside class="cvsil" id="cvsil">
+    <div class="silt">Séquence de tirs</div>
+    <svg viewBox="0 0 100 190" role="group" aria-label="Silhouette : cliquer une zone pour ajouter un tir">
+      <g id="silz">
+        <circle data-sz="tete" cx="50" cy="22" r="17"/>
+        <rect data-sz="torse" x="30" y="42" width="40" height="58" rx="7"/>
+        <rect data-sz="extrem" x="10" y="46" width="16" height="50" rx="7"/>
+        <rect data-sz="extrem" x="74" y="46" width="16" height="50" rx="7"/>
+        <rect data-sz="extrem" x="33" y="104" width="14" height="76" rx="7"/>
+        <rect data-sz="extrem" x="53" y="104" width="14" height="76" rx="7"/>
+      </g>
+    </svg>
+    <div class="silq" id="silq"></div>
+    <div class="silb">
+      <button id="silraz">Effacer</button>
+      <button id="silund">Retirer le dernier</button>
+    </div>
+    <p class="silnote" id="silnote"></p>
+  </aside>
   </div>
 </section>
 
@@ -1395,8 +1439,43 @@ function real(w,x,z,moving){
   const rl=reloadsFor(w,fired);
   return {t:(fired-1)*60000/w.rpm + rl*(w.rel||0)*1000, hits, fired, hr, rl};
 }
+/* ---------- une séquence de tirs, zone par zone ----------
+   Thibaud : « pouvoir choisir 3 balles tête, 2 balles corps pour voir différentes
+   config, car là soit on met tout dans la tête, soit tout dans le corps, soit tout
+   dans les extrémités ».
+
+   C'est la vraie question du duel : personne ne place cinq balles au même endroit.
+   Le modèle existant le permettait déjà sans le savoir — `dmg(w,x,z)` donne les
+   dégâts d'UN tir sur UNE zone, et il suffit de les cumuler dans l'ordre choisi au
+   lieu de multiplier une seule valeur.
+
+   TROIS CHOSES QUE CE MODE CHANGE, ET C'EST VOULU :
+
+     - LES RATÉS ET LE CÔNE N'ONT PLUS DE SENS. Déclarer « 3 tête, 2 corps », c'est
+       déclarer des touches. Y superposer une probabilité de rater reviendrait à
+       compter deux fois la même incertitude ; les deux réglages sont donc retirés
+       tant qu'une séquence est posée.
+     - UNE SÉQUENCE PEUT NE PAS TUER, et c'est le renseignement le plus utile : la
+       courbe s'interrompt à la distance où elle n'y suffit plus.
+     - LES ARMES CONTINUES EN SONT EXCLUES. Un faisceau ne se compte pas en balles ;
+       on rend `null` plutôt que d'inventer une conversion. */
+function ttkSeq(w,x,seq){
+  if(!seq || !seq.length) return null;
+  if(w.f==="continu") return null;
+  let pv=PV, n=0;
+  for(const z of seq){
+    const e=dmg(w,x,z);
+    if(!(e>0)) return null;
+    pv-=e; n++;
+    if(pv<=1e-9) return (n-1)*60000/w.rpm + reloadsFor(w,n)*(w.rel||0)*1000;
+  }
+  return null;
+}
+let SEQ=[];               /* [] = mode classique : tout dans la même zone */
+
 /* TTK utilisé par l'onglet Armes : théorique, ou avec les ratés si la case est cochée */
 function TT(w,x,z){
+  if(SEQ.length) return ttkSeq(w,x,SEQ);
   if(!DISP) return ttkR(w,x,z);
   const r=real(w,x,z,MOVING); return r && r.t;
 }
@@ -11590,6 +11669,42 @@ $("#cat").addEventListener("change",e=>{
   render();});
 $("#dist").addEventListener("input",e=>{D=+e.target.value;render();});
 $("#hs").addEventListener("input",e=>{HS=+e.target.value;$("#hsv").textContent=HS+" ms";drawDuel();});
+/* ---------- la séquence de tirs ----------
+   Cliquer une zone AJOUTE un tir. On n'a donc rien a regler : l'ordre des clics EST
+   l'ordre des balles, et « 3 tete puis 2 corps » se dit en cinq clics.
+
+   ON DESACTIVE LES RATES ET LE CONE tant qu'une sequence est posee, plutot que de
+   les laisser agir en silence : declarer des touches et une probabilite de rater,
+   c'est compter deux fois la meme incertitude. */
+const ZNOM = {tete:"tête", torse:"torse", extrem:"extrémité"};
+function majSeq(){
+  const q=$("#silq"), n=$("#silnote");
+  if(q) q.innerHTML = SEQ.length
+    ? SEQ.map((z,i)=>`<b>${i+1}. ${ZNOM[z]}</b>`).join("")
+    : `<span style="font-size:.7rem;color:var(--ink-faint)">aucune — mode classique,
+        tout dans la zone choisie ci-dessus</span>`;
+  for(const el of $$("#silz [data-sz]")){
+    const c=SEQ.filter(z=>z===el.dataset.sz).length;
+    if(c) el.setAttribute("data-n",c); else el.removeAttribute("data-n");
+  }
+  /* les hypotheses qui n'ont plus de sens disparaissent, elles ne restent pas
+     cochees sans effet */
+  const off=SEQ.length>0;
+  for(const el of [$("#tog"), $("#cone"), $("#zseg")]) if(el) el.hidden=off;
+  if(n) n.textContent = SEQ.length
+    ? `${SEQ.length} tir${SEQ.length>1?"s":""} déclaré${SEQ.length>1?"s":""} : la courbe`
+      + ` s'interrompt aux distances où cette séquence ne tue pas. Ratés et cône`
+      + ` retirés — vous déclarez des touches. Les armes continues sont exclues.`
+    : "";
+  /* au demarrage la vue n'est pas encore montee : on ne redessine que si elle l'est */
+  if(typeof CURVE !== "undefined" || TAB === "curve") try{ drawCurve(); }catch(e){}
+}
+$$("#silz [data-sz]").forEach(el=>el.addEventListener("click",()=>{
+  SEQ.push(el.dataset.sz); majSeq();
+}));
+$("#silraz")?.addEventListener("click",()=>{ SEQ=[]; majSeq(); });
+$("#silund")?.addEventListener("click",()=>{ SEQ.pop(); majSeq(); });
+
 $$("#zseg button").forEach(b=>b.addEventListener("click",()=>{
   Z=b.dataset.z; $$("#zseg button").forEach(x=>x.setAttribute("aria-pressed",x===b));
   hypSum(); render();}));
@@ -11816,6 +11931,7 @@ document.getElementById("quisuisje").addEventListener("change", function(){
   if(typeof drawMat==="function") drawMat();
 });
 
+majSeq();                 /* la silhouette part vide : mode classique */
 go(readURL() || "rank");
 DEMARRAGE_ABOUTI = true;
 if(/[?&]test=1/.test(location.search)) showSelfTest();
