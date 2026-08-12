@@ -1366,7 +1366,7 @@ const WIMG = {
 const W = [
  {n:"MX-42",     c:"Fusil d'assaut", cat:"ar",       f:"balle",  d:{tete:15, torse:13, extrem:10},  rpm:672,  eq:.6,  disp:.25,  mag:40, rel:1.5, b:[[0,1],[22,.85],[30,.75]]},
  {n:"AK-77",     c:"Fusil d'assaut", cat:"ar",       f:"balle",  d:{tete:17, torse:15, extrem:14},  rpm:570,  eq:.6,  disp:.3,   mag:35, rel:1.8, b:[[0,1],[25,.83],[35,.75]]},
- {n:"Vulcan",    c:"Rafale ×3",      cat:"ar",       f:"balle",  d:{tete:19, torse:17, extrem:15},  rpm:750,  raf:3, pause:.20,  eq:.4,  disp:.07,  dnote:"moyenne de la rafale : 0 / 0,1 / 0,1", mag:30, rel:1.5, b:[[0,1],[30,.75]]},
+ {n:"Vulcan",    c:"Rafale ×3",      cat:"ar",       f:"balle",  d:{tete:19, torse:17, extrem:15},  rpm:750,  raf:3, pause:.20,  eq:.4,  disp:.07, dseq:[0,.1,.1],  dnote:"moyenne de la rafale : 0 / 0,1 / 0,1", mag:30, rel:1.5, b:[[0,1],[30,.75]]},
  {n:"MP-52",     c:"SMG",            cat:"smg",      f:"balle",  d:{tete:19, torse:16, extrem:14},  rpm:630,  eq:.4,  disp:1.431,mag:35, rel:1,   b:[[0,1],[8,.70],[12,.55],[15,.45]]},
  {n:"Striker",   c:"SMG",            cat:"smg",      f:"balle",  d:{tete:19, torse:15, extrem:13},  rpm:780,  eq:.4,  disp:1.5,  mag:30, rel:1,   b:[[0,1],[5,.65],[8,.55],[10,.30]]},
  {n:"Spectre",   c:"SMG",            cat:"smg",      f:"balle",  d:{tete:12, torse:10, extrem:9},   rpm:1020, eq:.4,  disp:1.35, mag:45, rel:1,   b:[[0,1],[8,.65],[12,.50],[20,.10]]},
@@ -1420,8 +1420,42 @@ let DMODEL = "uniform";
    à distance connue et mesure du groupement, qui donnerait l'angle réel plutôt
    que sa description. */
 let CONE = "full";
-function hitRate(w,x,z,moving){
-  const deg = (moving && w.dmove!==undefined) ? w.dmove : w.disp;
+/* ---------- le bloom : la dispersion de la k-ième balle ----------
+   Thibaud, décrivant la mécanique d'EVA : « à chaque tir consécutif, la taille du
+   cercle rouge augmente d'une valeur fixe. Balle 1 : cercle minimal. Balle 2 : le
+   cercle s'est élargi. Balles suivantes : le cercle atteint sa taille maximale et
+   y reste jusqu'à ce que vous arrêtiez de presser la gâchette pour forcer le
+   reset. La toute première balle bénéficie de la précision maximale de l'arme —
+   pour beaucoup d'armes elle partira pile au centre du réticule. »
+
+   LE MODELE N'AVAIT QU'UN SEUL ANGLE PAR ARME, applique du premier au dernier tir.
+   Et une trace le prouvait : le Vulcan porte `disp: 0,07` avec la note « moyenne
+   de la rafale : 0 / 0,1 / 0,1 ». 0,07 EST la moyenne de ces trois valeurs. On
+   avait donc moyenne une structure au lieu de la modeliser — exactement la faute
+   que la cadence du meme Vulcan cachait.
+
+   CE QUE LA MOYENNE COUTE ICI : la premiere balle de chaque rafale part a 0 degre,
+   donc elle TOUCHE TOUJOURS, quelle que soit la distance. La moyenne la fait rater
+   comme les autres.
+
+   DEUX FORMES SONT ACCEPTEES, selon ce que la fiche publie :
+     `dseq` — la dispersion balle par balle DANS la rafale, qui se remet a zero a
+              chaque rafale (le reset dont parle Thibaud, ici automatique) ;
+     `dinc` + `dmax` — une croissance fixe par tir jusqu'a un plafond, pour les
+              armes automatiques ou le reset depend du joueur.
+   Sans l'une ni l'autre, l'angle reste constant : c'est le comportement d'avant,
+   et il est exact pour une arme dont on ignore le bloom. */
+function dispDe(w,k,moving){
+  if(moving && w.dmove!==undefined) return w.dmove;
+  if(w.dseq && w.dseq.length){
+    const r = w.raf || w.dseq.length;
+    return w.dseq[(k-1) % r];
+  }
+  if(w.dinc) return Math.min((w.disp||0) + (k-1)*w.dinc, w.dmax ?? Infinity);
+  return w.disp;
+}
+function hitRate(w,x,z,moving,k){
+  const deg = dispDe(w, k||1, moving);
   if(!deg || x<=0) return 1;
   const th = CONE==="full" ? deg/2 : deg;
   const r = x*Math.tan(th*Math.PI/180), R = TGT[z];
@@ -1435,7 +1469,19 @@ function real(w,x,z,moving){
     const beam=shots(w,x,z)/hr, rl=reloadsFor(w,beam);
     return {t:t/hr + rl*(w.rel||0)*1000, hits:beam, fired:null, hr, rl};
   }
-  const hits=shots(w,x,z), fired=Math.ceil(hits/hr);
+  /* ON TIRE BALLE PAR BALLE quand la dispersion change en cours de rafale. On
+     cherche le plus petit nombre de tirs dont l'esperance de touches atteint le
+     compte voulu — ce qui redonne EXACTEMENT `ceil(hits/hr)` quand l'angle est
+     constant, et n'ajoute donc rien pour les armes dont on ignore le bloom. */
+  const hits=shots(w,x,z);
+  let fired, cumul=0;
+  for(fired=1; fired<=400; fired++){
+    const p=hitRate(w,x,z,moving,fired);
+    if(p<=0) return null;               /* a cette distance elle ne touchera jamais */
+    cumul+=p;
+    if(cumul>=hits) break;
+  }
+  if(fired>400) return null;
   const rl=reloadsFor(w,fired);
   return {t:tTir(w,fired) + rl*(w.rel||0)*1000, hits, fired, hr, rl};
 }
