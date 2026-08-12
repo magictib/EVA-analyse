@@ -5397,8 +5397,16 @@ function fichesJoueurs(lot, mats){
       const morts=(a.frags||[]).filter(f=>f.instant!=null)
         .sort((x,y)=>y.instant-x.instant);          /* le decompte DESCEND */
       const kp=new Map(), mp=new Map();
+      /* UNE PERSONNE, UNE FICHE. Thibaud : « c'est la meme personne donc il faut
+         n'avoir que CROM et mettre toutes les stats sur lui ». `canonique` existait
+         deja et rangeait CROMx sous CROM — mais il n'etait pas applique ICI, si bien
+         que les fiches en montraient deux, 16 parties d'un cote et 27 de l'autre,
+         avec des K/D et des nemesis differentes. Le tag reste DATE et sert toujours
+         a reconnaitre les camps ; il ne sert pas a compter deux fois la meme
+         personne. C'est la meme regle que pour la fusion BVS/NT. */
+      const perso = n => sansTag(canonique(n||""));
       for(const f of morts){
-        const v=sansTag(noms[f.victime]||""), t=f.tueur==null?null:sansTag(noms[f.tueur]||"");
+        const v=perso(noms[f.victime]), t=f.tueur==null?null:perso(noms[f.tueur]);
         if(N2.has(f.victime) && v){
           const o=of(v); o.m++; o.serie=0; o.parties.add(cle);
           mp.set(v,(mp.get(v)||0)+1);
@@ -5408,7 +5416,7 @@ function fichesJoueurs(lot, mats){
              venue la faute de casse. Ici les deux colonnes sortent du MEME couple
              tueur/tue, donc elles ne peuvent plus diverger. */
           if(f.tueur!=null && !N2.has(f.tueur)){
-            const q=sansTag(noms[f.tueur]||"");
+            const q=perso(noms[f.tueur]);
             if(q) o.tuePar.set(q,(o.tuePar.get(q)||0)+1);
           }
         }
@@ -5438,7 +5446,7 @@ function fichesJoueurs(lot, mats){
       const VIDE=20, TENIR=10, VENGE=5;
       const mortsDe=new Map(), instMort=[];
       for(const f of morts){
-        const v=sansTag(noms[f.victime]||"");
+        const v=perso(noms[f.victime]);
         if(N2.has(f.victime) && v){
           if(!mortsDe.has(v)) mortsDe.set(v,[]);
           mortsDe.get(v).push(f.instant); instMort.push([f.instant,v]);
@@ -5452,8 +5460,8 @@ function fichesJoueurs(lot, mats){
       }
       let prec=null;
       for(const f of morts){
-        const v=sansTag(noms[f.victime]||""),
-              tn=f.tueur==null?null:sansTag(noms[f.tueur]||"");
+        const v=perso(noms[f.victime]),
+              tn=f.tueur==null?null:perso(noms[f.tueur]);
         /* OUVERTURE : la premiere mort du combat. On la prend a nous ou on la
            donne — c'est le seul instant du combat ou personne n'a encore
            d'information, donc le seul ou le premier coup se merite. */
