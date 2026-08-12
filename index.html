@@ -7747,7 +7747,7 @@ function crSVG(a, fond, strat){
              pts: t.points.map(p=>[p[0], X(p[1],p[2]), Y(p[1],p[2])])})),
            croix: (sp.croix_ciblees||[]).map((c,i)=>({i, slot:c.slot, img:c.image})),
            deb: sp.partie_debut||0, ps: sp.par_seconde||5, saut, hors,
-           cle: plan ? cal.cle : null};
+           cle: plan ? cal.cle : null, vies: sp.vies||null};
   /* L'OUVERTURE VA DU DEBUT A LA PREMIERE MORT, ET RIEN D'AUTRE. Thibaud :
      « il faut juste afficher le trajet de chaque joueur de notre equipe jusqu'a la
      premiere mort ».
@@ -7820,6 +7820,17 @@ function crSVG(a, fond, strat){
     return `<rect x="${i*CASE}" y="${j*CASE}" width="${CASE}" height="${CASE}"
       fill="#ff8a2b" fill-opacity="${fr2(Math.min(.72, o*.72))}"/>`;
   }).join("");
+
+  /* OU EST CHACUN A CET INSTANT. Un trace dit d'ou l'on vient, pas ou l'on est ;
+     c'est pourtant la question quand on cherche pourquoi une equipe tombe d'un coup.
+     Un disque par joueur, place par `crCouper` sur son dernier releve connu, avec
+     l'initiale de son pseudo — pas de legende a chercher. */
+  const pos = [...new Set(CARTE.t.map(t=>t.slot))].map(s=>`<g data-pos="${s}" hidden>
+      <circle r="${plan?13:5}" fill="${coul(s)}" fill-opacity=".9"
+        stroke="#0B0F14" stroke-width="${plan?2.5:1}"/>
+      <text y="${plan?5:2}" text-anchor="middle" font-size="${plan?15:6}"
+        font-weight="700" fill="#0B0F14"
+        >${sansTag(noms[s]||"").slice(0,1).toUpperCase()}</text></g>`).join("");
 
   const dep = Object.entries(sp.spawns||{}).map(([tag,p])=>Array.isArray(p)
     ? `<circle cx="${fr2(X(p[0],p[1]))}" cy="${fr2(Y(p[0],p[1]))}" r="${plan?14:5}"
@@ -7929,7 +7940,7 @@ function crSVG(a, fond, strat){
       aria-label="Trajets et lieux de mort des joueurs sélectionnés">
       <image href="${img}" x="0" y="0" width="${L}" height="${H}" opacity=".55"/>
       <g data-crchaleur hidden>${chaleur}</g>
-      ${dep}${traces}${croix}${st}</svg>`;
+      ${dep}${traces}${croix}${st}${pos}</svg>`;
 }
 
 /* Les strats rangees par phase, l'ordre etant celui du jeu : on commence, on tient,
@@ -8011,6 +8022,7 @@ function carteRevue(a){
       <select data-crstrat><option value="">aucune</option>${crGroupes(cal.cle, stratsIci)}</select>
       <label class="crdepl"><input type="checkbox" data-crdep> ouverture : nous,
         jusqu'à la 1re mort</label>
+      <label class="crdepl"><input type="checkbox" data-crvie> vie en cours seulement</label>
       <label class="crdepl"><input type="checkbox" data-crchal> temps passé</label>
       <s class="crres" data-crecart></s>
       <s class="crres">calage à ${fr2(cal.residu_m)} m près<span data-crhors>${
@@ -8042,6 +8054,23 @@ function crCouper(w, t){
      curseur de temps continue de s'appliquer par-dessus — on prend le plus tot des
      deux, sinon l'un annulerait l'autre. */
   const ouv = w.classList.contains("crdep");
+
+  /* LA VIE EN COURS. Thibaud : « pour les joueurs en vie a ce moment on affiche leur
+     trajet entier, mais sans les trajets des morts precedentes. Le but est de savoir
+     qu'a XX:XX, lorsque CROM etait seul, ce qui a cloche pour qu'on meure tous ».
+
+     C'est une AUTRE question que celle a laquelle le curseur repondait. Il montrait
+     tout le parcours depuis le debut — dix vies empilees, illisible. Ici on ne garde
+     que la vie en cours : d'ou chacun est reparti, et ou il en est.
+
+     UN JOUEUR MORT A CET INSTANT N'A PAS DE VIE EN COURS : il disparait, et c'est le
+     renseignement — voir d'un coup d'oeil qui reste debout. */
+  const vie = w.classList.contains("crvie") && CARTE.vies;
+  const debutVie = s => {
+    const L = (CARTE.vies||{})[s]; if(!L) return 0;
+    for(const [a, b] of L) if(img >= a && img <= b) return a;
+    return Infinity;                       /* mort a cet instant */
+  };
   const fait = new Map();          // un trajet, deux traits : on ne recoupe qu'une fois
   for(const e of w.querySelectorAll(".crsvg path[data-t]")){
     const d = CARTE.t[+e.dataset.t]; if(!d) continue;
@@ -8049,7 +8078,8 @@ function crCouper(w, t){
     if(!m){
       const m1 = ouv ? CARTE.mort1[d.slot] : null;
       const lim = (m1 == null) ? img : Math.min(img, m1);
-      const pts = d.pts.filter(p => p[0] <= lim);
+      const bas = vie ? debutVie(d.slot) : 0;
+      const pts = d.pts.filter(p => p[0] <= lim && p[0] >= bas);
       m = {n: pts.length, d: crChemin(pts, CARTE.saut, CARTE.hors)};
       fait.set(d.i, m);
     }
@@ -8059,6 +8089,21 @@ function crCouper(w, t){
   for(const e of w.querySelectorAll('.crsvg g[data-x]')){
     const c = CARTE.croix[+e.dataset.x]; if(!c) continue;
     e.style.visibility = (c.img == null || c.img <= img) ? "" : "hidden";
+  }
+
+  /* le disque de position : le dernier releve du joueur a cet instant, dans sa vie
+     en cours. Un joueur mort n'en a pas, et son disque disparait. */
+  for(const e of w.querySelectorAll(".crsvg [data-pos]")){
+    const s = +e.dataset.pos;
+    const bas = vie ? debutVie(s) : 0;
+    let q = null;
+    for(const d of CARTE.t){
+      if(d.slot !== s) continue;
+      for(const p of d.pts)
+        if(p[0] <= img && p[0] >= bas && (!q || p[0] > q[0])) q = p;
+    }
+    e.hidden = !q;
+    if(q) e.setAttribute("transform", `translate(${fr2(q[1])},${fr2(q[2])})`);
   }
   const v = w.querySelector("[data-crtv]"); if(v) v.textContent = mmss(t);
 }
@@ -8129,6 +8174,15 @@ document.addEventListener("change", ev => {
   w.classList.toggle("crdep", c.checked);
   const r = w.querySelector("[data-crt]");
   crCouper(w, r ? +r.value : 1e9);      /* la borne par joueur change : on recoupe */
+});
+
+/* « Vie en cours » recoupe : la borne basse de chaque joueur change. */
+document.addEventListener("change", ev => {
+  const c = ev.target.closest("[data-crvie]"); if(!c) return;
+  const w = c.closest(".crwrap"); if(!w) return;
+  w.classList.toggle("crvie", c.checked);
+  const r = w.querySelector("[data-crt]");
+  crCouper(w, r ? +r.value : 1e9);
 });
 
 /* Le temps passe se montre ou se cache ; il est deja dessine. */
