@@ -1459,11 +1459,27 @@ function real(w,x,z,moving){
        courbe s'interrompt à la distance où elle n'y suffit plus.
      - LES ARMES CONTINUES EN SONT EXCLUES. Un faisceau ne se compte pas en balles ;
        on rend `null` plutôt que d'inventer une conversion. */
+/* L'UNITE EST LA BALLE, ET C'EST CE QUI REND LA COMPARAISON HONNETE. Thibaud a vu
+   le piege de l'autre lecture : *« le problème c'est que la Vulcan sortira toujours
+   gagnante car elle mettra toujours 3 balles pour un clic alors que les autres n'en
+   mettront qu'une »*. Verifie — a « 2 clics tete + 1 corps », le Vulcan place NEUF
+   balles et tue, le MX-42 en place trois et ne tue pas. La comparaison ne dirait
+   rien de plus que « qui a la plus grosse rafale ».
+   Compte en balles, la meme sequence est la meme epreuve pour tous : « 3 tete +
+   2 torse » fait 91 degats au Vulcan comme 71 au MX-42, et aucun des deux ne tue.
+
+   MAIS UNE RAFALE PART GROUPEE, et cela, il a raison de le rappeler : on ne choisit
+   pas de mettre la premiere balle en tete et la deuxieme au torse. Les `raf` balles
+   d'une meme rafale prennent donc la zone de la PREMIERE — celle qu'on visait. Une
+   sequence qui change de zone au milieu d'une rafale n'est pas rejetee, elle est
+   RAMENEE a ce que l'arme peut faire, et la page le signale. */
 function ttkSeq(w,x,seq){
   if(!seq || !seq.length) return null;
   if(w.f==="continu") return null;
+  const r = w.raf||1;
   let pv=PV, n=0;
-  for(const z of seq){
+  for(let k=0;k<seq.length;k++){
+    const z = r>1 ? seq[Math.floor(k/r)*r] : seq[k];
     const e=dmg(w,x,z);
     if(!(e>0)) return null;
     pv-=e; n++;
@@ -11751,6 +11767,14 @@ function majSeq(){
         .filter(w => rafaleDe(w) > 1 && SEQ.length % rafaleDe(w) !== 0);
       if(gene.length) t += ` ${gene.map(w=>w.n).join(", ")} tire par rafale de`
         + ` ${rafaleDe(gene[0])} : ${SEQ.length} touches supposent d'en rater.`;
+      /* une rafale part groupee : la sequence est ramenee a ce que l'arme peut faire */
+      const raf = (typeof PICK !== "undefined" ? PICK : [])
+        .map(x => (typeof W !== "undefined") && W.find(w => w.n === x)).filter(Boolean)
+        .filter(w => (w.raf||1) > 1 && SEQ.some((z,k)=>
+          z !== SEQ[Math.floor(k/w.raf)*w.raf]));
+      if(raf.length) t += ` Une rafale part groupée : pour`
+        + ` ${raf.map(w=>w.n).join(", ")}, chaque groupe de ${raf[0].raf} balles prend`
+        + ` la zone de la première — on ne vise qu'une fois par rafale.`;
       const cont = (typeof PICK !== "undefined" ? PICK : [])
         .map(x => (typeof W !== "undefined") && W.find(w => w.n === x)).filter(Boolean)
         .filter(w => w.f === "continu");
