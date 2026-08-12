@@ -1471,6 +1471,27 @@ function ttkSeq(w,x,seq){
   }
   return null;
 }
+/* ---------- ce que la séquence suppose, arme par arme ----------
+   Thibaud : « tu as pris en compte les armes semi-auto comme le Vulcan qui compte
+   3 balles par rafale, et les fusils à pompe qui en tirent aussi plusieurs ? ».
+   Vérification faite, la réponse diffère selon les deux :
+
+   LES FUSILS À POMPE SONT JUSTES. Leurs dégâts sont ceux d'UN COUP ENTIER, gerbe
+   comprise — T1 Gauss 120 en tête, M12 80 — et non ceux d'un plomb. Un clic vaut
+   une détente, ce qui est exactement ce que le modèle compte.
+
+   LE VULCAN NE L'EST PAS, ET CELA NE DATE PAS DE CE MODE. Ses dégâts sont ceux
+   d'UNE BALLE (19/17/15) et `ttk` applique `rpm` uniformément depuis toujours :
+   la structure de la rafale — trois balles rapprochées, puis une pause — n'a
+   jamais été modélisée. La fiche ne publie pas la cadence INTRA-rafale, donc on
+   ne peut pas la corriger sans la mesurer. Deux consequences se disent plutôt que
+   de se taire :
+
+     - le temps affiché pour le Vulcan est approché, avant comme après ;
+     - une rafale part par TROIS : si toutes les balles touchent, le nombre de
+       touches est un multiple de trois. Une séquence de 4 ou 5 balles n'est donc
+       pas atteignable au Vulcan sans en rater, et la page le signale. */
+const rafaleDe = w => { const m=/×\s*(\d+)/.exec(w.c||""); return m ? +m[1] : 1; };
 let SEQ=[];               /* [] = mode classique : tout dans la même zone */
 
 /* TTK utilisé par l'onglet Armes : théorique, ou avec les ratés si la case est cochée */
@@ -11691,11 +11712,27 @@ function majSeq(){
      cochees sans effet */
   const off=SEQ.length>0;
   for(const el of [$("#tog"), $("#cone"), $("#zseg")]) if(el) el.hidden=off;
-  if(n) n.textContent = SEQ.length
-    ? `${SEQ.length} tir${SEQ.length>1?"s":""} déclaré${SEQ.length>1?"s":""} : la courbe`
-      + ` s'interrompt aux distances où cette séquence ne tue pas. Ratés et cône`
-      + ` retirés — vous déclarez des touches. Les armes continues sont exclues.`
-    : "";
+  if(n){
+    let t = "";
+    if(SEQ.length){
+      t = `${SEQ.length} touche${SEQ.length>1?"s":""} déclarée${SEQ.length>1?"s":""} :`
+        + ` la courbe s'interrompt aux distances où cette séquence ne tue pas.`
+        + ` Ratés et cône retirés — vous déclarez des touches.`
+        + ` Un coup de fusil à pompe compte pour un tir, gerbe comprise.`;
+      /* les armes CHOISIES dont la rafale ne tombe pas juste sur la sequence */
+      const gene = (typeof PICK !== "undefined" ? PICK : [])
+        .map(x => (typeof W !== "undefined") && W.find(w => w.n === x)).filter(Boolean)
+        .filter(w => rafaleDe(w) > 1 && SEQ.length % rafaleDe(w) !== 0);
+      if(gene.length) t += ` ${gene.map(w=>w.n).join(", ")} tire par rafale de`
+        + ` ${rafaleDe(gene[0])} : ${SEQ.length} touches supposent d'en rater.`;
+      const cont = (typeof PICK !== "undefined" ? PICK : [])
+        .map(x => (typeof W !== "undefined") && W.find(w => w.n === x)).filter(Boolean)
+        .filter(w => w.f === "continu");
+      if(cont.length) t += ` ${cont.map(w=>w.n).join(", ")} : faisceau continu,`
+        + ` non comptable en balles, courbe absente.`;
+    }
+    n.textContent = t;
+  }
   /* au demarrage la vue n'est pas encore montee : on ne redessine que si elle l'est */
   if(typeof CURVE !== "undefined" || TAB === "curve") try{ drawCurve(); }catch(e){}
 }
