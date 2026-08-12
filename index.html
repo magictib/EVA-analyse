@@ -1366,7 +1366,7 @@ const WIMG = {
 const W = [
  {n:"MX-42",     c:"Fusil d'assaut", cat:"ar",       f:"balle",  d:{tete:15, torse:13, extrem:10},  rpm:672,  eq:.6,  disp:.25,  mag:40, rel:1.5, b:[[0,1],[22,.85],[30,.75]]},
  {n:"AK-77",     c:"Fusil d'assaut", cat:"ar",       f:"balle",  d:{tete:17, torse:15, extrem:14},  rpm:570,  eq:.6,  disp:.3,   mag:35, rel:1.8, b:[[0,1],[25,.83],[35,.75]]},
- {n:"Vulcan",    c:"Rafale ×3",      cat:"ar",       f:"balle",  d:{tete:19, torse:17, extrem:15},  rpm:500,  eq:.4,  disp:.07,  dnote:"moyenne de la rafale : 0 / 0,1 / 0,1", mag:30, rel:1.5, b:[[0,1],[30,.75]]},
+ {n:"Vulcan",    c:"Rafale ×3",      cat:"ar",       f:"balle",  d:{tete:19, torse:17, extrem:15},  rpm:750,  raf:3, pause:.20,  eq:.4,  disp:.07,  dnote:"moyenne de la rafale : 0 / 0,1 / 0,1", mag:30, rel:1.5, b:[[0,1],[30,.75]]},
  {n:"MP-52",     c:"SMG",            cat:"smg",      f:"balle",  d:{tete:19, torse:16, extrem:14},  rpm:630,  eq:.4,  disp:1.431,mag:35, rel:1,   b:[[0,1],[8,.70],[12,.55],[15,.45]]},
  {n:"Striker",   c:"SMG",            cat:"smg",      f:"balle",  d:{tete:19, torse:15, extrem:13},  rpm:780,  eq:.4,  disp:1.5,  mag:30, rel:1,   b:[[0,1],[5,.65],[8,.55],[10,.30]]},
  {n:"Spectre",   c:"SMG",            cat:"smg",      f:"balle",  d:{tete:12, torse:10, extrem:9},   rpm:1020, eq:.4,  disp:1.35, mag:45, rel:1,   b:[[0,1],[8,.65],[12,.50],[20,.10]]},
@@ -1437,7 +1437,7 @@ function real(w,x,z,moving){
   }
   const hits=shots(w,x,z), fired=Math.ceil(hits/hr);
   const rl=reloadsFor(w,fired);
-  return {t:(fired-1)*60000/w.rpm + rl*(w.rel||0)*1000, hits, fired, hr, rl};
+  return {t:tTir(w,fired) + rl*(w.rel||0)*1000, hits, fired, hr, rl};
 }
 /* ---------- une séquence de tirs, zone par zone ----------
    Thibaud : « pouvoir choisir 3 balles tête, 2 balles corps pour voir différentes
@@ -1467,7 +1467,7 @@ function ttkSeq(w,x,seq){
     const e=dmg(w,x,z);
     if(!(e>0)) return null;
     pv-=e; n++;
-    if(pv<=1e-9) return (n-1)*60000/w.rpm + reloadsFor(w,n)*(w.rel||0)*1000;
+    if(pv<=1e-9) return tTir(w,n) + reloadsFor(w,n)*(w.rel||0)*1000;
   }
   return null;
 }
@@ -1580,10 +1580,36 @@ const SRC = [...W, ...NADE];
 const bySrc = n => SRC.find(s=>s.n===n);
 
 const mult = (w,x)=>{let m=w.b[0][1];for(const[d,v]of w.b){if(x>=d)m=v;}return m;};
+/* ---------- quand part la k-ième balle ----------
+   Thibaud a releve la fiche du Vulcan : 3 balles par rafale, 750 rpm, 0,20 s entre
+   deux rafales, 0,16 s de « vitesse de la rafale ». Les trois premiers chiffres
+   suffisent — 0,16 s EST (3−1) × 60/750, la fiche le redit autrement.
+
+   LE 500 RPM QUE PORTAIT CETTE PAGE ETAIT UNE MOYENNE, et c'est pour cela qu'il
+   passait inapercu : 3 balles par (0,16 + 0,20) s font 8,33 balles/s, soit 500 rpm
+   pile. Le DEBIT etait donc juste et le RYTHME faux, ce qui ne se voit que sur le
+   temps a tuer :
+
+       balle       modele a 500 rpm      reel (750 rpm, rafales de 3)
+         1              0 ms                     0 ms
+         3            240 ms                   160 ms
+         4            360 ms                   360 ms
+         6            600 ms                   520 ms
+
+   Il tombe juste au DEBUT de chaque rafale et se trompe entre les deux. Le Vulcan
+   tue en six balles (19 en tete, 100 PV) : 80 ms de trop, soit 15 %.
+
+   Une arme sans `raf` garde le calcul uniforme, qui est exact pour elle. */
+function tTir(w,k){
+  const dt = 60000/w.rpm, n = w.raf||1;
+  if(n < 2 || !w.pause) return (k-1)*dt;
+  const b = Math.floor((k-1)/n), i = (k-1)%n;
+  return b*((n-1)*dt + w.pause*1000) + i*dt;
+}
 const dmg  = (w,x,z)=>w.d[z]*mult(w,x);
 const shots= (w,x,z)=>{const e=dmg(w,x,z);if(e<=0)return null;return w.f==="continu"?PV/e:Math.ceil(PV/e);};
 const ttk  = (w,x,z)=>{const e=dmg(w,x,z);if(e<=0)return null;
-  return w.f==="continu"?1000*PV/e:(Math.ceil(PV/e)-1)*60000/w.rpm;};
+  return w.f==="continu"?1000*PV/e:tTir(w,Math.ceil(PV/e));};
 
 /* ---------- pression sur le chargeur ----------
    mag et rel ne sont renseignés que pour les armes dont la 1.8.0 publie la fiche.
@@ -2154,7 +2180,7 @@ function finishers(a,blast){
     const e=dmg(w,D,Z); if(e<=0) return;
     if(w.f==="continu"){ out.push({label,w,delay,tag,n:null,t:delay+1000*rem/e}); return; }
     const n=Math.ceil(rem/e);
-    out.push({label,w,delay,tag,n,t:delay+(n-1)*60000/w.rpm});
+    out.push({label,w,delay,tag,n,t:delay+tTir(w,n)});
   };
   if(!a.g) add(a.cd ? `Attendre la recharge (${fr(a.cd)} s)` : `Rester sur ${a.n}`,
       a, a.cd ? a.cd*1000 : (a.f==="continu" ? 0 : 60000/a.rpm), "stay");
