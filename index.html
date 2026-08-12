@@ -8241,7 +8241,7 @@ function carteRevue(a){
   }
   const phors = tous ? dehors/tous : 0;
 
-  return `<div class="crwrap" data-carte>
+  const html = `<div class="crwrap" data-carte>
     <h4>La carte, joueur par joueur</h4>
     <div class="crsel">${cases}
       <button data-act="crtous">tous</button>
@@ -8261,8 +8261,8 @@ function carteRevue(a){
       <s class="crres">calage à ${fr2(cal.residu_m)} m près<span data-crhors>${
         dehors ? ` · ${(phors*100).toFixed(1)} % du trajet hors zone` : ""}</span></s></div>` : ""}
     <div class="crtemps"><label>jusqu'à</label>
-      <input type="range" data-crt min="0" max="${duree}" value="${duree}" step="1">
-      <b data-crtv>${mmss(duree)}</b>
+      <input type="range" data-crt min="0" max="${duree}" value="0" step="1">
+      <b data-crtv>0:00</b>
       <button data-act="crjouer" title="dérouler la partie">▶</button></div>
     <div data-crzone>${crSVG(a, "mini", "")}</div>
     <p class="note">Le trait fin est un <b>trajet</b>, le X une <b>mort</b> — même
@@ -8274,6 +8274,13 @@ function carteRevue(a){
       ${dehors ? `Sur le plan, ce qui tombe <b>hors de la zone jouable</b> est tracé
         en pointillé pâle : c'est un suivi douteux, à ne pas comparer à une strat.` : ""}</p>
   </div>`;
+  /* LE CURSEUR PART DE ZERO, DONC LA CARTE AUSSI. Thibaud : « j'aimerais que le
+     curseur soit a 0 au depart et pas a la fin pour les trajets ». Une carte qui
+     s'ouvre pleine puis se vide au premier mouvement donne a lire l'inverse de ce
+     qu'on cherche : on veut voir la partie SE FAIRE. Le SVG est rendu entier — il
+     l'est une seule fois — puis coupe des que le DOM existe. */
+  setTimeout(()=>{ const w=document.querySelector(".crwrap"); if(w) crCouper(w, 0); }, 0);
+  return html;
 }
 
 /* LE CURSEUR COUPE, IL NE FILTRE PAS. Un trajet montre le chemin PARCOURU jusqu'a
