@@ -7757,7 +7757,8 @@ function crSVG(a, fond, strat){
         ? sp.lieux_morts : (sp.croix_ciblees||[]).map(c=>({...c, source:"croix"}));
   CARTE = {t: tr.map((t,i)=>({i, slot:t.slot,
              pts: t.points.map(p=>[p[0], X(p[1],p[2]), Y(p[1],p[2])])})),
-           croix: morts.map((c,i)=>({i, slot:c.slot, img:c.image})),
+           croix: morts.map((c,i)=>({i, slot:c.slot, img:c.image,
+                                     p:[c.image, X(c.x,c.y), Y(c.x,c.y)]})),
            deb: sp.partie_debut||0, ps: sp.par_seconde||5, saut, hors,
            cle: plan ? cal.cle : null, vies: sp.vies||null};
   /* L'OUVERTURE VA DU DEBUT A LA PREMIERE MORT, ET RIEN D'AUTRE. Thibaud :
@@ -8119,6 +8120,10 @@ function crCouper(w, t){
     const bas = vie ? debutVie(c.slot) : 0;
     e.style.visibility = (c.img == null || (c.img <= img && c.img >= bas))
       ? "" : "hidden";
+    /* UNE MORT HORS ZONE JOUABLE EST DOUTEUSE, comme un trajet hors zone. Le masque
+       d'arene ne s'appliquait qu'aux traces : une croix posee dans le noir sortait
+       en plein contraste et se lisait comme une mesure. */
+    if(CARTE.hors && c.p) e.style.opacity = CARTE.hors(c.p) ? ".22" : "";
   }
 
   /* le disque de position : le dernier releve du joueur a cet instant, dans sa vie
