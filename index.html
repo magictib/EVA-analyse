@@ -1508,6 +1508,10 @@ function ttkSeq(w,x,seq){
        touches est un multiple de trois. Une séquence de 4 ou 5 balles n'est donc
        pas atteignable au Vulcan sans en rater, et la page le signale. */
 const rafaleDe = w => { const m=/×\s*(\d+)/.exec(w.c||""); return m ? +m[1] : 1; };
+/* Le debit SOUTENU d'une arme a rafale : `raf` balles par cycle, et le cycle vaut
+   la duree de la rafale plus la pause. Rendu en RPM pour se comparer aux autres. */
+const rafSoutenue = w => (w.raf>1 && w.pause)
+  ? Math.round(w.raf * 60000 / ((w.raf-1)*60000/w.rpm + w.pause*1000)) : null;
 let SEQ=[];               /* [] = mode classique : tout dans la même zone */
 
 /* TTK utilisé par l'onglet Armes : théorique, ou avec les ratés si la case est cochée */
@@ -3021,7 +3025,16 @@ function drawGuns(){
       ["Dégâts tête", fr(w.d.tete)],
       ["Dégâts torse", fr(w.d.torse)],
       ["Dégâts extrémités", fr(w.d.extrem)],
-      ["Cadence", w.rpm ? fr(w.rpm)+" RPM" + (w.f==="continu"?" · faisceau continu":"") : "tir continu"],
+      /* UNE CADENCE DE RAFALE N'EST PAS UNE CADENCE SOUTENUE, et l'afficher seule
+         ferait lire une arme bien plus forte qu'elle. Thibaud : « Cadence 750 pour
+         le Vulcan, il faut préciser car ce n'est pas la réalité sinon l'arme sera
+         hyper forte ». Les 750 RPM valent DANS la rafale ; sur la durée, la pause
+         entre deux rafales ramène le débit à 500. On donne les deux. */
+      ["Cadence", w.rpm
+        ? fr(w.rpm)+" RPM" + (w.f==="continu" ? " · faisceau continu" : "")
+          + (rafSoutenue(w) ? ` en rafale · ${fr(rafSoutenue(w))} RPM soutenu`
+                              + ` (${w.raf} balles, pause ${fr(w.pause)} s)` : "")
+        : "tir continu"],
       ["Dispersion", w.disp ? fr(w.disp,w.disp%1?2:0)+"°" + (w.dmove!==undefined?` · ${fr(w.dmove)}° en mouvement`:"") : "nulle"],
       ["Chargeur", w.mag
         ? (w.f==="continu"
