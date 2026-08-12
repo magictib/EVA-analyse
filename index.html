@@ -420,9 +420,26 @@
      cette partie plus petite car je ne vois pas l'ensemble de la carte lorsque
      j'avance sur le curseur ». Deplacer le curseur et regarder la carte sont le
      MEME geste : si l'un chasse l'autre hors de l'ecran, la vue ne sert a rien.
-     On borne donc la hauteur au reste de la fenetre, cases et curseur deduits. */
-  .crsvg{width:100%;height:auto;display:block;background:#05070c;
-    max-height:calc(100vh - 230px);object-fit:contain;
+     On borne donc la hauteur au reste de la fenetre, cases et curseur deduits.
+
+     ET C'EST LA LARGEUR QU'IL FAUT BORNER, PAS LA HAUTEUR. Thibaud, le 12/08 :
+     « la carte outlaw est un peu trop rognee car on ne voit pas la partie du haut ».
+     `width:100%` fixait la largeur, `max-height` rabotait ensuite la hauteur, et
+     RIEN ne faisait retrecir la largeur en retour : le dessin restait calcule pour
+     la hauteur pleine et se faisait couper. Mesure sur sa capture, en repartant des
+     teleporteurs visibles : le plan etait rendu sur 638 px dans une boite de 573,
+     donc 54 px manquants en haut et 11 en bas.
+
+     Outlaw est la SEULE carte presque carree — 823x789, quand les dix autres font
+     environ 2:1 — donc la seule ou l'ecart entre les deux bornes soit assez grand
+     pour se voir. Le defaut etait la sur toutes, invisible sur toutes sauf une.
+
+     `max-width` porte donc desormais la borne de hauteur, convertie par le rapport
+     du viewBox que `crSVG` pose en ligne : la largeur cede la premiere et la hauteur
+     suit d'elle-meme. `object-fit` est retire — il ne s'applique pas a un SVG en
+     ligne, qui n'est pas un element remplace, et n'a donc jamais rien fait ici. */
+  .crsvg{width:100%;height:auto;display:block;margin-inline:auto;background:#05070c;
+    max-height:calc(100vh - 230px);
     border:1px solid var(--rule);border-radius:6px}
   .donh,.donr{display:grid;gap:6px;align-items:center;
     grid-template-columns:1.2fr 1.6fr .5fr .6fr .9fr .9fr auto;padding:4px 0}
@@ -8169,7 +8186,11 @@ function crSVG(a, fond, strat){
     st = g.join("");
   }
 
+  /* La borne de hauteur, convertie en largeur par le rapport du viewBox : c'est
+     elle qui fait ceder la largeur AVANT que la hauteur ne soit rabotee, faute de
+     quoi le dessin deborde et se fait couper — voir la note sur `.crsvg`. */
   return `<svg viewBox="0 0 ${L} ${H}" class="crsvg" role="img"
+      style="max-width:calc((100vh - 230px) * ${(L / H).toFixed(4)})"
       aria-label="Trajets et lieux de mort des joueurs sélectionnés">
       <image href="${img}" x="0" y="0" width="${L}" height="${H}" opacity=".55"/>
       <g data-crchaleur hidden>${chaleur}</g>
