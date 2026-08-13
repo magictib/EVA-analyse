@@ -7981,8 +7981,14 @@ function crSVG(a, fond, strat){
      en porte 97 %, la croix quand elle existe et le BOUT DU TRAJET sinon. */
   const morts = (sp.lieux_morts && sp.lieux_morts.length)
         ? sp.lieux_morts : (sp.croix_ciblees||[]).map(c=>({...c, source:"croix"}));
+  /* LE CAP VOYAGE AVEC LE POINT, en quatrieme place. Il est lu dans le repere de la
+     MINIMAP, y vers le haut ; le plan, lui, est tourne de `theta` par le calage, et
+     un cap affiche tel quel y pointerait a cote. On retranche donc l'angle du calage
+     — en degres, et en sens inverse puisque le SVG compte les y vers le bas. */
+  const capDeg = plan && cal ? cal.theta * 180 / Math.PI : 0;
   CARTE = {t: tr.map((t,i)=>({i, slot:t.slot,
-             pts: t.points.map(p=>[p[0], X(p[1],p[2]), Y(p[1],p[2])])})),
+             pts: t.points.map(p=>[p[0], X(p[1],p[2]), Y(p[1],p[2]),
+                                   p.length > 4 && p[4] != null ? p[4] - capDeg : null])})),
            croix: morts.map((c,i)=>({i, slot:c.slot, img:c.image,
                                      p:[c.image, X(c.x,c.y), Y(c.x,c.y)]})),
            deb: sp.partie_debut||0, ps: sp.par_seconde||5, saut, hors,
@@ -8075,8 +8081,17 @@ function crSVG(a, fond, strat){
      c'est pourtant la question quand on cherche pourquoi une equipe tombe d'un coup.
      Un disque par joueur, place par `crCouper` sur son dernier releve connu, avec
      l'initiale de son pseudo — pas de legende a chercher. */
+  /* LE REGARD, DEVANT LA PASTILLE. Thibaud, le 13/08 : « la pointe de la pastille
+     indique la direction dans laquelle va le joueur ». Elle etait a l'ecran depuis le
+     debut et rien ne la lisait ; `lire_caps` la range maintenant dans chaque point.
+     On la dessine en secteur plutot qu'en fleche : la lecture vaut dix degres pres
+     d'une image a l'autre, pas mieux, et un trait fin ferait croire a une visee. */
+  const rp = plan ? 13 : 5, rc = plan ? 30 : 12;
   const pos = [...new Set(CARTE.t.map(t=>t.slot))].map(s=>`<g data-pos="${s}" hidden>
-      <circle r="${plan?13:5}" fill="${coul(s)}" fill-opacity=".9"
+      <g data-cap hidden><path d="M ${fr2(rp)} 0
+          L ${fr2(rc)} ${fr2(-rc*0.34)} L ${fr2(rc)} ${fr2(rc*0.34)} Z"
+        fill="${coul(s)}" fill-opacity=".28"/></g>
+      <circle r="${rp}" fill="${coul(s)}" fill-opacity=".9"
         stroke="#0B0F14" stroke-width="${plan?2.5:1}"/>
       <text y="${plan?5:2}" text-anchor="middle" font-size="${plan?15:6}"
         font-weight="700" fill="#0B0F14"
@@ -8376,6 +8391,14 @@ function crCouper(w, t){
     }
     e.hidden = !q;
     if(q) e.setAttribute("transform", `translate(${fr2(q[1])},${fr2(q[2])})`);
+    /* le secteur de regard : `rotate` tourne dans le sens des aiguilles parce que
+       le SVG compte les y vers le bas, alors que le cap est mesure y vers le haut —
+       d'ou le signe. Pas de cap lu (position interpolee, vignette au bord) : rien. */
+    const c = e.querySelector("[data-cap]");
+    if(c){
+      c.hidden = !(q && q[3] != null);
+      if(q && q[3] != null) c.setAttribute("transform", `rotate(${fr2(-q[3])})`);
+    }
   }
   const v = w.querySelector("[data-crtv]"); if(v) v.textContent = mmss(t);
 }
