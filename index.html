@@ -7981,14 +7981,21 @@ function crSVG(a, fond, strat){
      en porte 97 %, la croix quand elle existe et le BOUT DU TRAJET sinon. */
   const morts = (sp.lieux_morts && sp.lieux_morts.length)
         ? sp.lieux_morts : (sp.croix_ciblees||[]).map(c=>({...c, source:"croix"}));
-  /* LE CAP VOYAGE AVEC LE POINT, en quatrieme place. Il est lu dans le repere de la
-     MINIMAP, y vers le haut ; le plan, lui, est tourne de `theta` par le calage, et
-     un cap affiche tel quel y pointerait a cote. On retranche donc l'angle du calage
-     — en degres, et en sens inverse puisque le SVG compte les y vers le bas. */
+  /* LE CAP SE LIT DANS `t.caps`, UN DICTIONNAIRE indexe par numero d'image. Il avait
+     d'abord ete range DANS le point, en quatrieme place ; cela a casse quinze
+     `for im, x, y in t["points"]` cote chaine, dont le juge de bout de chaine, et
+     `vies.py` l'avait ecrit d'avance. Un dictionnaire, lui, survit aux insertions de
+     `combler_trajets`, ce qu'une liste parallele n'aurait pas fait.
+
+     Il est lu dans le repere de la MINIMAP, y vers le haut ; le plan est tourne de
+     `theta` par le calage, et un cap affiche tel quel y pointerait a cote. On
+     retranche donc l'angle du calage — en degres, et en sens inverse puisque le SVG
+     compte les y vers le bas. */
   const capDeg = plan && cal ? cal.theta * 180 / Math.PI : 0;
   CARTE = {t: tr.map((t,i)=>({i, slot:t.slot,
              pts: t.points.map(p=>[p[0], X(p[1],p[2]), Y(p[1],p[2]),
-                                   p.length > 4 && p[4] != null ? p[4] - capDeg : null])})),
+                                   (t.caps && t.caps[p[0]] != null)
+                                     ? t.caps[p[0]] - capDeg : null])})),
            croix: morts.map((c,i)=>({i, slot:c.slot, img:c.image,
                                      p:[c.image, X(c.x,c.y), Y(c.x,c.y)]})),
            deb: sp.partie_debut||0, ps: sp.par_seconde||5, saut, hors,
