@@ -8561,11 +8561,22 @@ document.addEventListener("click", ev => {
 
 function drawProf(){
   const el=$("#prof"); if(!el) return;
-  const lot=ANALYSES.slice();
   /* SANS BARRE DE TRI. Thibaud : « les filtres peuvent disparaitre ». Le tri reste
      UN etat partage : regler l'onglet Matchs sur une partie restreint aussi les
      fiches. Ce qui l'affiche, c'est le « N parties » de chaque en-tete — il vaut un
-     filtre visible sans en occuper la place. */
+     filtre visible sans en occuper la place.
+
+     CE COMMENTAIRE DECRIVAIT UNE INTENTION QUE LE CODE NE TENAIT PAS : il prenait
+     `ANALYSES.slice()`, donc TOUT, sans le moindre tri. Les fiches ignoraient le
+     filtre partage — et surtout elles comptaient la partie en JEU D'ARMES, que
+     `MODES_HORS` ecarte partout ailleurs depuis le 08/08. Quatre-vingt-quinze frags
+     d'un mode ou l'arme change a chaque kill entraient dans les fiches joueurs sans
+     que rien ne le signale, exactement le defaut que l'exclusion devait fermer.
+     Thibaud, le 14/08 : *« jeu d'armes on ne l'integre pas dans les stats »*.
+
+     `analysesRetenues()` porte deja la bonne regle, celle de `filtre()`. On s'en sert
+     plutot que d'en reecrire une seconde, qui divergerait le jour ou l'autre bouge. */
+  const lot=analysesRetenues();
   el.innerHTML = (lot.length ? fichesJoueurs(lot, MATCHS)
        : `<p class="note">Aucune analyse importée.</p>`);
   if(typeof replieLesNotes==="function") replieLesNotes(el);
