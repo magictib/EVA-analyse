@@ -5776,7 +5776,31 @@ function drawAnaBrut(){
        heure, signalee comme telle, plutot qu'une correction inventee. */
     const hor=(choisie.spatial||{}).horloge;
     const cale=(hor && hor.part>=0.2) ? hor.t_a_debut : 0;
-    const hms=t=>{const u=Math.max(0,t+cale);
+    /* LES ARRETS DE JEU SE RETRANCHENT, ET ILS SONT FREQUENTS. Thibaud, le 14/08 :
+       « s'il y a un bug dans le jeu ou un contact, alors le jeu est mis en pause pour
+       régler le souci ou s'assurer que les personnes vont bien ». Quatre parties du
+       corpus en portent un, jusqu'a 200 secondes.
+
+       Pendant un arret, le temps de la VIDEO avance et celui du JEU non. Un moment
+       date en secondes depuis la premiere image doit donc perdre la duree de tous
+       les arrets qui le precedent, sinon tout ce qui suit une pause est annonce trop
+       tard — de trois minutes sur l'Engine du 11/08.
+
+       Chaque arret est range par le DECOMPTE ou il survient ; on le convertit ici en
+       position video, en cumulant les arrets precedents puisque chacun decale les
+       suivants. */
+    const arrets=(hor && hor.arrets) || [];
+    const manche=(hor && hor.manche) || 600;
+    const bornes=[]; let cum=0;
+    for(const z of [...arrets].sort((x,y)=>y.a-x.a)){
+      bornes.push([(manche-z.a)-cale+cum, z.duree]); cum+=z.duree;
+    }
+    /* UN ARRET NE SE RETRANCHE PAS D'UN COUP : il s'ECOULE. Retirer sa duree entiere
+       des qu'on le depasse faisait RECULER le temps de jeu — 4:33 a la video 280,
+       puis 1:18 a la video 285. On ne retire donc que la part deja passee. */
+    const hms=t=>{let u=t+cale;
+      for(const [v,d] of bornes) u-=Math.min(d,Math.max(0,t-v));
+      u=Math.max(0,u);
       return `${Math.floor(u/60)}:${String(Math.round(u%60)).padStart(2,"0")}`;};
     const p=choisie.partie||{};
     /* Quelles couches la frise porte-t-elle ? La note qui suit doit decrire ce qui
