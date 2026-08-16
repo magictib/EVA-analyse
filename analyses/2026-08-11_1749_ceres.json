@@ -1122,18 +1122,6 @@
    "tueur": null,
    "victime": 8,
    "allie": false
-  },
-  {
-   "instant": 289,
-   "tueur": null,
-   "victime": 1,
-   "allie": false
-  },
-  {
-   "instant": 289,
-   "tueur": null,
-   "victime": 7,
-   "allie": false
   }
  ],
  "ambigus": [],
@@ -70657,5 +70645,8 @@
    ],
    "arret": 0.0
   }
+ },
+ "_retire": {
+  "fin_de_match": 2
  }
 }

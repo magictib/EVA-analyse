@@ -1614,18 +1614,6 @@
    "_mixte": true,
    "arme_reelle": "SPECTRE",
    "_arme_gabarit": 0.254
-  },
-  {
-   "instant": 180,
-   "tueur": null,
-   "victime": 4,
-   "allie": false
-  },
-  {
-   "instant": 180,
-   "tueur": null,
-   "victime": 7,
-   "allie": false
   }
  ],
  "ambigus": [],
@@ -81164,5 +81152,8 @@
    ],
    "arret": 0.0
   }
+ },
+ "_retire": {
+  "fin_de_match": 2
  }
 }

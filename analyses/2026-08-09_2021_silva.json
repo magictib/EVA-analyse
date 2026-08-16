@@ -913,18 +913,6 @@
    "arme_icone": "ARME0",
    "_main": true,
    "arme_reelle": "MP-52"
-  },
-  {
-   "instant": 323,
-   "tueur": null,
-   "victime": 8,
-   "allie": false
-  },
-  {
-   "instant": 323,
-   "tueur": null,
-   "victime": 9,
-   "allie": false
   }
  ],
  "ambigus": [],
@@ -64507,5 +64495,8 @@
    ],
    "arret": 0.0
   }
+ },
+ "_retire": {
+  "fin_de_match": 2
  }
 }

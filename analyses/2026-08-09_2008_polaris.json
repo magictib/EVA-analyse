@@ -1071,24 +1071,12 @@
   },
   {
    "instant": 334,
-   "tueur": null,
-   "victime": 6,
-   "allie": false
-  },
-  {
-   "instant": 334,
    "tueur": 1,
    "victime": 7,
    "allie": false,
    "_mixte": true,
    "arme_reelle": "FURY",
    "_arme_croisee": "gabarit seul"
-  },
-  {
-   "instant": 334,
-   "tueur": null,
-   "victime": 8,
-   "allie": false
   }
  ],
  "ambigus": [],
@@ -55249,5 +55237,8 @@
    ],
    "arret": 0.0
   }
+ },
+ "_retire": {
+  "fin_de_match": 2
  }
 }

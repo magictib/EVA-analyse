@@ -971,18 +971,6 @@
    "_mixte": true,
    "arme_reelle": "FURY",
    "_arme_gabarit": 0.12
-  },
-  {
-   "instant": 268,
-   "tueur": null,
-   "victime": 1,
-   "allie": false
-  },
-  {
-   "instant": 268,
-   "tueur": null,
-   "victime": 4,
-   "allie": false
   }
  ],
  "ambigus": [],
@@ -58709,5 +58697,8 @@
    ],
    "arret": 0.0
   }
+ },
+ "_retire": {
+  "fin_de_match": 2
  }
 }
