@@ -910,7 +910,7 @@
  "frags": [
   {
    "instant": 585,
-   "tueur": 1,
+   "tueur": 2,
    "victime": 7,
    "allie": false,
    "_mixte": true,
@@ -988,7 +988,7 @@
   },
   {
    "instant": 552,
-   "tueur": 1,
+   "tueur": 2,
    "victime": 7,
    "allie": false,
    "_mixte": true,
@@ -1042,11 +1042,12 @@
   },
   {
    "instant": 475,
-   "tueur": null,
+   "tueur": 8,
    "victime": 3,
    "allie": false,
    "arme_reelle": "SPECTRE",
-   "_arme_gabarit": 0.247
+   "_arme_gabarit": 0.247,
+   "_mixte": true
   },
   {
    "instant": 475,
@@ -1274,10 +1275,11 @@
   },
   {
    "instant": 282,
-   "tueur": null,
+   "tueur": 4,
    "victime": 8,
    "allie": false,
-   "_instant_avant": 82
+   "_instant_avant": 82,
+   "_mixte": true
   },
   {
    "instant": 279,
@@ -1319,7 +1321,7 @@
   },
   {
    "instant": 257,
-   "tueur": 1,
+   "tueur": 2,
    "victime": 8,
    "allie": false,
    "_mixte": true,
@@ -1329,7 +1331,7 @@
   },
   {
    "instant": 254,
-   "tueur": 1,
+   "tueur": 2,
    "victime": 6,
    "allie": false,
    "_mixte": true,
@@ -1376,7 +1378,7 @@
   },
   {
    "instant": 218,
-   "tueur": 1,
+   "tueur": 2,
    "victime": 8,
    "allie": false,
    "_mixte": true,

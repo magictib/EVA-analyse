@@ -1020,11 +1020,12 @@
   },
   {
    "instant": 443,
-   "tueur": null,
+   "tueur": 4,
    "victime": 7,
    "allie": false,
    "arme_reelle": "SPECTRE",
-   "_arme_gabarit": 0.181
+   "_arme_gabarit": 0.181,
+   "_mixte": true
   },
   {
    "instant": 418,

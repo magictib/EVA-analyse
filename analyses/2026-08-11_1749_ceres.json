@@ -770,7 +770,7 @@
   },
   {
    "instant": 534,
-   "tueur": 1,
+   "tueur": 2,
    "victime": 6,
    "allie": false,
    "_mixte": true,
@@ -857,7 +857,7 @@
   },
   {
    "instant": 493,
-   "tueur": 6,
+   "tueur": 7,
    "victime": 4,
    "allie": false,
    "_mixte": true

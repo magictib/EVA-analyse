@@ -1089,7 +1089,7 @@
   },
   {
    "instant": 550,
-   "tueur": 8,
+   "tueur": 7,
    "victime": 4,
    "allie": false,
    "_mixte": true,
@@ -1107,11 +1107,12 @@
   },
   {
    "instant": 515,
-   "tueur": null,
+   "tueur": 3,
    "victime": 8,
    "allie": false,
    "arme_reelle": "SPECTRE",
-   "_arme_gabarit": 0.222
+   "_arme_gabarit": 0.222,
+   "_mixte": true
   },
   {
    "instant": 513,
@@ -1320,11 +1321,12 @@
   },
   {
    "instant": 377,
-   "tueur": null,
+   "tueur": 8,
    "victime": 3,
    "allie": false,
    "arme_reelle": "SPECTRE",
-   "_arme_gabarit": 0.222
+   "_arme_gabarit": 0.222,
+   "_mixte": true
   },
   {
    "instant": 366,
@@ -1337,7 +1339,7 @@
   },
   {
    "instant": 359,
-   "tueur": 8,
+   "tueur": 9,
    "victime": 4,
    "allie": false,
    "_mixte": true,
@@ -1519,7 +1521,7 @@
   },
   {
    "instant": 225,
-   "tueur": 1,
+   "tueur": 2,
    "victime": 7,
    "allie": false,
    "_mixte": true,

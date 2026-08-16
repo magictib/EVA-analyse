@@ -1600,7 +1600,7 @@
   },
   {
    "instant": 197,
-   "tueur": 1,
+   "tueur": 2,
    "victime": 7,
    "allie": false,
    "_mixte": true,
@@ -1636,11 +1636,12 @@
   },
   {
    "instant": 185,
-   "tueur": null,
+   "tueur": 4,
    "victime": 9,
    "allie": false,
    "arme_reelle": "SPECTRE",
-   "_arme_gabarit": 0.246
+   "_arme_gabarit": 0.246,
+   "_mixte": true
   }
  ],
  "ambigus": [],
