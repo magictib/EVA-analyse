@@ -3645,7 +3645,27 @@ async function chargeMatchsEnLigne(){
                                    mien:s.notre_equipe===null||s.notre_equipe===undefined
                                         ? undefined : !!s.notre_equipe});
   }
+  /* UNE PARTIE DEJA CONNUE N'ETAIT JAMAIS RAFRAICHIE, et c'est un fossile.
+     `vus.has(cle)` faisait sauter la ligne entiere : le tableau de fin garde donc la
+     forme qu'il avait le jour ou il est entre dans le stockage local, et sept endroits
+     appellent `saveMatchs()`, donc il y entre vite. Toute colonne AJOUTEE en base
+     devenait invisible pour ces parties-la — pour toujours, et sans message.
+
+     MESURE DU 18/08, qui a trouve le defaut : les fiches affichaient un taux d'assist
+     bati sur HUIT joueurs au lieu de quatre, parce que `mien` n'existait pas encore
+     quand ces parties ont ete mises en cache. Les quatre chiffres de l'ecran ont ete
+     reproduits exactement — jeu d'armes inclus, `canonique` absent, `mien` inerte —
+     alors que la base, elle, est irreprochable : 172 lignes contre 172, quatre joueurs
+     par camp, aucune exception. Le defaut n'etait ni dans la donnee ni dans le calcul,
+     mais dans le fait que la donnee ne montait plus jusqu'au calcul.
+
+     ON RAFRAICHIT DONC `sb`, et seulement lui. C'est le tableau de fin, et la base en
+     est la SOURCE — le collage a la main ne fait que la remplir quand elle est muette.
+     Le reste de la partie n'est pas touche : un `colleur_k` corrige a la main reste
+     une correction a la main. */
   const vus = new Set(MATCHS.map(m => `${m.dt||""} ${m.h||""}`));
+  const parCle = new Map(MATCHS.map(m => [`${m.dt||""} ${m.h||""}`, m]));
+  let rafraichies = 0;
   /* Les parties collees ici portent une carte normalisee (`cle`), sur laquelle
      le tri s'appuie. La reconstruire de la meme facon, sinon les parties venues
      de la base echapperaient au filtre par carte. */
@@ -3653,7 +3673,15 @@ async function chargeMatchsEnLigne(){
   let n = 0;
   for(const l of lignes){
     const cle = `${l.dt||""} ${l.h||""}`;
-    if(!l.dt || !l.h || vus.has(cle)) continue;
+    if(!l.dt || !l.h) continue;
+    if(vus.has(cle)){
+      const dej = parCle.get(cle), neuf = parMatch.get(l.id);
+      if(dej && neuf && neuf.length){
+        const av = JSON.stringify(dej.sb||[]);
+        if(av !== JSON.stringify(neuf)){ dej.sb = neuf; rafraichies++; }
+      }
+      continue;
+    }
     const p={dt:l.dt, h:l.h, carte:l.carte||"", cle:norm(l.carte),
              mode:l.mode||"", res:l.resultat||"",
              tagN:l.notre_tag||null, tagA:l.adverse_tag||null,
@@ -3667,9 +3695,16 @@ async function chargeMatchsEnLigne(){
     MATCHS.push(p);
     vus.add(cle); n++;
   }
-  if(!n) return;
+  /* `rafraichies` compte autant que `n` : une partie mise a jour ne change pas le
+     nombre de parties, mais elle change TOUS les chiffres qui se lisent sur son
+     tableau de fin. Ne redessiner que sur `n` laissait l'ecran sur la version
+     fossile. Et les fiches sont redessinees ici aussi, ce qu'elles n'etaient pas —
+     `drawProf` ne tournait qu'au changement d'onglet, donc la premiere vue d'un
+     onglet Profil deja ouvert montrait l'etat d'avant le chargement. */
+  if(!n && !rafraichies) return;
   if(typeof drawMat === "function" && document.querySelector("#mat")) drawMat();
   if(typeof drawAna === "function" && document.querySelector("#ana")) drawAna();
+  if(typeof drawProf === "function" && document.querySelector("#prof")) drawProf();
 }
 const cleAna = a => `${(a.partie&&a.partie.dt)||""} ${(a.partie&&a.partie.h)||""}`;
 
