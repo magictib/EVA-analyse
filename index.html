@@ -3622,7 +3622,13 @@ async function chargeMatchsEnLigne(){
        venus d'ici s'appelaient donc « Thyr » tout court, et plus rien ne les
        rattachait a une equipe : le classement par adversaire affichait HWD avec
        « 0 joueur vus ». Thibaud l'a vu deux fois de suite. */
-    scores = await sbFetch("scores_match?select=match_id,tag,nom,kills,morts,assists,score,notre_equipe");
+    /* LES DEGATS ET LA PRECISION viennent de l'export EBP Tools, porte en base par
+       `ebp_vers_base.py` le 18/08. Ils ne se lisent NULLE PART dans le HUD : c'est la
+       seule donnee du site qu'aucune image ne pourrait rendre. 336 lignes sur 344 les
+       portent — les huit qui manquent sont la partie en JEU D'ARMES, absente de
+       l'export, que le site ecarte de toute facon. Une case vide se lit « inconnu »
+       et non « zero » : les fiches ne comptent que les parties qui en portent. */
+    scores = await sbFetch("scores_match?select=match_id,tag,nom,kills,morts,assists,score,notre_equipe,degats,precision");
     EVA_SB_OK = true;
   }catch(e){ EVA_SB_OK = false; return; }
   if(!Array.isArray(lignes) || !lignes.length) return;
@@ -3635,6 +3641,7 @@ async function chargeMatchsEnLigne(){
     const nom = s.tag ? `${s.tag}x${s.nom}` : s.nom;
     parMatch.get(s.match_id).push({n:nom, k:s.kills, m:s.morts,
                                    a:s.assists, s:s.score,
+                                   dg:s.degats, pr:s.precision,
                                    mien:s.notre_equipe===null||s.notre_equipe===undefined
                                         ? undefined : !!s.notre_equipe});
   }
@@ -5407,6 +5414,25 @@ function fichesJoueurs(lot, mats){
                      serie:0,serieMax:0,parties:new Set(),
                      tuePar:new Map(),tue:new Map(),ouvOk:0,ouvKo:0,
                      apres:0,apresOk:0,seul:0,parQuoiM:new Map()}); return J.get(n); };
+    /* UNE PERSONNE, UNE FICHE. Thibaud : « c'est la meme personne donc il faut
+       n'avoir que CROM et mettre toutes les stats sur lui ». `canonique` existait
+       deja et rangeait CROMx sous CROM — mais il n'etait pas applique ICI, si bien
+       que les fiches en montraient deux, 16 parties d'un cote et 27 de l'autre,
+       avec des K/D et des nemesis differentes. Le tag reste DATE et sert toujours
+       a reconnaitre les camps ; il ne sert pas a compter deux fois la meme
+       personne. C'est la meme regle que pour la fusion BVS/NT.
+
+       ELLE EST SORTIE DE LA BOUCLE le 18/08, et ce n'est pas un rangement : les
+       blocs qui lisent le TABLEAU DE FIN (taux d'assist, degats, precision) en
+       avaient besoin et ne l'avaient pas. Ils reduisaient le pseudo au seul
+       `sansTag`, donc `BVSxCROMx` leur donnait la cle « CROMX » quand la fiche
+       s'appelle « CROM ». Mesure : la base ecrit CROM de QUATRE facons — `CROM`
+       sans tag 8 parties, `BVSxCROM` 8, `BVSxCROMx` 19, `NTxCROMx` 8 — et le taux
+       d'assist affiche n'en voyait que SEIZE sur 43, « 37 sur 327 kills de
+       coequipiers » la ou la verite est « 100 sur 843 ». La cle « CROMX » etait
+       calculee, ne correspondait a aucune fiche, et se jetait en silence.
+       DEUX NOMS POUR LA MEME IDEE, le piege du 14/08, une regle plus haut. */
+    const perso = n => sansTag(canonique(n||""));
     for(const a of lot){
       const noms=a.noms||{}, N2=new Set((a.partie&&a.partie.nous)||[]);
       const cle=`${a.partie&&a.partie.dt||""} ${a.partie&&a.partie.h||""}`;
@@ -5414,14 +5440,6 @@ function fichesJoueurs(lot, mats){
       const morts=(a.frags||[]).filter(f=>f.instant!=null)
         .sort((x,y)=>y.instant-x.instant);          /* le decompte DESCEND */
       const kp=new Map(), mp=new Map();
-      /* UNE PERSONNE, UNE FICHE. Thibaud : « c'est la meme personne donc il faut
-         n'avoir que CROM et mettre toutes les stats sur lui ». `canonique` existait
-         deja et rangeait CROMx sous CROM — mais il n'etait pas applique ICI, si bien
-         que les fiches en montraient deux, 16 parties d'un cote et 27 de l'autre,
-         avec des K/D et des nemesis differentes. Le tag reste DATE et sert toujours
-         a reconnaitre les camps ; il ne sert pas a compter deux fois la meme
-         personne. C'est la meme regle que pour la fusion BVS/NT. */
-      const perso = n => sansTag(canonique(n||""));
       for(const f of morts){
         const v=perso(noms[f.victime]), t=f.tueur==null?null:perso(noms[f.tueur]);
         if(N2.has(f.victime) && v){
@@ -5528,13 +5546,33 @@ function fichesJoueurs(lot, mats){
        son propre kill dans la fenetre » laisse une trace, le reste demanderait les
        degats. On affiche donc le taux brut, nomme pour ce qu'il est, plutot qu'un
        taux ajuste dont personne ne pourrait dire de combien il a ete releve. */
+    /* LES DEGATS ET LA PRECISION SE LISENT ICI AUSSI, et pour la meme raison que le
+       taux d'assist : ils viennent du TABLEAU DE FIN, pas d'une deduction. Mieux —
+       ils ne se lisent nulle part a l'ecran. Aucune image, si bien lue soit-elle, ne
+       les aurait rendus ; ils viennent de l'export EBP Tools, ce second temoin qui a
+       confirme 42 des 43 parties au kill pres. C'est la seule donnee du site qu'on
+       n'aurait jamais pu deriver.
+
+       LA PRECISION EST UNE MOYENNE DE PARTIES, ET ON LA NOMME AINSI. La ponderer par
+       les tirs serait plus juste, mais l'export ne donne PAS le nombre de tirs : une
+       ponderation par les kills ou par les degats serait inventee. On affiche donc la
+       moyenne brute, nommee pour ce qu'elle est — la meme regle que le taux d'assist,
+       qui s'annonce « brut » plutot que de se donner un denominateur bricole. */
     const AS=new Map();
     for(const m of mats){
       const nous=(m.sb||[]).filter(x=>x.mien!==false);
       const kEq=nous.reduce((s,x)=>s+(+x.k||0),0);
       for(const x of nous){
-        const n=sansTag(x.n||"").toUpperCase(); if(!n) continue;
-        const o=AS.get(n)||{a:0,occ:0}; o.a+=(+x.a||0); o.occ+=kEq-(+x.k||0);
+        const n=perso(x.n||"").toUpperCase(); if(!n) continue;
+        const o=AS.get(n)||{a:0,occ:0,dg:0,dn:0,pr:0,pn:0};
+        o.a+=(+x.a||0); o.occ+=kEq-(+x.k||0);
+        /* UNE CASE VIDE SE LIT « INCONNU » ET NON « ZERO ». C'est la regle que
+           `colleur_k` a deja payee — une colonne vide devenue un K/D de 0,00
+           affiche comme un vrai resultat. Les huit lignes sans degats sont la
+           partie en jeu d'armes ; les compter a zero enfoncerait la moyenne de
+           quatre joueurs sans que rien ne le signale. */
+        if(x.dg!=null){ o.dg+=(+x.dg||0); o.dn++; }
+        if(x.pr!=null){ o.pr+=(+x.pr||0); o.pn++; }
         AS.set(n,o);
       }
     }
@@ -5604,6 +5642,14 @@ function fichesJoueurs(lot, mats){
               return `<div class="fjc"><s>taux d'assist</s>
                 <b>${(100*s.a/s.occ).toFixed(1)} %</b>
                 <u>${s.a} sur ${s.occ} kills de coéquipiers</u></div>`;})()}
+            ${(()=>{const s=AS.get(n.toUpperCase()); if(!s||!s.dn) return "";
+              return `<div class="fjc"><s>dégâts par partie</s>
+                <b>${Math.round(s.dg/s.dn)}</b>
+                <u>${s.dg.toLocaleString("fr-FR")} au total sur ${s.dn} partie${s.dn>1?"s":""}</u></div>`;})()}
+            ${(()=>{const s=AS.get(n.toUpperCase()); if(!s||!s.pn) return "";
+              return `<div class="fjc"><s>précision</s>
+                <b>${(100*s.pr/s.pn).toFixed(1).replace(".",",")} %</b>
+                <u>moyenne de ${s.pn} partie${s.pn>1?"s":""}</u></div>`;})()}
             ${(()=>{
               const ou=o.ouvOk+o.ouvKo;
               /* LE LIBELLE DOIT SE SUFFIRE. Thibaud a demande ce que « ouvertures »
@@ -8575,9 +8621,20 @@ function drawProf(){
      Thibaud, le 14/08 : *« jeu d'armes on ne l'integre pas dans les stats »*.
 
      `analysesRetenues()` porte deja la bonne regle, celle de `filtre()`. On s'en sert
-     plutot que d'en reecrire une seconde, qui divergerait le jour ou l'autre bouge. */
+     plutot que d'en reecrire une seconde, qui divergerait le jour ou l'autre bouge.
+
+     ET LE SECOND ARGUMENT PORTAIT LA MEME FAUTE, refermee seulement le 18/08. Le
+     premier a bien ete corrige ce jour-la, mais `fichesJoueurs(lot, MATCHS)` passait
+     encore MATCHS ENTIER comme tableaux de fin — donc tout ce qui se lit sur eux,
+     le taux d'assist et desormais les degats et la precision, ignorait le tri
+     partage ET reprenait la partie en jeu d'armes. Mesure en base : cette partie
+     porte 26 assists et 88 kills, qui entraient dans les taux. La declaration de
+     `LOT` le disait pourtant mot pour mot — « les tuiles, l'effectif, LES FICHES et
+     les tableaux parlent tous du meme lot ». On appelle `filtre()` plutot que de
+     lire `LOT`, qui est vide tant que l'onglet Matchs n'a pas ete rendu une fois :
+     un ordre d'affichage ne doit pas decider d'un chiffre. */
   const lot=analysesRetenues();
-  el.innerHTML = (lot.length ? fichesJoueurs(lot, MATCHS)
+  el.innerHTML = (lot.length ? fichesJoueurs(lot, filtre())
        : `<p class="note">Aucune analyse importée.</p>`);
   if(typeof replieLesNotes==="function") replieLesNotes(el);
 }
