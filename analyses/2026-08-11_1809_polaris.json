@@ -73303,6 +73303,1359 @@
      "duree": 62.0
     }
    ]
+  },
+  "points_hud": {
+   "carte": "Polaris",
+   "centres": [
+    [
+     956,
+     175
+    ]
+   ],
+   "pas": 5,
+   "etats": {
+    "1": [
+     "libre"
+    ],
+    "6": [
+     "libre"
+    ],
+    "11": [
+     "libre"
+    ],
+    "16": [
+     "libre"
+    ],
+    "21": [
+     "libre"
+    ],
+    "26": [
+     "libre"
+    ],
+    "31": [
+     "libre"
+    ],
+    "36": [
+     "libre"
+    ],
+    "41": [
+     "libre"
+    ],
+    "46": [
+     "libre"
+    ],
+    "51": [
+     "libre"
+    ],
+    "56": [
+     "libre"
+    ],
+    "61": [
+     "libre"
+    ],
+    "66": [
+     "libre"
+    ],
+    "71": [
+     "libre"
+    ],
+    "76": [
+     "libre"
+    ],
+    "81": [
+     "libre"
+    ],
+    "86": [
+     "libre"
+    ],
+    "91": [
+     "libre"
+    ],
+    "96": [
+     "libre"
+    ],
+    "101": [
+     "libre"
+    ],
+    "106": [
+     "libre"
+    ],
+    "111": [
+     "libre"
+    ],
+    "116": [
+     "libre"
+    ],
+    "121": [
+     "libre"
+    ],
+    "126": [
+     "libre"
+    ],
+    "131": [
+     "libre"
+    ],
+    "136": [
+     "libre"
+    ],
+    "141": [
+     "libre"
+    ],
+    "146": [
+     "libre"
+    ],
+    "151": [
+     "libre"
+    ],
+    "156": [
+     "libre"
+    ],
+    "161": [
+     "libre"
+    ],
+    "166": [
+     "libre"
+    ],
+    "171": [
+     null
+    ],
+    "176": [
+     null
+    ],
+    "181": [
+     null
+    ],
+    "186": [
+     null
+    ],
+    "191": [
+     "alliance"
+    ],
+    "196": [
+     "alliance"
+    ],
+    "201": [
+     "alliance"
+    ],
+    "206": [
+     "alliance"
+    ],
+    "211": [
+     "alliance"
+    ],
+    "216": [
+     "alliance"
+    ],
+    "221": [
+     "alliance"
+    ],
+    "226": [
+     "alliance"
+    ],
+    "231": [
+     "alliance"
+    ],
+    "236": [
+     "alliance"
+    ],
+    "241": [
+     "alliance"
+    ],
+    "246": [
+     "alliance"
+    ],
+    "251": [
+     "alliance"
+    ],
+    "256": [
+     "alliance"
+    ],
+    "261": [
+     "alliance"
+    ],
+    "266": [
+     "alliance"
+    ],
+    "271": [
+     "alliance"
+    ],
+    "276": [
+     "alliance"
+    ],
+    "281": [
+     "alliance"
+    ],
+    "286": [
+     "alliance"
+    ],
+    "291": [
+     "alliance"
+    ],
+    "296": [
+     "alliance"
+    ],
+    "301": [
+     "alliance"
+    ],
+    "306": [
+     "alliance"
+    ],
+    "311": [
+     "alliance"
+    ],
+    "316": [
+     "alliance"
+    ],
+    "321": [
+     "alliance"
+    ],
+    "326": [
+     "alliance"
+    ],
+    "331": [
+     "alliance"
+    ],
+    "336": [
+     "alliance"
+    ],
+    "341": [
+     "alliance"
+    ],
+    "346": [
+     "alliance"
+    ],
+    "351": [
+     "alliance"
+    ],
+    "356": [
+     "alliance"
+    ],
+    "361": [
+     "alliance"
+    ],
+    "366": [
+     "alliance"
+    ],
+    "371": [
+     "alliance"
+    ],
+    "376": [
+     "alliance"
+    ],
+    "381": [
+     "alliance"
+    ],
+    "386": [
+     "alliance"
+    ],
+    "391": [
+     "alliance"
+    ],
+    "396": [
+     "alliance"
+    ],
+    "401": [
+     "alliance"
+    ],
+    "406": [
+     "alliance"
+    ],
+    "411": [
+     "alliance"
+    ],
+    "416": [
+     "alliance"
+    ],
+    "421": [
+     "alliance"
+    ],
+    "426": [
+     "alliance"
+    ],
+    "431": [
+     "alliance"
+    ],
+    "436": [
+     "alliance"
+    ],
+    "441": [
+     "alliance"
+    ],
+    "446": [
+     "alliance"
+    ],
+    "451": [
+     "alliance"
+    ],
+    "456": [
+     "alliance"
+    ],
+    "461": [
+     "alliance"
+    ],
+    "466": [
+     "alliance"
+    ],
+    "471": [
+     "alliance"
+    ],
+    "476": [
+     "alliance"
+    ],
+    "481": [
+     "alliance"
+    ],
+    "486": [
+     "alliance"
+    ],
+    "491": [
+     "alliance"
+    ],
+    "496": [
+     "alliance"
+    ],
+    "501": [
+     "alliance"
+    ],
+    "506": [
+     "alliance"
+    ],
+    "511": [
+     "alliance"
+    ],
+    "516": [
+     "alliance"
+    ],
+    "521": [
+     "alliance"
+    ],
+    "526": [
+     "alliance"
+    ],
+    "531": [
+     "alliance"
+    ],
+    "536": [
+     "alliance"
+    ],
+    "541": [
+     "alliance"
+    ],
+    "546": [
+     "alliance"
+    ],
+    "551": [
+     "alliance"
+    ],
+    "556": [
+     "alliance"
+    ],
+    "561": [
+     "alliance"
+    ],
+    "566": [
+     "alliance"
+    ],
+    "571": [
+     "alliance"
+    ],
+    "576": [
+     "alliance"
+    ],
+    "581": [
+     "alliance"
+    ],
+    "586": [
+     "alliance"
+    ],
+    "591": [
+     "alliance"
+    ],
+    "596": [
+     "alliance"
+    ],
+    "601": [
+     "alliance"
+    ],
+    "606": [
+     "alliance"
+    ],
+    "611": [
+     "alliance"
+    ],
+    "616": [
+     "alliance"
+    ],
+    "621": [
+     "alliance"
+    ],
+    "626": [
+     "alliance"
+    ],
+    "631": [
+     "alliance"
+    ],
+    "636": [
+     "alliance"
+    ],
+    "641": [
+     "alliance"
+    ],
+    "646": [
+     "alliance"
+    ],
+    "651": [
+     "alliance"
+    ],
+    "656": [
+     "alliance"
+    ],
+    "661": [
+     "alliance"
+    ],
+    "666": [
+     "alliance"
+    ],
+    "671": [
+     "alliance"
+    ],
+    "676": [
+     "alliance"
+    ],
+    "681": [
+     "alliance"
+    ],
+    "686": [
+     "alliance"
+    ],
+    "691": [
+     "alliance"
+    ],
+    "696": [
+     "alliance"
+    ],
+    "701": [
+     "alliance"
+    ],
+    "706": [
+     "alliance"
+    ],
+    "711": [
+     "alliance"
+    ],
+    "716": [
+     "alliance"
+    ],
+    "721": [
+     "alliance"
+    ],
+    "726": [
+     "alliance"
+    ],
+    "731": [
+     "alliance"
+    ],
+    "736": [
+     "alliance"
+    ],
+    "741": [
+     "alliance"
+    ],
+    "746": [
+     "alliance"
+    ],
+    "751": [
+     "rebels"
+    ],
+    "756": [
+     "rebels"
+    ],
+    "761": [
+     "rebels"
+    ],
+    "766": [
+     "rebels"
+    ],
+    "771": [
+     "rebels"
+    ],
+    "776": [
+     "rebels"
+    ],
+    "781": [
+     "rebels"
+    ],
+    "786": [
+     "rebels"
+    ],
+    "791": [
+     "rebels"
+    ],
+    "796": [
+     "rebels"
+    ],
+    "801": [
+     "rebels"
+    ],
+    "806": [
+     "rebels"
+    ],
+    "811": [
+     "rebels"
+    ],
+    "816": [
+     "rebels"
+    ],
+    "821": [
+     "rebels"
+    ],
+    "826": [
+     "rebels"
+    ],
+    "831": [
+     "rebels"
+    ],
+    "836": [
+     "rebels"
+    ],
+    "841": [
+     "rebels"
+    ],
+    "846": [
+     "rebels"
+    ],
+    "851": [
+     "rebels"
+    ],
+    "856": [
+     "rebels"
+    ],
+    "861": [
+     "rebels"
+    ],
+    "866": [
+     "rebels"
+    ],
+    "871": [
+     "rebels"
+    ],
+    "876": [
+     "rebels"
+    ],
+    "881": [
+     "rebels"
+    ],
+    "886": [
+     "rebels"
+    ],
+    "891": [
+     "rebels"
+    ],
+    "896": [
+     "rebels"
+    ],
+    "901": [
+     "rebels"
+    ],
+    "906": [
+     "rebels"
+    ],
+    "911": [
+     "rebels"
+    ],
+    "916": [
+     "rebels"
+    ],
+    "921": [
+     "rebels"
+    ],
+    "926": [
+     "rebels"
+    ],
+    "931": [
+     "rebels"
+    ],
+    "936": [
+     "rebels"
+    ],
+    "941": [
+     "rebels"
+    ],
+    "946": [
+     "rebels"
+    ],
+    "951": [
+     "rebels"
+    ],
+    "956": [
+     "rebels"
+    ],
+    "961": [
+     "rebels"
+    ],
+    "966": [
+     "rebels"
+    ],
+    "971": [
+     "rebels"
+    ],
+    "976": [
+     "rebels"
+    ],
+    "981": [
+     "rebels"
+    ],
+    "986": [
+     "rebels"
+    ],
+    "991": [
+     "rebels"
+    ],
+    "996": [
+     "rebels"
+    ],
+    "1001": [
+     "rebels"
+    ],
+    "1006": [
+     "rebels"
+    ],
+    "1011": [
+     "rebels"
+    ],
+    "1016": [
+     "rebels"
+    ],
+    "1021": [
+     "rebels"
+    ],
+    "1026": [
+     "rebels"
+    ],
+    "1031": [
+     "rebels"
+    ],
+    "1036": [
+     "rebels"
+    ],
+    "1041": [
+     "rebels"
+    ],
+    "1046": [
+     "rebels"
+    ],
+    "1051": [
+     "rebels"
+    ],
+    "1056": [
+     "rebels"
+    ],
+    "1061": [
+     "rebels"
+    ],
+    "1066": [
+     "rebels"
+    ],
+    "1071": [
+     "rebels"
+    ],
+    "1076": [
+     "rebels"
+    ],
+    "1081": [
+     "rebels"
+    ],
+    "1086": [
+     "rebels"
+    ],
+    "1091": [
+     "rebels"
+    ],
+    "1096": [
+     "rebels"
+    ],
+    "1101": [
+     "rebels"
+    ],
+    "1106": [
+     "rebels"
+    ],
+    "1111": [
+     "rebels"
+    ],
+    "1116": [
+     "rebels"
+    ],
+    "1121": [
+     "alliance"
+    ],
+    "1126": [
+     "alliance"
+    ],
+    "1131": [
+     "alliance"
+    ],
+    "1136": [
+     "alliance"
+    ],
+    "1141": [
+     "alliance"
+    ],
+    "1146": [
+     "alliance"
+    ],
+    "1151": [
+     "alliance"
+    ],
+    "1156": [
+     "alliance"
+    ],
+    "1161": [
+     "alliance"
+    ],
+    "1166": [
+     "alliance"
+    ],
+    "1171": [
+     "alliance"
+    ],
+    "1176": [
+     "alliance"
+    ],
+    "1181": [
+     "alliance"
+    ],
+    "1186": [
+     "alliance"
+    ],
+    "1191": [
+     "alliance"
+    ],
+    "1196": [
+     "alliance"
+    ],
+    "1201": [
+     "alliance"
+    ],
+    "1206": [
+     "alliance"
+    ],
+    "1211": [
+     "alliance"
+    ],
+    "1216": [
+     "alliance"
+    ],
+    "1221": [
+     "alliance"
+    ],
+    "1226": [
+     "alliance"
+    ],
+    "1231": [
+     "alliance"
+    ],
+    "1236": [
+     "alliance"
+    ],
+    "1241": [
+     "alliance"
+    ],
+    "1246": [
+     "alliance"
+    ],
+    "1251": [
+     "alliance"
+    ],
+    "1256": [
+     "alliance"
+    ],
+    "1261": [
+     "alliance"
+    ],
+    "1266": [
+     "alliance"
+    ],
+    "1271": [
+     "alliance"
+    ],
+    "1276": [
+     "alliance"
+    ],
+    "1281": [
+     "alliance"
+    ],
+    "1286": [
+     "alliance"
+    ],
+    "1291": [
+     "alliance"
+    ],
+    "1296": [
+     "alliance"
+    ],
+    "1301": [
+     "alliance"
+    ],
+    "1306": [
+     "alliance"
+    ],
+    "1311": [
+     "alliance"
+    ],
+    "1316": [
+     "alliance"
+    ],
+    "1321": [
+     "alliance"
+    ],
+    "1326": [
+     "alliance"
+    ],
+    "1331": [
+     "alliance"
+    ],
+    "1336": [
+     "alliance"
+    ],
+    "1341": [
+     "alliance"
+    ],
+    "1346": [
+     "alliance"
+    ],
+    "1351": [
+     "alliance"
+    ],
+    "1356": [
+     "alliance"
+    ],
+    "1361": [
+     "alliance"
+    ],
+    "1366": [
+     "alliance"
+    ],
+    "1371": [
+     "alliance"
+    ],
+    "1376": [
+     "alliance"
+    ],
+    "1381": [
+     "alliance"
+    ],
+    "1386": [
+     "alliance"
+    ],
+    "1391": [
+     "alliance"
+    ],
+    "1396": [
+     "alliance"
+    ],
+    "1401": [
+     "rebels"
+    ],
+    "1406": [
+     "rebels"
+    ],
+    "1411": [
+     "rebels"
+    ],
+    "1416": [
+     "rebels"
+    ],
+    "1421": [
+     "rebels"
+    ],
+    "1426": [
+     "rebels"
+    ],
+    "1431": [
+     "rebels"
+    ],
+    "1436": [
+     "rebels"
+    ],
+    "1441": [
+     "rebels"
+    ],
+    "1446": [
+     "rebels"
+    ],
+    "1451": [
+     "rebels"
+    ],
+    "1456": [
+     "rebels"
+    ],
+    "1461": [
+     "rebels"
+    ],
+    "1466": [
+     "rebels"
+    ],
+    "1471": [
+     "rebels"
+    ],
+    "1476": [
+     "rebels"
+    ],
+    "1481": [
+     "rebels"
+    ],
+    "1486": [
+     "rebels"
+    ],
+    "1491": [
+     "rebels"
+    ],
+    "1496": [
+     "rebels"
+    ],
+    "1501": [
+     "rebels"
+    ],
+    "1506": [
+     "rebels"
+    ],
+    "1511": [
+     "alliance"
+    ],
+    "1516": [
+     "alliance"
+    ],
+    "1521": [
+     "alliance"
+    ],
+    "1526": [
+     "alliance"
+    ],
+    "1531": [
+     "alliance"
+    ],
+    "1536": [
+     "alliance"
+    ],
+    "1541": [
+     "alliance"
+    ],
+    "1546": [
+     "alliance"
+    ],
+    "1551": [
+     "alliance"
+    ],
+    "1556": [
+     "alliance"
+    ],
+    "1561": [
+     "alliance"
+    ],
+    "1566": [
+     "alliance"
+    ],
+    "1571": [
+     "alliance"
+    ],
+    "1576": [
+     "alliance"
+    ],
+    "1581": [
+     "alliance"
+    ],
+    "1586": [
+     "alliance"
+    ],
+    "1591": [
+     "alliance"
+    ],
+    "1596": [
+     "alliance"
+    ],
+    "1601": [
+     "alliance"
+    ],
+    "1606": [
+     "alliance"
+    ],
+    "1611": [
+     "alliance"
+    ],
+    "1616": [
+     "alliance"
+    ],
+    "1621": [
+     "alliance"
+    ],
+    "1626": [
+     "alliance"
+    ],
+    "1631": [
+     "alliance"
+    ],
+    "1636": [
+     "alliance"
+    ],
+    "1641": [
+     "alliance"
+    ],
+    "1646": [
+     "alliance"
+    ],
+    "1651": [
+     "alliance"
+    ],
+    "1656": [
+     "alliance"
+    ],
+    "1661": [
+     "alliance"
+    ],
+    "1666": [
+     "alliance"
+    ],
+    "1671": [
+     "alliance"
+    ],
+    "1676": [
+     "alliance"
+    ],
+    "1681": [
+     "alliance"
+    ],
+    "1686": [
+     "alliance"
+    ],
+    "1691": [
+     "alliance"
+    ],
+    "1696": [
+     "alliance"
+    ],
+    "1701": [
+     "alliance"
+    ],
+    "1706": [
+     "alliance"
+    ],
+    "1711": [
+     "alliance"
+    ],
+    "1716": [
+     "alliance"
+    ],
+    "1721": [
+     "alliance"
+    ],
+    "1726": [
+     "alliance"
+    ],
+    "1731": [
+     "alliance"
+    ],
+    "1736": [
+     "alliance"
+    ],
+    "1741": [
+     "alliance"
+    ],
+    "1746": [
+     "alliance"
+    ],
+    "1751": [
+     "alliance"
+    ],
+    "1756": [
+     "alliance"
+    ],
+    "1761": [
+     "alliance"
+    ],
+    "1766": [
+     "alliance"
+    ],
+    "1771": [
+     "alliance"
+    ],
+    "1776": [
+     "alliance"
+    ],
+    "1781": [
+     "alliance"
+    ],
+    "1786": [
+     "alliance"
+    ],
+    "1791": [
+     "alliance"
+    ],
+    "1796": [
+     "alliance"
+    ],
+    "1801": [
+     "alliance"
+    ],
+    "1806": [
+     "alliance"
+    ],
+    "1811": [
+     "alliance"
+    ],
+    "1816": [
+     "alliance"
+    ],
+    "1821": [
+     "alliance"
+    ],
+    "1826": [
+     "alliance"
+    ],
+    "1831": [
+     "alliance"
+    ],
+    "1836": [
+     "alliance"
+    ],
+    "1841": [
+     "alliance"
+    ],
+    "1846": [
+     "alliance"
+    ],
+    "1851": [
+     "alliance"
+    ],
+    "1856": [
+     "alliance"
+    ],
+    "1861": [
+     "alliance"
+    ],
+    "1866": [
+     "alliance"
+    ],
+    "1871": [
+     "alliance"
+    ],
+    "1876": [
+     "alliance"
+    ],
+    "1881": [
+     "alliance"
+    ],
+    "1886": [
+     "alliance"
+    ],
+    "1891": [
+     "alliance"
+    ],
+    "1896": [
+     "alliance"
+    ],
+    "1901": [
+     "alliance"
+    ],
+    "1906": [
+     "alliance"
+    ],
+    "1911": [
+     "alliance"
+    ],
+    "1916": [
+     "alliance"
+    ],
+    "1921": [
+     "alliance"
+    ],
+    "1926": [
+     "alliance"
+    ],
+    "1931": [
+     "alliance"
+    ],
+    "1936": [
+     "alliance"
+    ],
+    "1941": [
+     "alliance"
+    ],
+    "1946": [
+     "alliance"
+    ],
+    "1951": [
+     "alliance"
+    ],
+    "1956": [
+     "alliance"
+    ],
+    "1961": [
+     "alliance"
+    ],
+    "1966": [
+     "alliance"
+    ],
+    "1971": [
+     "alliance"
+    ],
+    "1976": [
+     "alliance"
+    ],
+    "1981": [
+     "alliance"
+    ],
+    "1986": [
+     "alliance"
+    ],
+    "1991": [
+     "alliance"
+    ],
+    "1996": [
+     "alliance"
+    ],
+    "2001": [
+     "alliance"
+    ],
+    "2006": [
+     "alliance"
+    ],
+    "2011": [
+     "alliance"
+    ],
+    "2016": [
+     "alliance"
+    ],
+    "2021": [
+     "alliance"
+    ],
+    "2026": [
+     "alliance"
+    ],
+    "2031": [
+     "alliance"
+    ],
+    "2036": [
+     "alliance"
+    ],
+    "2041": [
+     "alliance"
+    ],
+    "2046": [
+     "alliance"
+    ],
+    "2051": [
+     "alliance"
+    ],
+    "2056": [
+     "alliance"
+    ],
+    "2061": [
+     "alliance"
+    ],
+    "2066": [
+     "alliance"
+    ],
+    "2071": [
+     "alliance"
+    ],
+    "2076": [
+     "alliance"
+    ],
+    "2081": [
+     "alliance"
+    ],
+    "2086": [
+     "alliance"
+    ],
+    "2091": [
+     "alliance"
+    ],
+    "2096": [
+     "alliance"
+    ],
+    "2101": [
+     "alliance"
+    ],
+    "2106": [
+     "alliance"
+    ],
+    "2111": [
+     "alliance"
+    ],
+    "2116": [
+     "libre"
+    ],
+    "2121": [
+     "libre"
+    ],
+    "2126": [
+     "libre"
+    ],
+    "2131": [
+     "libre"
+    ],
+    "2136": [
+     "libre"
+    ],
+    "2141": [
+     "libre"
+    ],
+    "2146": [
+     "libre"
+    ],
+    "2151": [
+     "libre"
+    ],
+    "2156": [
+     "libre"
+    ],
+    "2161": [
+     "libre"
+    ],
+    "2166": [
+     "libre"
+    ],
+    "2171": [
+     "libre"
+    ],
+    "2176": [
+     "libre"
+    ],
+    "2181": [
+     "libre"
+    ],
+    "2186": [
+     "libre"
+    ],
+    "2191": [
+     "libre"
+    ],
+    "2196": [
+     "libre"
+    ],
+    "2201": [
+     "libre"
+    ],
+    "2206": [
+     "libre"
+    ],
+    "2211": [
+     "libre"
+    ],
+    "2216": [
+     "libre"
+    ],
+    "2221": [
+     "libre"
+    ],
+    "2226": [
+     "libre"
+    ],
+    "2231": [
+     "libre"
+    ]
+   }
   }
  },
  "_retire": {
