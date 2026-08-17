@@ -47430,7 +47430,25 @@
     "y": 146.4,
     "source": "croix"
    }
-  ]
+  ],
+  "points": {
+   "zones_hud": [
+    {
+     "rang": 0,
+     "cx": 228.0,
+     "cy": 156.0,
+     "l": 42,
+     "h": 41,
+     "x0": 207.0,
+     "x1": 249.0,
+     "y0": 135.5,
+     "y1": 176.5,
+     "parties": 5,
+     "dispersion": 17.88854381999832,
+     "r": 0.74
+    }
+   ]
+  }
  },
  "terrain": {
   "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",

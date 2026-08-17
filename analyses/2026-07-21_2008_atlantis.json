@@ -83301,7 +83301,53 @@
     "y": 190.0,
     "source": "croix"
    }
-  ]
+  ],
+  "points": {
+   "zones_hud": [
+    {
+     "rang": 0,
+     "cx": 244.0,
+     "cy": 44.0,
+     "l": 50,
+     "h": 48,
+     "x0": 219.0,
+     "x1": 269.0,
+     "y0": 20.0,
+     "y1": 68.0,
+     "parties": 6,
+     "dispersion": 24.0,
+     "r": 0.572
+    },
+    {
+     "rang": 1,
+     "cx": 236.0,
+     "cy": 132.0,
+     "l": 50,
+     "h": 48,
+     "x0": 211.0,
+     "x1": 261.0,
+     "y0": 108.0,
+     "y1": 156.0,
+     "parties": 6,
+     "dispersion": 24.0,
+     "r": 0.653
+    },
+    {
+     "rang": 2,
+     "cx": 236.0,
+     "cy": 252.0,
+     "l": 50,
+     "h": 48,
+     "x0": 211.0,
+     "x1": 261.0,
+     "y0": 228.0,
+     "y1": 276.0,
+     "parties": 6,
+     "dispersion": 17.88854381999832,
+     "r": 0.574
+    }
+   ]
+  }
  },
  "terrain": {
   "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",
