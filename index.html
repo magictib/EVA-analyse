@@ -310,6 +310,12 @@
   .fj header b{font-size:19px;letter-spacing:.02em}
   .fj header u{text-decoration:none;font-size:12px;color:var(--ink-faint)}
   .fjg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  /* Le bloc « objectif » de la revue reprend les tuiles des fiches, mais s'adapte au
+     nombre de mesures disponibles : une partie sans anti-cap en montre deux, pas quatre
+     dont deux vides. */
+  .revobj{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:10px;margin:10px 0 18px}
+  .revobj small{display:block;font-size:11px;color:var(--ink-faint);font-weight:400}
   .fjc{background:var(--void);border-radius:8px;padding:8px 10px}
   .fjc s{display:block;text-decoration:none;font-size:11px;letter-spacing:.06em;
     text-transform:uppercase;color:var(--ink-faint)}
@@ -5922,6 +5928,25 @@ function drawAnaBrut(){
         fScore=!!(FRISE&&FRISE.cale); fLu=!!(FRISE&&FRISE.lu); return "";})()}
       ${carteRevue(choisie)}
       ${(()=>{
+        /* L'OBJECTIF DE CETTE PARTIE. Thibaud le voulait ici, sur la partie choisie —
+           c'est le seul endroit du site ou l'on regarde UNE partie et rien d'autre.
+
+           Rien n'est recalcule : `spatial.duels` est pose par `objectif_duels.py`, ou
+           le calcul est mesure. Et une partie sans possession lue n'affiche RIEN au
+           lieu d'un zero : le lecteur de points ne connait pas toutes les cartes, et
+           un 0 ressemble a un resultat quand il veut dire « pas su ». */
+        const d=(choisie.spatial||{}).duels; if(!d) return "";
+        const l=[];
+        if(d.repris!=null)   l.push(["Points repris", d.repris]);
+        if(d.controle!=null) l.push(["Reprises de contrôle", d.controle]);
+        if(d.anticaps_total) l.push(["Anti-cap", d.anticaps_total
+          + (d.en_capture?` <small>dont ${d.en_capture} en pleine capture</small>`:"")]);
+        if(d.subis)          l.push(["Subis sur un point", d.subis]);
+        if(!l.length) return "";
+        return `<h4>L'objectif</h4><div class="revobj">`
+          + l.map(([k,v])=>`<div class="fjc"><s>${k}</s><b>${v}</b></div>`).join("")
+          + `</div>`;})()}
+      ${(()=>{
         /* LE BILAN EN TROIS NOMBRES, qui est ce qu'un coach regarde avant le
            detail. Chacun porte son denominateur : « 5 combats gagnes » ne veut
            rien dire sans le total, et « +12 % pendant nos avantages » ne veut
@@ -7699,6 +7724,32 @@ function catCibles(){
   }
   return {joueurs:[...j].sort((a,b)=>a.localeCompare(b,"fr")), equipes:[...e].sort()};
 }
+/* LE RETAKE PAR CARTE. Thibaud, le 18/08 : *« sur la partie sélectionnée dans l'analyse
+   ça peut être pas mal, et avoir sur les maps aussi la stat de retake de la carte en
+   question »*.
+
+   IL VIENT DES ANALYSES, PAS DE `MATCHS`, et c'est pour cela qu'il ne passe pas par
+   `catBilan` : la possession des points est lue image par image dans le HUD, et seule
+   une analyse la porte (`spatial.duels`, posé par `objectif_duels.py --poser`). Un match
+   collé à la main n'en a pas, et il ne doit pas compter pour zéro — une carte dont
+   aucune partie n'est analysée n'affiche donc RIEN plutôt qu'un 0 qui ressemble à un
+   résultat. C'est la règle de `colleur_k`, payée une fois déjà.
+
+   On agrège sur `analysesRetenues()` pour que le tri partagé s'applique ici comme
+   ailleurs — et le jeu d'armes en est écarté, comme partout. */
+function retakeParCarte(){
+  const g=new Map();
+  for(const a of analysesRetenues()){
+    const d=(a.spatial||{}).duels; if(!d) continue;
+    const c=(()=>{ try{ return cleCarte((a.partie||{}).carte)||""; }catch(e){ return ""; } })();
+    if(!c) continue;
+    const o=g.get(c)||{n:0,repris:0,controle:0,anticap:0};
+    o.n++; o.repris+=d.repris||0; o.controle+=d.controle||0;
+    o.anticap+=d.anticaps_total||0;
+    g.set(c,o);
+  }
+  return g;
+}
 function catBilan(){
   const g=new Map();
   for(const m of MATCHS){
@@ -8698,6 +8749,7 @@ function drawCat(){
   const cles=[...new Set(Object.values(NOMCARTE))]
     .sort((a,b)=>nomDeCle(a).localeCompare(nomDeCle(b),"fr"));
   const bil=catBilan();
+  const RTK=retakeParCarte();
   const cib=catCibles();
   const sel=`<div class="ccible"><label>Bilan de</label>
     <select id="catcible">
@@ -8707,6 +8759,7 @@ function drawCat(){
     </select></div>`;
   const fiches=cles.map(c=>{
     const M0=MAPS[c], ph=CIMG[c], o=bil.get(c), armes=catArmes(c), md=DPROF.med[c];
+    const rt=RTK.get(c);
     const dim=M0?`${fr(M0.w/M0.ppm,1)} × ${fr(M0.h/M0.ppm,1)} m`:null;
     return `<div class="ccard">
       <div class="ctop"${ph?` style="background-image:url(${ph})"`:""}>
@@ -8719,7 +8772,11 @@ function drawCat(){
         ${o.nkd?`<div class="crow"><span>K/D</span><s>${fr(o.k/Math.max(o.m,1),2)}</s></div>
         <div class="crow"><span>(K+A)/mort</span><s>${fr((o.k+o.a)/Math.max(o.m,1),2)}</s></div>`
         :`<div class="crow"><span>K/D</span><s class="cvide">chiffres non collés</s></div>`}
-        ${o.mvp?`<div class="crow"><span>MVP</span><s>${o.mvp}</s></div>`:""}`
+        ${o.mvp?`<div class="crow"><span>MVP</span><s>${o.mvp}</s></div>`:""}
+        ${rt?`<div class="chead">Objectif · ${rt.n} partie${rt.n>1?"s":""} analysée${rt.n>1?"s":""}</div>
+        <div class="crow"><span>Points repris</span><s>${rt.repris} · ${fr(rt.repris/rt.n,1)} par partie</s></div>
+        <div class="crow"><span>Reprises de contrôle</span><s>${rt.controle} · ${fr(rt.controle/rt.n,1)} par partie</s></div>
+        ${rt.anticap?`<div class="crow"><span>Anti-cap</span><s>${rt.anticap}</s></div>`:""}`:""}`
        :`<div class="cnote">Aucune partie enregistrée sur cette carte.</div>`}
       ${armes?`<div class="chead">Armes favorisées par ce profil</div>`
         + armes.map((a,i)=>`<div class="crow"><span>${i+1}. ${a.n}</span>`
