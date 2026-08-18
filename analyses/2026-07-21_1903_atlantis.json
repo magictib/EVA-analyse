@@ -35548,8 +35548,8 @@
     }
    },
    {
-    "slot": 9,
-    "nom": "BVSxTibco",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -35810,7 +35810,8 @@
      "2040": 15,
      "2041": 15,
      "2042": 35
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 9,
@@ -36787,8 +36788,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -36883,7 +36884,8 @@
      "76": 185,
      "77": 195,
      "78": 185
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -39450,8 +39452,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -39686,7 +39688,8 @@
      "912": 295,
      "913": 355,
      "914": 195
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -40143,8 +40146,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -40453,7 +40456,8 @@
      "1342": 145,
      "1343": 145,
      "1344": 155
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -43177,8 +43181,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -43281,7 +43285,8 @@
      "2121": 245,
      "2122": 25,
      "2123": 275
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -53997,8 +54002,8 @@
     }
    },
    {
-    "slot": 1,
-    "nom": "GUNxHippocampe",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -54053,7 +54058,8 @@
      "518": 55,
      "520": 55,
      "521": 65
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 1,
@@ -68394,8 +68400,8 @@
     }
    },
    {
-    "slot": 2,
-    "nom": "GUNxRhino",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -68486,7 +68492,8 @@
      "2042": 355,
      "2043": 355,
      "2044": 355
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -69082,8 +69089,8 @@
     ]
    },
    {
-    "slot": 2,
-    "nom": "GUNxRhino",
+    "slot": null,
+    "nom": null,
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -69266,7 +69273,8 @@
      "2256": 145,
      "2257": 145,
      "2259": 55
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -82852,8 +82860,8 @@
     }
    },
    {
-    "slot": 8,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -82988,7 +82996,8 @@
      "1600": 255,
      "1601": 255,
      "1602": 285
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 8,
@@ -83077,8 +83086,8 @@
     }
    },
    {
-    "slot": 8,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -83201,7 +83210,8 @@
      "1693": 35,
      "1694": 35,
      "1695": 45
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 8,
@@ -83254,8 +83264,8 @@
     "z_pourquoi": "arrive a pied"
    },
    {
-    "slot": 8,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -83506,11 +83516,12 @@
      "1755": 205,
      "1756": 205,
      "1757": 205
-    }
+    },
+    "_elague": true
    },
    {
-    "slot": 8,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -83587,11 +83598,12 @@
      "1771": 135,
      "1772": 135,
      "1773": 135
-    }
+    },
+    "_elague": true
    },
    {
-    "slot": 8,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -83998,7 +84010,8 @@
      "1858": 225,
      "1859": 235,
      "1860": 245
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 8,

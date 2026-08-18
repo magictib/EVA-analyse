@@ -39932,8 +39932,8 @@
     }
    },
    {
-    "slot": 7,
-    "nom": "HWDxLamimolette",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -40306,7 +40306,8 @@
      "1121": 335,
      "1122": 355,
      "1123": 345
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -42282,8 +42283,8 @@
     ]
    },
    {
-    "slot": 8,
-    "nom": "HWDxDreegaran",
+    "slot": null,
+    "nom": null,
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -42323,7 +42324,8 @@
       199
      ]
     ],
-    "par_elimination": true
+    "par_elimination": true,
+    "_elague": true
    },
    {
     "slot": 8,
@@ -49030,8 +49032,8 @@
     }
    },
    {
-    "slot": 4,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -49086,7 +49088,8 @@
      "631": 215,
      "632": 15,
      "633": 55
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 4,
@@ -53575,8 +53578,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "HWDxThyr",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -53697,7 +53700,8 @@
      "893": 355,
      "894": 355,
      "895": 225
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,

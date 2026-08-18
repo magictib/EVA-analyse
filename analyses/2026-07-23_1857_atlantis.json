@@ -27895,8 +27895,8 @@
     }
    },
    {
-    "slot": 9,
-    "nom": "FXCxValtor",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -27969,7 +27969,8 @@
      "1574": 345,
      "1575": 225,
      "1576": 235
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 9,
@@ -30714,8 +30715,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "FXCxParziRahl",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -30978,7 +30979,8 @@
      "87": 15,
      "88": 165,
      "89": 165
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -37404,8 +37406,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "FXCxParziRahl",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -37864,7 +37866,8 @@
      "1943": 185,
      "1944": 175,
      "1946": 175
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -38295,8 +38298,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "FXCxParziRahl",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -38315,7 +38318,8 @@
     "caps": {
      "2041": 55,
      "2042": 235
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -42118,8 +42122,8 @@
     }
    },
    {
-    "slot": 2,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -42134,7 +42138,8 @@
       11
      ]
     ],
-    "par_elimination": true
+    "par_elimination": true,
+    "_elague": true
    },
    {
     "slot": 2,
@@ -47946,8 +47951,8 @@
     }
    },
    {
-    "slot": 7,
-    "nom": "FXCxSky",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -48032,7 +48037,8 @@
      "676": 345,
      "677": 5,
      "678": 25
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 7,
@@ -59826,8 +59832,8 @@
     }
    },
    {
-    "slot": 8,
-    "nom": "FXCxNoxis",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -59860,7 +59866,8 @@
      "1699": 175,
      "1700": 205,
      "1701": 195
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 8,
@@ -62341,8 +62348,8 @@
     }
    },
    {
-    "slot": 8,
-    "nom": "FXCxNoxis",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -62393,7 +62400,8 @@
      "2281": 25,
      "2282": 25,
      "2283": 5
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,

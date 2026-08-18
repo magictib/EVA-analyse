@@ -18124,8 +18124,8 @@
     ]
    },
    {
-    "slot": 6,
-    "nom": "FXCxParziRahl",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -18500,7 +18500,8 @@
      "943": 215,
      "944": 205,
      "945": 75
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -21574,8 +21575,8 @@
     ]
    },
    {
-    "slot": 2,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -21600,7 +21601,8 @@
      "127": 265,
      "128": 265,
      "129": 285
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -21736,8 +21738,8 @@
     }
    },
    {
-    "slot": 2,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -21816,7 +21818,8 @@
      "315": 235,
      "316": 355,
      "317": 295
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 2,
@@ -25554,8 +25557,8 @@
     }
    },
    {
-    "slot": 4,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -25760,7 +25763,8 @@
      "78": 155,
      "79": 65,
      "80": 185
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 4,
@@ -28871,8 +28875,8 @@
     }
    },
    {
-    "slot": 4,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -29169,7 +29173,8 @@
      "1473": 355,
      "1474": 325,
      "1475": 135
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 4,
@@ -29358,8 +29363,8 @@
     }
    },
    {
-    "slot": 1,
-    "nom": "BVSxTibco",
+    "slot": null,
+    "nom": null,
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -29390,11 +29395,12 @@
      "17": 95,
      "18": 95,
      "19": 95
-    }
+    },
+    "_elague": true
    },
    {
-    "slot": 1,
-    "nom": "BVSxTibco",
+    "slot": null,
+    "nom": null,
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -29425,7 +29431,8 @@
      "22": 195,
      "23": 155,
      "24": 345
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -29451,8 +29458,8 @@
     ]
    },
    {
-    "slot": 1,
-    "nom": "BVSxTibco",
+    "slot": null,
+    "nom": null,
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -29471,7 +29478,8 @@
     "caps": {
      "26": 45,
      "27": 335
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -33169,8 +33177,8 @@
     }
    },
    {
-    "slot": 1,
-    "nom": "BVSxTibco",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -33413,7 +33421,8 @@
      "1566": 75,
      "1567": 105,
      "1568": 105
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -33568,8 +33577,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -33812,7 +33821,8 @@
      "93": 5,
      "94": 175,
      "95": 5
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -36481,8 +36491,8 @@
     }
    },
    {
-    "slot": 8,
-    "nom": "FXCxNoxis",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -36593,7 +36603,8 @@
      "40": 225,
      "42": 345,
      "43": 145
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 8,
@@ -36618,8 +36629,8 @@
     }
    },
    {
-    "slot": 8,
-    "nom": "FXCxNoxis",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -36818,7 +36829,8 @@
      "79": 35,
      "80": 35,
      "81": 15
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 8,
@@ -39084,8 +39096,8 @@
     }
    },
    {
-    "slot": 8,
-    "nom": "FXCxNoxis",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -39220,7 +39232,8 @@
      "1003": 155,
      "1004": 175,
      "1005": 175
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 8,

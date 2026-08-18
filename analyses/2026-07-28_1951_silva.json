@@ -28267,8 +28267,8 @@
     }
    },
    {
-    "slot": 2,
-    "nom": "NTxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -28451,7 +28451,8 @@
      "875": 165,
      "879": 165,
      "880": 165
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -29846,8 +29847,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "ENDxY4net",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -29866,7 +29867,8 @@
     "caps": {
      "378": 345,
      "379": 75
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -31825,8 +31827,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "ENDxY4net",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -32263,7 +32265,8 @@
      "1216": 175,
      "1218": 155,
      "1219": 115
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -32505,8 +32508,8 @@
     ]
    },
    {
-    "slot": 8,
-    "nom": "ENDxGodzi",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -32525,7 +32528,8 @@
     "caps": {
      "86": 265,
      "87": 285
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 8,

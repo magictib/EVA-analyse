@@ -20748,8 +20748,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "NTxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -20822,7 +20822,8 @@
      "983": 315,
      "984": 225,
      "985": 215
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,

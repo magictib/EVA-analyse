@@ -17595,8 +17595,8 @@
     }
    },
    {
-    "slot": 4,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -17791,7 +17791,8 @@
      "382": 225,
      "383": 225,
      "384": 115
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -18121,8 +18122,8 @@
     ]
    },
    {
-    "slot": 4,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -18539,7 +18540,8 @@
      "459": 25,
      "460": 355,
      "461": 315
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -18813,8 +18815,8 @@
     ]
    },
    {
-    "slot": 4,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -18833,7 +18835,8 @@
     "caps": {
      "467": 355,
      "468": 145
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 4,
@@ -18926,8 +18929,8 @@
     }
    },
    {
-    "slot": 4,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -18970,7 +18973,8 @@
      "489": 265,
      "490": 335,
      "491": 335
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -19079,8 +19083,8 @@
     }
    },
    {
-    "slot": 4,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -19207,7 +19211,8 @@
      "611": 35,
      "612": 155,
      "613": 155
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 4,
@@ -40422,8 +40427,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "ENDxY4net",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -40540,7 +40545,8 @@
      "556": 225,
      "557": 225,
      "558": 225
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -44054,8 +44060,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "ENDxY4net",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -44122,7 +44128,8 @@
      "1837": 205,
      "1838": 205,
      "1839": 205
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 1,
@@ -65076,8 +65083,8 @@
     }
    },
    {
-    "slot": 9,
-    "nom": "ENDxVikings",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -65102,7 +65109,8 @@
      "1763": 165,
      "1764": 25,
      "1765": 215
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 9,

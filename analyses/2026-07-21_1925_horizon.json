@@ -22836,8 +22836,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -22874,11 +22874,12 @@
      "18": 315,
      "19": 245,
      "20": 315
-    }
+    },
+    "_elague": true
    },
    {
-    "slot": 6,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -22947,7 +22948,8 @@
      "38": 85,
      "39": 155,
      "40": 155
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -32172,8 +32174,8 @@
     }
    },
    {
-    "slot": 8,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -32488,7 +32490,8 @@
      "1409": 325,
      "1410": 325,
      "1411": 335
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -37965,8 +37968,8 @@
     }
    },
    {
-    "slot": 7,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -38003,7 +38006,8 @@
      "1388": 205,
      "1389": 205,
      "1390": 205
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 9,
@@ -38161,8 +38165,8 @@
     ]
    },
    {
-    "slot": 7,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -38187,7 +38191,8 @@
      "1421": 45,
      "1422": 55,
      "1423": 55
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 7,
@@ -41777,8 +41782,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "GUNxRabitte",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -41803,7 +41808,8 @@
      "571": 315,
      "572": 305,
      "573": 315
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -42298,8 +42304,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "GUNxRabitte",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -42414,7 +42420,8 @@
      "754": 315,
      "755": 315,
      "756": 315
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -45670,8 +45677,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "GUNxRabitte",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -45708,7 +45715,8 @@
      "1545": 195,
      "1546": 205,
      "1547": 205
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -51576,8 +51584,8 @@
     }
    },
    {
-    "slot": 9,
-    "nom": "BVSxTibco",
+    "slot": null,
+    "nom": null,
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -51626,7 +51634,8 @@
      "1726": 245,
      "1727": 245,
      "1728": 245
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 1,
@@ -55270,8 +55279,8 @@
     ]
    },
    {
-    "slot": 1,
-    "nom": "GUNxHippocampe",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -55302,7 +55311,8 @@
      "710": 345,
      "711": 345,
      "712": 345
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 1,
@@ -55713,8 +55723,8 @@
     }
    },
    {
-    "slot": 1,
-    "nom": "GUNxHippocampe",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -55733,7 +55743,8 @@
     "caps": {
      "943": 135,
      "944": 125
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 1,
@@ -59711,8 +59722,8 @@
     }
    },
    {
-    "slot": 4,
-    "nom": "GUNxPhasme",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -59743,7 +59754,8 @@
      "817": 25,
      "818": 55,
      "819": 65
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 4,
@@ -60258,8 +60270,8 @@
     ]
    },
    {
-    "slot": 4,
-    "nom": "GUNxPhasme",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -60320,7 +60332,8 @@
      "989": 45,
      "990": 45,
      "991": 45
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 4,
@@ -61900,8 +61913,8 @@
     }
    },
    {
-    "slot": 4,
-    "nom": "GUNxPhasme",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -62246,7 +62259,8 @@
      "1583": 265,
      "1584": 265,
      "1585": 175
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 4,

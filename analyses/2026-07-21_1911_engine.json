@@ -20811,8 +20811,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -21131,11 +21131,12 @@
      "312": 265,
      "313": 265,
      "314": 265
-    }
+    },
+    "_elague": true
    },
    {
-    "slot": 6,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -21354,7 +21355,8 @@
      "447": 265,
      "448": 315,
      "449": 175
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -25131,8 +25133,8 @@
     ]
    },
    {
-    "slot": 6,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -25169,7 +25171,8 @@
      "1255": 175,
      "1256": 5,
      "1257": 5
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -26081,8 +26084,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -26169,7 +26172,8 @@
      "1508": 215,
      "1509": 215,
      "1510": 125
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -26910,8 +26914,8 @@
     ]
    },
    {
-    "slot": 6,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -27268,11 +27272,12 @@
      "1789": 355,
      "1790": 175,
      "1791": 175
-    }
+    },
+    "_elague": true
    },
    {
-    "slot": 6,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -27297,7 +27302,8 @@
      "1926": 105,
      "1927": 235,
      "1928": 185
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -37464,8 +37470,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "GUNxRabitte",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -37694,7 +37700,8 @@
      "185": 25,
      "186": 25,
      "187": 305
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -40818,8 +40825,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "GUNxRabitte",
+    "slot": null,
+    "nom": null,
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -40844,7 +40851,8 @@
      "972": 15,
      "973": 215,
      "974": 15
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -41391,8 +41399,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "GUNxRabitte",
+    "slot": null,
+    "nom": null,
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -41719,7 +41727,8 @@
      "1157": 265,
      "1158": 275,
      "1159": 265
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -43616,8 +43625,8 @@
     ]
    },
    {
-    "slot": 3,
-    "nom": "GUNxRabitte",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -43648,7 +43657,8 @@
      "1617": 265,
      "1618": 215,
      "1619": 215
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -43863,8 +43873,8 @@
     ]
    },
    {
-    "slot": 3,
-    "nom": "GUNxRabitte",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -43981,7 +43991,8 @@
      "1715": 125,
      "1716": 285,
      "1717": 285
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -44539,8 +44550,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "GUNxRabitte",
+    "slot": null,
+    "nom": null,
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -44583,11 +44594,12 @@
      "1740": 45,
      "1741": 45,
      "1742": 45
-    }
+    },
+    "_elague": true
    },
    {
-    "slot": 3,
-    "nom": "GUNxRabitte",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -44852,7 +44864,8 @@
      "1804": 155,
      "1805": 155,
      "1806": 155
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -50494,8 +50507,8 @@
     }
    },
    {
-    "slot": 2,
-    "nom": "GUNxRhino",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -50792,7 +50805,8 @@
      "1417": 5,
      "1418": 5,
      "1419": 355
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 2,
@@ -59383,8 +59397,8 @@
     ]
    },
    {
-    "slot": 9,
-    "nom": "BVSxTibco",
+    "slot": null,
+    "nom": null,
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -59403,7 +59417,8 @@
     "caps": {
      "112": 85,
      "113": 115
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -63563,8 +63578,8 @@
     }
    },
    {
-    "slot": 9,
-    "nom": "BVSxTibco",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -63801,7 +63816,8 @@
      "1101": 285,
      "1103": 275,
      "1104": 265
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 9,
@@ -69684,8 +69700,8 @@
     }
    },
    {
-    "slot": 4,
-    "nom": "GUNxPhasme",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -69724,7 +69740,8 @@
     "caps": {
      "1223": 165,
      "1224": 45
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 4,
@@ -72916,8 +72933,8 @@
     }
    },
    {
-    "slot": 8,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -73116,7 +73133,8 @@
      "552": 155,
      "553": 145,
      "554": 355
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 8,
@@ -76200,8 +76218,8 @@
     ]
    },
    {
-    "slot": 8,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -76516,7 +76534,8 @@
      "1527": 355,
      "1528": 175,
      "1529": 175
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -77256,8 +77275,8 @@
     }
    },
    {
-    "slot": 8,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -77656,7 +77675,8 @@
      "1957": 355,
      "1958": 265,
      "1959": 125
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 9,

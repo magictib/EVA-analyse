@@ -21921,8 +21921,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -21967,11 +21967,12 @@
      "10": 285,
      "12": 175,
      "13": 175
-    }
+    },
+    "_elague": true
    },
    {
-    "slot": 3,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -21989,7 +21990,8 @@
     "par_elimination": true,
     "caps": {
      "21": 285
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -22038,8 +22040,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -22312,7 +22314,8 @@
      "119": 145,
      "120": 145,
      "121": 185
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -25029,8 +25032,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -25093,11 +25096,12 @@
      "539": 145,
      "540": 145,
      "541": 155
-    }
+    },
+    "_elague": true
    },
    {
-    "slot": 3,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -25166,11 +25170,12 @@
      "544": 295,
      "551": 25,
      "552": 25
-    }
+    },
+    "_elague": true
    },
    {
-    "slot": 3,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -25299,7 +25304,8 @@
      "572": 225,
      "573": 225,
      "574": 15
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -26873,8 +26879,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "mort",
     "sur": false,
     "points": [
@@ -26889,11 +26895,12 @@
       10
      ]
     ],
-    "herite": true
+    "herite": true,
+    "_elague": true
    },
    {
-    "slot": 3,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -26938,11 +26945,12 @@
      "1207": 45,
      "1208": 65,
      "1209": 35
-    }
+    },
+    "_elague": true
    },
    {
-    "slot": 3,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -26973,7 +26981,8 @@
      "1208": 225,
      "1211": 225,
      "1212": 105
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -27004,8 +27013,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -27188,7 +27197,8 @@
      "1359": 195,
      "1360": 195,
      "1361": 195
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -38042,8 +38052,8 @@
     ]
    },
    {
-    "slot": 1,
-    "nom": "BVSxTibco",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -38074,11 +38084,12 @@
      "869": 185,
      "870": 145,
      "871": 115
-    }
+    },
+    "_elague": true
    },
    {
-    "slot": 1,
-    "nom": "BVSxTibco",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -38309,11 +38320,12 @@
      "915": 325,
      "916": 335,
      "917": 335
-    }
+    },
+    "_elague": true
    },
    {
-    "slot": 1,
-    "nom": "BVSxTibco",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -38472,7 +38484,8 @@
      "1026": 225,
      "1027": 225,
      "1028": 225
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 1,
@@ -42352,8 +42365,8 @@
     ]
    },
    {
-    "slot": 2,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -42476,7 +42489,8 @@
      "388": 205,
      "389": 205,
      "390": 205
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
@@ -45140,8 +45154,8 @@
     }
    },
    {
-    "slot": 2,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -45306,7 +45320,8 @@
      "900": 45,
      "901": 25,
      "902": 105
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 2,
@@ -47817,8 +47832,8 @@
     ]
    },
    {
-    "slot": 2,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -47849,7 +47864,8 @@
      "1701": 65,
      "1702": 65,
      "1703": 105
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 2,
@@ -48946,8 +48962,8 @@
     }
    },
    {
-    "slot": 4,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -49008,7 +49024,8 @@
      "384": 225,
      "385": 45,
      "386": 45
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 4,
@@ -49542,8 +49559,8 @@
     }
    },
    {
-    "slot": 4,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -49563,11 +49580,12 @@
       9
      ]
     ],
-    "par_elimination": true
+    "par_elimination": true,
+    "_elague": true
    },
    {
-    "slot": 4,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -49592,7 +49610,8 @@
      "814": 5,
      "815": 5,
      "816": 5
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 4,
@@ -57995,8 +58014,8 @@
     }
    },
    {
-    "slot": 8,
-    "nom": "FXCxNoxis",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -58089,7 +58108,8 @@
      "1058": 115,
      "1059": 285,
      "1060": 285
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 8,
@@ -58259,8 +58279,8 @@
     }
    },
    {
-    "slot": 8,
-    "nom": "FXCxNoxis",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -58419,7 +58439,8 @@
      "1234": 175,
      "1235": 175,
      "1236": 245
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 8,
@@ -59862,8 +59883,8 @@
     ]
    },
    {
-    "slot": 8,
-    "nom": "FXCxNoxis",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -60200,7 +60221,8 @@
      "1758": 235,
      "1759": 255,
      "1760": 175
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 8,
@@ -60558,8 +60580,8 @@
     ]
    },
    {
-    "slot": 8,
-    "nom": "FXCxNoxis",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -60638,7 +60660,8 @@
      "1902": 285,
      "1903": 285,
      "1904": 285
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 7,
@@ -65479,8 +65502,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "FXCxParziRahl",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -65825,7 +65848,8 @@
      "105": 35,
      "106": 155,
      "107": 55
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -65920,8 +65944,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "FXCxParziRahl",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -65946,7 +65970,8 @@
      "430": 25,
      "431": 15,
      "432": 15
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -66052,8 +66077,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "FXCxParziRahl",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -66078,7 +66103,8 @@
      "472": 15,
      "473": 15,
      "474": 355
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -66504,8 +66530,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "FXCxParziRahl",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -66748,7 +66774,8 @@
      "788": 125,
      "858": 195,
      "859": 205
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 1,
@@ -67512,8 +67539,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "FXCxParziRahl",
+    "slot": null,
+    "nom": null,
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -67972,7 +67999,8 @@
      "1163": 215,
      "1164": 155,
      "1165": 155
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,

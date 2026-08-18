@@ -11200,8 +11200,8 @@
     }
    },
    {
-    "slot": 3,
-    "nom": "BVSxLiX",
+    "slot": null,
+    "nom": null,
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -11250,7 +11250,8 @@
      "68": 185,
      "69": 185,
      "70": 185
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 3,
@@ -13259,8 +13260,8 @@
     }
    },
    {
-    "slot": 2,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -13311,7 +13312,8 @@
      "151": 95,
      "152": 85,
      "153": 85
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 2,
@@ -14640,8 +14642,8 @@
     }
    },
    {
-    "slot": 6,
-    "nom": "FXCxParziRahl",
+    "slot": null,
+    "nom": null,
     "sorte": "suivi",
     "sur": false,
     "points": [
@@ -14666,11 +14668,12 @@
      "58": 195,
      "59": 185,
      "60": 185
-    }
+    },
+    "_elague": true
    },
    {
-    "slot": 6,
-    "nom": "FXCxParziRahl",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -14757,7 +14760,8 @@
      "75": 215,
      "76": 175,
      "77": 175
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 6,
@@ -16082,8 +16086,8 @@
     }
    },
    {
-    "slot": 8,
-    "nom": "FXCxNoxis",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -16368,7 +16372,8 @@
      "327": 165,
      "333": 155,
      "334": 35
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 8,
@@ -16906,8 +16911,8 @@
     ]
    },
    {
-    "slot": 8,
-    "nom": "FXCxNoxis",
+    "slot": null,
+    "nom": null,
     "sorte": "rebels",
     "sur": false,
     "points": [
@@ -17246,7 +17251,8 @@
      "936": 125,
      "937": 185,
      "938": 215
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 8,
@@ -18513,8 +18519,8 @@
     }
    },
    {
-    "slot": 1,
-    "nom": "BVSxTibco",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -18538,7 +18544,8 @@
     "caps": {
      "903": 355,
      "904": 35
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 1,
@@ -19599,8 +19606,8 @@
     }
    },
    {
-    "slot": 4,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -19620,7 +19627,8 @@
       222
      ]
     ],
-    "par_elimination": true
+    "par_elimination": true,
+    "_elague": true
    },
    {
     "slot": 4,
@@ -19759,8 +19767,8 @@
     }
    },
    {
-    "slot": 4,
-    "nom": "BVSxTchernobyl",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -19863,7 +19871,8 @@
      "174": 35,
      "175": 35,
      "176": 25
-    }
+    },
+    "_elague": true
    },
    {
     "slot": 4,

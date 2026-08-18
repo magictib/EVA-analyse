@@ -31469,8 +31469,8 @@
     ]
    },
    {
-    "slot": 2,
-    "nom": "BVSxCROMx",
+    "slot": null,
+    "nom": null,
     "sorte": "alliance",
     "sur": false,
     "points": [
@@ -31767,7 +31767,8 @@
      "1769": 315,
      "1771": 315,
      "1772": 25
-    }
+    },
+    "_elague": true
    },
    {
     "slot": null,
