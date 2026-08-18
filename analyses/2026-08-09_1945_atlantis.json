@@ -117063,6 +117063,17 @@
     ]
    ],
    "arret": 0.0
+  },
+  "duels": {
+   "repris": 7,
+   "controle": 12,
+   "anticaps": {
+    "2": 1,
+    "1": 1
+   },
+   "anticaps_total": 2,
+   "en_capture": 2,
+   "subis": 5
   }
  },
  "_retire": {

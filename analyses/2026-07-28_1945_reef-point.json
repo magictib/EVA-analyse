@@ -72401,7 +72401,18 @@
     "y": 238.0,
     "source": "croix"
    }
-  ]
+  ],
+  "duels": {
+   "repris": 7,
+   "controle": 8,
+   "anticaps": {
+    "1": 2,
+    "4": 1
+   },
+   "anticaps_total": 3,
+   "en_capture": 0,
+   "subis": 2
+  }
  },
  "terrain": {
   "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",

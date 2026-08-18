@@ -60604,6 +60604,10 @@
     ]
    ],
    "arret": 0.0
+  },
+  "duels": {
+   "repris": 1,
+   "controle": 0
   }
  },
  "terrain": {

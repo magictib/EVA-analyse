@@ -82513,6 +82513,14 @@
      "libre"
     ]
    }
+  },
+  "duels": {
+   "repris": 0,
+   "controle": 6,
+   "anticaps": {},
+   "anticaps_total": 0,
+   "en_capture": 0,
+   "subis": 0
   }
  },
  "_retire": {

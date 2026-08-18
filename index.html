@@ -5448,7 +5448,7 @@ function fichesJoueurs(lot, mats){
     const of=n=>{ if(!J.has(n)) J.set(n,{k:0,m:0,armes:new Map(),parV:new Map(),
                      serie:0,serieMax:0,parties:new Set(),
                      tuePar:new Map(),tue:new Map(),ouvOk:0,ouvKo:0,
-                     apres:0,apresOk:0,seul:0,parQuoiM:new Map()}); return J.get(n); };
+                     apres:0,apresOk:0,seul:0,anticap:0,parQuoiM:new Map()}); return J.get(n); };
     /* UNE PERSONNE, UNE FICHE. Thibaud : « c'est la meme personne donc il faut
        n'avoir que CROM et mettre toutes les stats sur lui ». `canonique` existait
        deja et rangeait CROMx sous CROM — mais il n'etait pas applique ICI, si bien
@@ -5498,6 +5498,23 @@ function fichesJoueurs(lot, mats){
           if(v) o.tue.set(v,(o.tue.get(v)||0)+1);
           kp.set(t,(kp.get(t)||0)+1);
         }
+      }
+      /* L'ANTI-CAP : tuer un adversaire EN TRAIN DE RECAPTURER, avant qu'il aboutisse.
+         C'est la definition de Thibaud, et elle demande trois choses qu'on a — le LIEU
+         de la mort, l'etat du point A CET INSTANT, et le tueur. Elle ne demande PAS de
+         trajet, ce qui tombe bien : le 18/08 en a mesure 25,6 % de noms faux.
+
+         LE CALCUL EST EN PYTHON ET POSE DANS L'ANALYSE (`spatial.duels`). Le refaire
+         ici en JS ferait deux regles pour une idee — le piege du 14/08, ou la chaine
+         lisait `EVA_ANALYSES` et le juge `ANALYSES`. Le site AFFICHE, il ne recalcule
+         pas : il faudrait sinon rejouer la conversion image -> instant, les zones et
+         les etats d'hexagone, tout cela deja mesure ailleurs.
+
+         `perso` fusionne les tags : LiX compte 6 anti-caps sous BVS et 4 sous NT, et
+         c'est le meme joueur. */
+      const duels=(a.spatial||{}).duels||{};
+      for(const [s,n] of Object.entries(duels.anticaps||{})){
+        const q=perso(noms[s]); if(q) of(q).anticap+=n;
       }
       for(const [n,k] of kp){ const o=of(n);
         o.parV.set(cle,{carte,k,m:mp.get(n)||0}); }
@@ -5677,6 +5694,9 @@ function fichesJoueurs(lot, mats){
               return `<div class="fjc"><s>taux d'assist</s>
                 <b>${(100*s.a/s.occ).toFixed(1)} %</b>
                 <u>${s.a} sur ${s.occ} kills de coéquipiers</u></div>`;})()}
+            ${(()=>{ if(!o.anticap) return "";
+              return `<div class="fjc"><s>anti-cap</s><b class="pos">${o.anticap}</b>
+                <u>adversaire tué sur un point qu'il prenait</u></div>`;})()}
             ${(()=>{const s=AS.get(n.toUpperCase()); if(!s||!s.dn) return "";
               return `<div class="fjc"><s>dégâts par partie</s>
                 <b>${Math.round(s.dg/s.dn)}</b>

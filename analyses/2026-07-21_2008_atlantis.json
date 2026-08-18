@@ -83347,6 +83347,14 @@
      "r": 0.6
     }
    ]
+  },
+  "duels": {
+   "repris": 0,
+   "controle": 0,
+   "anticaps": {},
+   "anticaps_total": 2,
+   "en_capture": 1,
+   "subis": 2
   }
  },
  "terrain": {

@@ -73834,6 +73834,16 @@
     ]
    ],
    "arret": 0.0
+  },
+  "duels": {
+   "repris": 1,
+   "controle": 1,
+   "anticaps": {
+    "3": 1
+   },
+   "anticaps_total": 1,
+   "en_capture": 0,
+   "subis": 1
   }
  },
  "_retire": {

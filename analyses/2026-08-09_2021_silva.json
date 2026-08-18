@@ -64510,6 +64510,14 @@
     ]
    ],
    "arret": 0.0
+  },
+  "duels": {
+   "repris": 3,
+   "controle": 3,
+   "anticaps": {},
+   "anticaps_total": 0,
+   "en_capture": 0,
+   "subis": 2
   }
  },
  "_retire": {

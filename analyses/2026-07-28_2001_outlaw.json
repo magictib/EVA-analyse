@@ -116059,7 +116059,18 @@
     "y": 324.0,
     "source": "bout de trajet, croix ecartee"
    }
-  ]
+  ],
+  "duels": {
+   "repris": 0,
+   "controle": 7,
+   "anticaps": {
+    "1": 1,
+    "2": 1
+   },
+   "anticaps_total": 2,
+   "en_capture": 2,
+   "subis": 1
+  }
  },
  "armes_portees": {
   "NTXTIBCO": {

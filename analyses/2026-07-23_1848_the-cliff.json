@@ -48779,7 +48779,15 @@
     "y": 124.0,
     "source": "bout de trajet"
    }
-  ]
+  ],
+  "duels": {
+   "repris": 0,
+   "controle": 0,
+   "anticaps": {},
+   "anticaps_total": 0,
+   "en_capture": 0,
+   "subis": 0
+  }
  },
  "terrain": {
   "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",

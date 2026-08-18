@@ -77038,6 +77038,17 @@
      "libre"
     ]
    }
+  },
+  "duels": {
+   "repris": 6,
+   "controle": 6,
+   "anticaps": {
+    "8": 1,
+    "7": 1
+   },
+   "anticaps_total": 2,
+   "en_capture": 1,
+   "subis": 1
   }
  },
  "_retire": {

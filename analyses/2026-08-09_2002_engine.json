@@ -143809,6 +143809,14 @@
      "duree": 72.0
     }
    ]
+  },
+  "duels": {
+   "repris": 8,
+   "controle": 6,
+   "anticaps": {},
+   "anticaps_total": 1,
+   "en_capture": 0,
+   "subis": 0
   }
  },
  "_retire": {

@@ -97333,6 +97333,14 @@
      "libre"
     ]
    }
+  },
+  "duels": {
+   "repris": 5,
+   "controle": 9,
+   "anticaps": {},
+   "anticaps_total": 0,
+   "en_capture": 0,
+   "subis": 1
   }
  },
  "_retire": {

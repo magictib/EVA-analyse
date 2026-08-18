@@ -79667,6 +79667,14 @@
     ]
    ],
    "arret": 0.0
+  },
+  "duels": {
+   "repris": 0,
+   "controle": 5,
+   "anticaps": {},
+   "anticaps_total": 0,
+   "en_capture": 0,
+   "subis": 0
   }
  },
  "_retire": {

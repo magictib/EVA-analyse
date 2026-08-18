@@ -82520,6 +82520,14 @@
      "libre"
     ]
    }
+  },
+  "duels": {
+   "repris": 4,
+   "controle": 4,
+   "anticaps": {},
+   "anticaps_total": 0,
+   "en_capture": 0,
+   "subis": 0
   }
  },
  "_retire": {

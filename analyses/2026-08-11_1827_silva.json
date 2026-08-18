@@ -59789,6 +59789,16 @@
      "libre"
     ]
    }
+  },
+  "duels": {
+   "repris": 1,
+   "controle": 1,
+   "anticaps": {
+    "6": 1
+   },
+   "anticaps_total": 1,
+   "en_capture": 0,
+   "subis": 0
   }
  },
  "_retire": {

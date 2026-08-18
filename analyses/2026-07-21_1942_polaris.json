@@ -91232,7 +91232,17 @@
     "y": 160.2,
     "source": "croix"
    }
-  ]
+  ],
+  "duels": {
+   "repris": 5,
+   "controle": 5,
+   "anticaps": {
+    "7": 1
+   },
+   "anticaps_total": 1,
+   "en_capture": 0,
+   "subis": 4
+  }
  },
  "terrain": {
   "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",
