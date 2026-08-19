@@ -6399,6 +6399,28 @@ function drawAnaBrut(){
         Mesuré seconde par seconde sur ${dif.total} s.</p>`;
   }
 
+  /* --- 4 bis. reprendre les points --- */
+  let reprise="";
+  const rq=retakeEquipe(lot);
+  if(rq){
+    const p2=n=>(n/rq.n).toFixed(1);
+    reprise=`<h4>Reprendre les points</h4><div class="mbig">
+      <b>${rq.repris}<em>points repris</em></b>
+      <b>${rq.controle}<em>reprises de contrôle</em></b>
+      <b>${p2(rq.controle)}<em>par partie</em></b>
+      <b>${rq.anticap}<em>anti-caps</em></b>
+      ${rq.subis?`<b>${rq.subis}<em>anti-caps subis</em></b>`:""}
+      </div>
+      <p class="note">Un <b>anti-cap</b> est un kill sur un adversaire <b>en train</b> de
+        recapturer, avant qu'il aboutisse ; une <b>reprise de contrôle</b> est le fait de
+        reprendre le point après l'avoir perdu, au niveau de l'équipe. Sur
+        ${rq.n} partie(s) analysée(s).<br>
+        Le chiffre d'anti-cap est petit et ce n'est pas un défaut de lecture : les zones
+        de capture reçoivent 2,8 fois plus de morts que leur surface ne le voudrait —
+        elles sont donc bien placées —, mais on meurt rarement <b>dans</b> un point
+        pendant qu'un adversaire le reprend.</p>`;
+  }
+
   /* --- 5. l'ouverture --- */
   let debut="";
   if(ouv){
@@ -6744,7 +6766,7 @@ function drawAnaBrut(){
        sur les premieres secondes : une ouverture incomplete se lit comme une
        ouverture ratee. Le calcul reste, il suffira de remettre `+ carte`. */
     + bloc("Terrain", "Qui tient la carte, pourquoi on la lâche, et comment on en sort.",
-           terrain + moitie + controle + debut)
+           terrain + moitie + controle + reprise + debut)
     + bloc("Joueurs", "Le détail individuel, à lire avec le rôle de chacun.",
            fiches + joueurs)
     /* « Duels » etait un abus de langage, et il valait mieux le dire que le
@@ -7749,6 +7771,28 @@ function retakeParCarte(){
     g.set(c,o);
   }
   return g;
+}
+/* LE RETAKE ET L'ANTI-CAP AU NIVEAU EQUIPE. Ils n'existaient que par partie et par
+   carte, plus l'anti-cap par joueur : la question « est-ce qu'on reprend nos points ? »
+   n'avait donc pas de reponse d'ensemble.
+
+   ON N'INVENTE RIEN ICI : `spatial.duels` est pose par `objectif_duels.py`, et le site
+   AFFICHE. Refaire le calcul en JS ferait deux regles pour une idee.
+
+   LES DEFINITIONS SONT DE THIBAUD (18/08) : un ANTI-CAP est un kill sur un adversaire
+   EN TRAIN de recapturer, avant qu'il aboutisse ; un RETAKE est le fait de reprendre le
+   CONTROLE apres avoir perdu le ou les points, au niveau EQUIPE.
+
+   `n` compte les parties qui ont VRAIMENT un `duels` : sans lui, une saison sans
+   depouillement afficherait 0 comme un resultat — la regle de `colleur_k`. */
+function retakeEquipe(lot){
+  const o={n:0, repris:0, controle:0, anticap:0, capture:0, subis:0};
+  for(const a of lot){
+    const d=(a.spatial||{}).duels; if(!d) continue;
+    o.n++; o.repris+=d.repris||0; o.controle+=d.controle||0;
+    o.anticap+=d.anticaps_total||0; o.capture+=d.en_capture||0; o.subis+=d.subis||0;
+  }
+  return o.n?o:null;
 }
 function catBilan(){
   const g=new Map();
