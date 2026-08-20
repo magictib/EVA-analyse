@@ -8261,7 +8261,24 @@ function crSVG(a, fond, strat){
      plus petit et en trait fin. Les faire identiques ferait passer une approximation
      pour une mesure. */
   const croix = morts.map((c,i)=>{
-    const sur = c.source !== "bout de trajet";
+    /* LE TEST PORTE SUR LE DEBUT DE LA SOURCE, ET C'EST UNE CORRECTION MESUREE.
+       `poser_lieux` ecrit TROIS sources qui posent le bout du trajet : « bout de
+       trajet », mais aussi « bout de trajet, croix ecartee » et « bout de trajet,
+       croix prise » — dans les trois cas les coordonnees sont celles de `der`, la
+       derniere position vue. Une egalite stricte n'attrapait que la premiere, donc
+       166 morts sur 2 390 (6,9 %) sortaient en trait PLEIN.
+
+       Et ce sont les moins sures de toutes. Juge : la POV, a moins de dix images de
+       la mort, sur les 43 parties.
+
+           croix                            270 jugees   mediane   15,5 px   49,6 % sous 15
+           bout de trajet                    86 jugees   mediane  123,0 px   19,8 %
+           bout de trajet, croix ecartee     33 jugees   mediane  133,1 px   18,2 %
+           bout de trajet, croix prise        6 jugees   mediane   97,4 px   16,7 %
+
+       Les dessiner comme une croix, c'etait exactement « faire passer une
+       approximation pour une mesure ». */
+    const sur = !String(c.source||"").startsWith("bout de trajet");
     const r = (plan ? 9 : 3.4) * (sur ? 1 : .72);
     const x=fr2(X(c.x,c.y)), y=fr2(Y(c.x,c.y));
     /* en mode ouverture on ne garde que LA mort qui borne le trajet */
