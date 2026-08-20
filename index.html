@@ -8198,7 +8198,10 @@ function crSVG(a, fond, strat){
   /* TOUTES LES MORTS LOCALISEES, PAS SEULEMENT CELLES QUI ONT UNE CROIX. Le site
      ne dessinait que `croix_ciblees`, soit 25 % des morts : LiX a quatre morts sur
      The Cliff et pas une seule croix, donc pas un seul X sur la carte. `lieux_morts`
-     en porte 97 %, la croix quand elle existe et le BOUT DU TRAJET sinon. */
+     en porte 89 %, la croix quand elle existe et le BOUT DU TRAJET sinon — mais
+     seulement si ce bout a moins de vingt images. Au-dela il vaut 9,9 % de justes
+     contre 72 % quand il est frais (1 399 morts jugees par la croix), et 181 lieux
+     inventes ont ete retires le 20/08 : d'ou 97 % avant, 89 % apres. */
   const morts = (sp.lieux_morts && sp.lieux_morts.length)
         ? sp.lieux_morts : (sp.croix_ciblees||[]).map(c=>({...c, source:"croix"}));
   /* LE CAP SE LIT DANS `t.caps`, UN DICTIONNAIRE indexe par numero d'image. Il avait
@@ -8254,7 +8257,10 @@ function crSVG(a, fond, strat){
   /* TOUTES LES MORTS LOCALISEES, PAS SEULEMENT CELLES QUI ONT UNE CROIX. Le site
      ne dessinait que `croix_ciblees`, soit 25 % des morts : LiX a quatre morts sur
      The Cliff et pas une seule croix, donc pas un seul X sur la carte. `lieux_morts`
-     en porte 97 %, la croix quand elle existe et le BOUT DU TRAJET sinon.
+     en porte 89 %, la croix quand elle existe et le BOUT DU TRAJET sinon — mais
+     seulement si ce bout a moins de vingt images. Au-dela il vaut 9,9 % de justes
+     contre 72 % quand il est frais (1 399 morts jugees par la croix), et 181 lieux
+     inventes ont ete retires le 20/08 : d'ou 97 % avant, 89 % apres.
 
      LES DEUX SOURCES NE SE VALENT PAS ET NE SE DESSINENT PAS PAREIL. Le bout du
      trajet est la DERNIERE POSITION VUE, pas le lieu exact de la mort ; il sort donc
