@@ -8199,9 +8199,14 @@ function crSVG(a, fond, strat){
      ne dessinait que `croix_ciblees`, soit 25 % des morts : LiX a quatre morts sur
      The Cliff et pas une seule croix, donc pas un seul X sur la carte. `lieux_morts`
      en porte 89 %, la croix quand elle existe et le BOUT DU TRAJET sinon — mais
-     seulement si ce bout a moins de vingt images. Au-dela il vaut 9,9 % de justes
-     contre 72 % quand il est frais (1 399 morts jugees par la croix), et 181 lieux
-     inventes ont ete retires le 20/08 : d'ou 97 % avant, 89 % apres. */
+     seulement si ce bout a moins de vingt images — 181 lieux ont ete retires a ce
+     titre le 20/08, d'ou 97 % avant et 90 % apres.
+
+     ET LES BOUTS DE TRAJET QUI RESTENT NE VALENT PAS GRAND-CHOSE : 26,9 % de justes
+     a moins de 15 px, contre 60 % pour une croix. Un premier chiffre les creditait de
+     72 %, mesure sur les morts ou une croix EXISTE — donc sur une autre population que
+     celle qu'on dessine ici. La ou la croix manque, le suivi a echoue aussi : les deux
+     echecs coincident, et il n'y a pas de repli. */
   const morts = (sp.lieux_morts && sp.lieux_morts.length)
         ? sp.lieux_morts : (sp.croix_ciblees||[]).map(c=>({...c, source:"croix"}));
   /* LE CAP SE LIT DANS `t.caps`, UN DICTIONNAIRE indexe par numero d'image. Il avait
@@ -8258,9 +8263,14 @@ function crSVG(a, fond, strat){
      ne dessinait que `croix_ciblees`, soit 25 % des morts : LiX a quatre morts sur
      The Cliff et pas une seule croix, donc pas un seul X sur la carte. `lieux_morts`
      en porte 89 %, la croix quand elle existe et le BOUT DU TRAJET sinon — mais
-     seulement si ce bout a moins de vingt images. Au-dela il vaut 9,9 % de justes
-     contre 72 % quand il est frais (1 399 morts jugees par la croix), et 181 lieux
-     inventes ont ete retires le 20/08 : d'ou 97 % avant, 89 % apres.
+     seulement si ce bout a moins de vingt images — 181 lieux ont ete retires a ce
+     titre le 20/08, d'ou 97 % avant et 90 % apres.
+
+     ET LES BOUTS DE TRAJET QUI RESTENT NE VALENT PAS GRAND-CHOSE : 26,9 % de justes
+     a moins de 15 px, contre 60 % pour une croix. Un premier chiffre les creditait de
+     72 %, mesure sur les morts ou une croix EXISTE — donc sur une autre population que
+     celle qu'on dessine ici. La ou la croix manque, le suivi a echoue aussi : les deux
+     echecs coincident, et il n'y a pas de repli.
 
      LES DEUX SOURCES NE SE VALENT PAS ET NE SE DESSINENT PAS PAREIL. Le bout du
      trajet est la DERNIERE POSITION VUE, pas le lieu exact de la mort ; il sort donc
