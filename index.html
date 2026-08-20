@@ -8268,13 +8268,13 @@ function crSVG(a, fond, strat){
        derniere position vue. Une egalite stricte n'attrapait que la premiere, donc
        166 morts sur 2 390 (6,9 %) sortaient en trait PLEIN.
 
-       Et ce sont les moins sures de toutes. Juge : la POV, a moins de dix images de
-       la mort, sur les 43 parties.
+       Et ce sont les moins sures de toutes. Juge : la POV, a moins de cinq images de
+       la mort, EN ECARTANT les releves ou la POV est la meme detection que le point
+       de trajet — 36 % le sont, et sans cette precaution le bout du trajet sort a
+       1,8 px au lieu de 96, en se comparant a lui-meme (`juger_lieux.py`).
 
-           croix                            270 jugees   mediane   15,5 px   49,6 % sous 15
-           bout de trajet                    86 jugees   mediane  123,0 px   19,8 %
-           bout de trajet, croix ecartee     33 jugees   mediane  133,1 px   18,2 %
-           bout de trajet, croix prise        6 jugees   mediane   97,4 px   16,7 %
+           croix               107 jugees   mediane    9,7 px   60,7 % sous 15 px
+           bout de trajet       67 jugees   mediane   96,5 px   25,4 %
 
        Les dessiner comme une croix, c'etait exactement « faire passer une
        approximation pour une mesure ». */
