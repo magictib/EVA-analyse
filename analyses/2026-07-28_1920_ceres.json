@@ -104639,9 +104639,9 @@
    {
     "image": 47,
     "slot": 3,
-    "x": 382.5,
-    "y": 3.0,
-    "source": "croix"
+    "x": 210.0,
+    "y": 61.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 120,
@@ -104702,37 +104702,37 @@
    {
     "image": 346,
     "slot": 3,
-    "x": 97.0,
-    "y": 221.0,
-    "source": "croix"
+    "x": 82.0,
+    "y": 66.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 381,
     "slot": 1,
-    "x": 137.0,
-    "y": 59.0,
-    "source": "croix"
+    "x": 148.7,
+    "y": 218.3,
+    "source": "bout de trajet"
    },
    {
     "image": 387,
     "slot": 9,
-    "x": 202.0,
-    "y": 242.0,
-    "source": "croix"
+    "x": 76.0,
+    "y": 68.0,
+    "source": "bout de trajet"
    },
    {
     "image": 429,
     "slot": 6,
-    "x": 435.0,
-    "y": 47.0,
-    "source": "bout de trajet, croix ecartee"
+    "x": 167.7,
+    "y": 65.0,
+    "source": "croix"
    },
    {
     "image": 474,
     "slot": 2,
-    "x": 210.0,
-    "y": 70.0,
-    "source": "bout de trajet"
+    "x": 182.0,
+    "y": 222.0,
+    "source": "croix"
    },
    {
     "image": 500,
@@ -104744,9 +104744,9 @@
    {
     "image": 508,
     "slot": 4,
-    "x": 434.0,
-    "y": 67.0,
-    "source": "bout de trajet"
+    "x": 248.0,
+    "y": 142.0,
+    "source": "croix"
    },
    {
     "image": 532,
@@ -104772,29 +104772,29 @@
    {
     "image": 674,
     "slot": 2,
-    "x": 384.0,
-    "y": 127.0,
+    "x": 358.0,
+    "y": 90.0,
     "source": "bout de trajet"
    },
    {
     "image": 683,
     "slot": 6,
-    "x": 374.0,
-    "y": 220.0,
-    "source": "bout de trajet"
+    "x": 384.0,
+    "y": 127.0,
+    "source": "croix"
    },
    {
     "image": 699,
     "slot": 7,
-    "x": 171.0,
-    "y": 72.0,
+    "x": 97.0,
+    "y": 77.0,
     "source": "croix"
    },
    {
     "image": 712,
     "slot": 9,
-    "x": 97.0,
-    "y": 77.0,
+    "x": 222.0,
+    "y": 76.0,
     "source": "croix"
    },
    {
@@ -104821,9 +104821,9 @@
    {
     "image": 890,
     "slot": 3,
-    "x": 344.0,
-    "y": 107.0,
-    "source": "croix"
+    "x": 358.0,
+    "y": 52.0,
+    "source": "bout de trajet"
    },
    {
     "image": 914,
@@ -104842,9 +104842,9 @@
    {
     "image": 962,
     "slot": 8,
-    "x": 142.0,
-    "y": 87.0,
-    "source": "croix"
+    "x": 230.0,
+    "y": 150.0,
+    "source": "bout de trajet"
    },
    {
     "image": 972,
@@ -104863,9 +104863,9 @@
    {
     "image": 1013,
     "slot": 9,
-    "x": 176.2,
-    "y": 77.6,
-    "source": "croix"
+    "x": 210.0,
+    "y": 194.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 1099,
@@ -104912,9 +104912,9 @@
    {
     "image": 1220,
     "slot": 9,
-    "x": 293.7,
-    "y": 104.4,
-    "source": "croix"
+    "x": 329.0,
+    "y": 153.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 1239,
@@ -105004,8 +105004,10 @@
   "duels": {
    "repris": 2,
    "controle": 2,
-   "anticaps": {},
-   "anticaps_total": 0,
+   "anticaps": {
+    "2": 1
+   },
+   "anticaps_total": 1,
    "en_capture": 0,
    "subis": 0
   }

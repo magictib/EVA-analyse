@@ -97058,8 +97058,8 @@
    {
     "image": 282,
     "slot": 3,
-    "x": 176.0,
-    "y": 121.0,
+    "x": 169.0,
+    "y": 129.0,
     "source": "bout de trajet"
    },
    {
@@ -97107,8 +97107,8 @@
    {
     "image": 475,
     "slot": 2,
-    "x": 18.0,
-    "y": 49.0,
+    "x": 129.0,
+    "y": 141.0,
     "source": "croix"
    },
    {
@@ -97156,9 +97156,9 @@
    {
     "image": 670,
     "slot": 6,
-    "x": 263.9,
-    "y": 190.2,
-    "source": "croix"
+    "x": 327.0,
+    "y": 81.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 727,
@@ -97205,8 +97205,8 @@
    {
     "image": 931,
     "slot": 2,
-    "x": 60.0,
-    "y": 90.0,
+    "x": 210.0,
+    "y": 141.0,
     "source": "bout de trajet, croix ecartee"
    },
    {
@@ -97240,8 +97240,8 @@
    {
     "image": 1154,
     "slot": 6,
-    "x": 267.0,
-    "y": 99.0,
+    "x": 296.0,
+    "y": 105.0,
     "source": "bout de trajet, croix prise"
    },
    {
@@ -97311,15 +97311,15 @@
     "image": 1439,
     "slot": 9,
     "x": 240.0,
-    "y": 149.0,
+    "y": 148.0,
     "source": "bout de trajet"
    },
    {
     "image": 1441,
     "slot": 2,
-    "x": 19.0,
-    "y": 79.0,
-    "source": "bout de trajet, croix prise"
+    "x": 18.0,
+    "y": 49.0,
+    "source": "croix"
    },
    {
     "image": 1524,

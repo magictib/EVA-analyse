@@ -98510,30 +98510,30 @@
    {
     "image": 47,
     "slot": 2,
-    "x": 129.0,
-    "y": 158.0,
-    "source": "bout de trajet"
+    "x": 170.0,
+    "y": 228.0,
+    "source": "croix"
    },
    {
     "image": 82,
     "slot": 3,
-    "x": 181.0,
-    "y": 186.0,
+    "x": 168.0,
+    "y": 138.0,
     "source": "croix"
    },
    {
     "image": 84,
     "slot": 8,
-    "x": 280.4,
-    "y": 104.4,
-    "source": "croix"
+    "x": 216.0,
+    "y": 236.0,
+    "source": "bout de trajet, croix prise"
    },
    {
     "image": 104,
     "slot": 9,
-    "x": 274.0,
-    "y": 114.0,
-    "source": "bout de trajet"
+    "x": 59.0,
+    "y": 57.0,
+    "source": "croix"
    },
    {
     "image": 106,
@@ -98545,9 +98545,9 @@
    {
     "image": 108,
     "slot": 7,
-    "x": 260.0,
-    "y": 201.0,
-    "source": "bout de trajet, croix prise"
+    "x": 280.4,
+    "y": 104.4,
+    "source": "croix"
    },
    {
     "image": 137,
@@ -98559,15 +98559,15 @@
    {
     "image": 225,
     "slot": 8,
-    "x": 322.0,
-    "y": 152.0,
+    "x": 284.0,
+    "y": 101.0,
     "source": "croix"
    },
    {
     "image": 227,
     "slot": 2,
-    "x": 214.0,
-    "y": 112.0,
+    "x": 391.0,
+    "y": 155.0,
     "source": "bout de trajet"
    },
    {
@@ -98594,30 +98594,30 @@
    {
     "image": 367,
     "slot": 1,
-    "x": 211.6,
-    "y": 83.1,
-    "source": "croix"
+    "x": 247.0,
+    "y": 180.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 410,
     "slot": 7,
-    "x": 370.0,
-    "y": 118.0,
-    "source": "bout de trajet, croix ecartee"
+    "x": 297.6,
+    "y": 193.4,
+    "source": "croix"
    },
    {
     "image": 480,
     "slot": 2,
-    "x": 322.0,
-    "y": 231.0,
+    "x": 362.0,
+    "y": 185.0,
     "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 484,
     "slot": 9,
-    "x": 358.7,
-    "y": 252.0,
-    "source": "croix"
+    "x": 362.2,
+    "y": 144.2,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 489,
@@ -98629,16 +98629,16 @@
    {
     "image": 523,
     "slot": 8,
-    "x": 206.0,
-    "y": 237.0,
+    "x": 294.0,
+    "y": 136.0,
     "source": "croix"
    },
    {
     "image": 525,
     "slot": 3,
-    "x": 183.0,
-    "y": 229.0,
-    "source": "croix"
+    "x": 176.0,
+    "y": 187.0,
+    "source": "bout de trajet"
    },
    {
     "image": 566,
@@ -98650,9 +98650,9 @@
    {
     "image": 602,
     "slot": 9,
-    "x": 388.0,
-    "y": 118.0,
-    "source": "croix"
+    "x": 233.0,
+    "y": 156.0,
+    "source": "bout de trajet"
    },
    {
     "image": 639,
@@ -98665,15 +98665,15 @@
     "image": 657,
     "slot": 1,
     "x": 392.0,
-    "y": 107.0,
+    "y": 103.0,
     "source": "bout de trajet"
    },
    {
     "image": 688,
     "slot": 4,
-    "x": 244.0,
-    "y": 210.0,
-    "source": "bout de trajet, croix ecartee"
+    "x": 280.8,
+    "y": 75.3,
+    "source": "croix"
    },
    {
     "image": 711,
@@ -98692,8 +98692,8 @@
    {
     "image": 754,
     "slot": 6,
-    "x": 275.0,
-    "y": 173.0,
+    "x": 289.0,
+    "y": 133.0,
     "source": "bout de trajet, croix prise"
    },
    {
@@ -98706,64 +98706,64 @@
    {
     "image": 844,
     "slot": 4,
-    "x": 357.0,
-    "y": 236.0,
-    "source": "bout de trajet"
+    "x": 150.0,
+    "y": 85.0,
+    "source": "croix"
    },
    {
     "image": 874,
     "slot": 8,
-    "x": 113.0,
-    "y": 91.0,
-    "source": "bout de trajet, croix ecartee"
+    "x": 368.2,
+    "y": 99.0,
+    "source": "croix"
    },
    {
     "image": 876,
     "slot": 2,
-    "x": 179.0,
-    "y": 64.3,
-    "source": "croix"
+    "x": 242.0,
+    "y": 190.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 902,
     "slot": 9,
-    "x": 279.0,
-    "y": 170.0,
-    "source": "bout de trajet"
+    "x": 375.0,
+    "y": 237.0,
+    "source": "croix"
    },
    {
     "image": 922,
     "slot": 6,
-    "x": 223.0,
-    "y": 206.0,
-    "source": "croix"
+    "x": 289.8,
+    "y": 231.0,
+    "source": "bout de trajet"
    },
    {
     "image": 944,
     "slot": 3,
-    "x": 44.0,
-    "y": 186.0,
+    "x": 177.0,
+    "y": 68.0,
     "source": "bout de trajet"
    },
    {
     "image": 981,
     "slot": 7,
-    "x": 235.0,
-    "y": 146.0,
-    "source": "croix"
+    "x": 248.7,
+    "y": 116.3,
+    "source": "bout de trajet"
    },
    {
     "image": 1014,
     "slot": 6,
-    "x": 386.0,
-    "y": 232.0,
-    "source": "croix"
+    "x": 143.0,
+    "y": 140.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 1053,
     "slot": 2,
-    "x": 155.0,
-    "y": 228.0,
+    "x": 274.0,
+    "y": 159.0,
     "source": "croix"
    },
    {
@@ -98783,29 +98783,29 @@
    {
     "image": 1129,
     "slot": 4,
-    "x": 217.0,
-    "y": 155.0,
+    "x": 245.0,
+    "y": 225.0,
     "source": "bout de trajet"
    },
    {
     "image": 1187,
     "slot": 2,
-    "x": 223.0,
-    "y": 145.0,
+    "x": 181.0,
+    "y": 229.0,
     "source": "croix"
    },
    {
     "image": 1195,
     "slot": 6,
-    "x": 214.0,
-    "y": 222.0,
+    "x": 261.0,
+    "y": 200.0,
     "source": "bout de trajet, croix prise"
    },
    {
     "image": 1207,
     "slot": 3,
-    "x": 258.0,
-    "y": 145.0,
+    "x": 214.0,
+    "y": 162.0,
     "source": "bout de trajet"
    },
    {
@@ -98818,36 +98818,36 @@
    {
     "image": 1250,
     "slot": 1,
-    "x": 116.0,
-    "y": 92.0,
+    "x": 275.0,
+    "y": 137.0,
     "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 1250,
     "slot": 9,
-    "x": 144.0,
-    "y": 233.0,
+    "x": 155.0,
+    "y": 228.0,
     "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 1302,
     "slot": 8,
-    "x": 39.0,
-    "y": 156.0,
+    "x": 206.0,
+    "y": 110.0,
     "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 1327,
     "slot": 4,
-    "x": 172.0,
-    "y": 108.0,
-    "source": "bout de trajet"
+    "x": 89.0,
+    "y": 63.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 1353,
     "slot": 2,
-    "x": 173.0,
-    "y": 108.0,
+    "x": 201.0,
+    "y": 116.0,
     "source": "bout de trajet"
    },
    {
@@ -98881,23 +98881,23 @@
    {
     "image": 1532,
     "slot": 9,
-    "x": 144.0,
-    "y": 220.0,
-    "source": "bout de trajet"
+    "x": 297.0,
+    "y": 221.0,
+    "source": "croix"
    },
    {
     "image": 1540,
     "slot": 1,
-    "x": 158.0,
-    "y": 100.0,
-    "source": "bout de trajet"
+    "x": 150.0,
+    "y": 145.0,
+    "source": "croix"
    },
    {
     "image": 1544,
     "slot": 8,
     "x": 289.0,
-    "y": 233.0,
-    "source": "croix"
+    "y": 236.0,
+    "source": "bout de trajet"
    },
    {
     "image": 1563,
@@ -98909,15 +98909,15 @@
    {
     "image": 1608,
     "slot": 6,
-    "x": 344.0,
-    "y": 152.0,
-    "source": "croix"
+    "x": 73.2,
+    "y": 104.8,
+    "source": "bout de trajet"
    },
    {
     "image": 1640,
     "slot": 4,
-    "x": 254.0,
-    "y": 159.0,
+    "x": 258.0,
+    "y": 148.0,
     "source": "bout de trajet"
    },
    {
@@ -98944,8 +98944,8 @@
    {
     "image": 1724,
     "slot": 2,
-    "x": 256.0,
-    "y": 172.0,
+    "x": 232.0,
+    "y": 189.0,
     "source": "bout de trajet"
    },
    {
@@ -98972,23 +98972,23 @@
    {
     "image": 1821,
     "slot": 4,
-    "x": 233.0,
-    "y": 193.0,
-    "source": "croix"
+    "x": 160.0,
+    "y": 238.0,
+    "source": "bout de trajet"
    },
    {
     "image": 1828,
     "slot": 3,
-    "x": 252.0,
-    "y": 214.0,
+    "x": 237.8,
+    "y": 198.2,
     "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 1838,
     "slot": 9,
-    "x": 402.5,
-    "y": 188.7,
-    "source": "croix"
+    "x": 271.0,
+    "y": 135.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 1849,
@@ -99008,8 +99008,10 @@
   "duels": {
    "repris": 6,
    "controle": 8,
-   "anticaps": {},
-   "anticaps_total": 0,
+   "anticaps": {
+    "1": 1
+   },
+   "anticaps_total": 1,
    "en_capture": 0,
    "subis": 1
   }

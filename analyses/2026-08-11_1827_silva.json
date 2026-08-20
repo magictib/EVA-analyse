@@ -80764,43 +80764,43 @@
    {
     "image": 52,
     "slot": 4,
-    "x": 34.0,
-    "y": 145.0,
+    "x": 48.0,
+    "y": 213.0,
     "source": "croix"
    },
    {
     "image": 62,
     "slot": 3,
-    "x": 46.0,
-    "y": 212.0,
-    "source": "bout de trajet, croix ecartee"
+    "x": 144.0,
+    "y": 8.0,
+    "source": "bout de trajet"
    },
    {
     "image": 179,
     "slot": 2,
-    "x": 167.0,
-    "y": 230.0,
+    "x": 288.0,
+    "y": 152.0,
     "source": "bout de trajet"
    },
    {
     "image": 205,
     "slot": 4,
-    "x": 35.0,
-    "y": 141.0,
+    "x": 23.0,
+    "y": 166.0,
     "source": "croix"
    },
    {
     "image": 302,
     "slot": 7,
-    "x": 263.0,
-    "y": 24.0,
-    "source": "croix"
+    "x": 297.0,
+    "y": 251.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 320,
     "slot": 3,
-    "x": 129.0,
-    "y": 131.0,
+    "x": 166.0,
+    "y": 156.0,
     "source": "bout de trajet"
    },
    {
@@ -80813,9 +80813,9 @@
    {
     "image": 349,
     "slot": 2,
-    "x": 239.0,
-    "y": 48.0,
-    "source": "bout de trajet"
+    "x": 65.0,
+    "y": 221.0,
+    "source": "croix"
    },
    {
     "image": 360,
@@ -80841,51 +80841,51 @@
    {
     "image": 530,
     "slot": 8,
-    "x": 289.0,
-    "y": 155.0,
-    "source": "bout de trajet, croix ecartee"
+    "x": 230.0,
+    "y": 167.0,
+    "source": "croix"
    },
    {
     "image": 549,
     "slot": 4,
-    "x": 92.0,
-    "y": 155.0,
-    "source": "bout de trajet"
+    "x": 88.0,
+    "y": 267.0,
+    "source": "bout de trajet, croix prise"
    },
    {
     "image": 549,
     "slot": 6,
-    "x": 341.4,
-    "y": 73.7,
-    "source": "croix"
+    "x": 226.0,
+    "y": 167.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 561,
     "slot": 1,
-    "x": 314.0,
-    "y": 187.0,
-    "source": "bout de trajet"
+    "x": 92.0,
+    "y": 162.0,
+    "source": "croix"
    },
    {
     "image": 579,
     "slot": 9,
-    "x": 288.0,
-    "y": 153.0,
+    "x": 192.0,
+    "y": 207.0,
     "source": "bout de trajet"
    },
    {
     "image": 666,
     "slot": 7,
-    "x": 292.0,
-    "y": 155.0,
+    "x": 72.0,
+    "y": 135.0,
     "source": "bout de trajet"
    },
    {
     "image": 677,
     "slot": 6,
-    "x": 216.0,
-    "y": 133.0,
-    "source": "bout de trajet"
+    "x": 195.0,
+    "y": 169.0,
+    "source": "croix"
    },
    {
     "image": 705,
@@ -80897,37 +80897,37 @@
    {
     "image": 773,
     "slot": 9,
-    "x": 328.5,
-    "y": 204.6,
-    "source": "croix"
+    "x": 247.0,
+    "y": 211.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 830,
     "slot": 6,
-    "x": 89.0,
-    "y": 153.0,
+    "x": 70.0,
+    "y": 264.0,
     "source": "bout de trajet"
    },
    {
     "image": 832,
     "slot": 8,
-    "x": 315.0,
-    "y": 219.0,
+    "x": 238.0,
+    "y": 223.0,
     "source": "croix"
    },
    {
     "image": 955,
     "slot": 7,
-    "x": 136.0,
-    "y": 24.0,
+    "x": 282.0,
+    "y": 96.0,
     "source": "bout de trajet"
    },
    {
     "image": 1008,
     "slot": 8,
-    "x": 295.0,
-    "y": 72.0,
-    "source": "croix"
+    "x": 136.0,
+    "y": 24.0,
+    "source": "bout de trajet"
    },
    {
     "image": 1029,
@@ -80939,50 +80939,50 @@
    {
     "image": 1151,
     "slot": 9,
-    "x": 22.0,
-    "y": 265.0,
+    "x": 313.0,
+    "y": 68.0,
     "source": "bout de trajet"
    },
    {
     "image": 1185,
     "slot": 7,
-    "x": 225.0,
-    "y": 263.0,
-    "source": "bout de trajet"
+    "x": 312.0,
+    "y": 189.0,
+    "source": "croix"
    },
    {
     "image": 1318,
     "slot": 1,
-    "x": 376.0,
-    "y": 27.0,
-    "source": "bout de trajet"
+    "x": 66.0,
+    "y": 68.0,
+    "source": "croix"
    },
    {
     "image": 1320,
     "slot": 8,
-    "x": 292.0,
-    "y": 145.0,
+    "x": 314.0,
+    "y": 92.0,
     "source": "croix"
    },
    {
     "image": 1349,
     "slot": 9,
     "x": 291.0,
-    "y": 24.0,
+    "y": 25.0,
     "source": "bout de trajet"
    },
    {
     "image": 1354,
     "slot": 3,
-    "x": 280.0,
-    "y": 50.0,
+    "x": 87.0,
+    "y": 260.0,
     "source": "croix"
    },
    {
     "image": 1361,
     "slot": 6,
-    "x": 273.0,
-    "y": 128.0,
+    "x": 276.0,
+    "y": 130.0,
     "source": "bout de trajet, croix ecartee"
    },
    {
@@ -80995,16 +80995,16 @@
    {
     "image": 1485,
     "slot": 3,
-    "x": 81.0,
-    "y": 159.0,
+    "x": 8.0,
+    "y": 239.0,
     "source": "bout de trajet"
    },
    {
     "image": 1486,
     "slot": 8,
-    "x": 194.0,
-    "y": 134.0,
-    "source": "bout de trajet"
+    "x": 312.0,
+    "y": 187.0,
+    "source": "bout de trajet, croix prise"
    },
    {
     "image": 1504,
@@ -81016,16 +81016,16 @@
    {
     "image": 1512,
     "slot": 9,
-    "x": 212.0,
-    "y": 129.0,
+    "x": 311.0,
+    "y": 188.0,
     "source": "bout de trajet"
    },
    {
     "image": 1529,
     "slot": 7,
-    "x": 217.0,
-    "y": 189.0,
-    "source": "bout de trajet"
+    "x": 162.0,
+    "y": 187.0,
+    "source": "croix"
    },
    {
     "image": 1615,
@@ -81037,43 +81037,29 @@
    {
     "image": 1634,
     "slot": 6,
-    "x": 263.0,
-    "y": 157.0,
-    "source": "bout de trajet"
+    "x": 212.0,
+    "y": 129.0,
+    "source": "croix"
    },
    {
     "image": 1643,
     "slot": 3,
-    "x": 194.0,
-    "y": 104.0,
+    "x": 76.0,
+    "y": 140.0,
     "source": "croix"
    },
    {
     "image": 1643,
     "slot": 7,
-    "x": 300.0,
-    "y": 146.0,
-    "source": "bout de trajet"
+    "x": 314.0,
+    "y": 187.0,
+    "source": "croix"
    },
    {
     "image": 1659,
     "slot": 9,
     "x": 233.0,
     "y": 116.0,
-    "source": "croix"
-   },
-   {
-    "image": 1683,
-    "slot": 1,
-    "x": 155.0,
-    "y": 85.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 1683,
-    "slot": 4,
-    "x": 336.0,
-    "y": 240.0,
     "source": "croix"
    }
   ],
@@ -83078,11 +83064,12 @@
    "repris": 1,
    "controle": 1,
    "anticaps": {
+    "8": 1,
     "6": 1
    },
-   "anticaps_total": 1,
+   "anticaps_total": 2,
    "en_capture": 0,
-   "subis": 0
+   "subis": 1
   },
   "pov": [
    [

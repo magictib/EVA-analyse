@@ -71339,7 +71339,7 @@
    {
     "image": 39,
     "slot": 9,
-    "x": 291.0,
+    "x": 293.0,
     "y": 47.0,
     "source": "bout de trajet"
    },
@@ -71360,22 +71360,22 @@
    {
     "image": 68,
     "slot": 3,
-    "x": 290.0,
-    "y": 61.0,
+    "x": 182.0,
+    "y": 47.0,
     "source": "croix"
    },
    {
     "image": 113,
     "slot": 1,
-    "x": 310.0,
-    "y": 43.0,
+    "x": 312.0,
+    "y": 42.0,
     "source": "bout de trajet"
    },
    {
     "image": 115,
     "slot": 7,
     "x": 333.0,
-    "y": 65.0,
+    "y": 72.0,
     "source": "bout de trajet"
    },
    {
@@ -71395,7 +71395,7 @@
    {
     "image": 216,
     "slot": 3,
-    "x": 108.0,
+    "x": 110.0,
     "y": 68.0,
     "source": "bout de trajet"
    },
@@ -71416,9 +71416,9 @@
    {
     "image": 299,
     "slot": 4,
-    "x": 406.0,
-    "y": 127.0,
-    "source": "bout de trajet"
+    "x": 207.0,
+    "y": 37.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 324,
@@ -71430,14 +71430,14 @@
    {
     "image": 410,
     "slot": 7,
-    "x": 243.0,
+    "x": 239.0,
     "y": 238.0,
     "source": "bout de trajet"
    },
    {
     "image": 419,
     "slot": 6,
-    "x": 346.0,
+    "x": 341.0,
     "y": 64.0,
     "source": "bout de trajet"
    },
@@ -71479,7 +71479,7 @@
    {
     "image": 658,
     "slot": 7,
-    "x": 314.0,
+    "x": 313.0,
     "y": 48.0,
     "source": "bout de trajet"
    },
@@ -71507,9 +71507,9 @@
    {
     "image": 839,
     "slot": 6,
-    "x": 375.0,
-    "y": 63.0,
-    "source": "bout de trajet"
+    "x": 317.0,
+    "y": 51.0,
+    "source": "croix"
    },
    {
     "image": 961,
@@ -71535,16 +71535,16 @@
    {
     "image": 976,
     "slot": 8,
-    "x": 326.0,
-    "y": 55.0,
-    "source": "croix"
+    "x": 189.0,
+    "y": 197.0,
+    "source": "bout de trajet"
    },
    {
     "image": 978,
     "slot": 7,
-    "x": 181.0,
-    "y": 196.0,
-    "source": "bout de trajet"
+    "x": 326.0,
+    "y": 55.0,
+    "source": "croix"
    },
    {
     "image": 1017,
@@ -71556,16 +71556,16 @@
    {
     "image": 1097,
     "slot": 7,
-    "x": 349.0,
-    "y": 177.0,
-    "source": "croix"
+    "x": 351.0,
+    "y": 236.0,
+    "source": "bout de trajet"
    },
    {
     "image": 1107,
     "slot": 6,
-    "x": 429.1,
-    "y": 173.0,
-    "source": "croix"
+    "x": 346.0,
+    "y": 212.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 1115,
@@ -71577,8 +71577,8 @@
    {
     "image": 1127,
     "slot": 8,
-    "x": 264.0,
-    "y": 194.0,
+    "x": 406.6,
+    "y": 126.6,
     "source": "bout de trajet"
    },
    {

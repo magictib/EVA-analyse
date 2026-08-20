@@ -69883,8 +69883,8 @@
    {
     "image": 74,
     "slot": 4,
-    "x": 275.0,
-    "y": 141.0,
+    "x": 292.0,
+    "y": 156.0,
     "source": "bout de trajet"
    },
    {
@@ -69939,9 +69939,9 @@
    {
     "image": 272,
     "slot": 4,
-    "x": 53.0,
-    "y": 212.0,
-    "source": "croix"
+    "x": 72.0,
+    "y": 137.0,
+    "source": "bout de trajet"
    },
    {
     "image": 275,
@@ -69974,8 +69974,8 @@
    {
     "image": 414,
     "slot": 6,
-    "x": 77.0,
-    "y": 239.0,
+    "x": 75.0,
+    "y": 238.0,
     "source": "bout de trajet, croix ecartee"
    },
    {
@@ -70023,9 +70023,9 @@
    {
     "image": 541,
     "slot": 2,
-    "x": 313.0,
-    "y": 187.0,
-    "source": "bout de trajet, croix ecartee"
+    "x": 163.1,
+    "y": 175.1,
+    "source": "croix"
    },
    {
     "image": 725,
@@ -70044,9 +70044,9 @@
    {
     "image": 837,
     "slot": 2,
-    "x": 60.0,
-    "y": 210.0,
-    "source": "croix"
+    "x": 28.0,
+    "y": 246.0,
+    "source": "bout de trajet"
    },
    {
     "image": 841,
@@ -70086,30 +70086,30 @@
    {
     "image": 1001,
     "slot": 7,
-    "x": 448.0,
-    "y": 193.0,
+    "x": 241.0,
+    "y": 119.0,
     "source": "croix"
    },
    {
     "image": 1014,
     "slot": 6,
-    "x": 217.0,
-    "y": 142.0,
+    "x": 346.0,
+    "y": 187.0,
     "source": "croix"
    },
    {
     "image": 1037,
     "slot": 4,
-    "x": 240.0,
-    "y": 212.0,
+    "x": 205.0,
+    "y": 125.0,
     "source": "bout de trajet"
    },
    {
     "image": 1038,
     "slot": 9,
-    "x": 346.0,
-    "y": 187.0,
-    "source": "croix"
+    "x": 177.0,
+    "y": 185.0,
+    "source": "bout de trajet"
    },
    {
     "image": 1101,
@@ -70170,9 +70170,9 @@
    {
     "image": 1524,
     "slot": 8,
-    "x": 233.0,
-    "y": 224.0,
-    "source": "croix"
+    "x": 253.0,
+    "y": 268.0,
+    "source": "bout de trajet"
    },
    {
     "image": 1541,
@@ -70198,9 +70198,9 @@
    {
     "image": 1661,
     "slot": 7,
-    "x": 306.0,
-    "y": 223.0,
-    "source": "croix"
+    "x": 218.0,
+    "y": 217.0,
+    "source": "bout de trajet"
    },
    {
     "image": 1668,
@@ -70221,9 +70221,10 @@
    "repris": 3,
    "controle": 3,
    "anticaps": {
-    "6": 1
+    "6": 1,
+    "9": 1
    },
-   "anticaps_total": 1,
+   "anticaps_total": 2,
    "en_capture": 0,
    "subis": 3
   }

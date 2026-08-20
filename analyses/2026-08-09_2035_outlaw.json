@@ -82168,8 +82168,8 @@
    {
     "image": 26,
     "slot": 1,
-    "x": 8.0,
-    "y": 333.0,
+    "x": 58.0,
+    "y": 324.0,
     "source": "bout de trajet"
    },
    {
@@ -82203,8 +82203,8 @@
    {
     "image": 155,
     "slot": 3,
-    "x": 63.0,
-    "y": 6.0,
+    "x": 174.0,
+    "y": 226.0,
     "source": "croix"
    },
    {
@@ -82217,9 +82217,9 @@
    {
     "image": 246,
     "slot": 8,
-    "x": 72.0,
-    "y": 280.0,
-    "source": "bout de trajet"
+    "x": 116.0,
+    "y": 298.0,
+    "source": "croix"
    },
    {
     "image": 251,
@@ -82252,9 +82252,9 @@
    {
     "image": 341,
     "slot": 9,
-    "x": 328.0,
-    "y": 5.0,
-    "source": "croix"
+    "x": 189.0,
+    "y": 206.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 367,
@@ -82273,8 +82273,8 @@
    {
     "image": 441,
     "slot": 8,
-    "x": 167.0,
-    "y": 190.0,
+    "x": 225.0,
+    "y": 260.0,
     "source": "croix"
    },
    {
@@ -82301,9 +82301,9 @@
    {
     "image": 616,
     "slot": 7,
-    "x": 57.0,
-    "y": 294.0,
-    "source": "croix"
+    "x": 223.0,
+    "y": 254.0,
+    "source": "bout de trajet"
    },
    {
     "image": 667,
@@ -82371,22 +82371,22 @@
    {
     "image": 946,
     "slot": 6,
-    "x": 200.0,
-    "y": 63.0,
-    "source": "bout de trajet"
+    "x": 331.0,
+    "y": 272.0,
+    "source": "croix"
    },
    {
     "image": 951,
     "slot": 8,
-    "x": 395.0,
-    "y": 7.0,
-    "source": "bout de trajet"
+    "x": 316.0,
+    "y": 274.0,
+    "source": "croix"
    },
    {
     "image": 1016,
     "slot": 7,
-    "x": 7.0,
-    "y": 328.0,
+    "x": 234.0,
+    "y": 271.0,
     "source": "bout de trajet"
    },
    {

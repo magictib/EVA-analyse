@@ -173079,16 +173079,16 @@
    {
     "image": 111,
     "slot": 2,
-    "x": 356.0,
-    "y": 222.0,
-    "source": "bout de trajet"
+    "x": 212.0,
+    "y": 178.0,
+    "source": "croix"
    },
    {
     "image": 111,
     "slot": 4,
-    "x": 212.0,
-    "y": 178.0,
-    "source": "croix"
+    "x": 171.0,
+    "y": 57.0,
+    "source": "bout de trajet"
    },
    {
     "image": 114,
@@ -173100,23 +173100,23 @@
    {
     "image": 159,
     "slot": 6,
-    "x": 336.0,
-    "y": 144.0,
+    "x": 388.0,
+    "y": 141.0,
     "source": "bout de trajet"
    },
    {
     "image": 164,
     "slot": 9,
-    "x": 272.0,
-    "y": 172.0,
-    "source": "croix"
+    "x": 321.0,
+    "y": 140.0,
+    "source": "bout de trajet"
    },
    {
     "image": 182,
     "slot": 8,
-    "x": 276.6,
-    "y": 167.2,
-    "source": "croix"
+    "x": 314.5,
+    "y": 67.5,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 306,
@@ -173128,15 +173128,15 @@
    {
     "image": 317,
     "slot": 1,
-    "x": 189.0,
-    "y": 100.0,
-    "source": "croix"
+    "x": 455.0,
+    "y": 9.0,
+    "source": "bout de trajet"
    },
    {
     "image": 326,
     "slot": 2,
-    "x": 179.0,
-    "y": 230.0,
+    "x": 104.0,
+    "y": 151.0,
     "source": "bout de trajet"
    },
    {
@@ -173147,381 +173147,360 @@
     "source": "croix"
    },
    {
-    "image": 701,
+    "image": 346,
     "slot": 8,
-    "x": 301.0,
-    "y": 101.0,
+    "x": 309.0,
+    "y": 123.0,
     "source": "croix"
    },
    {
-    "image": 769,
+    "image": 411,
     "slot": 2,
-    "x": 449.0,
-    "y": 166.0,
-    "source": "croix"
+    "x": 235.0,
+    "y": 211.0,
+    "source": "bout de trajet, croix prise"
    },
    {
-    "image": 835,
+    "image": 566,
+    "slot": 6,
+    "x": 249.0,
+    "y": 195.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 601,
+    "slot": 8,
+    "x": 19.0,
+    "y": 79.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 616,
+    "slot": 3,
+    "x": 159.0,
+    "y": 202.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 701,
     "slot": 1,
+    "x": 39.0,
+    "y": 49.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 836,
+    "slot": 2,
     "x": 72.0,
     "y": 65.0,
     "source": "croix"
    },
    {
-    "image": 887,
-    "slot": 2,
-    "x": 132.5,
-    "y": 32.6,
-    "source": "croix"
-   },
-   {
-    "image": 928,
+    "image": 841,
     "slot": 6,
-    "x": 39.0,
-    "y": 49.0,
+    "x": 286.0,
+    "y": 104.0,
     "source": "bout de trajet"
    },
    {
-    "image": 962,
-    "slot": 8,
-    "x": 326.2,
-    "y": 76.0,
-    "source": "croix"
-   },
-   {
-    "image": 965,
-    "slot": 4,
-    "x": 110.0,
-    "y": 55.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 976,
+    "image": 856,
     "slot": 3,
-    "x": 178.0,
-    "y": 217.0,
-    "source": "croix"
-   },
-   {
-    "image": 1060,
-    "slot": 1,
-    "x": 231.0,
-    "y": 90.0,
-    "source": "croix"
-   },
-   {
-    "image": 1194,
-    "slot": 2,
-    "x": 207.0,
-    "y": 92.0,
-    "source": "croix"
-   },
-   {
-    "image": 1202,
-    "slot": 6,
-    "x": 240.4,
-    "y": 93.6,
-    "source": "croix"
-   },
-   {
-    "image": 1218,
-    "slot": 3,
-    "x": 214.0,
-    "y": 91.0,
+    "x": 87.0,
+    "y": 242.0,
     "source": "bout de trajet"
    },
    {
-    "image": 1230,
+    "image": 871,
     "slot": 7,
-    "x": 429.0,
-    "y": 243.0,
-    "source": "croix"
-   },
-   {
-    "image": 1236,
-    "slot": 9,
-    "x": 370.0,
-    "y": 154.0,
-    "source": "croix"
-   },
-   {
-    "image": 1241,
-    "slot": 8,
-    "x": 322.0,
-    "y": 76.0,
+    "x": 284.0,
+    "y": 216.0,
     "source": "bout de trajet"
    },
    {
-    "image": 1360,
-    "slot": 4,
-    "x": 243.0,
+    "image": 876,
+    "slot": 9,
+    "x": 380.0,
+    "y": 157.0,
+    "source": "croix"
+   },
+   {
+    "image": 886,
+    "slot": 8,
+    "x": 253.0,
     "y": 98.0,
     "source": "bout de trajet"
    },
    {
-    "image": 1370,
-    "slot": 1,
-    "x": 394.0,
-    "y": 84.0,
+    "image": 1001,
+    "slot": 4,
+    "x": 19.0,
+    "y": 78.0,
     "source": "bout de trajet"
    },
    {
-    "image": 1453,
-    "slot": 2,
-    "x": 48.0,
-    "y": 61.0,
-    "source": "bout de trajet, croix prise"
+    "image": 1011,
+    "slot": 1,
+    "x": 153.0,
+    "y": 107.0,
+    "source": "bout de trajet"
    },
    {
-    "image": 1453,
-    "slot": 6,
-    "x": 352.0,
-    "y": 172.0,
+    "image": 1091,
+    "slot": 2,
+    "x": 129.0,
+    "y": 152.0,
     "source": "croix"
    },
    {
-    "image": 1512,
+    "image": 1091,
+    "slot": 6,
+    "x": 369.0,
+    "y": 131.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1151,
     "slot": 9,
+    "x": 307.0,
+    "y": 120.0,
+    "source": "croix"
+   },
+   {
+    "image": 1161,
+    "slot": 3,
+    "x": 158.0,
+    "y": 113.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1161,
+    "slot": 7,
+    "x": 300.5,
+    "y": 174.5,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1311,
+    "slot": 1,
+    "x": 391.0,
+    "y": 87.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1331,
+    "slot": 4,
+    "x": 423.0,
+    "y": 46.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1336,
+    "slot": 6,
+    "x": 409.0,
+    "y": 181.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1356,
+    "slot": 2,
+    "x": 252.0,
+    "y": 168.0,
+    "source": "croix"
+   },
+   {
+    "image": 1391,
+    "slot": 3,
+    "x": 193.0,
+    "y": 194.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1426,
+    "slot": 9,
+    "x": 394.0,
+    "y": 172.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1521,
+    "slot": 2,
+    "x": 19.0,
+    "y": 79.0,
+    "source": "croix"
+   },
+   {
+    "image": 1526,
+    "slot": 4,
+    "x": 18.0,
+    "y": 49.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1526,
+    "slot": 8,
+    "x": 239.0,
+    "y": 134.0,
+    "source": "croix"
+   },
+   {
+    "image": 1541,
+    "slot": 6,
     "x": 429.0,
     "y": 210.0,
     "source": "croix"
    },
    {
-    "image": 1519,
+    "image": 1576,
     "slot": 3,
-    "x": 255.3,
-    "y": 147.1,
-    "source": "croix"
+    "x": 409.0,
+    "y": 243.0,
+    "source": "bout de trajet"
    },
    {
-    "image": 1519,
-    "slot": 7,
-    "x": 214.6,
-    "y": 158.2,
-    "source": "croix"
+    "image": 1641,
+    "slot": 2,
+    "x": 429.0,
+    "y": 210.0,
+    "source": "bout de trajet"
    },
    {
-    "image": 2029,
+    "image": 1656,
     "slot": 1,
     "x": 39.0,
     "y": 49.0,
     "source": "bout de trajet"
    },
    {
-    "image": 2052,
+    "image": 1686,
+    "slot": 7,
+    "x": 19.0,
+    "y": 79.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1691,
     "slot": 4,
-    "x": 39.0,
+    "x": 18.0,
     "y": 49.0,
     "source": "bout de trajet, croix prise"
    },
    {
-    "image": 2055,
-    "slot": 6,
-    "x": 39.0,
+    "image": 1756,
+    "slot": 9,
+    "x": 18.0,
     "y": 49.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1866,
+    "slot": 6,
+    "x": 229.0,
+    "y": 48.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1871,
+    "slot": 8,
+    "x": 418.0,
+    "y": 187.0,
+    "source": "croix"
+   },
+   {
+    "image": 1876,
+    "slot": 2,
+    "x": 429.0,
+    "y": 210.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1876,
+    "slot": 4,
+    "x": 18.0,
+    "y": 49.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1881,
+    "slot": 7,
+    "x": 19.0,
+    "y": 79.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 1916,
+    "slot": 9,
+    "x": 256.0,
+    "y": 65.0,
+    "source": "croix"
+   },
+   {
+    "image": 1996,
+    "slot": 3,
+    "x": 166.0,
+    "y": 167.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 2029,
+    "slot": 1,
+    "x": 165.0,
+    "y": 166.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 2031,
+    "slot": 6,
+    "x": 390.0,
+    "y": 243.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 2031,
+    "slot": 7,
+    "x": 291.0,
+    "y": 86.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 2066,
+    "slot": 8,
+    "x": 185.0,
+    "y": 105.0,
     "source": "bout de trajet"
    },
    {
     "image": 2075,
     "slot": 2,
-    "x": 210.0,
-    "y": 188.0,
-    "source": "croix"
-   },
-   {
-    "image": 2112,
-    "slot": 3,
-    "x": 18.0,
+    "x": 39.0,
     "y": 49.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 2145,
-    "slot": 9,
-    "x": 314.0,
-    "y": 156.0,
-    "source": "croix"
-   },
-   {
-    "image": 2239,
-    "slot": 2,
-    "x": 214.0,
-    "y": 155.0,
-    "source": "croix"
-   },
-   {
-    "image": 2244,
-    "slot": 4,
-    "x": 210.5,
-    "y": 149.3,
-    "source": "croix"
-   },
-   {
-    "image": 2247,
-    "slot": 8,
-    "x": 213.0,
-    "y": 92.0,
-    "source": "croix"
-   },
-   {
-    "image": 2260,
-    "slot": 6,
-    "x": 213.0,
-    "y": 91.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 2296,
-    "slot": 3,
-    "x": 432.0,
-    "y": 45.2,
-    "source": "croix"
-   },
-   {
-    "image": 2359,
-    "slot": 2,
-    "x": 59.0,
-    "y": 49.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 2374,
-    "slot": 1,
-    "x": 216.0,
-    "y": 242.0,
-    "source": "croix"
-   },
-   {
-    "image": 2406,
-    "slot": 7,
-    "x": 323.0,
-    "y": 148.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 2413,
-    "slot": 4,
-    "x": 15.0,
-    "y": 24.0,
     "source": "bout de trajet, croix prise"
    },
    {
-    "image": 2476,
-    "slot": 9,
-    "x": 240.0,
-    "y": 139.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 2586,
-    "slot": 6,
-    "x": 211.0,
-    "y": 128.0,
-    "source": "croix"
-   },
-   {
-    "image": 2591,
-    "slot": 8,
-    "x": 321.0,
-    "y": 72.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 2594,
-    "slot": 2,
-    "x": 233.0,
-    "y": 156.0,
-    "source": "croix"
-   },
-   {
-    "image": 2597,
+    "image": 2106,
     "slot": 4,
-    "x": 229.0,
-    "y": 159.9,
-    "source": "croix"
-   },
-   {
-    "image": 2603,
-    "slot": 7,
-    "x": 277.0,
-    "y": 160.0,
-    "source": "croix"
-   },
-   {
-    "image": 2635,
-    "slot": 9,
-    "x": 409.0,
-    "y": 243.0,
-    "source": "croix"
-   },
-   {
-    "image": 2717,
-    "slot": 3,
-    "x": 282.0,
-    "y": 93.0,
-    "source": "bout de trajet, croix prise"
-   },
-   {
-    "image": 2749,
-    "slot": 6,
-    "x": 416.0,
-    "y": 78.0,
-    "source": "croix"
-   },
-   {
-    "image": 2750,
-    "slot": 1,
-    "x": 195.0,
-    "y": 236.0,
+    "x": 19.0,
+    "y": 79.0,
     "source": "bout de trajet"
    },
    {
-    "image": 2753,
-    "slot": 7,
-    "x": 409.0,
-    "y": 70.0,
-    "source": "croix"
-   },
-   {
-    "image": 2786,
-    "slot": 2,
-    "x": 18.0,
-    "y": 49.0,
-    "source": "croix"
-   },
-   {
-    "image": 2786,
-    "slot": 8,
-    "x": 238.0,
-    "y": 149.0,
-    "source": "croix"
-   },
-   {
-    "image": 2828,
-    "slot": 4,
-    "x": 390.0,
-    "y": 243.0,
-    "source": "bout de trajet, croix ecartee"
-   },
-   {
-    "image": 2856,
+    "image": 2136,
     "slot": 3,
-    "x": 450.0,
-    "y": 203.0,
-    "source": "croix"
-   },
-   {
-    "image": 2893,
-    "slot": 1,
-    "x": 169.0,
-    "y": 92.0,
+    "x": 19.0,
+    "y": 79.0,
     "source": "bout de trajet"
    },
    {
-    "image": 2908,
+    "image": 2171,
+    "slot": 1,
+    "x": 106.0,
+    "y": 197.0,
+    "source": "bout de trajet"
+   },
+   {
+    "image": 2186,
     "slot": 9,
-    "x": 352.0,
-    "y": 169.0,
+    "x": 429.0,
+    "y": 210.0,
     "source": "bout de trajet"
    }
   ],
@@ -173562,7 +173541,7 @@
    "repris": 8,
    "controle": 6,
    "anticaps": {},
-   "anticaps_total": 1,
+   "anticaps_total": 0,
    "en_capture": 0,
    "subis": 0
   }

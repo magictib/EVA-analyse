@@ -86384,8 +86384,8 @@
    {
     "image": 116,
     "slot": 6,
-    "x": 274.0,
-    "y": 25.0,
+    "x": 202.0,
+    "y": 132.0,
     "source": "croix"
    },
    {
@@ -86405,8 +86405,8 @@
    {
     "image": 146,
     "slot": 7,
-    "x": 290.0,
-    "y": 77.0,
+    "x": 307.0,
+    "y": 29.0,
     "source": "bout de trajet"
    },
    {
@@ -86496,9 +86496,9 @@
    {
     "image": 918,
     "slot": 1,
-    "x": 42.3,
-    "y": 71.1,
-    "source": "croix"
+    "x": 312.0,
+    "y": 188.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 1063,
@@ -86510,9 +86510,9 @@
    {
     "image": 1063,
     "slot": 8,
-    "x": 76.0,
-    "y": 240.0,
-    "source": "bout de trajet, croix ecartee"
+    "x": 342.8,
+    "y": 74.2,
+    "source": "croix"
    },
    {
     "image": 1115,
@@ -86538,9 +86538,9 @@
    {
     "image": 1215,
     "slot": 7,
-    "x": 289.0,
-    "y": 156.0,
-    "source": "bout de trajet, croix ecartee"
+    "x": 253.8,
+    "y": 4.2,
+    "source": "croix"
    },
    {
     "image": 1239,
@@ -86566,8 +86566,8 @@
    {
     "image": 1266,
     "slot": 9,
-    "x": 216.0,
-    "y": 8.0,
+    "x": 137.0,
+    "y": 28.0,
     "source": "bout de trajet"
    },
    {
@@ -86580,9 +86580,9 @@
    {
     "image": 1312,
     "slot": 2,
-    "x": 2.7,
-    "y": 150.5,
-    "source": "croix"
+    "x": 198.0,
+    "y": 123.0,
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 1336,
@@ -86685,20 +86685,21 @@
    {
     "image": 1731,
     "slot": 9,
-    "x": 296.0,
-    "y": 209.0,
-    "source": "bout de trajet"
+    "x": 210.0,
+    "y": 132.0,
+    "source": "bout de trajet, croix prise"
    }
   ],
   "duels": {
    "repris": 5,
    "controle": 5,
    "anticaps": {
+    "2": 1,
     "3": 1
    },
-   "anticaps_total": 2,
+   "anticaps_total": 3,
    "en_capture": 1,
-   "subis": 5
+   "subis": 6
   }
  },
  "terrain": {

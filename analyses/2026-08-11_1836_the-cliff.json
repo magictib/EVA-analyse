@@ -82011,7 +82011,7 @@
    {
     "image": 51,
     "slot": 4,
-    "x": 34.0,
+    "x": 35.0,
     "y": 221.0,
     "source": "bout de trajet"
    },
@@ -82032,7 +82032,7 @@
    {
     "image": 68,
     "slot": 3,
-    "x": 176.0,
+    "x": 179.0,
     "y": 86.0,
     "source": "bout de trajet"
    },
@@ -82131,7 +82131,7 @@
     "image": 783,
     "slot": 6,
     "x": 250.0,
-    "y": 108.0,
+    "y": 107.0,
     "source": "bout de trajet"
    },
    {
@@ -82180,7 +82180,7 @@
     "image": 1019,
     "slot": 3,
     "x": 170.0,
-    "y": 220.0,
+    "y": 219.0,
     "source": "bout de trajet"
    },
    {
@@ -82208,7 +82208,7 @@
     "image": 1053,
     "slot": 1,
     "x": 139.0,
-    "y": 109.0,
+    "y": 108.0,
     "source": "bout de trajet"
    },
    {
@@ -82228,8 +82228,8 @@
    {
     "image": 1210,
     "slot": 4,
-    "x": 62.0,
-    "y": 118.0,
+    "x": 40.0,
+    "y": 121.0,
     "source": "bout de trajet"
    },
    {
@@ -82284,8 +82284,8 @@
    {
     "image": 1404,
     "slot": 4,
-    "x": 91.0,
-    "y": 184.0,
+    "x": 97.0,
+    "y": 187.0,
     "source": "bout de trajet"
    },
    {
@@ -82327,7 +82327,7 @@
     "image": 1558,
     "slot": 9,
     "x": 334.0,
-    "y": 244.0,
+    "y": 245.0,
     "source": "bout de trajet"
    },
    {
@@ -82340,8 +82340,8 @@
    {
     "image": 1656,
     "slot": 2,
-    "x": 261.0,
-    "y": 233.0,
+    "x": 263.0,
+    "y": 231.0,
     "source": "bout de trajet"
    },
    {
@@ -82382,15 +82382,15 @@
    {
     "image": 1769,
     "slot": 6,
-    "x": 255.0,
-    "y": 93.0,
+    "x": 216.5,
+    "y": 102.5,
     "source": "bout de trajet"
    },
    {
     "image": 1776,
     "slot": 8,
-    "x": 234.0,
-    "y": 246.0,
+    "x": 209.0,
+    "y": 213.0,
     "source": "bout de trajet"
    },
    {
@@ -82406,6 +82406,13 @@
     "x": 31.0,
     "y": 179.0,
     "source": "croix"
+   },
+   {
+    "image": 1841,
+    "slot": 6,
+    "x": 245.0,
+    "y": 103.0,
+    "source": "bout de trajet"
    },
    {
     "image": 1864,
@@ -82483,13 +82490,6 @@
     "x": 350.5,
     "y": 189.8,
     "source": "croix"
-   },
-   {
-    "image": 2121,
-    "slot": 4,
-    "x": 356.0,
-    "y": 164.0,
-    "source": "bout de trajet"
    }
   ],
   "strats": [],
@@ -84420,7 +84420,7 @@
    "anticaps": {},
    "anticaps_total": 0,
    "en_capture": 0,
-   "subis": 0
+   "subis": 1
   },
   "pov": [
    [
