@@ -69339,6 +69339,12 @@
    "anticaps_total": 0,
    "en_capture": 0,
    "subis": 0
+  },
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "6bf5a8a770c8",
+    "pov": "2c4cbdc21b68"
+   }
   }
  },
  "terrain": {

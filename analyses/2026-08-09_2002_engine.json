@@ -168213,6 +168213,22 @@
     "vues": 10
    },
    {
+    "image": 616,
+    "slot": 3,
+    "x": 157.8,
+    "y": 205.8,
+    "score": 0.241,
+    "vues": 18
+   },
+   {
+    "image": 841,
+    "slot": 6,
+    "x": 266.9,
+    "y": 101.2,
+    "score": 1.0,
+    "vues": 8
+   },
+   {
     "image": 887,
     "slot": 2,
     "x": 132.5,
@@ -168229,12 +168245,44 @@
     "vues": 11
    },
    {
+    "image": 1001,
+    "slot": 4,
+    "x": 37.3,
+    "y": 62.1,
+    "score": 0.878,
+    "vues": 25
+   },
+   {
+    "image": 1161,
+    "slot": 7,
+    "x": 305.9,
+    "y": 182.6,
+    "score": 1.0,
+    "vues": 9
+   },
+   {
     "image": 1202,
     "slot": 6,
     "x": 240.4,
     "y": 93.6,
     "score": 0.494,
     "vues": 11
+   },
+   {
+    "image": 1336,
+    "slot": 6,
+    "x": 430.1,
+    "y": 210.9,
+    "score": 1.0,
+    "vues": 8
+   },
+   {
+    "image": 1426,
+    "slot": 9,
+    "x": 412.6,
+    "y": 227.3,
+    "score": 0.911,
+    "vues": 30
    },
    {
     "image": 1453,
@@ -168261,12 +168309,52 @@
     "vues": 14
    },
    {
+    "image": 1526,
+    "slot": 4,
+    "x": 37.7,
+    "y": 59.0,
+    "score": 1.0,
+    "vues": 34
+   },
+   {
+    "image": 1576,
+    "slot": 3,
+    "x": 292.8,
+    "y": 65.3,
+    "score": 1.0,
+    "vues": 55
+   },
+   {
+    "image": 1656,
+    "slot": 1,
+    "x": 20.2,
+    "y": 77.8,
+    "score": 0.639,
+    "vues": 30
+   },
+   {
+    "image": 1876,
+    "slot": 4,
+    "x": 40.3,
+    "y": 63.6,
+    "score": 0.7,
+    "vues": 33
+   },
+   {
     "image": 2145,
     "slot": 9,
     "x": 314.0,
     "y": 156.0,
     "score": 0.147,
     "vues": 8
+   },
+   {
+    "image": 2186,
+    "slot": 9,
+    "x": 432.5,
+    "y": 190.3,
+    "score": 1.0,
+    "vues": 11
    },
    {
     "image": 2244,
@@ -173166,9 +173254,9 @@
    {
     "image": 616,
     "slot": 3,
-    "x": 159.0,
-    "y": 202.0,
-    "source": "bout de trajet"
+    "x": 157.8,
+    "y": 205.8,
+    "source": "croix"
    },
    {
     "image": 701,
@@ -173182,6 +173270,13 @@
     "slot": 2,
     "x": 72.0,
     "y": 65.0,
+    "source": "croix"
+   },
+   {
+    "image": 841,
+    "slot": 6,
+    "x": 266.9,
+    "y": 101.2,
     "source": "croix"
    },
    {
@@ -173215,9 +173310,9 @@
    {
     "image": 1001,
     "slot": 4,
-    "x": 19.0,
-    "y": 78.0,
-    "source": "bout de trajet"
+    "x": 37.3,
+    "y": 62.1,
+    "source": "croix"
    },
    {
     "image": 1011,
@@ -173250,9 +173345,9 @@
    {
     "image": 1161,
     "slot": 7,
-    "x": 300.5,
-    "y": 174.5,
-    "source": "bout de trajet"
+    "x": 305.9,
+    "y": 182.6,
+    "source": "croix"
    },
    {
     "image": 1311,
@@ -173273,7 +173368,7 @@
     "slot": 6,
     "x": 409.0,
     "y": 181.0,
-    "source": "bout de trajet"
+    "source": "bout de trajet, croix prise"
    },
    {
     "image": 1356,
@@ -173292,9 +173387,9 @@
    {
     "image": 1426,
     "slot": 9,
-    "x": 394.0,
-    "y": 172.0,
-    "source": "bout de trajet"
+    "x": 412.6,
+    "y": 227.3,
+    "source": "croix"
    },
    {
     "image": 1521,
@@ -173306,9 +173401,9 @@
    {
     "image": 1526,
     "slot": 4,
-    "x": 18.0,
-    "y": 49.0,
-    "source": "bout de trajet"
+    "x": 37.7,
+    "y": 59.0,
+    "source": "croix"
    },
    {
     "image": 1526,
@@ -173329,7 +173424,7 @@
     "slot": 3,
     "x": 409.0,
     "y": 243.0,
-    "source": "bout de trajet"
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 1641,
@@ -173341,9 +173436,9 @@
    {
     "image": 1656,
     "slot": 1,
-    "x": 39.0,
-    "y": 49.0,
-    "source": "bout de trajet"
+    "x": 20.2,
+    "y": 77.8,
+    "source": "croix"
    },
    {
     "image": 1686,
@@ -173376,9 +173471,9 @@
    {
     "image": 1876,
     "slot": 4,
-    "x": 18.0,
-    "y": 49.0,
-    "source": "bout de trajet"
+    "x": 40.3,
+    "y": 63.6,
+    "source": "croix"
    },
    {
     "image": 1881,
@@ -173446,9 +173541,9 @@
    {
     "image": 2186,
     "slot": 9,
-    "x": 429.0,
-    "y": 210.0,
-    "source": "bout de trajet"
+    "x": 432.5,
+    "y": 190.3,
+    "source": "croix"
    }
   ],
   "horloge": {
@@ -173491,6 +173586,12 @@
    "anticaps_total": 0,
    "en_capture": 0,
    "subis": 0
+  },
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "dcedcb092c78",
+    "pov": "68a781ce2811"
+   }
   }
  },
  "_retire": {

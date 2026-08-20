@@ -171796,6 +171796,30 @@
     "vues": 11
    },
    {
+    "image": 1606,
+    "slot": 7,
+    "x": 267.2,
+    "y": 68.6,
+    "score": 0.208,
+    "vues": 17
+   },
+   {
+    "image": 1701,
+    "slot": 9,
+    "x": 336.6,
+    "y": 239.3,
+    "score": 0.113,
+    "vues": 19
+   },
+   {
+    "image": 1886,
+    "slot": 7,
+    "x": 270.7,
+    "y": 70.5,
+    "score": 0.197,
+    "vues": 8
+   },
+   {
     "image": 2408,
     "slot": 1,
     "x": 18.1,
@@ -172334,9 +172358,9 @@
    {
     "image": 1606,
     "slot": 7,
-    "x": 268.0,
-    "y": 69.0,
-    "source": "bout de trajet"
+    "x": 267.2,
+    "y": 68.6,
+    "source": "croix"
    },
    {
     "image": 1621,
@@ -172357,7 +172381,7 @@
     "slot": 9,
     "x": 335.0,
     "y": 240.0,
-    "source": "bout de trajet"
+    "source": "bout de trajet, croix prise"
    },
    {
     "image": 1741,
@@ -172390,9 +172414,9 @@
    {
     "image": 1886,
     "slot": 7,
-    "x": 268.0,
-    "y": 67.0,
-    "source": "bout de trajet"
+    "x": 270.7,
+    "y": 70.5,
+    "source": "croix"
    },
    {
     "image": 1896,
@@ -192605,7 +192629,13 @@
     120.0,
     210.0
    ]
-  ]
+  ],
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "fd390f5fc5a8",
+    "pov": "79805a098037"
+   }
+  }
  },
  "_retire": {
   "fin_de_match": 6

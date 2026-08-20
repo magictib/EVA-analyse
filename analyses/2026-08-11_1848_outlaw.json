@@ -90707,7 +90707,13 @@
     60.0,
     320.0
    ]
-  ]
+  ],
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "2e6a7542f48a",
+    "pov": "1e7d04717de8"
+   }
+  }
  },
  "_retire": {
   "fin_de_match": 2

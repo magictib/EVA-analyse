@@ -81974,12 +81974,28 @@
     "vues": 8
    },
    {
+    "image": 699,
+    "slot": 1,
+    "x": 175.0,
+    "y": 172.3,
+    "score": 1.0,
+    "vues": 11
+   },
+   {
     "image": 906,
     "slot": 1,
     "x": 215.9,
     "y": 211.7,
     "score": 0.542,
     "vues": 13
+   },
+   {
+    "image": 1347,
+    "slot": 4,
+    "x": 260.4,
+    "y": 166.5,
+    "score": 1.0,
+    "vues": 8
    },
    {
     "image": 1407,
@@ -82004,6 +82020,22 @@
     "y": 133.7,
     "score": 0.377,
     "vues": 12
+   },
+   {
+    "image": 1836,
+    "slot": 6,
+    "x": 390.6,
+    "y": 209.2,
+    "score": 0.932,
+    "vues": 20
+   },
+   {
+    "image": 1853,
+    "slot": 8,
+    "x": 208.5,
+    "y": 162.6,
+    "score": 0.637,
+    "vues": 8
    }
   ],
   "score_lu": {
@@ -84543,6 +84575,13 @@
     "source": "bout de trajet, croix prise"
    },
    {
+    "image": 699,
+    "slot": 1,
+    "x": 175.0,
+    "y": 172.3,
+    "source": "croix"
+   },
+   {
     "image": 717,
     "slot": 8,
     "x": 365.0,
@@ -84671,9 +84710,9 @@
    {
     "image": 1347,
     "slot": 4,
-    "x": 259.0,
-    "y": 171.0,
-    "source": "bout de trajet"
+    "x": 260.4,
+    "y": 166.5,
+    "source": "croix"
    },
    {
     "image": 1348,
@@ -84797,16 +84836,16 @@
    {
     "image": 1836,
     "slot": 6,
-    "x": 417.5,
-    "y": 185.5,
-    "source": "bout de trajet"
+    "x": 390.6,
+    "y": 209.2,
+    "source": "croix"
    },
    {
     "image": 1853,
     "slot": 8,
-    "x": 199.0,
-    "y": 161.0,
-    "source": "bout de trajet"
+    "x": 208.5,
+    "y": 162.6,
+    "source": "croix"
    },
    {
     "image": 1869,
@@ -84850,6 +84889,12 @@
    "anticaps_total": 2,
    "en_capture": 0,
    "subis": 0
+  },
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "f0005abb14f4",
+    "pov": "2ba0d6c45295"
+   }
   }
  },
  "_retire": {

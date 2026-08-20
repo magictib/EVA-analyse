@@ -95863,12 +95863,60 @@
     "vues": 14
    },
    {
+    "image": 153,
+    "slot": 6,
+    "x": 2.7,
+    "y": 145.1,
+    "score": 1.0,
+    "vues": 12
+   },
+   {
+    "image": 421,
+    "slot": 7,
+    "x": 248.8,
+    "y": 122.2,
+    "score": 0.923,
+    "vues": 9
+   },
+   {
+    "image": 431,
+    "slot": 5,
+    "x": 145.1,
+    "y": 119.8,
+    "score": 0.145,
+    "vues": 12
+   },
+   {
     "image": 521,
     "slot": 5,
     "x": 387.9,
     "y": 55.7,
     "score": 0.367,
     "vues": 13
+   },
+   {
+    "image": 631,
+    "slot": 5,
+    "x": 271.1,
+    "y": 187.9,
+    "score": 0.198,
+    "vues": 33
+   },
+   {
+    "image": 881,
+    "slot": 7,
+    "x": 267.3,
+    "y": 182.4,
+    "score": 1.0,
+    "vues": 19
+   },
+   {
+    "image": 916,
+    "slot": 1,
+    "x": 184.9,
+    "y": 185.0,
+    "score": 1.0,
+    "vues": 14
    },
    {
     "image": 930,
@@ -95879,11 +95927,27 @@
     "vues": 2
    },
    {
+    "image": 1061,
+    "slot": 8,
+    "x": 95.8,
+    "y": 31.0,
+    "score": 1.0,
+    "vues": 8
+   },
+   {
     "image": 1134,
     "slot": 3,
     "x": 34.0,
     "y": 52.5,
     "score": 0.57,
+    "vues": 9
+   },
+   {
+    "image": 1221,
+    "slot": 3,
+    "x": 28.8,
+    "y": 166.1,
+    "score": 0.868,
     "vues": 9
    },
    {
@@ -95903,12 +95967,36 @@
     "vues": 2
    },
    {
+    "image": 1391,
+    "slot": 4,
+    "x": 35.7,
+    "y": 142.5,
+    "score": 0.875,
+    "vues": 23
+   },
+   {
     "image": 1400,
     "slot": 1,
     "x": 24.2,
     "y": 220.0,
     "score": 0.553,
     "vues": 9
+   },
+   {
+    "image": 1401,
+    "slot": 8,
+    "x": 411.2,
+    "y": 199.8,
+    "score": 1.0,
+    "vues": 8
+   },
+   {
+    "image": 1501,
+    "slot": 4,
+    "x": 25.6,
+    "y": 221.0,
+    "score": 0.869,
+    "vues": 20
    },
    {
     "image": 1504,
@@ -110532,9 +110620,9 @@
    {
     "image": 153,
     "slot": 6,
-    "x": 16.0,
-    "y": 151.0,
-    "source": "bout de trajet"
+    "x": 2.7,
+    "y": 145.1,
+    "source": "croix"
    },
    {
     "image": 201,
@@ -110567,16 +110655,16 @@
    {
     "image": 421,
     "slot": 7,
-    "x": 239.0,
-    "y": 132.0,
-    "source": "bout de trajet"
+    "x": 248.8,
+    "y": 122.2,
+    "source": "croix"
    },
    {
     "image": 431,
     "slot": 5,
-    "x": 153.0,
-    "y": 124.0,
-    "source": "bout de trajet"
+    "x": 145.1,
+    "y": 119.8,
+    "source": "croix"
    },
    {
     "image": 466,
@@ -110602,9 +110690,9 @@
    {
     "image": 631,
     "slot": 5,
-    "x": 272.0,
-    "y": 188.0,
-    "source": "bout de trajet"
+    "x": 271.1,
+    "y": 187.9,
+    "source": "croix"
    },
    {
     "image": 631,
@@ -110644,9 +110732,9 @@
    {
     "image": 881,
     "slot": 7,
-    "x": 274.0,
-    "y": 173.0,
-    "source": "bout de trajet"
+    "x": 267.3,
+    "y": 182.4,
+    "source": "croix"
    },
    {
     "image": 896,
@@ -110658,9 +110746,9 @@
    {
     "image": 916,
     "slot": 1,
-    "x": 173.0,
-    "y": 196.0,
-    "source": "bout de trajet"
+    "x": 184.9,
+    "y": 185.0,
+    "source": "croix"
    },
    {
     "image": 936,
@@ -110686,9 +110774,9 @@
    {
     "image": 1061,
     "slot": 8,
-    "x": 85.0,
-    "y": 46.0,
-    "source": "bout de trajet"
+    "x": 95.8,
+    "y": 31.0,
+    "source": "croix"
    },
    {
     "image": 1101,
@@ -110728,9 +110816,9 @@
    {
     "image": 1221,
     "slot": 3,
-    "x": 31.0,
-    "y": 166.0,
-    "source": "bout de trajet"
+    "x": 28.8,
+    "y": 166.1,
+    "source": "croix"
    },
    {
     "image": 1236,
@@ -110770,16 +110858,16 @@
    {
     "image": 1391,
     "slot": 4,
-    "x": 11.0,
-    "y": 134.0,
-    "source": "bout de trajet"
+    "x": 35.7,
+    "y": 142.5,
+    "source": "croix"
    },
    {
     "image": 1401,
     "slot": 8,
-    "x": 416.5,
-    "y": 222.5,
-    "source": "bout de trajet"
+    "x": 411.2,
+    "y": 199.8,
+    "source": "croix"
    },
    {
     "image": 1406,
@@ -110812,9 +110900,9 @@
    {
     "image": 1501,
     "slot": 4,
-    "x": 31.0,
-    "y": 203.0,
-    "source": "bout de trajet"
+    "x": 25.6,
+    "y": 221.0,
+    "source": "croix"
    },
    {
     "image": 1576,
@@ -110905,6 +110993,12 @@
    "anticaps_total": 0,
    "en_capture": 0,
    "subis": 2
+  },
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "6aa20ac6f448",
+    "pov": "b8f9a47147c7"
+   }
   }
  },
  "terrain": {

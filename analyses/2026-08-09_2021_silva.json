@@ -68070,6 +68070,12 @@
    "anticaps_total": 0,
    "en_capture": 0,
    "subis": 2
+  },
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "534137308539",
+    "pov": "06d6267088c6"
+   }
   }
  },
  "_retire": {

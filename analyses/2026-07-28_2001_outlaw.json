@@ -120645,6 +120645,12 @@
    "anticaps_total": 2,
    "en_capture": 2,
    "subis": 1
+  },
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "7d2e98096005",
+    "pov": "50a25529f002"
+   }
   }
  },
  "armes_portees": {

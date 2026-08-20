@@ -97237,6 +97237,22 @@
     "vues": 10
    },
    {
+    "image": 249,
+    "slot": 7,
+    "x": 251.3,
+    "y": 178.8,
+    "score": 0.911,
+    "vues": 8
+   },
+   {
+    "image": 522,
+    "slot": 4,
+    "x": 167.0,
+    "y": 222.6,
+    "score": 1.0,
+    "vues": 22
+   },
+   {
     "image": 523,
     "slot": 2,
     "x": 172.1,
@@ -97245,12 +97261,36 @@
     "vues": 29
    },
    {
+    "image": 571,
+    "slot": 1,
+    "x": 36.0,
+    "y": 190.5,
+    "score": 1.0,
+    "vues": 47
+   },
+   {
+    "image": 621,
+    "slot": 7,
+    "x": 182.5,
+    "y": 197.5,
+    "score": 0.869,
+    "vues": 18
+   },
+   {
     "image": 676,
     "slot": 3,
     "x": 62.3,
     "y": 232.1,
     "score": 0.549,
     "vues": 8
+   },
+   {
+    "image": 914,
+    "slot": 2,
+    "x": 65.7,
+    "y": 194.1,
+    "score": 1.0,
+    "vues": 25
    },
    {
     "image": 926,
@@ -97267,6 +97307,14 @@
     "y": 194.5,
     "score": 0.869,
     "vues": 22
+   },
+   {
+    "image": 1610,
+    "slot": 1,
+    "x": 46.8,
+    "y": 124.4,
+    "score": 1.0,
+    "vues": 8
    },
    {
     "image": 1644,
@@ -97667,9 +97715,9 @@
    {
     "image": 249,
     "slot": 7,
-    "x": 244.0,
-    "y": 180.0,
-    "source": "bout de trajet"
+    "x": 251.3,
+    "y": 178.8,
+    "source": "croix"
    },
    {
     "image": 257,
@@ -97716,9 +97764,9 @@
    {
     "image": 522,
     "slot": 4,
-    "x": 166.0,
-    "y": 228.0,
-    "source": "bout de trajet"
+    "x": 167.0,
+    "y": 222.6,
+    "source": "croix"
    },
    {
     "image": 523,
@@ -97744,16 +97792,16 @@
    {
     "image": 571,
     "slot": 1,
-    "x": 41.0,
-    "y": 146.0,
-    "source": "bout de trajet"
+    "x": 36.0,
+    "y": 190.5,
+    "source": "croix"
    },
    {
     "image": 621,
     "slot": 7,
-    "x": 180.0,
-    "y": 200.0,
-    "source": "bout de trajet"
+    "x": 182.5,
+    "y": 197.5,
+    "source": "croix"
    },
    {
     "image": 660,
@@ -97814,9 +97862,9 @@
    {
     "image": 914,
     "slot": 2,
-    "x": 90.0,
-    "y": 153.0,
-    "source": "bout de trajet"
+    "x": 65.7,
+    "y": 194.1,
+    "source": "croix"
    },
    {
     "image": 926,
@@ -97929,6 +97977,13 @@
     "x": 175.0,
     "y": 200.0,
     "source": "bout de trajet"
+   },
+   {
+    "image": 1610,
+    "slot": 1,
+    "x": 46.8,
+    "y": 124.4,
+    "source": "croix"
    },
    {
     "image": 1644,
@@ -106100,7 +106155,13 @@
     265.0,
     139.0
    ]
-  ]
+  ],
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "7cfd2bbc6a0f",
+    "pov": "2ba59306d908"
+   }
+  }
  },
  "_retire": {
   "fin_de_match": 3

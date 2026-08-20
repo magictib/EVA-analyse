@@ -88409,6 +88409,14 @@
     "vues": 2
    },
    {
+    "image": 80,
+    "slot": 6,
+    "x": 413.1,
+    "y": 201.0,
+    "score": 1.0,
+    "vues": 9
+   },
+   {
     "image": 212,
     "slot": 6,
     "x": 366.3,
@@ -88567,6 +88575,14 @@
     "y": 112.2,
     "score": 0.232,
     "vues": 7
+   },
+   {
+    "image": 2307,
+    "slot": 6,
+    "x": 1.7,
+    "y": 152.0,
+    "score": 0.895,
+    "vues": 8
    }
   ],
   "pov": [
@@ -105711,9 +105727,9 @@
    {
     "image": 80,
     "slot": 6,
-    "x": 401.0,
-    "y": 179.0,
-    "source": "bout de trajet"
+    "x": 413.1,
+    "y": 201.0,
+    "source": "croix"
    },
    {
     "image": 118,
@@ -106215,9 +106231,9 @@
    {
     "image": 2307,
     "slot": 6,
-    "x": 16.0,
-    "y": 151.0,
-    "source": "bout de trajet"
+    "x": 1.7,
+    "y": 152.0,
+    "source": "croix"
    }
   ],
   "duels": {
@@ -106229,6 +106245,12 @@
    "anticaps_total": 1,
    "en_capture": 1,
    "subis": 3
+  },
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "f5696335a7c5",
+    "pov": "f6c8af9cd7d9"
+   }
   }
  },
  "terrain": {

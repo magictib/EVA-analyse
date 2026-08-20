@@ -70134,6 +70134,14 @@
     "vues": 2
    },
    {
+    "image": 692,
+    "slot": 1,
+    "x": 93.9,
+    "y": 178.0,
+    "score": 1.0,
+    "vues": 12
+   },
+   {
     "image": 816,
     "slot": 7,
     "x": 213.4,
@@ -70156,6 +70164,14 @@
     "y": 95.8,
     "score": 0.529,
     "vues": 2
+   },
+   {
+    "image": 1053,
+    "slot": 6,
+    "x": 378.6,
+    "y": 192.4,
+    "score": 1.0,
+    "vues": 42
    },
    {
     "image": 1058,
@@ -70220,6 +70236,14 @@
     "y": 192.6,
     "score": 1.0,
     "vues": 30
+   },
+   {
+    "image": 1938,
+    "slot": 8,
+    "x": 23.1,
+    "y": 101.2,
+    "score": 0.892,
+    "vues": 8
    }
   ],
   "pov": [
@@ -82072,6 +82096,13 @@
     "source": "croix"
    },
    {
+    "image": 692,
+    "slot": 1,
+    "x": 93.9,
+    "y": 178.0,
+    "source": "croix"
+   },
+   {
     "image": 816,
     "slot": 7,
     "x": 213.4,
@@ -82104,6 +82135,13 @@
     "slot": 8,
     "x": 2.7,
     "y": 95.8,
+    "source": "croix"
+   },
+   {
+    "image": 1053,
+    "slot": 6,
+    "x": 378.6,
+    "y": 192.4,
     "source": "croix"
    },
    {
@@ -82273,6 +82311,13 @@
     "x": 147.0,
     "y": 146.0,
     "source": "croix"
+   },
+   {
+    "image": 1938,
+    "slot": 8,
+    "x": 23.1,
+    "y": 101.2,
+    "source": "croix"
    }
   ],
   "duels": {
@@ -82282,6 +82327,12 @@
    "anticaps_total": 0,
    "en_capture": 0,
    "subis": 1
+  },
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "a65caa3483a0",
+    "pov": "c02d0bd5b91a"
+   }
   }
  },
  "terrain": {

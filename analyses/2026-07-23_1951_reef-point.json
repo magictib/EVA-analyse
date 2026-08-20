@@ -111274,6 +111274,14 @@
     "vues": 8
    },
    {
+    "image": 1036,
+    "slot": 8,
+    "x": 392.1,
+    "y": 192.9,
+    "score": 0.892,
+    "vues": 14
+   },
+   {
     "image": 1143,
     "slot": 9,
     "x": 277.6,
@@ -111320,6 +111328,14 @@
     "y": 68.1,
     "score": 0.633,
     "vues": 7
+   },
+   {
+    "image": 1588,
+    "slot": 4,
+    "x": 237.5,
+    "y": 211.8,
+    "score": 1.0,
+    "vues": 16
    },
    {
     "image": 1707,
@@ -111464,6 +111480,22 @@
     "y": 178.6,
     "score": 0.488,
     "vues": 11
+   },
+   {
+    "image": 2770,
+    "slot": 3,
+    "x": 62.1,
+    "y": 195.6,
+    "score": 1.0,
+    "vues": 34
+   },
+   {
+    "image": 2804,
+    "slot": 6,
+    "x": 385.2,
+    "y": 235.7,
+    "score": 0.947,
+    "vues": 18
    },
    {
     "image": 2899,
@@ -130158,9 +130190,9 @@
    {
     "image": 403,
     "slot": 1,
-    "x": 62.6,
-    "y": 195.9,
-    "source": "croix"
+    "x": 64.0,
+    "y": 219.0,
+    "source": "bout de trajet, croix prise"
    },
    {
     "image": 452,
@@ -130275,6 +130307,13 @@
     "source": "croix"
    },
    {
+    "image": 1036,
+    "slot": 8,
+    "x": 392.1,
+    "y": 192.9,
+    "source": "croix"
+   },
+   {
     "image": 1108,
     "slot": 7,
     "x": 343.0,
@@ -130375,9 +130414,9 @@
    {
     "image": 1588,
     "slot": 4,
-    "x": 243.0,
-    "y": 233.0,
-    "source": "bout de trajet"
+    "x": 237.5,
+    "y": 211.8,
+    "source": "croix"
    },
    {
     "image": 1612,
@@ -130620,15 +130659,22 @@
    {
     "image": 2770,
     "slot": 3,
-    "x": 60.0,
-    "y": 198.0,
-    "source": "bout de trajet"
+    "x": 62.1,
+    "y": 195.6,
+    "source": "croix"
    },
    {
     "image": 2794,
     "slot": 2,
     "x": 219.0,
     "y": 240.0,
+    "source": "croix"
+   },
+   {
+    "image": 2804,
+    "slot": 6,
+    "x": 385.2,
+    "y": 235.7,
     "source": "croix"
    },
    {
@@ -130673,7 +130719,13 @@
     "y": 173.0,
     "source": "bout de trajet"
    }
-  ]
+  ],
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "855d10eefba2",
+    "pov": "72d169bd2e00"
+   }
+  }
  },
  "terrain": {
   "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",

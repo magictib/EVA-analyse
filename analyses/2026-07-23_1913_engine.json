@@ -85781,6 +85781,14 @@
     "vues": 7
    },
    {
+    "image": 745,
+    "slot": 7,
+    "x": 396.8,
+    "y": 248.9,
+    "score": 1.0,
+    "vues": 16
+   },
+   {
     "image": 1109,
     "slot": 6,
     "x": 233.2,
@@ -102401,9 +102409,9 @@
    {
     "image": 745,
     "slot": 7,
-    "x": 390.0,
-    "y": 243.0,
-    "source": "bout de trajet"
+    "x": 396.8,
+    "y": 248.9,
+    "source": "croix"
    },
    {
     "image": 781,
@@ -102672,6 +102680,12 @@
    "anticaps_total": 0,
    "en_capture": 0,
    "subis": 0
+  },
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "f31b38b612c3",
+    "pov": "3295d07d6c0b"
+   }
   }
  },
  "terrain": {

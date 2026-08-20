@@ -86132,6 +86132,14 @@
     "vues": 8
    },
    {
+    "image": 529,
+    "slot": 6,
+    "x": 233.3,
+    "y": 103.9,
+    "score": 0.869,
+    "vues": 8
+   },
+   {
     "image": 558,
     "slot": 7,
     "x": 251.3,
@@ -86162,6 +86170,14 @@
     "y": 145.3,
     "score": 1.0,
     "vues": 16
+   },
+   {
+    "image": 913,
+    "slot": 6,
+    "x": 259.0,
+    "y": 88.4,
+    "score": 0.472,
+    "vues": 8
    },
    {
     "image": 954,
@@ -86202,6 +86218,14 @@
     "y": 95.9,
     "score": 0.455,
     "vues": 8
+   },
+   {
+    "image": 1302,
+    "slot": 8,
+    "x": 281.6,
+    "y": 196.3,
+    "score": 0.46,
+    "vues": 9
    },
    {
     "image": 1345,
@@ -88372,9 +88396,9 @@
    {
     "image": 529,
     "slot": 6,
-    "x": 227.0,
-    "y": 86.0,
-    "source": "bout de trajet"
+    "x": 233.3,
+    "y": 103.9,
+    "source": "croix"
    },
    {
     "image": 540,
@@ -88442,9 +88466,9 @@
    {
     "image": 913,
     "slot": 6,
-    "x": 249.0,
-    "y": 110.0,
-    "source": "bout de trajet"
+    "x": 259.0,
+    "y": 88.4,
+    "source": "croix"
    },
    {
     "image": 954,
@@ -88498,9 +88522,9 @@
    {
     "image": 1302,
     "slot": 8,
-    "x": 280.5,
-    "y": 197.0,
-    "source": "bout de trajet"
+    "x": 281.6,
+    "y": 196.3,
+    "source": "croix"
    },
    {
     "image": 1345,
@@ -88564,6 +88588,12 @@
    "anticaps_total": 1,
    "en_capture": 0,
    "subis": 0
+  },
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "2aece5643f57",
+    "pov": "5e1ce66bbd80"
+   }
   }
  },
  "_retire": {

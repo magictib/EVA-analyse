@@ -108118,6 +108118,14 @@
     "vues": 5
    },
    {
+    "image": 281,
+    "slot": 1,
+    "x": 36.0,
+    "y": 143.8,
+    "score": 0.872,
+    "vues": 30
+   },
+   {
     "image": 294,
     "slot": 7,
     "x": 281.2,
@@ -108222,6 +108230,14 @@
     "vues": 5
    },
    {
+    "image": 1604,
+    "slot": 6,
+    "x": 420.4,
+    "y": 142.4,
+    "score": 0.428,
+    "vues": 22
+   },
+   {
     "image": 1606,
     "slot": 4,
     "x": 187.1,
@@ -108254,12 +108270,36 @@
     "vues": 2
    },
    {
+    "image": 1981,
+    "slot": 2,
+    "x": 216.2,
+    "y": 35.6,
+    "score": 0.351,
+    "vues": 8
+   },
+   {
+    "image": 2042,
+    "slot": 6,
+    "x": 42.3,
+    "y": 72.2,
+    "score": 1.0,
+    "vues": 10
+   },
+   {
     "image": 2078,
     "slot": 1,
     "x": 211.4,
     "y": 248.4,
     "score": 0.869,
     "vues": 20
+   },
+   {
+    "image": 2097,
+    "slot": 9,
+    "x": 236.0,
+    "y": 239.6,
+    "score": 1.0,
+    "vues": 18
    }
   ],
   "pov": [
@@ -123560,9 +123600,9 @@
    {
     "image": 281,
     "slot": 1,
-    "x": 73.0,
-    "y": 136.0,
-    "source": "bout de trajet"
+    "x": 36.0,
+    "y": 143.8,
+    "source": "croix"
    },
    {
     "image": 294,
@@ -123847,9 +123887,9 @@
    {
     "image": 1604,
     "slot": 6,
-    "x": 434.0,
-    "y": 136.0,
-    "source": "bout de trajet"
+    "x": 420.4,
+    "y": 142.4,
+    "source": "croix"
    },
    {
     "image": 1605,
@@ -123938,16 +123978,16 @@
    {
     "image": 1981,
     "slot": 2,
-    "x": 217.0,
-    "y": 36.0,
-    "source": "bout de trajet"
+    "x": 216.2,
+    "y": 35.6,
+    "source": "croix"
    },
    {
     "image": 2042,
     "slot": 6,
-    "x": 62.0,
-    "y": 58.0,
-    "source": "bout de trajet"
+    "x": 42.3,
+    "y": 72.2,
+    "source": "croix"
    },
    {
     "image": 2077,
@@ -123966,18 +124006,26 @@
    {
     "image": 2097,
     "slot": 9,
-    "x": 227.0,
-    "y": 219.0,
-    "source": "bout de trajet"
+    "x": 236.0,
+    "y": 239.6,
+    "source": "croix"
    }
   ],
   "duels": {
    "repris": 4,
    "controle": 8,
-   "anticaps": {},
-   "anticaps_total": 0,
+   "anticaps": {
+    "3": 1
+   },
+   "anticaps_total": 1,
    "en_capture": 0,
    "subis": 2
+  },
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "9030bd9efcdb",
+    "pov": "708f53121028"
+   }
   }
  },
  "terrain": {

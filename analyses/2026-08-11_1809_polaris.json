@@ -76976,12 +76976,44 @@
     "vues": 14
    },
    {
+    "image": 376,
+    "slot": 3,
+    "x": 211.1,
+    "y": 113.5,
+    "score": 1.0,
+    "vues": 13
+   },
+   {
     "image": 391,
     "slot": 1,
     "x": 206.9,
     "y": 118.3,
     "score": 1.0,
     "vues": 21
+   },
+   {
+    "image": 411,
+    "slot": 1,
+    "x": 205.7,
+    "y": 120.8,
+    "score": 1.0,
+    "vues": 12
+   },
+   {
+    "image": 416,
+    "slot": 4,
+    "x": 74.0,
+    "y": 192.9,
+    "score": 1.0,
+    "vues": 33
+   },
+   {
+    "image": 551,
+    "slot": 3,
+    "x": 209.6,
+    "y": 115.1,
+    "score": 1.0,
+    "vues": 30
    },
    {
     "image": 561,
@@ -76992,12 +77024,44 @@
     "vues": 22
    },
    {
+    "image": 811,
+    "slot": 7,
+    "x": 192.6,
+    "y": 18.3,
+    "score": 1.0,
+    "vues": 33
+   },
+   {
     "image": 876,
     "slot": 4,
     "x": 151.0,
     "y": 240.2,
     "score": 0.126,
     "vues": 20
+   },
+   {
+    "image": 1016,
+    "slot": 7,
+    "x": 188.4,
+    "y": 24.9,
+    "score": 1.0,
+    "vues": 13
+   },
+   {
+    "image": 1221,
+    "slot": 9,
+    "x": 374.4,
+    "y": 131.7,
+    "score": 0.768,
+    "vues": 8
+   },
+   {
+    "image": 1362,
+    "slot": 4,
+    "x": 158.1,
+    "y": 181.9,
+    "score": 0.782,
+    "vues": 10
    },
    {
     "image": 1386,
@@ -77008,12 +77072,28 @@
     "vues": 19
    },
    {
+    "image": 1526,
+    "slot": 7,
+    "x": 191.9,
+    "y": 26.9,
+    "score": 0.89,
+    "vues": 37
+   },
+   {
     "image": 1538,
     "slot": 9,
     "x": 288.0,
     "y": 166.8,
     "score": 1.0,
     "vues": 33
+   },
+   {
+    "image": 1576,
+    "slot": 9,
+    "x": 286.4,
+    "y": 167.1,
+    "score": 1.0,
+    "vues": 18
    },
    {
     "image": 1641,
@@ -77024,12 +77104,28 @@
     "vues": 28
    },
    {
+    "image": 1706,
+    "slot": 2,
+    "x": 174.2,
+    "y": 106.0,
+    "score": 1.0,
+    "vues": 19
+   },
+   {
     "image": 1721,
     "slot": 2,
     "x": 207.1,
     "y": 110.3,
     "score": 0.184,
     "vues": 11
+   },
+   {
+    "image": 1721,
+    "slot": 7,
+    "x": 194.9,
+    "y": 23.7,
+    "score": 1.0,
+    "vues": 42
    },
    {
     "image": 1851,
@@ -77365,14 +77461,28 @@
     "slot": 3,
     "x": 343.0,
     "y": 227.0,
-    "source": "bout de trajet"
+    "source": "bout de trajet, croix prise"
+   },
+   {
+    "image": 411,
+    "slot": 1,
+    "x": 205.7,
+    "y": 120.8,
+    "source": "croix"
+   },
+   {
+    "image": 416,
+    "slot": 4,
+    "x": 74.0,
+    "y": 192.9,
+    "source": "croix"
    },
    {
     "image": 551,
     "slot": 3,
-    "x": 209.0,
-    "y": 121.0,
-    "source": "bout de trajet"
+    "x": 209.6,
+    "y": 115.1,
+    "source": "croix"
    },
    {
     "image": 571,
@@ -77407,7 +77517,7 @@
     "slot": 7,
     "x": 172.0,
     "y": 186.0,
-    "source": "bout de trajet"
+    "source": "bout de trajet, croix ecartee"
    },
    {
     "image": 936,
@@ -77433,9 +77543,9 @@
    {
     "image": 1016,
     "slot": 7,
-    "x": 189.0,
-    "y": 24.0,
-    "source": "bout de trajet"
+    "x": 188.4,
+    "y": 24.9,
+    "source": "croix"
    },
    {
     "image": 1047,
@@ -77482,9 +77592,9 @@
    {
     "image": 1221,
     "slot": 9,
-    "x": 370.0,
-    "y": 116.0,
-    "source": "bout de trajet"
+    "x": 374.4,
+    "y": 131.7,
+    "source": "croix"
    },
    {
     "image": 1241,
@@ -77503,9 +77613,9 @@
    {
     "image": 1362,
     "slot": 4,
-    "x": 159.0,
-    "y": 186.0,
-    "source": "bout de trajet"
+    "x": 158.1,
+    "y": 181.9,
+    "source": "croix"
    },
    {
     "image": 1466,
@@ -77526,7 +77636,14 @@
     "slot": 7,
     "x": 285.0,
     "y": 186.0,
-    "source": "bout de trajet"
+    "source": "bout de trajet, croix ecartee"
+   },
+   {
+    "image": 1576,
+    "slot": 9,
+    "x": 286.4,
+    "y": 167.1,
+    "source": "croix"
    },
    {
     "image": 1581,
@@ -77545,9 +77662,9 @@
    {
     "image": 1706,
     "slot": 2,
-    "x": 176.0,
-    "y": 108.0,
-    "source": "bout de trajet"
+    "x": 174.2,
+    "y": 106.0,
+    "source": "croix"
    },
    {
     "image": 1713,
@@ -77559,9 +77676,9 @@
    {
     "image": 1721,
     "slot": 7,
-    "x": 193.0,
-    "y": 24.5,
-    "source": "bout de trajet"
+    "x": 194.9,
+    "y": 23.7,
+    "source": "croix"
    }
   ],
   "strats": [],
@@ -90741,7 +90858,13 @@
     193.0,
     231.0
    ]
-  ]
+  ],
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "a82f6a384915",
+    "pov": "64ac8be46cad"
+   }
+  }
  },
  "_retire": {
   "fin_de_match": 3

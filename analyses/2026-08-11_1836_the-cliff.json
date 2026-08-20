@@ -81499,6 +81499,14 @@
     "vues": 9
    },
    {
+    "image": 1051,
+    "slot": 6,
+    "x": 250.8,
+    "y": 99.8,
+    "score": 0.448,
+    "vues": 9
+   },
+   {
     "image": 1054,
     "slot": 7,
     "x": 251.3,
@@ -82198,7 +82206,7 @@
     "slot": 6,
     "x": 242.0,
     "y": 137.0,
-    "source": "bout de trajet"
+    "source": "bout de trajet, croix prise"
    },
    {
     "image": 1053,
@@ -94948,7 +94956,13 @@
     217.0,
     91.0
    ]
-  ]
+  ],
+  "empreintes": {
+   "croix_ciblees": {
+    "trajets": "3a44855bdb76",
+    "pov": "c2046628bcc8"
+   }
+  }
  },
  "_retire": {
   "fin_de_match": 2
