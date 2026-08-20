@@ -1372,7 +1372,9 @@
    "victime": 7,
    "_comble": "bandeau",
    "tueur": 3,
-   "arme_icone": "ARME0"
+   "arme_icone": "ARME0",
+   "arme_reelle": "SPECTRE",
+   "_arme_icone": true
   },
   {
    "instant": 350,

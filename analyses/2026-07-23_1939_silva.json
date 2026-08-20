@@ -737,7 +737,9 @@
    "victime": 2,
    "_comble": "bandeau",
    "tueur": 9,
-   "arme_icone": "ARME6"
+   "arme_icone": "ARME6",
+   "arme_reelle": "GRENADE",
+   "_arme_icone": true
   },
   {
    "instant": 537,

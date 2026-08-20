@@ -1757,7 +1757,9 @@
    "victime": 4,
    "_comble": "bandeau",
    "tueur": 6,
-   "arme_icone": "ARME1"
+   "arme_icone": "ARME1",
+   "arme_reelle": "WARDEN",
+   "_arme_icone": true
   },
   {
    "instant": 223,
