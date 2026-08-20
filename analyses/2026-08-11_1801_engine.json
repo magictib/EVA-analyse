@@ -172122,24 +172122,10 @@
     "source": "croix"
    },
    {
-    "image": 146,
-    "slot": 8,
-    "x": 43.0,
-    "y": 69.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 150,
     "slot": 2,
     "x": 151.0,
     "y": 55.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 189,
-    "slot": 6,
-    "x": 242.0,
-    "y": 105.0,
     "source": "bout de trajet"
    },
    {
@@ -172248,13 +172234,6 @@
     "source": "croix"
    },
    {
-    "image": 865,
-    "slot": 9,
-    "x": 298.0,
-    "y": 70.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 951,
     "slot": 7,
     "x": 391.0,
@@ -172316,13 +172295,6 @@
     "x": 345.9,
     "y": 139.3,
     "source": "croix"
-   },
-   {
-    "image": 1333,
-    "slot": 3,
-    "x": 338.0,
-    "y": 47.0,
-    "source": "bout de trajet"
    },
    {
     "image": 1388,

@@ -39655,13 +39655,6 @@
     "source": "bout de trajet, croix ecartee"
    },
    {
-    "image": 494,
-    "slot": 2,
-    "x": 49.0,
-    "y": 91.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 498,
     "slot": 1,
     "x": 100.0,
@@ -39687,13 +39680,6 @@
     "slot": 4,
     "x": 8.0,
     "y": 64.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 615,
-    "slot": 9,
-    "x": 83.0,
-    "y": 62.0,
     "source": "bout de trajet"
    },
    {
@@ -39746,13 +39732,6 @@
     "source": "croix"
    },
    {
-    "image": 805,
-    "slot": 6,
-    "x": 18.0,
-    "y": 221.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 891,
     "slot": 4,
     "x": 40.6,
@@ -39786,20 +39765,6 @@
     "x": 125.0,
     "y": 118.0,
     "source": "croix"
-   },
-   {
-    "image": 995,
-    "slot": 8,
-    "x": 176.0,
-    "y": 159.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 1000,
-    "slot": 9,
-    "x": 83.0,
-    "y": 15.0,
-    "source": "bout de trajet"
    }
   ],
   "horloge": {

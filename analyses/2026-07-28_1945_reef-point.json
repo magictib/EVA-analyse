@@ -80553,13 +80553,6 @@
     "source": "croix"
    },
    {
-    "image": 911,
-    "slot": 9,
-    "x": 274.0,
-    "y": 172.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 927,
     "slot": 7,
     "x": 237.0,
@@ -80658,13 +80651,6 @@
     "source": "bout de trajet"
    },
    {
-    "image": 1354,
-    "slot": 2,
-    "x": 224.0,
-    "y": 239.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 1376,
     "slot": 6,
     "x": 236.0,
@@ -80733,13 +80719,6 @@
     "x": 277.0,
     "y": 174.0,
     "source": "croix"
-   },
-   {
-    "image": 1573,
-    "slot": 2,
-    "x": 277.0,
-    "y": 174.0,
-    "source": "bout de trajet"
    },
    {
     "image": 1602,
@@ -80817,13 +80796,6 @@
     "x": 391.7,
     "y": 193.3,
     "source": "croix"
-   },
-   {
-    "image": 1836,
-    "slot": 4,
-    "x": 239.0,
-    "y": 209.0,
-    "source": "bout de trajet"
    },
    {
     "image": 1844,

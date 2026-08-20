@@ -70562,13 +70562,6 @@
     "source": "croix"
    },
    {
-    "image": 1212,
-    "slot": 1,
-    "x": 91.0,
-    "y": 226.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 1217,
     "slot": 4,
     "x": 149.0,
@@ -70630,13 +70623,6 @@
     "x": 146.0,
     "y": 227.0,
     "source": "croix"
-   },
-   {
-    "image": 1493,
-    "slot": 8,
-    "x": 310.0,
-    "y": 219.0,
-    "source": "bout de trajet"
    }
   ],
   "duels": {

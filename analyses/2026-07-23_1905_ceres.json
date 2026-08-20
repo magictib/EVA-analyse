@@ -112781,13 +112781,6 @@
   },
   "lieux_morts": [
    {
-    "image": 59,
-    "slot": 2,
-    "x": 355.0,
-    "y": 45.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 62,
     "slot": 3,
     "x": 224.0,
@@ -112891,13 +112884,6 @@
     "x": 358.0,
     "y": 96.0,
     "source": "bout de trajet, croix ecartee"
-   },
-   {
-    "image": 471,
-    "slot": 8,
-    "x": 43.0,
-    "y": 127.0,
-    "source": "bout de trajet"
    },
    {
     "image": 500,
@@ -113178,13 +113164,6 @@
     "x": 66.0,
     "y": 214.0,
     "source": "croix"
-   },
-   {
-    "image": 1771,
-    "slot": 3,
-    "x": 189.0,
-    "y": 172.0,
-    "source": "bout de trajet"
    },
    {
     "image": 1811,

@@ -97028,13 +97028,6 @@
     "source": "croix"
    },
    {
-    "image": 169,
-    "slot": 8,
-    "x": 327.0,
-    "y": 50.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 177,
     "slot": 2,
     "x": 167.1,
@@ -97124,13 +97117,6 @@
     "x": 298.0,
     "y": 59.0,
     "source": "croix"
-   },
-   {
-    "image": 617,
-    "slot": 8,
-    "x": 308.0,
-    "y": 16.0,
-    "source": "bout de trajet"
    },
    {
     "image": 623,

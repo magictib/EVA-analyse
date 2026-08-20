@@ -130240,13 +130240,6 @@
     "source": "croix"
    },
    {
-    "image": 801,
-    "slot": 9,
-    "x": 201.0,
-    "y": 216.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 823,
     "slot": 3,
     "x": 219.0,
@@ -130261,25 +130254,11 @@
     "source": "croix"
    },
    {
-    "image": 923,
-    "slot": 8,
-    "x": 332.0,
-    "y": 193.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 932,
     "slot": 6,
     "x": 188.5,
     "y": 86.6,
     "source": "croix"
-   },
-   {
-    "image": 981,
-    "slot": 2,
-    "x": 74.0,
-    "y": 180.0,
-    "source": "bout de trajet"
    },
    {
     "image": 987,
@@ -130294,20 +130273,6 @@
     "x": 194.0,
     "y": 232.0,
     "source": "croix"
-   },
-   {
-    "image": 1036,
-    "slot": 8,
-    "x": 382.0,
-    "y": 229.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 1037,
-    "slot": 4,
-    "x": 222.0,
-    "y": 84.0,
-    "source": "bout de trajet"
    },
    {
     "image": 1108,
@@ -130373,13 +130338,6 @@
     "source": "croix"
    },
    {
-    "image": 1420,
-    "slot": 2,
-    "x": 274.0,
-    "y": 234.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 1449,
     "slot": 3,
     "x": 261.9,
@@ -130419,13 +130377,6 @@
     "slot": 4,
     "x": 243.0,
     "y": 233.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 1601,
-    "slot": 9,
-    "x": 251.0,
-    "y": 85.0,
     "source": "bout de trajet"
    },
    {
@@ -130511,13 +130462,6 @@
     "x": 387.0,
     "y": 60.0,
     "source": "bout de trajet, croix prise"
-   },
-   {
-    "image": 1988,
-    "slot": 7,
-    "x": 122.0,
-    "y": 37.0,
-    "source": "bout de trajet"
    },
    {
     "image": 2016,
@@ -130640,13 +130584,6 @@
    },
    {
     "image": 2670,
-    "slot": 4,
-    "x": 166.0,
-    "y": 222.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 2670,
     "slot": 7,
     "x": 325.0,
     "y": 207.0,
@@ -130693,13 +130630,6 @@
     "x": 219.0,
     "y": 240.0,
     "source": "croix"
-   },
-   {
-    "image": 2804,
-    "slot": 6,
-    "x": 364.0,
-    "y": 217.0,
-    "source": "bout de trajet"
    },
    {
     "image": 2867,

@@ -57738,13 +57738,6 @@
     "source": "croix"
    },
    {
-    "image": 552,
-    "slot": 6,
-    "x": 285.0,
-    "y": 186.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 622,
     "slot": 3,
     "x": 343.0,
@@ -57784,13 +57777,6 @@
     "slot": 2,
     "x": 287.0,
     "y": 184.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 726,
-    "slot": 4,
-    "x": 450.0,
-    "y": 250.0,
     "source": "bout de trajet"
    },
    {
@@ -57889,13 +57875,6 @@
     "slot": 1,
     "x": 96.0,
     "y": 225.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 1283,
-    "slot": 4,
-    "x": 104.0,
-    "y": 99.0,
     "source": "bout de trajet"
    },
    {

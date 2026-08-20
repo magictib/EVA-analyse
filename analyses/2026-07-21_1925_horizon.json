@@ -76340,24 +76340,10 @@
     "source": "bout de trajet"
    },
    {
-    "image": 231,
-    "slot": 7,
-    "x": 366.0,
-    "y": 80.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 241,
     "slot": 9,
     "x": 348.0,
     "y": 69.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 276,
-    "slot": 6,
-    "x": 357.0,
-    "y": 76.0,
     "source": "bout de trajet"
    },
    {
@@ -76410,13 +76396,6 @@
     "source": "bout de trajet"
    },
    {
-    "image": 539,
-    "slot": 8,
-    "x": 406.0,
-    "y": 51.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 551,
     "slot": 1,
     "x": 57.0,
@@ -76435,13 +76414,6 @@
     "slot": 7,
     "x": 253.0,
     "y": 41.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 616,
-    "slot": 3,
-    "x": 250.0,
-    "y": 67.0,
     "source": "bout de trajet"
    },
    {
@@ -76480,13 +76452,6 @@
     "source": "croix"
    },
    {
-    "image": 816,
-    "slot": 3,
-    "x": 36.0,
-    "y": 19.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 856,
     "slot": 2,
     "x": 148.0,
@@ -76498,20 +76463,6 @@
     "slot": 7,
     "x": 237.0,
     "y": 105.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 966,
-    "slot": 4,
-    "x": 151.0,
-    "y": 28.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 981,
-    "slot": 1,
-    "x": 107.0,
-    "y": 6.0,
     "source": "bout de trajet"
    },
    {
@@ -76585,34 +76536,6 @@
     "source": "bout de trajet"
    },
    {
-    "image": 1316,
-    "slot": 1,
-    "x": 224.0,
-    "y": 83.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 1331,
-    "slot": 6,
-    "x": 197.0,
-    "y": 75.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 1386,
-    "slot": 9,
-    "x": 266.0,
-    "y": 46.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 1396,
-    "slot": 3,
-    "x": 35.0,
-    "y": 19.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 1406,
     "slot": 2,
     "x": 65.0,
@@ -76638,7 +76561,7 @@
    "repris": 3,
    "controle": 3,
    "anticaps": {},
-   "anticaps_total": 1,
+   "anticaps_total": 0,
    "en_capture": 0,
    "subis": 0
   }

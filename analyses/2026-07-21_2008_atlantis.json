@@ -110488,13 +110488,6 @@
   },
   "lieux_morts": [
    {
-    "image": 75,
-    "slot": 9,
-    "x": 261.0,
-    "y": 78.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 83,
     "slot": 7,
     "x": 294.0,
@@ -110586,13 +110579,6 @@
     "source": "bout de trajet"
    },
    {
-    "image": 446,
-    "slot": 9,
-    "x": 437.0,
-    "y": 157.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 466,
     "slot": 3,
     "x": 31.0,
@@ -110649,24 +110635,10 @@
     "source": "bout de trajet"
    },
    {
-    "image": 791,
-    "slot": 4,
-    "x": 148.0,
-    "y": 166.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 811,
     "slot": 5,
     "x": 17.0,
     "y": 151.0,
-    "source": "bout de trajet"
-   },
-   {
-    "image": 866,
-    "slot": 9,
-    "x": 418.0,
-    "y": 167.0,
     "source": "bout de trajet"
    },
    {
@@ -110857,13 +110829,6 @@
     "x": 361.0,
     "y": 242.0,
     "source": "croix"
-   },
-   {
-    "image": 1596,
-    "slot": 3,
-    "x": 247.0,
-    "y": 110.0,
-    "source": "bout de trajet"
    },
    {
     "image": 1606,

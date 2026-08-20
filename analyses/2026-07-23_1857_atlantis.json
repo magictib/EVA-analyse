@@ -123565,13 +123565,6 @@
     "source": "bout de trajet"
    },
    {
-    "image": 283,
-    "slot": 6,
-    "x": 377.0,
-    "y": 208.0,
-    "source": "bout de trajet"
-   },
-   {
     "image": 294,
     "slot": 7,
     "x": 171.0,
@@ -123717,13 +123710,6 @@
     "x": 120.0,
     "y": 139.0,
     "source": "croix"
-   },
-   {
-    "image": 1036,
-    "slot": 4,
-    "x": 55.0,
-    "y": 180.0,
-    "source": "bout de trajet"
    },
    {
     "image": 1044,
