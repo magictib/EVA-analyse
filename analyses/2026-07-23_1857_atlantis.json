@@ -124001,18 +124001,18 @@
     "nom": "Tibco",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 0,
-    "k_nous": 6,
+    "k_eux": 2,
+    "k_nous": 4,
     "k_inconnu": 3,
-    "m_eux": 0,
-    "m_nous": 5,
-    "m_eux_seul": 0,
-    "m_eux_impunie": 0,
-    "m_eux_seul_impunie": 0,
+    "m_eux": 1,
+    "m_nous": 4,
+    "m_eux_seul": 1,
+    "m_eux_impunie": 1,
+    "m_eux_seul_impunie": 1,
     "m_total": 10,
     "k_total": 9,
-    "vus": 835,
-    "vus_eux": 5
+    "vus": 1043,
+    "vus_eux": 189
    },
    {
     "nom": "CROMx",
@@ -124022,14 +124022,14 @@
     "k_nous": 3,
     "k_inconnu": 2,
     "m_eux": 2,
-    "m_nous": 8,
-    "m_eux_seul": 2,
+    "m_nous": 7,
+    "m_eux_seul": 1,
     "m_eux_impunie": 2,
-    "m_eux_seul_impunie": 2,
+    "m_eux_seul_impunie": 1,
     "m_total": 11,
     "k_total": 5,
-    "vus": 885,
-    "vus_eux": 174
+    "vus": 1021,
+    "vus_eux": 117
    },
    {
     "nom": "LiX",
@@ -124039,14 +124039,14 @@
     "k_nous": 2,
     "k_inconnu": 1,
     "m_eux": 0,
-    "m_nous": 7,
+    "m_nous": 4,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 8,
     "k_total": 6,
-    "vus": 1091,
-    "vus_eux": 400
+    "vus": 1240,
+    "vus_eux": 524
    },
    {
     "nom": "Tchernobyl",
@@ -124055,49 +124055,49 @@
     "k_eux": 0,
     "k_nous": 1,
     "k_inconnu": 0,
-    "m_eux": 1,
-    "m_nous": 8,
-    "m_eux_seul": 1,
-    "m_eux_impunie": 1,
-    "m_eux_seul_impunie": 1,
+    "m_eux": 0,
+    "m_nous": 7,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
     "m_total": 10,
     "k_total": 1,
-    "vus": 1169,
-    "vus_eux": 221
+    "vus": 1210,
+    "vus_eux": 235
    },
    {
     "nom": "ParziRahl",
     "tag": "FXC",
     "notre": false,
-    "k_eux": 5,
+    "k_eux": 8,
     "k_nous": 0,
-    "k_inconnu": 6,
-    "m_eux": 3,
-    "m_nous": 1,
+    "k_inconnu": 3,
+    "m_eux": 4,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 11,
-    "vus": 801,
-    "vus_eux": 707
+    "vus": 1233,
+    "vus_eux": 1108
    },
    {
     "nom": "Sky",
     "tag": "FXC",
     "notre": false,
-    "k_eux": 5,
+    "k_eux": 4,
     "k_nous": 4,
-    "k_inconnu": 3,
-    "m_eux": 5,
-    "m_nous": 1,
+    "k_inconnu": 4,
+    "m_eux": 3,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 12,
-    "vus": 1091,
-    "vus_eux": 902
+    "vus": 1213,
+    "vus_eux": 923
    },
    {
     "nom": "Noxis",
@@ -124113,8 +124113,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 3,
     "k_total": 4,
-    "vus": 1146,
-    "vus_eux": 870
+    "vus": 1443,
+    "vus_eux": 1117
    },
    {
     "nom": "Valtor",
@@ -124123,27 +124123,27 @@
     "k_eux": 6,
     "k_nous": 4,
     "k_inconnu": 1,
-    "m_eux": 6,
+    "m_eux": 3,
     "m_nous": 1,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 8,
     "k_total": 11,
-    "vus": 1173,
-    "vus_eux": 593
+    "vus": 1456,
+    "vus_eux": 785
    }
   ],
   "ensemble": {
-   "0": 1399,
-   "1": 453,
-   "2": 160,
-   "3": 9,
+   "0": 1205,
+   "1": 701,
+   "2": 132,
+   "3": 33,
    "4": 0
   },
-  "images_vues": 2021,
-  "part_nous_chez_eux": 0.201,
-  "part_eux_chez_eux": 0.73
+  "images_vues": 2071,
+  "part_nous_chez_eux": 0.236,
+  "part_eux_chez_eux": 0.736
  },
  "armes_portees": {
   "BVSXTIBCO": {

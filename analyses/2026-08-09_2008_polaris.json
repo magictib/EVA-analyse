@@ -57497,10 +57497,6 @@
     ],
     [
      1237,
-     1329
-    ],
-    [
-     1414,
      1438
     ]
    ],
@@ -57573,10 +57569,6 @@
     ],
     [
      1227,
-     1329
-    ],
-    [
-     1414,
      1438
     ]
    ],
@@ -57965,5 +57957,156 @@
  },
  "_retire": {
   "fin_de_match": 2
+ },
+ "terrain": {
+  "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",
+  "joueurs": [
+   {
+    "nom": "Tibco",
+    "tag": "BVS",
+    "notre": true,
+    "k_eux": 1,
+    "k_nous": 6,
+    "k_inconnu": 2,
+    "m_eux": 0,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 4,
+    "k_total": 9,
+    "vus": 740,
+    "vus_eux": 130
+   },
+   {
+    "nom": "CROM",
+    "tag": "BVS",
+    "notre": true,
+    "k_eux": 3,
+    "k_nous": 2,
+    "k_inconnu": 0,
+    "m_eux": 0,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 4,
+    "k_total": 5,
+    "vus": 567,
+    "vus_eux": 224
+   },
+   {
+    "nom": "LiX",
+    "tag": "NT",
+    "notre": true,
+    "k_eux": 3,
+    "k_nous": 3,
+    "k_inconnu": 1,
+    "m_eux": 0,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 4,
+    "k_total": 7,
+    "vus": 661,
+    "vus_eux": 459
+   },
+   {
+    "nom": "Tchernobyl",
+    "tag": "BVS",
+    "notre": true,
+    "k_eux": 1,
+    "k_nous": 1,
+    "k_inconnu": 2,
+    "m_eux": 0,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 5,
+    "k_total": 4,
+    "vus": 525,
+    "vus_eux": 274
+   },
+   {
+    "nom": "Thyr",
+    "tag": "HWD",
+    "notre": false,
+    "k_eux": 2,
+    "k_nous": 0,
+    "k_inconnu": 1,
+    "m_eux": 0,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 6,
+    "k_total": 3,
+    "vus": 380,
+    "vus_eux": 214
+   },
+   {
+    "nom": "Lamimolette",
+    "tag": "HWD",
+    "notre": false,
+    "k_eux": 3,
+    "k_nous": 2,
+    "k_inconnu": 0,
+    "m_eux": 0,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 7,
+    "k_total": 5,
+    "vus": 597,
+    "vus_eux": 356
+   },
+   {
+    "nom": "Dreegaran",
+    "tag": "HWD",
+    "notre": false,
+    "k_eux": 0,
+    "k_nous": 1,
+    "k_inconnu": 2,
+    "m_eux": 0,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 6,
+    "k_total": 3,
+    "vus": 314,
+    "vus_eux": 175
+   },
+   {
+    "nom": "Rosa",
+    "tag": "HWD",
+    "notre": false,
+    "k_eux": 6,
+    "k_nous": 0,
+    "k_inconnu": 0,
+    "m_eux": 0,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 6,
+    "k_total": 6,
+    "vus": 657,
+    "vus_eux": 578
+   }
+  ],
+  "ensemble": {
+   "0": 458,
+   "1": 491,
+   "2": 276,
+   "3": 13,
+   "4": 0
+  },
+  "images_vues": 1238,
+  "part_nous_chez_eux": 0.436,
+  "part_eux_chez_eux": 0.679
  }
 }

@@ -48356,8 +48356,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 8,
     "k_total": 1,
-    "vus": 465,
-    "vus_eux": 223
+    "vus": 495,
+    "vus_eux": 231
    },
    {
     "nom": "CROMx",
@@ -48366,22 +48366,22 @@
     "k_eux": 0,
     "k_nous": 2,
     "k_inconnu": 0,
-    "m_eux": 1,
+    "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
-    "m_eux_impunie": 1,
+    "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 2,
-    "vus": 219,
-    "vus_eux": 35
+    "vus": 192,
+    "vus_eux": 29
    },
    {
     "nom": "LiX",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 1,
-    "k_nous": 1,
+    "k_eux": 0,
+    "k_nous": 2,
     "k_inconnu": 0,
     "m_eux": 0,
     "m_nous": 0,
@@ -48390,25 +48390,25 @@
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 2,
-    "vus": 326,
-    "vus_eux": 207
+    "vus": 397,
+    "vus_eux": 187
    },
    {
     "nom": "Tchernobyl",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 0,
-    "k_nous": 1,
+    "k_eux": 1,
+    "k_nous": 0,
     "k_inconnu": 1,
     "m_eux": 0,
-    "m_nous": 1,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 2,
-    "vus": 299,
-    "vus_eux": 89
+    "vus": 301,
+    "vus_eux": 78
    },
    {
     "nom": "ParziRahl",
@@ -48424,33 +48424,33 @@
     "m_eux_seul_impunie": 0,
     "m_total": 1,
     "k_total": 6,
-    "vus": 613,
-    "vus_eux": 535
+    "vus": 746,
+    "vus_eux": 579
    },
    {
     "nom": "Sky",
     "tag": "FXC",
     "notre": false,
-    "k_eux": 6,
-    "k_nous": 1,
+    "k_eux": 2,
+    "k_nous": 5,
     "k_inconnu": 1,
-    "m_eux": 1,
+    "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 1,
     "k_total": 8,
-    "vus": 816,
-    "vus_eux": 782
+    "vus": 985,
+    "vus_eux": 216
    },
    {
     "nom": "Noxis",
     "tag": "FXC",
     "notre": false,
-    "k_eux": 0,
+    "k_eux": 1,
     "k_nous": 0,
-    "k_inconnu": 2,
+    "k_inconnu": 1,
     "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
@@ -48458,8 +48458,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 1,
     "k_total": 2,
-    "vus": 441,
-    "vus_eux": 342
+    "vus": 615,
+    "vus_eux": 445
    },
    {
     "nom": "Valtor",
@@ -48468,27 +48468,27 @@
     "k_eux": 6,
     "k_nous": 2,
     "k_inconnu": 2,
-    "m_eux": 1,
+    "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 10,
-    "vus": 413,
-    "vus_eux": 372
+    "vus": 452,
+    "vus_eux": 406
    }
   ],
   "ensemble": {
-   "0": 327,
-   "1": 453,
-   "2": 34,
-   "3": 11,
+   "0": 379,
+   "1": 432,
+   "2": 42,
+   "3": 3,
    "4": 0
   },
-  "images_vues": 825,
-  "part_nous_chez_eux": 0.423,
-  "part_eux_chez_eux": 0.89
+  "images_vues": 856,
+  "part_nous_chez_eux": 0.379,
+  "part_eux_chez_eux": 0.588
  },
  "armes_portees": {
   "BVSXTIBCO": {

@@ -76113,220 +76113,220 @@
    "1": [
     [
      1,
-     463
+     301
     ],
     [
-     538,
+     386,
+     551
+    ],
+    [
+     636,
      713
     ],
     [
      790,
-     870
+     981
     ],
     [
-     925,
-     944
+     1021,
+     1111
     ],
     [
-     1019,
-     1139
-    ],
-    [
-     1214,
-     1270
+     1196,
+     1316
     ],
     [
      1364,
-     1478
+     1436
     ],
     [
-     1554,
-     1597
-    ],
-    [
-     1721,
+     1521,
      1728
     ]
    ],
    "2": [
     [
      1,
-     611
+     451
     ],
     [
-     686,
-     896
+     536,
+     736
     ],
     [
-     971,
+     821,
+     856
+    ],
+    [
+     941,
      1018
     ],
     [
      1094,
-     1169
+     1146
     ],
     [
-     1254,
-     1306
+     1231,
+     1406
     ],
     [
-     1381,
-     1568
-    ],
-    [
-     1723,
+     1491,
      1728
     ]
    ],
    "3": [
     [
      1,
-     575
+     416
     ],
     [
-     650,
-     778
+     501,
+     616
+    ],
+    [
+     652,
+     816
     ],
     [
      854,
-     974
+     1176
     ],
     [
-     1049,
-     1338
+     1261,
+     1396
     ],
     [
      1416,
-     1555
-    ],
-    [
-     1724,
      1728
     ]
    ],
    "4": [
     [
      1,
+     216
+    ],
+    [
+     301,
      378
     ],
     [
      454,
-     539
+     481
     ],
     [
-     614,
-     639
+     566,
+     581
     ],
     [
-     719,
+     615,
      741
     ],
     [
      816,
-     904
+     966
     ],
     [
-     979,
+     981,
+     991
+    ],
+    [
+     1076,
      1125
     ],
     [
-     1201,
+     1200,
      1289
     ],
     [
      1364,
-     1445
-    ],
-    [
-     1530,
      1728
     ]
    ],
    "6": [
     [
      1,
-     436
+     276
+    ],
+    [
+     361,
+     451
     ],
     [
      514,
-     612
+     1101
     ],
     [
-     687,
-     1260
+     1186,
+     1331
     ],
     [
-     1335,
-     1492
-    ],
-    [
-     1569,
+     1336,
      1728
     ]
    ],
    "7": [
     [
      1,
-     393
+     231
     ],
     [
-     468,
-     753
+     316,
+     591
     ],
     [
-     828,
-     1121
+     676,
+     961
     ],
     [
-     1196,
-     1585
+     1046,
+     1426
     ],
     [
-     1724,
+     1511,
      1728
     ]
    ],
    "8": [
     [
      1,
+     381
+    ],
+    [
+     466,
      539
     ],
     [
      634,
-     708
+     1296
     ],
     [
-     785,
-     1457
-    ],
-    [
-     1532,
+     1381,
      1728
     ]
    ],
    "9": [
     [
      1,
-     401
+     241
     ],
     [
-     476,
-     846
+     326,
+     686
     ],
     [
-     921,
+     771,
+     1006
+    ],
+    [
+     1091,
      1168
     ],
     [
      1244,
-     1316
+     1386
     ],
     [
      1391,
-     1548
-    ],
-    [
-     1627,
      1728
     ]
    ]
@@ -76653,15 +76653,15 @@
     "k_eux": 3,
     "k_nous": 0,
     "k_inconnu": 0,
-    "m_eux": 1,
-    "m_nous": 1,
+    "m_eux": 0,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 3,
-    "vus": 854,
-    "vus_eux": 826
+    "vus": 935,
+    "vus_eux": 912
    },
    {
     "nom": "Rhino",
@@ -76670,15 +76670,15 @@
     "k_eux": 3,
     "k_nous": 0,
     "k_inconnu": 0,
-    "m_eux": 2,
-    "m_nous": 3,
+    "m_eux": 0,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 3,
-    "vus": 475,
-    "vus_eux": 435
+    "vus": 1029,
+    "vus_eux": 634
    },
    {
     "nom": "Rabitte",
@@ -76687,112 +76687,112 @@
     "k_eux": 3,
     "k_nous": 2,
     "k_inconnu": 2,
-    "m_eux": 2,
-    "m_nous": 1,
+    "m_eux": 0,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 7,
-    "vus": 856,
-    "vus_eux": 737
+    "vus": 1044,
+    "vus_eux": 913
    },
    {
     "nom": "Phasme",
     "tag": "GUN",
     "notre": false,
-    "k_eux": 2,
+    "k_eux": 1,
     "k_nous": 0,
-    "k_inconnu": 0,
-    "m_eux": 3,
-    "m_nous": 2,
+    "k_inconnu": 1,
+    "m_eux": 0,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 9,
     "k_total": 2,
-    "vus": 715,
-    "vus_eux": 698
+    "vus": 724,
+    "vus_eux": 693
    },
    {
     "nom": "LiX",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 1,
-    "k_nous": 1,
-    "k_inconnu": 2,
-    "m_eux": 1,
-    "m_nous": 1,
-    "m_eux_seul": 1,
+    "k_eux": 4,
+    "k_nous": 0,
+    "k_inconnu": 0,
+    "m_eux": 0,
+    "m_nous": 0,
+    "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 4,
-    "vus": 388,
-    "vus_eux": 107
+    "vus": 795,
+    "vus_eux": 318
    },
    {
     "nom": "Tchernobyl",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 1,
-    "k_nous": 5,
-    "k_inconnu": 5,
-    "m_eux": 1,
+    "k_eux": 3,
+    "k_nous": 8,
+    "k_inconnu": 0,
+    "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 11,
-    "vus": 470,
-    "vus_eux": 31
+    "vus": 870,
+    "vus_eux": 233
    },
    {
     "nom": "CROMx",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 1,
+    "k_eux": 0,
     "k_nous": 7,
-    "k_inconnu": 2,
+    "k_inconnu": 3,
     "m_eux": 0,
-    "m_nous": 1,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 2,
     "k_total": 10,
-    "vus": 801,
-    "vus_eux": 20
+    "vus": 944,
+    "vus_eux": 36
    },
    {
     "nom": "Tibco",
     "tag": "BVS",
     "notre": true,
     "k_eux": 1,
-    "k_nous": 1,
-    "k_inconnu": 0,
-    "m_eux": 1,
-    "m_nous": 1,
-    "m_eux_seul": 1,
+    "k_nous": 0,
+    "k_inconnu": 1,
+    "m_eux": 0,
+    "m_nous": 0,
+    "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 2,
-    "vus": 791,
-    "vus_eux": 195
+    "vus": 863,
+    "vus_eux": 222
    }
   ],
   "ensemble": {
-   "0": 1146,
-   "1": 309,
-   "2": 22,
-   "3": 0,
+   "0": 1001,
+   "1": 394,
+   "2": 128,
+   "3": 53,
    "4": 0
   },
-  "images_vues": 1477,
-  "part_nous_chez_eux": 0.144,
-  "part_eux_chez_eux": 0.93
+  "images_vues": 1576,
+  "part_nous_chez_eux": 0.233,
+  "part_eux_chez_eux": 0.845
  },
  "armes_portees": {
   "GUNXHIPPOCAMPE": {

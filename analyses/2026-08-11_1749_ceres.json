@@ -82524,10 +82524,6 @@
     ],
     [
      1414,
-     1575
-    ],
-    [
-     1660,
      1699
     ]
    ],
@@ -82674,10 +82670,6 @@
     ],
     [
      1295,
-     1575
-    ],
-    [
-     1670,
      1699
     ]
    ],
@@ -93900,5 +93892,156 @@
  },
  "_retire": {
   "fin_de_match": 2
+ },
+ "terrain": {
+  "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",
+  "joueurs": [
+   {
+    "nom": "Argwen",
+    "tag": "DGL",
+    "notre": false,
+    "k_eux": 1,
+    "k_nous": 0,
+    "k_inconnu": 0,
+    "m_eux": 2,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 6,
+    "k_total": 1,
+    "vus": 1080,
+    "vus_eux": 1039
+   },
+   {
+    "nom": "Purple",
+    "tag": "DGL",
+    "notre": false,
+    "k_eux": 7,
+    "k_nous": 0,
+    "k_inconnu": 0,
+    "m_eux": 3,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 6,
+    "k_total": 7,
+    "vus": 1105,
+    "vus_eux": 1027
+   },
+   {
+    "nom": "LaKanette",
+    "tag": "DGL",
+    "notre": false,
+    "k_eux": 6,
+    "k_nous": 2,
+    "k_inconnu": 2,
+    "m_eux": 4,
+    "m_nous": 1,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 5,
+    "k_total": 10,
+    "vus": 1035,
+    "vus_eux": 736
+   },
+   {
+    "nom": "PinceCoupante",
+    "tag": "PinceCoupante",
+    "notre": false,
+    "k_eux": 1,
+    "k_nous": 0,
+    "k_inconnu": 1,
+    "m_eux": 4,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 9,
+    "k_total": 2,
+    "vus": 972,
+    "vus_eux": 972
+   },
+   {
+    "nom": "Tchernobyl",
+    "tag": "BVS",
+    "notre": true,
+    "k_eux": 0,
+    "k_nous": 4,
+    "k_inconnu": 1,
+    "m_eux": 0,
+    "m_nous": 4,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 5,
+    "k_total": 5,
+    "vus": 1003,
+    "vus_eux": 3
+   },
+   {
+    "nom": "LiX",
+    "tag": "BVS",
+    "notre": true,
+    "k_eux": 6,
+    "k_nous": 4,
+    "k_inconnu": 0,
+    "m_eux": 1,
+    "m_nous": 2,
+    "m_eux_seul": 1,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 4,
+    "k_total": 10,
+    "vus": 1267,
+    "vus_eux": 426
+   },
+   {
+    "nom": "CROM",
+    "tag": "BVS",
+    "notre": true,
+    "k_eux": 1,
+    "k_nous": 1,
+    "k_inconnu": 1,
+    "m_eux": 1,
+    "m_nous": 5,
+    "m_eux_seul": 1,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 6,
+    "k_total": 3,
+    "vus": 964,
+    "vus_eux": 49
+   },
+   {
+    "nom": "Tibco",
+    "tag": "BVS",
+    "notre": true,
+    "k_eux": 0,
+    "k_nous": 8,
+    "k_inconnu": 0,
+    "m_eux": 0,
+    "m_nous": 4,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 5,
+    "k_total": 8,
+    "vus": 1193,
+    "vus_eux": 95
+   }
+  ],
+  "ensemble": {
+   "0": 1045,
+   "1": 421,
+   "2": 76,
+   "3": 0,
+   "4": 0
+  },
+  "images_vues": 1542,
+  "part_nous_chez_eux": 0.129,
+  "part_eux_chez_eux": 0.9
  }
 }

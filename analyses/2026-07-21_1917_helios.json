@@ -69355,35 +69355,35 @@
     "nom": "Hippocampe",
     "tag": "GUN",
     "notre": false,
-    "k_eux": 3,
+    "k_eux": 1,
     "k_nous": 0,
-    "k_inconnu": 0,
-    "m_eux": 1,
+    "k_inconnu": 2,
+    "m_eux": 0,
     "m_nous": 3,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 3,
-    "vus": 705,
-    "vus_eux": 705
+    "vus": 398,
+    "vus_eux": 391
    },
    {
     "nom": "Rhino",
     "tag": "GUN",
     "notre": false,
-    "k_eux": 2,
+    "k_eux": 1,
     "k_nous": 0,
-    "k_inconnu": 0,
-    "m_eux": 1,
-    "m_nous": 2,
+    "k_inconnu": 1,
+    "m_eux": 0,
+    "m_nous": 5,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 2,
-    "vus": 733,
-    "vus_eux": 733
+    "vus": 473,
+    "vus_eux": 447
    },
    {
     "nom": "Rabitte",
@@ -69392,15 +69392,15 @@
     "k_eux": 0,
     "k_nous": 0,
     "k_inconnu": 1,
-    "m_eux": 2,
+    "m_eux": 1,
     "m_nous": 4,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 1,
-    "vus": 438,
-    "vus_eux": 375
+    "vus": 389,
+    "vus_eux": 387
    },
    {
     "nom": "Phasme",
@@ -69409,15 +69409,15 @@
     "k_eux": 0,
     "k_nous": 0,
     "k_inconnu": 0,
-    "m_eux": 2,
+    "m_eux": 0,
     "m_nous": 2,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 0,
-    "vus": 608,
-    "vus_eux": 586
+    "vus": 628,
+    "vus_eux": 619
    },
    {
     "nom": "LiX",
@@ -69427,14 +69427,14 @@
     "k_nous": 4,
     "k_inconnu": 0,
     "m_eux": 0,
-    "m_nous": 1,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 1,
     "k_total": 4,
-    "vus": 853,
-    "vus_eux": 97
+    "vus": 1188,
+    "vus_eux": 0
    },
    {
     "nom": "Tchernobyl",
@@ -69444,22 +69444,22 @@
     "k_nous": 1,
     "k_inconnu": 2,
     "m_eux": 1,
-    "m_nous": 1,
+    "m_nous": 2,
     "m_eux_seul": 1,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 4,
-    "vus": 168,
-    "vus_eux": 49
+    "vus": 225,
+    "vus_eux": 51
    },
    {
     "nom": "CROMx",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 0,
-    "k_nous": 2,
-    "k_inconnu": 5,
+    "k_eux": 5,
+    "k_nous": 1,
+    "k_inconnu": 1,
     "m_eux": 0,
     "m_nous": 1,
     "m_eux_seul": 0,
@@ -69467,15 +69467,15 @@
     "m_eux_seul_impunie": 0,
     "m_total": 1,
     "k_total": 7,
-    "vus": 98,
-    "vus_eux": 42
+    "vus": 320,
+    "vus_eux": 200
    },
    {
     "nom": "Tibco",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 3,
-    "k_nous": 2,
+    "k_eux": 0,
+    "k_nous": 5,
     "k_inconnu": 0,
     "m_eux": 0,
     "m_nous": 0,
@@ -69484,20 +69484,20 @@
     "m_eux_seul_impunie": 0,
     "m_total": 0,
     "k_total": 5,
-    "vus": 754,
-    "vus_eux": 147
+    "vus": 1238,
+    "vus_eux": 0
    }
   ],
   "ensemble": {
-   "0": 804,
-   "1": 263,
-   "2": 36,
+   "0": 1025,
+   "1": 226,
+   "2": 12,
    "3": 0,
    "4": 0
   },
-  "images_vues": 1103,
-  "part_nous_chez_eux": 0.179,
-  "part_eux_chez_eux": 0.966
+  "images_vues": 1263,
+  "part_nous_chez_eux": 0.084,
+  "part_eux_chez_eux": 0.977
  },
  "armes_portees": {
   "GUNXHIPPOCAMPE": {

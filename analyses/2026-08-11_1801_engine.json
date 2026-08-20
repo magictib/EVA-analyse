@@ -171848,18 +171848,18 @@
     ],
     [
      641,
+     1591
+    ],
+    [
+     1676,
+     1921
+    ],
+    [
+     2006,
      2408
     ],
     [
      2501,
-     2598
-    ],
-    [
-     2685,
-     2928
-    ],
-    [
-     3014,
      3301
     ]
    ],
@@ -171882,14 +171882,14 @@
     ],
     [
      1261,
+     1946
+    ],
+    [
+     2031,
      2423
     ],
     [
      2508,
-     2950
-    ],
-    [
-     3040,
      3301
     ]
    ],
@@ -171907,23 +171907,19 @@
      1333
     ],
     [
-     2416,
-     2540
+     1621,
+     1741
     ],
     [
-     2625,
-     2745
+     1826,
+     1901
     ],
     [
-     2830,
-     2908
+     1986,
+     2126
     ],
     [
-     2994,
-     3133
-    ],
-    [
-     3218,
+     2211,
      3301
     ]
    ],
@@ -171949,23 +171945,19 @@
      1388
     ],
     [
-     2471,
-     2503
+     1581,
+     1621
     ],
     [
-     2589,
-     2626
+     1706,
+     1896
     ],
     [
-     2711,
-     2901
+     1981,
+     2036
     ],
     [
-     2986,
-     3043
-    ],
-    [
-     3129,
+     2121,
      3301
     ]
    ],
@@ -171988,18 +171980,18 @@
     ],
     [
      1274,
-     2643
+     1636
     ],
     [
-     2730,
-     2767
+     1721,
+     1761
     ],
     [
-     2855,
-     3075
+     1846,
+     2071
     ],
     [
-     3160,
+     2156,
      3301
     ]
    ],
@@ -172026,18 +172018,18 @@
     ],
     [
      1273,
-     2611
+     1606
     ],
     [
-     2696,
-     2745
+     1691,
+     1741
     ],
     [
-     2830,
-     2889
+     1826,
+     1886
     ],
     [
-     2994,
+     1971,
      3301
     ]
    ],
@@ -172063,19 +172055,15 @@
      1388
     ],
     [
-     2472,
-     2626
+     1706,
+     1746
     ],
     [
-     2711,
-     2753
+     1831,
+     1941
     ],
     [
-     2840,
-     2944
-    ],
-    [
-     3029,
+     2026,
      3301
     ]
    ],
@@ -172102,18 +172090,18 @@
     ],
     [
      1350,
+     1701
+    ],
+    [
+     1786,
+     2046
+    ],
+    [
+     2131,
      2454
     ],
     [
      2539,
-     2708
-    ],
-    [
-     2793,
-     3050
-    ],
-    [
-     3135,
      3301
     ]
    ]
@@ -192649,5 +192637,156 @@
  },
  "_retire": {
   "fin_de_match": 6
+ },
+ "terrain": {
+  "_quoi": "moitie de terrain deduite des spawns ; part du temps OBSERVE, le suivi ne couvrant que la moitie du temps de jeu",
+  "joueurs": [
+   {
+    "nom": "Argwen",
+    "tag": "DGL",
+    "notre": false,
+    "k_eux": 5,
+    "k_nous": 5,
+    "k_inconnu": 1,
+    "m_eux": 1,
+    "m_nous": 1,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 5,
+    "k_total": 11,
+    "vus": 2695,
+    "vus_eux": 1227
+   },
+   {
+    "nom": "Purple",
+    "tag": "DGL",
+    "notre": false,
+    "k_eux": 5,
+    "k_nous": 3,
+    "k_inconnu": 0,
+    "m_eux": 3,
+    "m_nous": 0,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 5,
+    "k_total": 8,
+    "vus": 2671,
+    "vus_eux": 2480
+   },
+   {
+    "nom": "LaKanette",
+    "tag": "DGL",
+    "notre": false,
+    "k_eux": 5,
+    "k_nous": 0,
+    "k_inconnu": 1,
+    "m_eux": 4,
+    "m_nous": 2,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 7,
+    "k_total": 6,
+    "vus": 1260,
+    "vus_eux": 1173
+   },
+   {
+    "nom": "PinceCoupante",
+    "tag": "PinceCoupante",
+    "notre": false,
+    "k_eux": 2,
+    "k_nous": 2,
+    "k_inconnu": 2,
+    "m_eux": 7,
+    "m_nous": 1,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 9,
+    "k_total": 6,
+    "vus": 1802,
+    "vus_eux": 651
+   },
+   {
+    "nom": "Tchernobyl",
+    "tag": "BVS",
+    "notre": true,
+    "k_eux": 2,
+    "k_nous": 5,
+    "k_inconnu": 1,
+    "m_eux": 1,
+    "m_nous": 5,
+    "m_eux_seul": 1,
+    "m_eux_impunie": 1,
+    "m_eux_seul_impunie": 1,
+    "m_total": 7,
+    "k_total": 8,
+    "vus": 2399,
+    "vus_eux": 105
+   },
+   {
+    "nom": "LiX",
+    "tag": "BVS",
+    "notre": true,
+    "k_eux": 1,
+    "k_nous": 4,
+    "k_inconnu": 1,
+    "m_eux": 1,
+    "m_nous": 3,
+    "m_eux_seul": 1,
+    "m_eux_impunie": 1,
+    "m_eux_seul_impunie": 1,
+    "m_total": 8,
+    "k_total": 6,
+    "vus": 2124,
+    "vus_eux": 1150
+   },
+   {
+    "nom": "CROM",
+    "tag": "BVS",
+    "notre": true,
+    "k_eux": 3,
+    "k_nous": 5,
+    "k_inconnu": 1,
+    "m_eux": 2,
+    "m_nous": 4,
+    "m_eux_seul": 2,
+    "m_eux_impunie": 1,
+    "m_eux_seul_impunie": 1,
+    "m_total": 8,
+    "k_total": 9,
+    "vus": 1154,
+    "vus_eux": 133
+   },
+   {
+    "nom": "Tibco",
+    "tag": "BVS",
+    "notre": true,
+    "k_eux": 1,
+    "k_nous": 2,
+    "k_inconnu": 0,
+    "m_eux": 0,
+    "m_nous": 5,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
+    "m_total": 8,
+    "k_total": 3,
+    "vus": 2023,
+    "vus_eux": 184
+   }
+  ],
+  "ensemble": {
+   "0": 1539,
+   "1": 1504,
+   "2": 34,
+   "3": 0,
+   "4": 0
+  },
+  "images_vues": 3077,
+  "part_nous_chez_eux": 0.204,
+  "part_eux_chez_eux": 0.656
  }
 }
