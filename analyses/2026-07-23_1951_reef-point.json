@@ -130162,9 +130162,9 @@
    {
     "image": 305,
     "slot": 3,
-    "x": 271.0,
-    "y": 54.0,
-    "source": "bout de trajet"
+    "x": 203.0,
+    "y": 235.0,
+    "source": "pov"
    },
    {
     "image": 311,
@@ -130386,9 +130386,9 @@
    {
     "image": 1468,
     "slot": 1,
-    "x": 301.0,
-    "y": 92.0,
-    "source": "bout de trajet"
+    "x": 325.0,
+    "y": 55.0,
+    "source": "pov"
    },
    {
     "image": 1556,
@@ -130435,9 +130435,9 @@
    {
     "image": 1685,
     "slot": 8,
-    "x": 182.0,
-    "y": 155.0,
-    "source": "bout de trajet"
+    "x": 64.0,
+    "y": 67.0,
+    "source": "pov"
    },
    {
     "image": 1707,
@@ -130505,9 +130505,9 @@
    {
     "image": 2016,
     "slot": 6,
-    "x": 364.0,
-    "y": 222.0,
-    "source": "bout de trajet"
+    "x": 289.0,
+    "y": 76.0,
+    "source": "pov"
    },
    {
     "image": 2042,

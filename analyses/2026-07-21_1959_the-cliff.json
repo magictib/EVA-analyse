@@ -134678,9 +134678,9 @@
    {
     "image": 1711,
     "slot": 7,
-    "x": 219.0,
-    "y": 163.0,
-    "source": "bout de trajet"
+    "x": 72.0,
+    "y": 134.0,
+    "source": "pov"
    },
    {
     "image": 1796,
@@ -134776,9 +134776,9 @@
    {
     "image": 2203,
     "slot": 7,
-    "x": 175.0,
+    "x": 174.0,
     "y": 107.0,
-    "source": "bout de trajet"
+    "source": "pov"
    },
    {
     "image": 2279,

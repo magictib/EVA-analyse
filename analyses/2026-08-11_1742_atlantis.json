@@ -128664,9 +128664,9 @@
    {
     "image": 594,
     "slot": 7,
-    "x": 218.0,
-    "y": 201.0,
-    "source": "bout de trajet"
+    "x": 202.0,
+    "y": 236.0,
+    "source": "pov"
    },
    {
     "image": 634,
@@ -131956,7 +131956,7 @@
    "anticaps": {},
    "anticaps_total": 0,
    "en_capture": 0,
-   "subis": 0
+   "subis": 1
   },
   "pov": [
    [

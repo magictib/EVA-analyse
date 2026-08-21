@@ -108027,9 +108027,9 @@
    {
     "image": 1966,
     "slot": 6,
-    "x": 146.0,
-    "y": 147.0,
-    "source": "bout de trajet"
+    "x": 312.0,
+    "y": 134.0,
+    "source": "pov"
    },
    {
     "image": 2076,
@@ -108062,9 +108062,9 @@
    {
     "image": 2126,
     "slot": 6,
-    "x": 237.0,
-    "y": 117.0,
-    "source": "bout de trajet"
+    "x": 211.0,
+    "y": 113.0,
+    "source": "pov"
    },
    {
     "image": 2135,

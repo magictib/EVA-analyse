@@ -48197,16 +48197,16 @@
    {
     "image": 452,
     "slot": 7,
-    "x": 370.0,
-    "y": 146.0,
-    "source": "bout de trajet"
+    "x": 388.0,
+    "y": 249.0,
+    "source": "pov"
    },
    {
     "image": 490,
     "slot": 4,
-    "x": 21.0,
-    "y": 108.0,
-    "source": "bout de trajet"
+    "x": 116.0,
+    "y": 227.0,
+    "source": "pov"
    },
    {
     "image": 533,

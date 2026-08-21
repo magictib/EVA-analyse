@@ -57666,9 +57666,9 @@
    {
     "image": 163,
     "slot": 2,
-    "x": 23.0,
+    "x": 432.0,
     "y": 107.0,
-    "source": "bout de trajet"
+    "source": "pov"
    },
    {
     "image": 163,
@@ -57799,9 +57799,9 @@
    {
     "image": 688,
     "slot": 2,
-    "x": 287.0,
-    "y": 184.0,
-    "source": "bout de trajet"
+    "x": 432.0,
+    "y": 108.0,
+    "source": "pov"
    },
    {
     "image": 793,

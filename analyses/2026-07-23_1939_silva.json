@@ -86552,9 +86552,9 @@
    {
     "image": 1240,
     "slot": 3,
-    "x": 362.0,
-    "y": 92.0,
-    "source": "bout de trajet"
+    "x": 239.0,
+    "y": 42.0,
+    "source": "pov"
    },
    {
     "image": 1260,
@@ -86568,7 +86568,7 @@
     "slot": 9,
     "x": 137.0,
     "y": 28.0,
-    "source": "bout de trajet"
+    "source": "pov"
    },
    {
     "image": 1311,

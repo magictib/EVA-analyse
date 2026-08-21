@@ -88319,9 +88319,9 @@
    {
     "image": 33,
     "slot": 3,
-    "x": 141.0,
-    "y": 107.0,
-    "source": "bout de trajet"
+    "x": 405.0,
+    "y": 43.0,
+    "source": "pov"
    },
    {
     "image": 34,
@@ -88389,9 +88389,9 @@
    {
     "image": 522,
     "slot": 9,
-    "x": 74.0,
-    "y": 136.0,
-    "source": "bout de trajet"
+    "x": 118.0,
+    "y": 247.0,
+    "source": "pov"
    },
    {
     "image": 529,
@@ -88508,9 +88508,9 @@
    {
     "image": 1151,
     "slot": 2,
-    "x": 215.0,
-    "y": 147.0,
-    "source": "bout de trajet"
+    "x": 219.0,
+    "y": 144.0,
+    "source": "pov"
    },
    {
     "image": 1156,
