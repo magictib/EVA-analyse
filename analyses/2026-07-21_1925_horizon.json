@@ -75772,7 +75772,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "24a2023d3c45",
+    "trajets": "faa98d7ec8cc",
     "pov": "fda6ee74171e"
    }
   }
@@ -75811,8 +75811,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 3,
-    "vus": 1029,
-    "vus_eux": 634
+    "vus": 1032,
+    "vus_eux": 635
    },
    {
     "nom": "Rabitte",
@@ -75828,8 +75828,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 7,
-    "vus": 1044,
-    "vus_eux": 913
+    "vus": 1047,
+    "vus_eux": 920
    },
    {
     "nom": "Phasme",
@@ -75870,8 +75870,8 @@
     "tag": "BVS",
     "notre": true,
     "k_eux": 3,
-    "k_nous": 8,
-    "k_inconnu": 0,
+    "k_nous": 7,
+    "k_inconnu": 1,
     "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
@@ -75879,8 +75879,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 11,
-    "vus": 870,
-    "vus_eux": 233
+    "vus": 703,
+    "vus_eux": 228
    },
    {
     "nom": "CROMx",
@@ -75896,8 +75896,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 2,
     "k_total": 10,
-    "vus": 944,
-    "vus_eux": 36
+    "vus": 947,
+    "vus_eux": 39
    },
    {
     "nom": "Tibco",
@@ -75913,19 +75913,19 @@
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 2,
-    "vus": 863,
-    "vus_eux": 222
+    "vus": 395,
+    "vus_eux": 73
    }
   ],
   "ensemble": {
-   "0": 1001,
-   "1": 394,
-   "2": 128,
-   "3": 53,
+   "0": 938,
+   "1": 464,
+   "2": 97,
+   "3": 0,
    "4": 0
   },
-  "images_vues": 1576,
-  "part_nous_chez_eux": 0.233,
+  "images_vues": 1499,
+  "part_nous_chez_eux": 0.232,
   "part_eux_chez_eux": 0.845
  },
  "armes_portees": {

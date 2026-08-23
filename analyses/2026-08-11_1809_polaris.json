@@ -88404,7 +88404,7 @@
   ],
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "a82f6a384915",
+    "trajets": "42adaff9f408",
     "pov": "64ac8be46cad"
    }
   }
@@ -88446,7 +88446,7 @@
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 7,
-    "vus": 550,
+    "vus": 540,
     "vus_eux": 300
    },
    {
@@ -88456,15 +88456,15 @@
     "k_eux": 3,
     "k_nous": 1,
     "k_inconnu": 2,
-    "m_eux": 1,
+    "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 6,
-    "vus": 1004,
-    "vus_eux": 638
+    "vus": 1035,
+    "vus_eux": 653
    },
    {
     "nom": "PinceCoupante",
@@ -88474,14 +88474,14 @@
     "k_nous": 1,
     "k_inconnu": 2,
     "m_eux": 1,
-    "m_nous": 1,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 6,
-    "vus": 634,
-    "vus_eux": 516
+    "vus": 643,
+    "vus_eux": 521
    },
    {
     "nom": "Tchernobyl",
@@ -88508,13 +88508,13 @@
     "k_nous": 3,
     "k_inconnu": 0,
     "m_eux": 0,
-    "m_nous": 2,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 9,
-    "vus": 1220,
+    "vus": 1261,
     "vus_eux": 811
    },
    {
@@ -88522,8 +88522,8 @@
     "tag": "BVS",
     "notre": true,
     "k_eux": 1,
-    "k_nous": 3,
-    "k_inconnu": 2,
+    "k_nous": 2,
+    "k_inconnu": 3,
     "m_eux": 0,
     "m_nous": 2,
     "m_eux_seul": 0,
@@ -88531,7 +88531,7 @@
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 6,
-    "vus": 775,
+    "vus": 737,
     "vus_eux": 224
    },
    {
@@ -88542,25 +88542,25 @@
     "k_nous": 1,
     "k_inconnu": 1,
     "m_eux": 0,
-    "m_nous": 1,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 8,
     "k_total": 2,
-    "vus": 571,
-    "vus_eux": 207
+    "vus": 532,
+    "vus_eux": 198
    }
   ],
   "ensemble": {
-   "0": 651,
-   "1": 916,
-   "2": 212,
+   "0": 655,
+   "1": 909,
+   "2": 211,
    "3": 16,
    "4": 0
   },
-  "images_vues": 1795,
-  "part_nous_chez_eux": 0.439,
-  "part_eux_chez_eux": 0.572
+  "images_vues": 1791,
+  "part_nous_chez_eux": 0.441,
+  "part_eux_chez_eux": 0.573
  }
 }

@@ -104153,7 +104153,7 @@
   ],
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "7cfd2bbc6a0f",
+    "trajets": "2f14a04820c3",
     "pov": "2ba59306d908"
    }
   }
@@ -104178,16 +104178,16 @@
     "m_eux_seul_impunie": 0,
     "m_total": 10,
     "k_total": 7,
-    "vus": 777,
-    "vus_eux": 731
+    "vus": 853,
+    "vus_eux": 781
    },
    {
     "nom": "Purple",
     "tag": "DGL",
     "notre": false,
-    "k_eux": 3,
+    "k_eux": 2,
     "k_nous": 1,
-    "k_inconnu": 5,
+    "k_inconnu": 6,
     "m_eux": 2,
     "m_nous": 6,
     "m_eux_seul": 0,
@@ -104195,66 +104195,66 @@
     "m_eux_seul_impunie": 0,
     "m_total": 9,
     "k_total": 9,
-    "vus": 654,
-    "vus_eux": 585
+    "vus": 565,
+    "vus_eux": 494
    },
    {
     "nom": "LaKanette",
     "tag": "DGL",
     "notre": false,
-    "k_eux": 9,
-    "k_nous": 3,
-    "k_inconnu": 0,
-    "m_eux": 4,
-    "m_nous": 5,
+    "k_eux": 5,
+    "k_nous": 4,
+    "k_inconnu": 3,
+    "m_eux": 3,
+    "m_nous": 6,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 10,
     "k_total": 12,
-    "vus": 1049,
-    "vus_eux": 625
+    "vus": 840,
+    "vus_eux": 466
    },
    {
     "nom": "PinceCoupante",
     "tag": "PinceCoupante",
     "notre": false,
-    "k_eux": 2,
+    "k_eux": 1,
     "k_nous": 1,
-    "k_inconnu": 0,
+    "k_inconnu": 1,
     "m_eux": 2,
-    "m_nous": 7,
+    "m_nous": 5,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 9,
     "k_total": 3,
-    "vus": 1001,
-    "vus_eux": 702
+    "vus": 951,
+    "vus_eux": 684
    },
    {
     "nom": "Tchernobyl",
     "tag": "BVS",
     "notre": true,
     "k_eux": 1,
-    "k_nous": 6,
-    "k_inconnu": 3,
-    "m_eux": 2,
+    "k_nous": 5,
+    "k_inconnu": 4,
+    "m_eux": 1,
     "m_nous": 5,
-    "m_eux_seul": 2,
-    "m_eux_impunie": 2,
-    "m_eux_seul_impunie": 2,
+    "m_eux_seul": 1,
+    "m_eux_impunie": 1,
+    "m_eux_seul_impunie": 1,
     "m_total": 8,
     "k_total": 10,
-    "vus": 859,
-    "vus_eux": 125
+    "vus": 794,
+    "vus_eux": 113
    },
    {
     "nom": "LiX",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 2,
-    "k_nous": 4,
+    "k_eux": 1,
+    "k_nous": 5,
     "k_inconnu": 0,
     "m_eux": 1,
     "m_nous": 7,
@@ -104263,15 +104263,15 @@
     "m_eux_seul_impunie": 1,
     "m_total": 9,
     "k_total": 6,
-    "vus": 921,
-    "vus_eux": 61
+    "vus": 935,
+    "vus_eux": 51
    },
    {
     "nom": "CROM",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 5,
-    "k_nous": 7,
+    "k_eux": 3,
+    "k_nous": 9,
     "k_inconnu": 1,
     "m_eux": 1,
     "m_nous": 6,
@@ -104280,8 +104280,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 13,
-    "vus": 1033,
-    "vus_eux": 283
+    "vus": 999,
+    "vus_eux": 239
    },
    {
     "nom": "Tibco",
@@ -104290,26 +104290,26 @@
     "k_eux": 3,
     "k_nous": 7,
     "k_inconnu": 0,
-    "m_eux": 2,
-    "m_nous": 6,
-    "m_eux_seul": 0,
-    "m_eux_impunie": 1,
+    "m_eux": 1,
+    "m_nous": 7,
+    "m_eux_seul": 1,
+    "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 8,
     "k_total": 10,
-    "vus": 1306,
-    "vus_eux": 202
+    "vus": 1324,
+    "vus_eux": 183
    }
   ],
   "ensemble": {
-   "0": 1477,
-   "1": 500,
-   "2": 84,
+   "0": 1553,
+   "1": 420,
+   "2": 82,
    "3": 0,
    "4": 0
   },
-  "images_vues": 2061,
-  "part_nous_chez_eux": 0.163,
-  "part_eux_chez_eux": 0.759
+  "images_vues": 2055,
+  "part_nous_chez_eux": 0.145,
+  "part_eux_chez_eux": 0.756
  }
 }

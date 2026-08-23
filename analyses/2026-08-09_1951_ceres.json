@@ -71342,7 +71342,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "2a59e82391d3",
+    "trajets": "12f57d9f345c",
     "pov": "650ea175f27d"
    }
   }
@@ -71367,7 +71367,7 @@
     "m_eux_seul_impunie": 0,
     "m_total": 1,
     "k_total": 11,
-    "vus": 1136,
+    "vus": 1142,
     "vus_eux": 25
    },
    {
@@ -71375,8 +71375,8 @@
     "tag": "BVS",
     "notre": true,
     "k_eux": 4,
-    "k_nous": 4,
-    "k_inconnu": 0,
+    "k_nous": 3,
+    "k_inconnu": 1,
     "m_eux": 0,
     "m_nous": 3,
     "m_eux_seul": 0,
@@ -71384,8 +71384,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 3,
     "k_total": 8,
-    "vus": 980,
-    "vus_eux": 314
+    "vus": 893,
+    "vus_eux": 308
    },
    {
     "nom": "LiX",
@@ -71402,7 +71402,7 @@
     "m_total": 3,
     "k_total": 7,
     "vus": 894,
-    "vus_eux": 528
+    "vus_eux": 527
    },
    {
     "nom": "Tchernobyl",
@@ -71419,7 +71419,7 @@
     "m_total": 3,
     "k_total": 1,
     "vus": 864,
-    "vus_eux": 35
+    "vus_eux": 32
    },
    {
     "nom": "Thyr",
@@ -71435,8 +71435,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 2,
-    "vus": 669,
-    "vus_eux": 597
+    "vus": 642,
+    "vus_eux": 569
    },
    {
     "nom": "Lamimolette",
@@ -71453,7 +71453,7 @@
     "m_total": 7,
     "k_total": 4,
     "vus": 645,
-    "vus_eux": 627
+    "vus_eux": 626
    },
    {
     "nom": "Dreegaran",
@@ -71462,15 +71462,15 @@
     "k_eux": 1,
     "k_nous": 1,
     "k_inconnu": 0,
-    "m_eux": 4,
+    "m_eux": 3,
     "m_nous": 2,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 2,
-    "vus": 605,
-    "vus_eux": 580
+    "vus": 488,
+    "vus_eux": 463
    },
    {
     "nom": "Rosa",
@@ -71491,14 +71491,14 @@
    }
   ],
   "ensemble": {
-   "0": 649,
-   "1": 342,
-   "2": 280,
+   "0": 662,
+   "1": 338,
+   "2": 277,
    "3": 0,
    "4": 0
   },
-  "images_vues": 1271,
-  "part_nous_chez_eux": 0.233,
-  "part_eux_chez_eux": 0.917
+  "images_vues": 1277,
+  "part_nous_chez_eux": 0.235,
+  "part_eux_chez_eux": 0.911
  }
 }

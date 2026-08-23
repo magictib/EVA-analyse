@@ -68740,7 +68740,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "6bf5a8a770c8",
+    "trajets": "216459279ded",
     "pov": "2c4cbdc21b68"
    }
   }
@@ -68762,8 +68762,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 3,
-    "vus": 398,
-    "vus_eux": 391
+    "vus": 385,
+    "vus_eux": 353
    },
    {
     "nom": "Rhino",
@@ -68773,13 +68773,13 @@
     "k_nous": 0,
     "k_inconnu": 1,
     "m_eux": 0,
-    "m_nous": 5,
+    "m_nous": 4,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 2,
-    "vus": 473,
+    "vus": 496,
     "vus_eux": 447
    },
    {
@@ -68790,14 +68790,14 @@
     "k_nous": 0,
     "k_inconnu": 1,
     "m_eux": 1,
-    "m_nous": 4,
+    "m_nous": 3,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 1,
-    "vus": 389,
-    "vus_eux": 387
+    "vus": 479,
+    "vus_eux": 388
    },
    {
     "nom": "Phasme",
@@ -68813,8 +68813,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 0,
-    "vus": 628,
-    "vus_eux": 619
+    "vus": 593,
+    "vus_eux": 585
    },
    {
     "nom": "LiX",
@@ -68830,8 +68830,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 1,
     "k_total": 4,
-    "vus": 1188,
-    "vus_eux": 0
+    "vus": 1197,
+    "vus_eux": 9
    },
    {
     "nom": "Tchernobyl",
@@ -68847,16 +68847,16 @@
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 4,
-    "vus": 225,
-    "vus_eux": 51
+    "vus": 204,
+    "vus_eux": 30
    },
    {
     "nom": "CROMx",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 5,
+    "k_eux": 3,
     "k_nous": 1,
-    "k_inconnu": 1,
+    "k_inconnu": 3,
     "m_eux": 0,
     "m_nous": 1,
     "m_eux_seul": 0,
@@ -68864,8 +68864,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 1,
     "k_total": 7,
-    "vus": 320,
-    "vus_eux": 200
+    "vus": 124,
+    "vus_eux": 71
    },
    {
     "nom": "Tibco",
@@ -68886,15 +68886,15 @@
    }
   ],
   "ensemble": {
-   "0": 1025,
-   "1": 226,
-   "2": 12,
+   "0": 1162,
+   "1": 110,
+   "2": 0,
    "3": 0,
    "4": 0
   },
-  "images_vues": 1263,
-  "part_nous_chez_eux": 0.084,
-  "part_eux_chez_eux": 0.977
+  "images_vues": 1272,
+  "part_nous_chez_eux": 0.04,
+  "part_eux_chez_eux": 0.908
  },
  "armes_portees": {
   "GUNXHIPPOCAMPE": {

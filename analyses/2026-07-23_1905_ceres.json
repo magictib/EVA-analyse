@@ -112448,7 +112448,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "09d11935fbf4",
+    "trajets": "689299001615",
     "pov": "f0d58f298cc9"
    }
   }
@@ -112461,8 +112461,8 @@
     "tag": "BVS",
     "notre": true,
     "k_eux": 1,
-    "k_nous": 5,
-    "k_inconnu": 1,
+    "k_nous": 3,
+    "k_inconnu": 3,
     "m_eux": 2,
     "m_nous": 3,
     "m_eux_seul": 0,
@@ -112470,16 +112470,16 @@
     "m_eux_seul_impunie": 0,
     "m_total": 8,
     "k_total": 7,
-    "vus": 1140,
-    "vus_eux": 146
+    "vus": 829,
+    "vus_eux": 95
    },
    {
     "nom": "CROMx",
     "tag": "BVS",
     "notre": true,
     "k_eux": 0,
-    "k_nous": 4,
-    "k_inconnu": 1,
+    "k_nous": 3,
+    "k_inconnu": 2,
     "m_eux": 3,
     "m_nous": 1,
     "m_eux_seul": 3,
@@ -112487,8 +112487,8 @@
     "m_eux_seul_impunie": 2,
     "m_total": 7,
     "k_total": 5,
-    "vus": 912,
-    "vus_eux": 251
+    "vus": 768,
+    "vus_eux": 221
    },
    {
     "nom": "LiX",
@@ -112504,8 +112504,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 8,
-    "vus": 855,
-    "vus_eux": 309
+    "vus": 668,
+    "vus_eux": 223
    },
    {
     "nom": "Tchernobyl",
@@ -112521,15 +112521,15 @@
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 3,
-    "vus": 1047,
-    "vus_eux": 91
+    "vus": 911,
+    "vus_eux": 95
    },
    {
     "nom": "ParziRahl",
     "tag": "FXC",
     "notre": false,
-    "k_eux": 4,
-    "k_nous": 1,
+    "k_eux": 5,
+    "k_nous": 0,
     "k_inconnu": 3,
     "m_eux": 1,
     "m_nous": 1,
@@ -112538,16 +112538,16 @@
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 8,
-    "vus": 1245,
-    "vus_eux": 974
+    "vus": 1197,
+    "vus_eux": 957
    },
    {
     "nom": "Sky",
     "tag": "FXC",
     "notre": false,
-    "k_eux": 5,
+    "k_eux": 4,
     "k_nous": 2,
-    "k_inconnu": 0,
+    "k_inconnu": 1,
     "m_eux": 4,
     "m_nous": 0,
     "m_eux_seul": 0,
@@ -112555,8 +112555,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 7,
-    "vus": 1417,
-    "vus_eux": 1382
+    "vus": 1072,
+    "vus_eux": 1040
    },
    {
     "nom": "Noxis",
@@ -112572,8 +112572,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 1,
-    "vus": 874,
-    "vus_eux": 699
+    "vus": 827,
+    "vus_eux": 663
    },
    {
     "nom": "Valtor",
@@ -112589,20 +112589,20 @@
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 13,
-    "vus": 1040,
-    "vus_eux": 797
+    "vus": 1066,
+    "vus_eux": 830
    }
   ],
   "ensemble": {
-   "0": 1174,
-   "1": 440,
-   "2": 152,
+   "0": 1270,
+   "1": 340,
+   "2": 121,
    "3": 17,
    "4": 0
   },
-  "images_vues": 1783,
-  "part_nous_chez_eux": 0.202,
-  "part_eux_chez_eux": 0.842
+  "images_vues": 1748,
+  "part_nous_chez_eux": 0.2,
+  "part_eux_chez_eux": 0.839
  },
  "armes_portees": {
   "BVSXTIBCO": {

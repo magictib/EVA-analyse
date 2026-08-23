@@ -39279,7 +39279,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "f70713c425a2",
+    "trajets": "bd2f2cd9b836",
     "pov": "868d7d3504f3"
    }
   }
@@ -39301,8 +39301,8 @@
     "m_eux_seul_impunie": 1,
     "m_total": 7,
     "k_total": 1,
-    "vus": 282,
-    "vus_eux": 72
+    "vus": 189,
+    "vus_eux": 15
    },
    {
     "nom": "CROMx",
@@ -39318,7 +39318,7 @@
     "m_eux_seul_impunie": 0,
     "m_total": 9,
     "k_total": 5,
-    "vus": 171,
+    "vus": 158,
     "vus_eux": 50
    },
    {
@@ -39346,13 +39346,13 @@
     "k_nous": 0,
     "k_inconnu": 1,
     "m_eux": 3,
-    "m_nous": 6,
+    "m_nous": 5,
     "m_eux_seul": 2,
     "m_eux_impunie": 2,
     "m_eux_seul_impunie": 1,
     "m_total": 10,
     "k_total": 1,
-    "vus": 154,
+    "vus": 158,
     "vus_eux": 0
    },
    {
@@ -39404,15 +39404,15 @@
     "m_total": 7,
     "k_total": 4,
     "vus": 243,
-    "vus_eux": 177
+    "vus_eux": 178
    },
    {
     "nom": "Valtor",
     "tag": "FXC",
     "notre": false,
     "k_eux": 6,
-    "k_nous": 0,
-    "k_inconnu": 7,
+    "k_nous": 1,
+    "k_inconnu": 6,
     "m_eux": 1,
     "m_nous": 2,
     "m_eux_seul": 0,
@@ -39420,20 +39420,20 @@
     "m_eux_seul_impunie": 0,
     "m_total": 3,
     "k_total": 13,
-    "vus": 380,
-    "vus_eux": 362
+    "vus": 420,
+    "vus_eux": 363
    }
   ],
   "ensemble": {
-   "0": 528,
-   "1": 122,
+   "0": 495,
+   "1": 65,
    "2": 9,
    "3": 0,
    "4": 0
   },
-  "images_vues": 659,
-  "part_nous_chez_eux": 0.169,
-  "part_eux_chez_eux": 0.938
+  "images_vues": 569,
+  "part_nous_chez_eux": 0.115,
+  "part_eux_chez_eux": 0.916
  },
  "armes_portees": {
   "BVSXTIBCO": {

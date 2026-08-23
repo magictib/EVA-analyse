@@ -122706,7 +122706,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "9030bd9efcdb",
+    "trajets": "3e4e4d4702d5",
     "pov": "708f53121028"
    }
   }
@@ -122729,15 +122729,15 @@
     "m_total": 10,
     "k_total": 9,
     "vus": 1043,
-    "vus_eux": 189
+    "vus_eux": 194
    },
    {
     "nom": "CROMx",
     "tag": "BVS",
     "notre": true,
     "k_eux": 0,
-    "k_nous": 3,
-    "k_inconnu": 2,
+    "k_nous": 1,
+    "k_inconnu": 4,
     "m_eux": 2,
     "m_nous": 7,
     "m_eux_seul": 1,
@@ -122745,8 +122745,8 @@
     "m_eux_seul_impunie": 1,
     "m_total": 11,
     "k_total": 5,
-    "vus": 1021,
-    "vus_eux": 117
+    "vus": 687,
+    "vus_eux": 39
    },
    {
     "nom": "LiX",
@@ -122762,8 +122762,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 8,
     "k_total": 6,
-    "vus": 1240,
-    "vus_eux": 524
+    "vus": 859,
+    "vus_eux": 391
    },
    {
     "nom": "Tchernobyl",
@@ -122779,32 +122779,32 @@
     "m_eux_seul_impunie": 0,
     "m_total": 10,
     "k_total": 1,
-    "vus": 1210,
-    "vus_eux": 235
+    "vus": 1203,
+    "vus_eux": 228
    },
    {
     "nom": "ParziRahl",
     "tag": "FXC",
     "notre": false,
-    "k_eux": 8,
+    "k_eux": 2,
     "k_nous": 0,
-    "k_inconnu": 3,
-    "m_eux": 4,
+    "k_inconnu": 9,
+    "m_eux": 3,
     "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 11,
-    "vus": 1233,
-    "vus_eux": 1108
+    "vus": 833,
+    "vus_eux": 717
    },
    {
     "nom": "Sky",
     "tag": "FXC",
     "notre": false,
-    "k_eux": 4,
-    "k_nous": 4,
+    "k_eux": 3,
+    "k_nous": 5,
     "k_inconnu": 4,
     "m_eux": 3,
     "m_nous": 0,
@@ -122813,8 +122813,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 12,
-    "vus": 1213,
-    "vus_eux": 923
+    "vus": 885,
+    "vus_eux": 614
    },
    {
     "nom": "Noxis",
@@ -122830,8 +122830,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 3,
     "k_total": 4,
-    "vus": 1443,
-    "vus_eux": 1117
+    "vus": 1142,
+    "vus_eux": 827
    },
    {
     "nom": "Valtor",
@@ -122847,20 +122847,20 @@
     "m_eux_seul_impunie": 0,
     "m_total": 8,
     "k_total": 11,
-    "vus": 1456,
-    "vus_eux": 785
+    "vus": 1446,
+    "vus_eux": 782
    }
   ],
   "ensemble": {
-   "0": 1205,
-   "1": 701,
-   "2": 132,
-   "3": 33,
+   "0": 1226,
+   "1": 621,
+   "2": 115,
+   "3": 0,
    "4": 0
   },
-  "images_vues": 2071,
-  "part_nous_chez_eux": 0.236,
-  "part_eux_chez_eux": 0.736
+  "images_vues": 1962,
+  "part_nous_chez_eux": 0.225,
+  "part_eux_chez_eux": 0.683
  },
  "armes_portees": {
   "BVSXTIBCO": {

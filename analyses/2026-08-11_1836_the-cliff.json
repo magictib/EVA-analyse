@@ -94525,7 +94525,7 @@
   ],
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "3a44855bdb76",
+    "trajets": "df3915f470d1",
     "pov": "c2046628bcc8"
    }
   }
@@ -94541,8 +94541,8 @@
     "tag": "DGL",
     "notre": false,
     "k_eux": 4,
-    "k_nous": 2,
-    "k_inconnu": 0,
+    "k_nous": 1,
+    "k_inconnu": 1,
     "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
@@ -94550,8 +94550,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 8,
     "k_total": 6,
-    "vus": 1224,
-    "vus_eux": 936
+    "vus": 860,
+    "vus_eux": 824
    },
    {
     "nom": "Purple",
@@ -94568,7 +94568,7 @@
     "m_total": 8,
     "k_total": 7,
     "vus": 1320,
-    "vus_eux": 971
+    "vus_eux": 968
    },
    {
     "nom": "LaKanette",
@@ -94584,8 +94584,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 8,
     "k_total": 10,
-    "vus": 1159,
-    "vus_eux": 921
+    "vus": 1153,
+    "vus_eux": 908
    },
    {
     "nom": "PinceCoupante",
@@ -94602,14 +94602,14 @@
     "m_total": 7,
     "k_total": 11,
     "vus": 1098,
-    "vus_eux": 1082
+    "vus_eux": 1081
    },
    {
     "nom": "Tchernobyl",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 1,
-    "k_nous": 3,
+    "k_eux": 0,
+    "k_nous": 4,
     "k_inconnu": 0,
     "m_eux": 0,
     "m_nous": 1,
@@ -94619,7 +94619,7 @@
     "m_total": 9,
     "k_total": 4,
     "vus": 1127,
-    "vus_eux": 29
+    "vus_eux": 23
    },
    {
     "nom": "LiX",
@@ -94636,24 +94636,24 @@
     "m_total": 7,
     "k_total": 8,
     "vus": 1304,
-    "vus_eux": 140
+    "vus_eux": 138
    },
    {
     "nom": "CROM",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 5,
-    "k_nous": 7,
+    "k_eux": 4,
+    "k_nous": 8,
     "k_inconnu": 2,
     "m_eux": 0,
-    "m_nous": 1,
+    "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 8,
     "k_total": 14,
-    "vus": 1143,
-    "vus_eux": 477
+    "vus": 1147,
+    "vus_eux": 470
    },
    {
     "nom": "Tibco",
@@ -94669,19 +94669,19 @@
     "m_eux_seul_impunie": 0,
     "m_total": 10,
     "k_total": 5,
-    "vus": 1090,
-    "vus_eux": 154
+    "vus": 1079,
+    "vus_eux": 136
    }
   ],
   "ensemble": {
-   "0": 1271,
-   "1": 546,
-   "2": 127,
+   "0": 1299,
+   "1": 525,
+   "2": 121,
    "3": 0,
    "4": 0
   },
-  "images_vues": 1944,
-  "part_nous_chez_eux": 0.172,
-  "part_eux_chez_eux": 0.814
+  "images_vues": 1945,
+  "part_nous_chez_eux": 0.165,
+  "part_eux_chez_eux": 0.853
  }
 }

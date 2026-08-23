@@ -79773,7 +79773,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "e5b82ddbe375",
+    "trajets": "dd7cbe4c1179",
     "pov": "364434ea70f1"
    }
   }
@@ -79796,7 +79796,7 @@
     "m_total": 6,
     "k_total": 7,
     "vus": 1020,
-    "vus_eux": 67
+    "vus_eux": 69
    },
    {
     "nom": "CROMx",
@@ -79806,14 +79806,14 @@
     "k_nous": 2,
     "k_inconnu": 1,
     "m_eux": 1,
-    "m_nous": 2,
+    "m_nous": 1,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 10,
     "k_total": 3,
-    "vus": 693,
-    "vus_eux": 190
+    "vus": 705,
+    "vus_eux": 191
    },
    {
     "nom": "LiX",
@@ -79822,15 +79822,15 @@
     "k_eux": 4,
     "k_nous": 8,
     "k_inconnu": 4,
-    "m_eux": 1,
-    "m_nous": 3,
-    "m_eux_seul": 1,
+    "m_eux": 2,
+    "m_nous": 2,
+    "m_eux_seul": 2,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 9,
     "k_total": 16,
-    "vus": 916,
-    "vus_eux": 193
+    "vus": 932,
+    "vus_eux": 195
    },
    {
     "nom": "Tchernobyl",
@@ -79846,7 +79846,7 @@
     "m_eux_seul_impunie": 0,
     "m_total": 10,
     "k_total": 10,
-    "vus": 572,
+    "vus": 562,
     "vus_eux": 145
    },
    {
@@ -79863,8 +79863,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 12,
     "k_total": 3,
-    "vus": 458,
-    "vus_eux": 398
+    "vus": 482,
+    "vus_eux": 412
    },
    {
     "nom": "Barou",
@@ -79880,16 +79880,16 @@
     "m_eux_seul_impunie": 0,
     "m_total": 9,
     "k_total": 6,
-    "vus": 904,
-    "vus_eux": 623
+    "vus": 840,
+    "vus_eux": 592
    },
    {
     "nom": "Godzi",
     "tag": "END",
     "notre": false,
-    "k_eux": 8,
-    "k_nous": 4,
-    "k_inconnu": 3,
+    "k_eux": 5,
+    "k_nous": 1,
+    "k_inconnu": 9,
     "m_eux": 2,
     "m_nous": 1,
     "m_eux_seul": 0,
@@ -79897,8 +79897,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 15,
-    "vus": 696,
-    "vus_eux": 626
+    "vus": 453,
+    "vus_eux": 424
    },
    {
     "nom": "Vikings",
@@ -79907,27 +79907,27 @@
     "k_eux": 4,
     "k_nous": 2,
     "k_inconnu": 3,
-    "m_eux": 2,
-    "m_nous": 4,
+    "m_eux": 1,
+    "m_nous": 5,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 9,
     "k_total": 9,
-    "vus": 775,
-    "vus_eux": 679
+    "vus": 768,
+    "vus_eux": 677
    }
   ],
   "ensemble": {
-   "0": 1278,
-   "1": 421,
+   "0": 1265,
+   "1": 426,
    "2": 57,
    "3": 20,
    "4": 0
   },
-  "images_vues": 1776,
+  "images_vues": 1768,
   "part_nous_chez_eux": 0.186,
-  "part_eux_chez_eux": 0.821
+  "part_eux_chez_eux": 0.828
  },
  "armes_portees": {
   "NTXTIBCO": {

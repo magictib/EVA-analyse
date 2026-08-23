@@ -105617,7 +105617,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "f5696335a7c5",
+    "trajets": "c0ed41c28752",
     "pov": "f6c8af9cd7d9"
    }
   }
@@ -105629,9 +105629,9 @@
     "nom": "Hippocampe",
     "tag": "GUN",
     "notre": false,
-    "k_eux": 11,
-    "k_nous": 0,
-    "k_inconnu": 0,
+    "k_eux": 8,
+    "k_nous": 1,
+    "k_inconnu": 2,
     "m_eux": 1,
     "m_nous": 0,
     "m_eux_seul": 0,
@@ -105639,8 +105639,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 11,
-    "vus": 1540,
-    "vus_eux": 1533
+    "vus": 1082,
+    "vus_eux": 1023
    },
    {
     "nom": "Rhino",
@@ -105657,14 +105657,14 @@
     "m_total": 7,
     "k_total": 13,
     "vus": 1249,
-    "vus_eux": 1222
+    "vus_eux": 1148
    },
    {
     "nom": "Rabitte",
     "tag": "GUN",
     "notre": false,
-    "k_eux": 5,
-    "k_nous": 1,
+    "k_eux": 4,
+    "k_nous": 2,
     "k_inconnu": 1,
     "m_eux": 0,
     "m_nous": 0,
@@ -105674,14 +105674,14 @@
     "m_total": 10,
     "k_total": 7,
     "vus": 1405,
-    "vus_eux": 1014
+    "vus_eux": 851
    },
    {
     "nom": "Phasme",
     "tag": "GUN",
     "notre": false,
-    "k_eux": 5,
-    "k_nous": 2,
+    "k_eux": 4,
+    "k_nous": 3,
     "k_inconnu": 2,
     "m_eux": 0,
     "m_nous": 0,
@@ -105690,8 +105690,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 12,
     "k_total": 9,
-    "vus": 1081,
-    "vus_eux": 989
+    "vus": 1088,
+    "vus_eux": 862
    },
    {
     "nom": "LiX",
@@ -105708,15 +105708,15 @@
     "m_total": 11,
     "k_total": 6,
     "vus": 929,
-    "vus_eux": 136
+    "vus_eux": 131
    },
    {
     "nom": "Tchernobyl",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 2,
+    "k_eux": 1,
     "k_nous": 9,
-    "k_inconnu": 1,
+    "k_inconnu": 2,
     "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
@@ -105724,15 +105724,15 @@
     "m_eux_seul_impunie": 0,
     "m_total": 10,
     "k_total": 12,
-    "vus": 1220,
-    "vus_eux": 218
+    "vus": 1060,
+    "vus_eux": 94
    },
    {
     "nom": "CROMx",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 4,
-    "k_nous": 8,
+    "k_eux": 3,
+    "k_nous": 9,
     "k_inconnu": 0,
     "m_eux": 0,
     "m_nous": 0,
@@ -105741,8 +105741,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 10,
     "k_total": 12,
-    "vus": 1040,
-    "vus_eux": 291
+    "vus": 1060,
+    "vus_eux": 290
    },
    {
     "nom": "Tibco",
@@ -105759,19 +105759,19 @@
     "m_total": 9,
     "k_total": 5,
     "vus": 1226,
-    "vus_eux": 119
+    "vus_eux": 105
    }
   ],
   "ensemble": {
-   "0": 1493,
-   "1": 588,
-   "2": 80,
-   "3": 5,
+   "0": 1557,
+   "1": 568,
+   "2": 26,
+   "3": 0,
    "4": 0
   },
-  "images_vues": 2166,
-  "part_nous_chez_eux": 0.173,
-  "part_eux_chez_eux": 0.902
+  "images_vues": 2151,
+  "part_nous_chez_eux": 0.145,
+  "part_eux_chez_eux": 0.805
  },
  "armes_portees": {
   "GUNXHIPPOCAMPE": {

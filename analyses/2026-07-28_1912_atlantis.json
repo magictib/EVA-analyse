@@ -124839,7 +124839,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "516ef0dde3aa",
+    "trajets": "919df962bf53",
     "pov": "7783a55f335d"
    }
   }
@@ -124862,23 +124862,23 @@
     "m_total": 9,
     "k_total": 5,
     "vus": 1639,
-    "vus_eux": 319
+    "vus_eux": 314
    },
    {
     "nom": "CROMx",
     "tag": "NT",
     "notre": true,
     "k_eux": 0,
-    "k_nous": 2,
-    "k_inconnu": 1,
-    "m_eux": 1,
+    "k_nous": 1,
+    "k_inconnu": 2,
+    "m_eux": 0,
     "m_nous": 0,
-    "m_eux_seul": 1,
+    "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 11,
     "k_total": 3,
-    "vus": 1153,
+    "vus": 1093,
     "vus_eux": 20
    },
    {
@@ -124896,7 +124896,7 @@
     "m_total": 11,
     "k_total": 12,
     "vus": 1309,
-    "vus_eux": 479
+    "vus_eux": 477
    },
    {
     "nom": "Tchernobyl",
@@ -124913,7 +124913,7 @@
     "m_total": 13,
     "k_total": 6,
     "vus": 960,
-    "vus_eux": 112
+    "vus_eux": 110
    },
    {
     "nom": "Y4net",
@@ -124922,15 +124922,15 @@
     "k_eux": 4,
     "k_nous": 1,
     "k_inconnu": 2,
-    "m_eux": 1,
+    "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 8,
     "k_total": 7,
-    "vus": 1041,
-    "vus_eux": 589
+    "vus": 1044,
+    "vus_eux": 586
    },
    {
     "nom": "Barou",
@@ -124947,15 +124947,15 @@
     "m_total": 6,
     "k_total": 8,
     "vus": 1508,
-    "vus_eux": 1360
+    "vus_eux": 1343
    },
    {
     "nom": "Godzi",
     "tag": "END",
     "notre": false,
-    "k_eux": 6,
+    "k_eux": 5,
     "k_nous": 0,
-    "k_inconnu": 6,
+    "k_inconnu": 7,
     "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
@@ -124963,16 +124963,16 @@
     "m_eux_seul_impunie": 0,
     "m_total": 3,
     "k_total": 12,
-    "vus": 1358,
-    "vus_eux": 1205
+    "vus": 1166,
+    "vus_eux": 1149
    },
    {
     "nom": "Vikings",
     "tag": "END",
     "notre": false,
-    "k_eux": 7,
-    "k_nous": 5,
-    "k_inconnu": 1,
+    "k_eux": 4,
+    "k_nous": 6,
+    "k_inconnu": 3,
     "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
@@ -124980,20 +124980,20 @@
     "m_eux_seul_impunie": 0,
     "m_total": 9,
     "k_total": 13,
-    "vus": 1516,
-    "vus_eux": 1176
+    "vus": 1355,
+    "vus_eux": 1040
    }
   ],
   "ensemble": {
-   "0": 1501,
-   "1": 820,
-   "2": 55,
+   "0": 1486,
+   "1": 815,
+   "2": 53,
    "3": 0,
    "4": 0
   },
-  "images_vues": 2376,
+  "images_vues": 2354,
   "part_nous_chez_eux": 0.184,
-  "part_eux_chez_eux": 0.798
+  "part_eux_chez_eux": 0.812
  },
  "armes_portees": {
   "NTXTIBCO": {

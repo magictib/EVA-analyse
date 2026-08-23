@@ -56651,7 +56651,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "3d6fb5641a1f",
+    "trajets": "cfd98eb0cfcd",
     "pov": "e4342e207f0b"
    }
   }
@@ -56761,7 +56761,7 @@
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 5,
-    "vus": 597,
+    "vus": 604,
     "vus_eux": 356
    },
    {
@@ -56808,6 +56808,6 @@
   },
   "images_vues": 1238,
   "part_nous_chez_eux": 0.436,
-  "part_eux_chez_eux": 0.679
+  "part_eux_chez_eux": 0.677
  }
 }

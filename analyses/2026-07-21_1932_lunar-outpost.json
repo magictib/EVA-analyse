@@ -94907,7 +94907,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "4169e7deba83",
+    "trajets": "045469315d92",
     "pov": "bf1bd840decd"
    }
   }
@@ -94980,8 +94980,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 9,
-    "vus": 803,
-    "vus_eux": 600
+    "vus": 838,
+    "vus_eux": 602
    },
    {
     "nom": "LiX",
@@ -95014,8 +95014,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 3,
-    "vus": 442,
-    "vus_eux": 119
+    "vus": 358,
+    "vus_eux": 84
    },
    {
     "nom": "CROMx",
@@ -95053,15 +95053,15 @@
    }
   ],
   "ensemble": {
-   "0": 1617,
-   "1": 303,
-   "2": 14,
+   "0": 1650,
+   "1": 272,
+   "2": 12,
    "3": 0,
    "4": 0
   },
   "images_vues": 1934,
-  "part_nous_chez_eux": 0.079,
-  "part_eux_chez_eux": 0.797
+  "part_nous_chez_eux": 0.072,
+  "part_eux_chez_eux": 0.789
  },
  "armes_portees": {
   "GUNXHIPPOCAMPE": {

@@ -104284,7 +104284,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "ae3a9a9617bf",
+    "trajets": "066bdca68753",
     "pov": "1980a44c0063"
    }
   }
@@ -104306,16 +104306,16 @@
     "m_eux_seul_impunie": 0,
     "m_total": 3,
     "k_total": 5,
-    "vus": 1463,
-    "vus_eux": 251
+    "vus": 1476,
+    "vus_eux": 231
    },
    {
     "nom": "CROMx",
     "tag": "NT",
     "notre": true,
-    "k_eux": 2,
-    "k_nous": 4,
-    "k_inconnu": 0,
+    "k_eux": 1,
+    "k_nous": 3,
+    "k_inconnu": 2,
     "m_eux": 1,
     "m_nous": 1,
     "m_eux_seul": 0,
@@ -104323,16 +104323,16 @@
     "m_eux_seul_impunie": 0,
     "m_total": 3,
     "k_total": 6,
-    "vus": 1385,
-    "vus_eux": 186
+    "vus": 1047,
+    "vus_eux": 86
    },
    {
     "nom": "LiX",
     "tag": "NT",
     "notre": true,
-    "k_eux": 4,
-    "k_nous": 3,
-    "k_inconnu": 1,
+    "k_eux": 3,
+    "k_nous": 2,
+    "k_inconnu": 3,
     "m_eux": 0,
     "m_nous": 1,
     "m_eux_seul": 0,
@@ -104340,8 +104340,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 3,
     "k_total": 8,
-    "vus": 911,
-    "vus_eux": 452
+    "vus": 544,
+    "vus_eux": 256
    },
    {
     "nom": "Tchernobyl",
@@ -104352,21 +104352,21 @@
     "k_inconnu": 1,
     "m_eux": 2,
     "m_nous": 1,
-    "m_eux_seul": 0,
+    "m_eux_seul": 1,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 8,
-    "vus": 1237,
-    "vus_eux": 221
+    "vus": 1035,
+    "vus_eux": 212
    },
    {
     "nom": "Y4net",
     "tag": "END",
     "notre": false,
     "k_eux": 0,
-    "k_nous": 1,
-    "k_inconnu": 2,
+    "k_nous": 0,
+    "k_inconnu": 3,
     "m_eux": 5,
     "m_nous": 1,
     "m_eux_seul": 0,
@@ -104374,8 +104374,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 10,
     "k_total": 3,
-    "vus": 818,
-    "vus_eux": 645
+    "vus": 368,
+    "vus_eux": 288
    },
    {
     "nom": "Barou",
@@ -104384,23 +104384,23 @@
     "k_eux": 0,
     "k_nous": 3,
     "k_inconnu": 1,
-    "m_eux": 3,
+    "m_eux": 2,
     "m_nous": 1,
     "m_eux_seul": 0,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 4,
-    "vus": 1035,
-    "vus_eux": 773
+    "vus": 968,
+    "vus_eux": 678
    },
    {
     "nom": "Godzi",
     "tag": "END",
     "notre": false,
     "k_eux": 1,
-    "k_nous": 2,
-    "k_inconnu": 2,
+    "k_nous": 1,
+    "k_inconnu": 3,
     "m_eux": 3,
     "m_nous": 1,
     "m_eux_seul": 0,
@@ -104408,8 +104408,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 5,
-    "vus": 892,
-    "vus_eux": 709
+    "vus": 548,
+    "vus_eux": 483
    },
    {
     "nom": "Vikings",
@@ -104425,20 +104425,20 @@
     "m_eux_seul_impunie": 0,
     "m_total": 6,
     "k_total": 1,
-    "vus": 1004,
-    "vus_eux": 859
+    "vus": 855,
+    "vus_eux": 705
    }
   ],
   "ensemble": {
-   "0": 934,
-   "1": 555,
-   "2": 197,
-   "3": 51,
+   "0": 1086,
+   "1": 545,
+   "2": 85,
+   "3": 21,
    "4": 0
   },
   "images_vues": 1737,
-  "part_nous_chez_eux": 0.222,
-  "part_eux_chez_eux": 0.796
+  "part_nous_chez_eux": 0.191,
+  "part_eux_chez_eux": 0.786
  },
  "armes_portees": {
   "NTXTIBCO": {

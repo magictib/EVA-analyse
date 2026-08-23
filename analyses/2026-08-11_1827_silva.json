@@ -88032,7 +88032,7 @@
   ],
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "291a392ce3fe",
+    "trajets": "a730fca37993",
     "pov": "e2001c5e60f9"
    }
   }
@@ -88057,8 +88057,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 3,
     "k_total": 3,
-    "vus": 851,
-    "vus_eux": 664
+    "vus": 603,
+    "vus_eux": 422
    },
    {
     "nom": "Purple",
@@ -88074,8 +88074,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 1,
     "k_total": 7,
-    "vus": 1332,
-    "vus_eux": 1228
+    "vus": 1272,
+    "vus_eux": 1163
    },
    {
     "nom": "LaKanette",
@@ -88092,7 +88092,7 @@
     "m_total": 5,
     "k_total": 11,
     "vus": 1010,
-    "vus_eux": 384
+    "vus_eux": 368
    },
    {
     "nom": "PinceCoupante",
@@ -88109,15 +88109,15 @@
     "m_total": 5,
     "k_total": 8,
     "vus": 988,
-    "vus_eux": 785
+    "vus_eux": 774
    },
    {
     "nom": "Tchernobyl",
     "tag": "BVS",
     "notre": true,
-    "k_eux": 0,
+    "k_eux": 1,
     "k_nous": 3,
-    "k_inconnu": 1,
+    "k_inconnu": 0,
     "m_eux": 2,
     "m_nous": 3,
     "m_eux_seul": 2,
@@ -88125,33 +88125,33 @@
     "m_eux_seul_impunie": 1,
     "m_total": 7,
     "k_total": 4,
-    "vus": 557,
-    "vus_eux": 217
+    "vus": 576,
+    "vus_eux": 236
    },
    {
     "nom": "LiX",
     "tag": "BVS",
     "notre": true,
     "k_eux": 0,
-    "k_nous": 4,
-    "k_inconnu": 1,
-    "m_eux": 1,
+    "k_nous": 3,
+    "k_inconnu": 2,
+    "m_eux": 0,
     "m_nous": 4,
-    "m_eux_seul": 1,
-    "m_eux_impunie": 1,
-    "m_eux_seul_impunie": 1,
+    "m_eux_seul": 0,
+    "m_eux_impunie": 0,
+    "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 5,
-    "vus": 504,
-    "vus_eux": 117
+    "vus": 537,
+    "vus_eux": 109
    },
    {
     "nom": "CROM",
     "tag": "BVS",
     "notre": true,
     "k_eux": 0,
-    "k_nous": 1,
-    "k_inconnu": 1,
+    "k_nous": 0,
+    "k_inconnu": 2,
     "m_eux": 1,
     "m_nous": 2,
     "m_eux_seul": 1,
@@ -88159,7 +88159,7 @@
     "m_eux_seul_impunie": 0,
     "m_total": 8,
     "k_total": 2,
-    "vus": 681,
+    "vus": 173,
     "vus_eux": 25
    },
    {
@@ -88177,18 +88177,18 @@
     "m_total": 7,
     "k_total": 3,
     "vus": 976,
-    "vus_eux": 116
+    "vus_eux": 98
    }
   ],
   "ensemble": {
-   "0": 1080,
-   "1": 307,
-   "2": 84,
+   "0": 1086,
+   "1": 298,
+   "2": 85,
    "3": 0,
    "4": 0
   },
-  "images_vues": 1471,
-  "part_nous_chez_eux": 0.175,
-  "part_eux_chez_eux": 0.732
+  "images_vues": 1469,
+  "part_nous_chez_eux": 0.207,
+  "part_eux_chez_eux": 0.704
  }
 }

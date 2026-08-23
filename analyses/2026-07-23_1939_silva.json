@@ -85015,7 +85015,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "a2b9578e248a",
+    "trajets": "e44544607252",
     "pov": "476b59bf055b"
    }
   }
@@ -85037,16 +85037,16 @@
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 4,
-    "vus": 651,
-    "vus_eux": 204
+    "vus": 570,
+    "vus_eux": 162
    },
    {
     "nom": "CROMx",
     "tag": "BVS",
     "notre": true,
     "k_eux": 2,
-    "k_nous": 5,
-    "k_inconnu": 0,
+    "k_nous": 3,
+    "k_inconnu": 2,
     "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
@@ -85054,8 +85054,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 7,
-    "vus": 910,
-    "vus_eux": 318
+    "vus": 836,
+    "vus_eux": 316
    },
    {
     "nom": "LiX",
@@ -85071,8 +85071,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 3,
     "k_total": 7,
-    "vus": 540,
-    "vus_eux": 161
+    "vus": 548,
+    "vus_eux": 170
    },
    {
     "nom": "Tchernobyl",
@@ -85088,8 +85088,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 0,
-    "vus": 729,
-    "vus_eux": 85
+    "vus": 751,
+    "vus_eux": 96
    },
    {
     "nom": "ParziRahl",
@@ -85105,16 +85105,16 @@
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 3,
-    "vus": 473,
+    "vus": 405,
     "vus_eux": 333
    },
    {
     "nom": "Sky",
     "tag": "FXC",
     "notre": false,
-    "k_eux": 7,
+    "k_eux": 6,
     "k_nous": 0,
-    "k_inconnu": 2,
+    "k_inconnu": 3,
     "m_eux": 0,
     "m_nous": 0,
     "m_eux_seul": 0,
@@ -85122,8 +85122,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 9,
-    "vus": 1074,
-    "vus_eux": 1027
+    "vus": 960,
+    "vus_eux": 916
    },
    {
     "nom": "Noxis",
@@ -85139,8 +85139,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 0,
-    "vus": 950,
-    "vus_eux": 540
+    "vus": 607,
+    "vus_eux": 315
    },
    {
     "nom": "Valtor",
@@ -85157,19 +85157,19 @@
     "m_total": 5,
     "k_total": 8,
     "vus": 1004,
-    "vus_eux": 925
+    "vus_eux": 940
    }
   ],
   "ensemble": {
-   "0": 819,
-   "1": 583,
-   "2": 90,
+   "0": 852,
+   "1": 551,
+   "2": 94,
    "3": 1,
    "4": 0
   },
-  "images_vues": 1493,
-  "part_nous_chez_eux": 0.271,
-  "part_eux_chez_eux": 0.807
+  "images_vues": 1498,
+  "part_nous_chez_eux": 0.275,
+  "part_eux_chez_eux": 0.841
  },
  "armes_portees": {
   "BVSXTIBCO": {

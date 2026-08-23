@@ -49052,7 +49052,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "5d93abd2ff8d",
+    "trajets": "322d1fa7f911",
     "pov": "029f0e22fb43"
    }
   }
@@ -49108,8 +49108,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 5,
-    "vus": 324,
-    "vus_eux": 34
+    "vus": 318,
+    "vus_eux": 28
    },
    {
     "nom": "Tchernobyl",
@@ -49198,14 +49198,14 @@
    }
   ],
   "ensemble": {
-   "0": 876,
-   "1": 116,
+   "0": 882,
+   "1": 110,
    "2": 1,
    "3": 0,
    "4": 0
   },
   "images_vues": 993,
-  "part_nous_chez_eux": 0.053,
+  "part_nous_chez_eux": 0.05,
   "part_eux_chez_eux": 0.797
  },
  "armes_portees": {

@@ -83635,7 +83635,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "f0005abb14f4",
+    "trajets": "c50491d2a99c",
     "pov": "2ba0d6c45295"
    }
   }
@@ -83660,8 +83660,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 8,
     "k_total": 11,
-    "vus": 805,
-    "vus_eux": 64
+    "vus": 773,
+    "vus_eux": 92
    },
    {
     "nom": "CROM",
@@ -83677,8 +83677,8 @@
     "m_eux_seul_impunie": 2,
     "m_total": 8,
     "k_total": 11,
-    "vus": 851,
-    "vus_eux": 301
+    "vus": 826,
+    "vus_eux": 224
    },
    {
     "nom": "LiX",
@@ -83687,15 +83687,15 @@
     "k_eux": 2,
     "k_nous": 3,
     "k_inconnu": 1,
-    "m_eux": 1,
-    "m_nous": 4,
-    "m_eux_seul": 1,
-    "m_eux_impunie": 0,
-    "m_eux_seul_impunie": 0,
+    "m_eux": 3,
+    "m_nous": 2,
+    "m_eux_seul": 3,
+    "m_eux_impunie": 2,
+    "m_eux_seul_impunie": 2,
     "m_total": 7,
     "k_total": 6,
-    "vus": 650,
-    "vus_eux": 134
+    "vus": 684,
+    "vus_eux": 143
    },
    {
     "nom": "Tchernobyl",
@@ -83704,15 +83704,15 @@
     "k_eux": 1,
     "k_nous": 4,
     "k_inconnu": 1,
-    "m_eux": 2,
+    "m_eux": 1,
     "m_nous": 4,
     "m_eux_seul": 1,
     "m_eux_impunie": 0,
     "m_eux_seul_impunie": 0,
     "m_total": 10,
     "k_total": 6,
-    "vus": 671,
-    "vus_eux": 155
+    "vus": 698,
+    "vus_eux": 162
    },
    {
     "nom": "Thyr",
@@ -83729,14 +83729,14 @@
     "m_total": 8,
     "k_total": 7,
     "vus": 761,
-    "vus_eux": 544
+    "vus_eux": 539
    },
    {
     "nom": "Lamimolette",
     "tag": "HWD",
     "notre": false,
-    "k_eux": 4,
-    "k_nous": 2,
+    "k_eux": 2,
+    "k_nous": 4,
     "k_inconnu": 0,
     "m_eux": 2,
     "m_nous": 5,
@@ -83746,7 +83746,7 @@
     "m_total": 10,
     "k_total": 6,
     "vus": 1046,
-    "vus_eux": 797
+    "vus_eux": 754
    },
    {
     "nom": "Dreegaran",
@@ -83762,16 +83762,16 @@
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 7,
-    "vus": 509,
-    "vus_eux": 418
+    "vus": 542,
+    "vus_eux": 428
    },
    {
     "nom": "Rosa",
     "tag": "HWD",
     "notre": false,
     "k_eux": 8,
-    "k_nous": 2,
-    "k_inconnu": 3,
+    "k_nous": 1,
+    "k_inconnu": 4,
     "m_eux": 2,
     "m_nous": 2,
     "m_eux_seul": 0,
@@ -83779,19 +83779,19 @@
     "m_eux_seul_impunie": 0,
     "m_total": 9,
     "k_total": 13,
-    "vus": 769,
-    "vus_eux": 619
+    "vus": 583,
+    "vus_eux": 533
    }
   ],
   "ensemble": {
-   "0": 1251,
-   "1": 449,
-   "2": 75,
-   "3": 17,
+   "0": 1237,
+   "1": 414,
+   "2": 83,
+   "3": 13,
    "4": 0
   },
-  "images_vues": 1792,
-  "part_nous_chez_eux": 0.22,
-  "part_eux_chez_eux": 0.771
+  "images_vues": 1747,
+  "part_nous_chez_eux": 0.208,
+  "part_eux_chez_eux": 0.769
  }
 }

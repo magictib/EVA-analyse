@@ -87715,7 +87715,7 @@
   },
   "empreintes": {
    "croix_ciblees": {
-    "trajets": "2aece5643f57",
+    "trajets": "d2a0891cf1c1",
     "pov": "5e1ce66bbd80"
    }
   }
@@ -87740,8 +87740,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 8,
-    "vus": 1226,
-    "vus_eux": 539
+    "vus": 1069,
+    "vus_eux": 523
    },
    {
     "nom": "CROM",
@@ -87758,7 +87758,7 @@
     "m_total": 5,
     "k_total": 8,
     "vus": 1022,
-    "vus_eux": 513
+    "vus_eux": 506
    },
    {
     "nom": "LiX",
@@ -87774,7 +87774,7 @@
     "m_eux_seul_impunie": 0,
     "m_total": 4,
     "k_total": 2,
-    "vus": 1283,
+    "vus": 598,
     "vus_eux": 7
    },
    {
@@ -87782,8 +87782,8 @@
     "tag": "BVS",
     "notre": true,
     "k_eux": 0,
-    "k_nous": 4,
-    "k_inconnu": 0,
+    "k_nous": 2,
+    "k_inconnu": 2,
     "m_eux": 0,
     "m_nous": 4,
     "m_eux_seul": 0,
@@ -87791,7 +87791,7 @@
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 4,
-    "vus": 681,
+    "vus": 502,
     "vus_eux": 202
    },
    {
@@ -87808,8 +87808,8 @@
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 3,
-    "vus": 959,
-    "vus_eux": 953
+    "vus": 903,
+    "vus_eux": 897
    },
    {
     "nom": "Lamimolette",
@@ -87842,16 +87842,16 @@
     "m_eux_seul_impunie": 0,
     "m_total": 7,
     "k_total": 7,
-    "vus": 926,
-    "vus_eux": 923
+    "vus": 792,
+    "vus_eux": 789
    },
    {
     "nom": "Rosa",
     "tag": "HWD",
     "notre": false,
-    "k_eux": 4,
+    "k_eux": 1,
     "k_nous": 1,
-    "k_inconnu": 1,
+    "k_inconnu": 4,
     "m_eux": 2,
     "m_nous": 1,
     "m_eux_seul": 0,
@@ -87859,19 +87859,19 @@
     "m_eux_seul_impunie": 0,
     "m_total": 5,
     "k_total": 6,
-    "vus": 1011,
-    "vus_eux": 826
+    "vus": 528,
+    "vus_eux": 343
    }
   ],
   "ensemble": {
-   "0": 840,
-   "1": 301,
-   "2": 207,
-   "3": 182,
+   "0": 785,
+   "1": 295,
+   "2": 200,
+   "3": 181,
    "4": 0
   },
-  "images_vues": 1530,
-  "part_nous_chez_eux": 0.299,
-  "part_eux_chez_eux": 0.854
+  "images_vues": 1461,
+  "part_nous_chez_eux": 0.388,
+  "part_eux_chez_eux": 0.822
  }
 }
