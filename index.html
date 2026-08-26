@@ -3281,28 +3281,23 @@ function notreTag(){
   try{ return sbTag(localStorage.getItem("eva-pseudo")||"")||"BVS"; }catch(e){ return "BVS"; }
 }
 
-/* ---------- lecture des analyses ---------- */
-async function chargeAnalysesEnLigne(){
-  let rows;
-  try{ rows=await sbFetch("parties?select=brut&order=dt.desc"); EVA_SB_OK=true; }
-  catch(e){ EVA_SB_OK=false; return; }
-  /* On attend le depot avant de decider quoi ajouter. Les deux sources se
-     recouvrent, et c'est le premier arrive qui reste : sans cette attente, la
-     version retenue dependait de la latence — le depot, complet, perdait parfois
-     contre une version ancienne de la base. La requete, elle, est deja partie :
-     on attend seulement pour comparer, pas pour demander. */
-  try{ await DEPOT_PRET; }catch(e){}
-  const vues=new Set(ANALYSES.map(cleAna));
-  let n=0;
-  for(const r of rows||[]){
-    const x=r&&r.brut;
-    if(!x||!Array.isArray(x.evenements)||!x.partie||!x.partie.dt||!x.partie.h) continue;
-    if(vues.has(cleAna(x))) continue;
-    x._depot=true;                       // ne pas figer dans le localStorage
-    ANALYSES.push(x); vues.add(cleAna(x)); n++;
-  }
-  if(n&&typeof drawAna==="function"&&document.querySelector("#ana")) drawAna();
-}
+/* ---------- lecture des analyses : IL N'Y EN A PLUS QU'UNE ----------
+   Une SECONDE fonction du meme nom vivait ici, qui lisait la table `parties`. Deux
+   declarations du meme nom dans le meme <script> : la derniere gagne, donc
+   celle-ci n'a jamais tourne — et avec elle son `await DEPOT_PRET`, le seul
+   arbitre de la course entre le depot statique et la base. Le commentaire qui
+   annonçait cet arbitrage etait donc faux depuis sa redefinition.
+
+   CE QU'ELLE LISAIT N'EST PAS PERDU. `parties` ne porte qu'UNE ligne — l'Atlantis
+   du 21/07 19:03, sans `spatial` et sans tag adverse — et la meme partie est dans
+   `analyses`, plus riche. La table reste ecrite par `enregistreEnLigne`, qui
+   alimente les lignes filles `frags` et `joueurs_partie` : c'est sa vraie raison
+   d'etre. Un import manuel part dans les DEUX (`publieAnalyse` ecrit `analyses`),
+   donc rien ne dependait de cette lecture-ci.
+
+   Mesure du 26/08 : 16 analyses portaient leur tag adverse en base et pas dans le
+   statique servi ; le statique gagnant la course, l'equipe a lu « ? » a la place
+   de HWD et DGL pendant dix-sept jours. */
 
 /* ---------- ecriture d'une analyse ----------
    Le fichier complet part dans `brut` — le site sait deja le lire — et les tables
@@ -3735,6 +3730,12 @@ async function chargeAnalysesEnLigne(){
        EVA_SB_OK = true; }
   catch(e){ EVA_SB_OK = false; return; }
   if(!Array.isArray(lignes) || !lignes.length) return;
+  /* ON ATTEND LE DEPOT AVANT DE DECIDER QUOI AJOUTER. Les deux sources se
+     recouvrent et c'est le premier arrive qui reste : sans cette attente, la
+     version affichee dependait de la latence, donc changeait d'une ouverture a
+     l'autre sans raison visible. La requete, elle, est deja partie — on attend
+     pour comparer, pas pour demander. */
+  try{ await DEPOT_PRET; }catch(e){}
   const vus = new Set(ANALYSES.map(cleAna));
   let n = 0;
   for(const l of lignes){
@@ -3750,7 +3751,11 @@ async function chargeAnalysesEnLigne(){
     if(typeof window[f]==="function" && document.querySelector("#"+f.slice(4).toLowerCase()))
       try{ window[f](); }catch(e){}
 }
-chargeMatchsEnLigne().then(chargeAnalysesEnLigne, chargeAnalysesEnLigne);
+/* `chargeAnalysesEnLigne` est deja lancee plus haut, des que la page est lue. Cette
+   ligne la rappelait une seconde fois : la meme requete de 9,3 Mo partait DEUX fois
+   a chaque visite. Les matchs, eux, redessinent l'onglet Analyse en arrivant, donc
+   le filet qu'elle formait existe toujours. */
+chargeMatchsEnLigne();
 
 /* Publier une analyse deposee a la main. On n'attend pas la reponse : le depot est
    deja acquis en memoire, la mise en ligne est un supplement. */
