@@ -9743,8 +9743,20 @@ const EFFECTIF=["BVSxTibco","BVSxLix","BVSxCromx","BVSxTchernobyl"];
    de la composition de SON equipe, et c'est le seul endroit ou cette certitude
    existe. Pour les equipes adverses elle n'existe pas, et l'on retombe sur les
    criteres suivants — le partage en deux paquets egaux, puis le tag. */
-const NOTRE_EFFECTIF = EFFECTIF.map(x => sansTag(x).toLowerCase());
-const estDesNotres = n => NOTRE_EFFECTIF.includes(sansTag(n).toLowerCase());
+/* ON PASSE PAR `canonique`, ET C'EST TOUT LE DEFAUT. La liste est ecrite « Cromx »
+   et la base range 27 parties sous « CROMx » mais 16 sous « CROM » — les seances
+   HWD du 09/08 et DGL du 11/08. La comparaison etant faite sur le pseudo BRUT,
+   `estDesNotres("BVSxCROM")` rendait FAUX : sur ces seize parties CROM passait chez
+   l'adversaire, disparaissait de « Notre equipe » — trois lignes au lieu de quatre,
+   vu par un coequipier de Thibaud le 28/08 — et gonflait le camp d'en face a cinq.
+
+   Le pire est que le site SAVAIT deja : `ALIAS` declare cromx -> CROM depuis
+   longtemps, et `parCamp` fusionne les deux formes en une personne. Seule cette
+   comparaison-ci l'ignorait. Elle ne l'ignore plus, dans les deux sens : la liste
+   ecrite a la main est canonisee elle aussi, pour qu'une entree mal orthographiee
+   n'y ouvre pas le meme trou. */
+const NOTRE_EFFECTIF = EFFECTIF.map(x => sansTag(canonique(x)).toLowerCase());
+const estDesNotres = n => NOTRE_EFFECTIF.includes(sansTag(canonique(n)).toLowerCase());
 /* Tous les pseudos vus portant le tag de l'equipe, plus ceux ecrits a la main. */
 /* TOUS LES PSEUDOS NUS CONNUS, sans distinction de tag ni d'equipe.
 
