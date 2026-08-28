@@ -8180,6 +8180,80 @@ function crChemin(points, saut, hors){
    TOUT PASSE PAR `X` ET `Y`, UN SEUL POINT DE CONVERSION. C'est deja la regle de la
    vue « Cartes » de ce fichier, et c'est ce qui evite qu'un trace et une croix
    finissent dans deux reperes differents sans que rien ne le dise. */
+/* ---------- le film de la minimap ----------
+   CE QUE LE TRACE MONTRE EST RECONSTRUIT ; LE FILM, NON. Les trajets sont des
+   positions detectees, recollees, nommees puis projetees, et chaque etape se trompe —
+   70,7 % de noms justes, mesure du 26/08 a l'oeil sur echantillon scelle. Rien a
+   l'ecran ne disait lesquelles. A la meme seconde du meme match, le film montre ce qui
+   s'est passe pendant que le trace montre ce que la chaine en a compris.
+
+   L'INDEX VOYAGE AVEC LA PAGE, LES FILMS NON. Un `fetch` vers un autre domaine
+   exigerait du CORS ; une balise `<video>` non. Les .mp4 peuvent donc vivre ailleurs
+   — 0,5 Go pour le corpus — sans rien changer pour qui vient lire les tableaux. */
+let FILMS = null;
+fetch("films.json", {cache: "no-cache"})
+  .then(r => r.ok ? r.json() : null)
+  .then(d => {
+    FILMS = d;
+    /* L'INDEX ARRIVE APRES LE PREMIER RENDU, et sans ce redessin la carte resterait
+       sur les trajets jusqu'au prochain clic — le film n'apparaitrait qu'a ceux qui
+       touchent a quelque chose. On ne redessine que si un film existe vraiment. */
+    if (d && d.films && Object.keys(d.films).length
+        && typeof drawAna === "function" && document.querySelector("#ana")) {
+      try { drawAna(); } catch (e) {}
+    }
+  })
+  .catch(() => {});
+
+function filmDe(a){
+  const p = (a && a.partie) || {};
+  if (!FILMS || !FILMS.films) return null;
+  return FILMS.films[`${p.dt} ${p.h}`] || null;
+}
+
+/* LA VIDEO NE SE CHARGE QUE QUAND ON LA REGARDE. `preload="metadata"` descend la table
+   des matieres, pas les images ; le premier positionnement du curseur va chercher le
+   morceau voulu et rien d'autre. Qui ouvre l'onglet sans toucher a la carte ne paie
+   rien. `playsinline` evite qu'iOS bascule en plein ecran. */
+function crFilm(a){
+  const f = filmDe(a);
+  if (!f) return "";
+  const src = (FILMS.base || "films").replace(/\/$/, "") + "/" + f.f;
+  return `<video class="crsvg" data-crvid preload="metadata" playsinline muted
+      data-img0="${f.img0}" data-fps="${f.fps}" data-n="${f.n}"
+      style="max-width:calc((100vh - 230px) * ${(f.l / f.h).toFixed(4)});
+             width:100%;image-rendering:pixelated;background:#000"
+      src="${src}"></video>`;
+}
+
+/* SI LE FILM MANQUE, ON REVIENT AUX TRAJETS — sans quoi la carte resterait noire.
+   Le cas n'est pas theorique : l'index est publie avec le site, les .mp4 vivent
+   ailleurs, et les deux peuvent se desynchroniser. Une page qui se degrade toute
+   seule vaut mieux qu'une page juste tant que tout va bien. */
+document.addEventListener("error", ev => {
+  const v = ev.target;
+  if (!v || !v.matches || !v.matches("[data-crvid]") || v.dataset.mort) return;
+  v.dataset.mort = "1";
+  const w = v.closest(".crwrap"); if (!w || !CRANA) return;
+  const sel = w.querySelector("[data-crfond]"); if (sel) sel.value = "mini";
+  const zone = w.querySelector("[data-crzone]");
+  if (zone) zone.innerHTML = crSVG(CRANA, "mini", (w.querySelector("[data-crstrat]")||{}).value || "");
+  const r = w.querySelector("[data-crt]");
+  if (r) crCouper(w, +r.value);
+  const n = w.querySelector(".note");
+  if (n && !n.dataset.avert) { n.dataset.avert = "1";
+    n.insertAdjacentHTML("afterbegin",
+      "<b>Le film de cette partie n’est pas disponible : retour aux trajets.</b> "); }
+}, true);
+
+/* ON APPELLE `crSVG` MEME EN MODE FILM, et ce n'est pas du gaspillage : c'est lui qui
+   pose `CARTE`, dont le curseur tire la conversion seconde -> numero d'image. S'en
+   passer ferait un film que la timeline ne saurait plus piloter. */
+function crZone(a, fond, strat){
+  const svg = crSVG(a, fond, strat);
+  return (fond === "film" && filmDe(a)) ? crFilm(a) : svg;
+}
+
 function crSVG(a, fond, strat){
   const sp=(a&&a.spatial)||{}, cal=sp.calage;
   const plan = fond==="plan" && cal && typeof MAPS!=="undefined" && MAPS[cal.cle];
@@ -8548,9 +8622,13 @@ function carteRevue(a){
       <button data-act="crtous">tous</button>
       <button data-act="craucun">aucun</button>
       <button data-act="crnous">notre équipe</button></div>
+    ${!avecPlan && filmDe(a) ? `<div class="crstrat">
+      <label>fond</label>
+      <select data-crfond><option value="film">film de la minimap</option>
+        <option value="mini">trajets sur la minimap</option></select></div>` : ""}
     ${avecPlan ? `<div class="crstrat">
       <label>fond</label>
-      <select data-crfond><option value="mini">minimap</option>
+      <select data-crfond>${filmDe(a) ? `<option value="film">film de la minimap</option>` : ""}<option value="mini"${filmDe(a) ? "" : " selected"}>trajets sur la minimap</option>
         <option value="plan">plan à l'échelle</option></select>
       <label>strat</label>
       <select data-crstrat><option value="">aucune</option>${crGroupes(cal.cle, stratsIci)}</select>
@@ -8565,7 +8643,7 @@ function carteRevue(a){
       <input type="range" data-crt min="0" max="${duree}" value="0" step="1">
       <b data-crtv>0:00</b>
       <button data-act="crjouer" title="dérouler la partie">▶</button></div>
-    <div data-crzone>${crSVG(a, "mini", "")}</div>
+    <div data-crzone>${crZone(a, filmDe(a) ? "film" : "mini", "")}</div>
     <p class="note">Le trait fin est un <b>trajet</b>, le X une <b>mort</b> — même
       couleur pour le même joueur, celle de son camp. ${ntr} trajets et ${nb} morts
       situées ici. Les cercles pointillés sont les zones de réapparition.
@@ -8591,6 +8669,21 @@ function carteRevue(a){
 function crCouper(w, t){
   if(!CARTE) return;
   const img = CARTE.deb + t * CARTE.ps;
+
+  /* LE FILM SUIT LE MEME CURSEUR QUE LE TRACE, et c'est tout l'interet : la meme
+     seconde montre d'un cote ce que la camera a vu, de l'autre ce que la chaine en a
+     deduit. La conversion passe par le NUMERO D'IMAGE, jamais par les secondes : le
+     film commence a `img0`, qui n'est pas forcement 1, et les trajets, les morts et
+     les vies se referent tous a ce numero. Poser `currentTime` suffit a afficher
+     l'instant voulu — aucune lecture n'est demandee, donc aucun geste de
+     l'utilisateur n'est exige par le navigateur. */
+  const vid = w.querySelector("[data-crvid]");
+  if(vid && !vid.dataset.mort){
+    const n = Math.round(img), d = vid.dataset;
+    const k = Math.max(0, Math.min(+d.n - 1, n - (+d.img0)));
+    const cible = (k + 0.5) / (+d.fps || 5);
+    if(Math.abs(vid.currentTime - cible) > 0.05) vid.currentTime = cible;
+  }
   /* EN MODE OUVERTURE, LA BORNE EST PROPRE A CHAQUE JOUEUR : sa premiere mort. Le
      curseur de temps continue de s'appliquer par-dessus — on prend le plus tot des
      deux, sinon l'un annulerait l'autre. */
@@ -8683,7 +8776,7 @@ document.addEventListener("change", ev => {
   const fond = (w.querySelector("[data-crfond]")||{}).value || "mini";
   const strat = (w.querySelector("[data-crstrat]")||{}).value || "";
   const zone = w.querySelector("[data-crzone]"); if(!zone) return;
-  zone.innerHTML = crSVG(CRANA, fond, strat);
+  zone.innerHTML = crZone(CRANA, fond, strat);
   for(const c of w.querySelectorAll("[data-cr]"))
     if(!c.checked) c.dispatchEvent(new Event("change", {bubbles:true}));
   const r = w.querySelector("[data-crt]");
