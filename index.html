@@ -181,6 +181,12 @@
     border-radius:0;width:14px}
   /* Un moment : l'heure a gauche, en gros, parce que c'est ce qu'on cherche
      quand on rejoue la video. Le reste suit. */
+  /* UN MOMENT SE CLIQUE, et il doit le dire. La liste nomme un instant precis de la
+     partie ; sans curseur ni survol, rien n'indique qu'elle y emmene. */
+  .mom[data-mt]{cursor:pointer;border-radius:5px;
+    transition:background .12s,box-shadow .12s}
+  .mom[data-mt]:hover{background:var(--panel);
+    box-shadow:inset 3px 0 0 var(--signal)}
   .mom{display:grid;grid-template-columns:5.2em 1fr;gap:12px;padding:10px 0;
     border-bottom:1px solid var(--rule)}
   .mom time{font:700 17px/1 var(--mono);color:var(--signal)}
@@ -2746,6 +2752,24 @@ function selfTest(){
     "La frise gradue ses ordonnées de 0 à 4 joueurs",
     grads ? (/NaN/.test(svgF)?"mais une coordonnée est NaN":"0 1 2 3 4 écrits dans la gouttière")
           : "graduations absentes");
+
+  /* LA FRISE ET LA CARTE SONT DEUX BLOCS VOISINS, PAS IMBRIQUES — et il n'existait
+     aucun controle pour le dire. `frCurseur` cherchait `.frise` DANS le `.crwrap`
+     qu'on lui passait : elle rendait `null` a tous les coups, donc le clic sur la
+     frise ne deplacait pas le film et le trait blanc du film ne se posait pas sur la
+     courbe. Les deux liaisons etaient ecrites et n'ont jamais pu s'executer une seule
+     fois. Un code mort ne fait echouer aucun test tant qu'on ne verifie pas qu'il
+     TROUVE ce qu'il cherche. */
+  const bacF=document.createElement("div");
+  bacF.style.display="none"; bacF.innerHTML=svgF;
+  document.body.appendChild(bacF);
+  const carteAv=CARTE; CARTE={deb:1, ps:5};
+  const fcT=frCurseur();
+  CARTE=carteAv; document.body.removeChild(bacF);
+  T(!!fcT && fcT.n0!=null && fcT.duree>0,
+    "Le curseur de la frise se retrouve depuis n'importe où dans la page",
+    fcT ? `première image ${fcT.n0}, ${fcT.ps} img/s, ${fcT.duree} s`
+        : "frCurseur() n'a pas trouvé la frise — les deux liaisons sont mortes");
 
   /* Le survol des courbes d'armes doit rendre la MEME chaine que le classement :
      degat par balle, nombre de balles, temps. Si l'un des trois derive, la page
@@ -6048,7 +6072,8 @@ function drawAnaBrut(){
            avant le lancement de cette manche).`
         : `comptées depuis la première image analysée : l'horloge du HUD n'a pas pu être
            lue sur cette partie, il peut y avoir <b>quelques secondes d'avance</b>.`}</p>`
-        +M.map(m=>`<div class="mom${m.bon?" bon":""}"><time>${hms(m.t)}</time>
+        +M.map(m=>`<div class="mom${m.bon?" bon":""}" data-mt="${fr2(m.t)}"
+          title="voir ce moment sur la carte"><time>${hms(m.t)}</time>
           <div><b>${m.titre}</b><span>${m.quoi}</span></div></div>`).join("")
         :`<p class="note">Aucun moment saillant sur cette partie — ni effondrement, ni
           creux d'effectif tenu, ni situation à un contre plusieurs.</p>`}
@@ -8868,7 +8893,7 @@ function crCouper(w, t){
      courbe l'instant qu'on regarde. Sans lui, on lit le film sans savoir ou l'on est
      dans la partie — or c'est la frise qui porte le score, l'effectif et la possession,
      c'est-a-dire tout ce qui donne son sens a ce qu'on voit bouger. */
-  const fc = frCurseur(w);
+  const fc = frCurseur();
   if(fc){
     const img2 = CARTE.deb + t * CARTE.ps;
     const tf = (img2 - fc.n0) / fc.ps;
@@ -9010,31 +9035,62 @@ document.addEventListener("click", ev => {
    DOUZE SECONDES. Convertir de l'une a l'autre en secondes ferait donc pointer a cote
    sans que rien ne le signale, et ce serait invisible sur la majorite des parties : le
    pire cas de figure. Le numero d'image, lui, est le meme des deux cotes. */
-function frCurseur(w){
-  const s = w.querySelector(".frise"); if(!s || !CARTE) return null;
+/* LA FRISE N'EST PAS DANS LE BLOC DE LA CARTE, et l'avoir cru a tue les deux sens.
+   Cette fonction cherchait `.frise` DANS le `.crwrap` qu'on lui passe ; or la frise est
+   dessinee par `friseSVG` dans une tout autre partie de la revue de partie. Elle
+   rendait donc `null` a tous les coups : ni le clic sur la frise ne deplacait le film,
+   ni le trait blanc du film ne se posait sur la courbe. Le code des deux liaisons
+   existait et n'avait jamais pu s'executer une seule fois.
+
+   On la cherche donc dans le document. C'est la meme hypothese que fait deja tout ce
+   bloc — une seule partie est affichee a la fois — et elle est explicite ici. */
+function frCurseur(){
+  const s = document.querySelector(".frise"); if(!s || !CARTE) return null;
   const d = s.dataset;
   if(d.fn0 == null) return null;
   return {s, n0:+d.fn0, ps:+d.fps || 5, mg:+d.fmg || 6, L:+d.fl || 1000, duree:+d.fduree || 1};
 }
 
+/* ALLER A UN INSTANT DE LA FRISE, ET UNE SEULE FONCTION POUR LE FAIRE. Le clic sur la
+   courbe et le clic sur un moment a revoir posent la meme question — « montre-moi cet
+   instant » — et doivent donc passer par la meme conversion. En ecrire deux ferait
+   diverger la carte et la liste au premier correctif d'horloge.
+
+   ON PASSE PAR LE NUMERO D'IMAGE, JAMAIS PAR LES SECONDES : la frise part de
+   `spatial.debut`, la carte de `partie_debut`, et sur seize parties sur 43 les deux
+   different, jusqu'a douze secondes. */
+function crAllerAuTemps(tf){
+  const w = document.querySelector(".crwrap");
+  if(!w || !CARTE) return false;
+  const c = frCurseur(); if(!c) return false;
+  const img = c.n0 + Math.max(0, Math.min(c.duree, tf)) * c.ps;   // la maille commune
+  const rg = w.querySelector("[data-crt]"); if(!rg) return false;
+  rg.value = Math.max(0, Math.min(+rg.max, (img - CARTE.deb) / CARTE.ps));
+  crCouper(w, +rg.value);
+  w.scrollIntoView({block:"nearest", behavior:"smooth"});
+  return true;
+}
+
 /* Cliquer sur la frise deplace le curseur, donc le film et le trace avec lui. */
 document.addEventListener("click", ev => {
   const s = ev.target.closest(".frise"); if(!s) return;
-  /* La frise et la carte sont deux blocs distincts de la meme revue de partie : il n'y
-     a qu'une carte affichee a la fois, on la prend telle quelle. */
-  const w = document.querySelector(".crwrap");
-  if(!w || !CARTE) return;
-  const c = frCurseur(w); if(!c) return;
+  const c = frCurseur(); if(!c) return;
   const r = s.getBoundingClientRect();
   const u = (ev.clientX - r.left) / Math.max(1, r.width);          // 0 a 1 dans le SVG
-  const tf = Math.max(0, Math.min(c.duree,
-    (u * c.L - c.mg) / Math.max(1, c.L - 2 * c.mg) * c.duree));
-  const img = c.n0 + tf * c.ps;                                    // la maille commune
-  const tc = (img - CARTE.deb) / CARTE.ps;                         // et retour au curseur
-  const rg = w.querySelector("[data-crt]"); if(!rg) return;
-  rg.value = Math.max(0, Math.min(+rg.max, tc));
-  crCouper(w, +rg.value);
-  rg.scrollIntoView({block:"nearest", behavior:"smooth"});
+  crAllerAuTemps((u * c.L - c.mg) / Math.max(1, c.L - 2 * c.mg) * c.duree);
+});
+
+/* ET CLIQUER SUR UN MOMENT A REVOIR Y EMMENE AUSSI. C'est la demande de Thibaud du
+   29/08, et c'est le geste naturel : la liste dit « 3 des notres tombent en 9 s », on
+   veut le voir, pas le chercher a la main dans la video.
+
+   `data-mt` porte l'instant BRUT de la frise, pas l'heure affichee. Les deux different :
+   l'heure lisible ajoute le calage sur l'horloge du jeu et retranche les arrets de jeu,
+   ce qui peut faire plusieurs dizaines de secondes. Se servir de l'affichage pour
+   pointer dans le film menerait a cote — precisement la faute que ce calage corrigeait. */
+document.addEventListener("click", ev => {
+  const m = ev.target.closest(".mom[data-mt]"); if(!m) return;
+  crAllerAuTemps(+m.dataset.mt);
 });
 
 /* ---------- avancer image par image ----------
