@@ -447,6 +447,23 @@
   .crsvg{width:100%;height:auto;display:block;margin-inline:auto;background:#05070c;
     max-height:calc(100vh - 230px);
     border:1px solid var(--rule);border-radius:6px}
+  /* LES TROIS COUCHES SE SUPERPOSENT AU PIXEL PRES : la video en fond, le SVG des
+     trajets par-dessus, le dessin libre au-dessus de tout. C'est le SVG qui commande
+     la taille — il porte deja la contrainte de hauteur d'ecran — et les deux autres
+     s'y calent en absolu. Une video qui se dimensionnerait elle-meme decalerait les
+     trajets d'autant, sans que rien ne le signale. */
+  .crfilm{position:relative;width:100%;display:flex;justify-content:center}
+  .crfilm .crsvg{background:transparent}
+  .crfilm video,.crfilm canvas[data-crdessin]{position:absolute;inset:0;
+    width:100%;height:100%;border-radius:6px}
+  .crfilm video{image-rendering:pixelated;background:#05070c;
+    border:1px solid var(--rule);object-fit:fill}
+  .crfilm canvas[data-crdessin]{z-index:2;touch-action:none}
+  .crfilm.crayon canvas[data-crdessin]{cursor:crosshair}
+  .crc{width:26px;height:20px;padding:0;border-radius:4px;border:1px solid var(--rule)}
+  .crc.on{outline:2px solid var(--txt);outline-offset:1px}
+  [data-act="crcrayon"].on{background:var(--or,#ffc400);color:#111}
+  .crfilm:not(.crayon) canvas[data-crdessin]{pointer-events:none}
   .donh,.donr{display:grid;gap:6px;align-items:center;
     grid-template-columns:1.2fr 1.6fr .5fr .6fr .9fr .9fr auto;padding:4px 0}
   .donh{border-bottom:1px solid var(--rule);padding-bottom:6px;margin-top:14px}
@@ -8219,10 +8236,8 @@ function crFilm(a){
   const f = filmDe(a);
   if (!f) return "";
   const src = (FILMS.base || "films").replace(/\/$/, "") + "/" + f.f;
-  return `<video class="crsvg" data-crvid preload="metadata" playsinline muted
+  return `<video data-crvid preload="metadata" playsinline muted
       data-img0="${f.img0}" data-fps="${f.fps}" data-n="${f.n}"
-      style="max-width:calc((100vh - 230px) * ${(f.l / f.h).toFixed(4)});
-             width:100%;image-rendering:pixelated;background:#000"
       src="${src}"></video>`;
 }
 
@@ -8249,9 +8264,16 @@ document.addEventListener("error", ev => {
 /* ON APPELLE `crSVG` MEME EN MODE FILM, et ce n'est pas du gaspillage : c'est lui qui
    pose `CARTE`, dont le curseur tire la conversion seconde -> numero d'image. S'en
    passer ferait un film que la timeline ne saurait plus piloter. */
+/* LE FILM EST UN FOND, PAS UN REMPLACANT — et c'est ce qui change tout. Remplacer le
+   dessin par la video faisait perdre d'un coup les trajets, la selection par joueur,
+   l'ouverture jusqu'a la premiere mort et les croix de mort : tout ce que six mois de
+   travail avaient mis a l'ecran. En le glissant DERRIERE le SVG, les deux se lisent
+   ensemble — ce que la camera a filme, et ce que la chaine en a compris — et tous les
+   reglages existants continuent de s'appliquer sans qu'on y touche. */
 function crZone(a, fond, strat){
   const svg = crSVG(a, fond, strat);
-  return (fond === "film" && filmDe(a)) ? crFilm(a) : svg;
+  if (!(fond === "film" && filmDe(a))) return svg;
+  return `<div class="crfilm">${crFilm(a)}${svg}<canvas data-crdessin></canvas></div>`;
 }
 
 function crSVG(a, fond, strat){
@@ -8546,7 +8568,7 @@ function crSVG(a, fond, strat){
   return `<svg viewBox="0 0 ${L} ${H}" class="crsvg" role="img"
       style="max-width:calc((100vh - 230px) * ${(L / H).toFixed(4)})"
       aria-label="Trajets et lieux de mort des joueurs sélectionnés">
-      <image href="${img}" x="0" y="0" width="${L}" height="${H}" opacity=".55"/>
+      ${fond === "film" ? "" : `<image href="${img}" x="0" y="0" width="${L}" height="${H}" opacity=".55"/>`}
       <g data-crchaleur hidden>${chaleur}</g>
       ${dep}${traces}${croix}${st}${pos}</svg>`;
 }
@@ -8640,9 +8662,25 @@ function carteRevue(a){
       <s class="crres">calage à ${fr2(cal.residu_m)} m près<span data-crhors>${
         dehors ? ` · ${(phors*100).toFixed(1)} % du trajet hors zone` : ""}</span></s></div>` : ""}
     <div class="crtemps"><label>jusqu'à</label>
-      <input type="range" data-crt min="0" max="${duree}" value="0" step="1">
+      <input type="range" data-crt min="0" max="${duree}" value="0" step="${filmDe(a) ? (1 / ((a.spatial||{}).par_seconde || 5)).toFixed(3) : 1}">
       <b data-crtv>0:00</b>
-      <button data-act="crjouer" title="dérouler la partie">▶</button></div>
+      <button data-act="crimg" data-d="-1" title="image précédente">◀|</button>
+      <button data-act="crjouer" title="dérouler la partie">▶</button>
+      <button data-act="crimg" data-d="1" title="image suivante">|▶</button>
+      <select data-crvit title="vitesse de lecture">
+        <option value="1">×1 — temps réel</option>
+        <option value="2">×2</option>
+        <option value="4" selected>×4</option>
+        <option value="10">×10</option></select></div>
+    ${filmDe(a) ? `<div class="crstrat" data-crdesszone>
+      <label>dessin</label>
+      <button data-act="crcrayon">crayon</button>
+      <button data-act="crcoul" data-c="#ffc400" class="crc" style="background:#ffc400"></button>
+      <button data-act="crcoul" data-c="#ff4d4d" class="crc" style="background:#ff4d4d"></button>
+      <button data-act="crcoul" data-c="#4dd2ff" class="crc" style="background:#4dd2ff"></button>
+      <button data-act="crcoul" data-c="#5ee08a" class="crc" style="background:#5ee08a"></button>
+      <button data-act="crgomme">tout effacer</button>
+      <s class="crres">le dessin reste tant que tu ne l'effaces pas</s></div>` : ""}
     <div data-crzone>${crZone(a, filmDe(a) ? "film" : "mini", "")}</div>
     <p class="note">Le trait fin est un <b>trajet</b>, le X une <b>mort</b> — même
       couleur pour le même joueur, celle de son camp. ${ntr} trajets et ${nb} morts
@@ -8758,7 +8796,14 @@ function crCouper(w, t){
       if(q && q[3] != null) c.setAttribute("transform", `rotate(${fr2(-q[3])})`);
     }
   }
-  const v = w.querySelector("[data-crtv]"); if(v) v.textContent = mmss(t);
+  const v = w.querySelector("[data-crtv]");
+  if(v){
+    /* LE NUMERO D'IMAGE, EN PLUS DU TEMPS. Trajets, morts, vies et POV se referent
+       tous a lui ; l'afficher permet de retrouver l'instant dans une analyse, dans un
+       lot ou dans une planche — ce que « 2:12 » ne permet pas. */
+    const vid = w.querySelector("[data-crvid]");
+    v.textContent = mmss(t) + (vid && CARTE ? ` · img ${Math.round(CARTE.deb + t * CARTE.ps)}` : "");
+  }
 }
 
 document.addEventListener("input", ev => {
@@ -8856,13 +8901,94 @@ document.addEventListener("click", ev => {
   if(CRJEU){ clearInterval(CRJEU); CRJEU = null; b.textContent = "▶"; return; }
   b.textContent = "■";
   if(+r.value >= +r.max) r.value = 0;
+  /* LA VITESSE EST UN CHOIX, ET LE DEFAUT ETAIT TROP RAPIDE. L'ancien reglage avancait
+     de 4 s toutes les 90 ms, soit QUARANTE-QUATRE secondes de jeu par seconde reelle :
+     une minute de match passait en moins de deux. Utile pour survoler un trace, illisible
+     des qu'un film est dessous. Le pas suit desormais le selecteur, et « x1 » est le
+     temps reel du jeu. */
+  const vit = +((w.querySelector("[data-crvit]") || {}).value || 4);
+  const pas = 0.2 * vit;
   CRJEU = setInterval(() => {
-    const v = +r.value + 4;
+    const v = +r.value + pas;
     if(v >= +r.max){ r.value = r.max; crCouper(w, +r.max);
       clearInterval(CRJEU); CRJEU = null; b.textContent = "▶"; return; }
     r.value = v; crCouper(w, v);
-  }, 90);
+  }, 200);
 });
+
+/* ---------- avancer image par image ----------
+   UNE IMAGE, PAS UNE SECONDE. Le curseur avance au pas du film — un cinquieme de
+   seconde — parce que c'est la maille de tout le projet : trajets, morts et vies sont
+   dates en NUMEROS D'IMAGE. Avancer d'une seconde sauterait cinq images et pourrait
+   enjamber l'instant qu'on cherche. */
+document.addEventListener("click", ev => {
+  const b = ev.target.closest('[data-act="crimg"]'); if(!b) return;
+  const w = b.closest(".crwrap"); if(!w) return;
+  const r = w.querySelector("[data-crt]"); if(!r) return;
+  if(CRJEU){ clearInterval(CRJEU); CRJEU = null;
+    const p = w.querySelector('[data-act="crjouer"]'); if(p) p.textContent = "▶"; }
+  const pas = +r.step || 1;
+  r.value = Math.max(0, Math.min(+r.max, +r.value + (+b.dataset.d) * pas));
+  crCouper(w, +r.value);
+});
+
+/* ---------- dessiner par-dessus ----------
+   LE DESSIN NE SUIT PAS LE CURSEUR, ET C'EST VOULU. Sur la page d'analyse d'un film,
+   chaque trait etait attache a son image — bon pour annoter un instant precis. Ici on
+   explique un mouvement : une fleche tracee sur l'ouverture doit rester visible pendant
+   qu'on deroule la suite, sinon elle disparait a la premiere image suivante et le geste
+   ne sert a rien. Le trait reste donc jusqu'a ce qu'on l'efface. */
+let CRCOUL = "#ffc400";
+function crCanvas(w){
+  const c = w.querySelector("[data-crdessin]"); if(!c) return null;
+  const r = c.getBoundingClientRect();
+  if(c.width !== Math.round(r.width) || c.height !== Math.round(r.height)){
+    // LA TAILLE EST REPRISE A CHAQUE FOIS : la zone change avec la fenetre, et un
+    // canevas redimensionne perd son contenu — on le remet donc a la bonne taille
+    // AVANT le premier trait, pas apres.
+    const g = c.getContext("2d"), sauve = c.width ? g.getImageData(0,0,c.width,c.height) : null;
+    c.width = Math.round(r.width); c.height = Math.round(r.height);
+    if(sauve) try{ g.putImageData(sauve, 0, 0); }catch(e){}
+  }
+  return c;
+}
+document.addEventListener("click", ev => {
+  const b = ev.target.closest('[data-act="crcrayon"],[data-act="crcoul"],[data-act="crgomme"]');
+  if(!b) return;
+  const w = b.closest(".crwrap"); if(!w) return;
+  const z = w.querySelector(".crfilm"); if(!z) return;
+  const a = b.dataset.act;
+  if(a === "crgomme"){
+    const c = crCanvas(w); if(c) c.getContext("2d").clearRect(0,0,c.width,c.height);
+    return;
+  }
+  if(a === "crcoul"){ CRCOUL = b.dataset.c; z.classList.add("crayon"); }
+  else z.classList.toggle("crayon");
+  for(const x of w.querySelectorAll('[data-act="crcrayon"]'))
+    x.classList.toggle("on", z.classList.contains("crayon"));
+  for(const x of w.querySelectorAll('[data-act="crcoul"]'))
+    x.classList.toggle("on", x.dataset.c === CRCOUL);
+});
+let CRTRACE = null;
+document.addEventListener("pointerdown", ev => {
+  const c = ev.target.closest("[data-crdessin]"); if(!c) return;
+  const w = c.closest(".crwrap"); if(!w || !c.closest(".crfilm.crayon")) return;
+  const k = crCanvas(w), r = k.getBoundingClientRect();
+  CRTRACE = {k, g: k.getContext("2d")};
+  CRTRACE.g.strokeStyle = CRCOUL; CRTRACE.g.lineWidth = 3;
+  CRTRACE.g.lineCap = "round"; CRTRACE.g.lineJoin = "round";
+  CRTRACE.g.beginPath();
+  CRTRACE.g.moveTo(ev.clientX - r.left, ev.clientY - r.top);
+  c.setPointerCapture(ev.pointerId);
+  ev.preventDefault();
+});
+document.addEventListener("pointermove", ev => {
+  if(!CRTRACE) return;
+  const r = CRTRACE.k.getBoundingClientRect();
+  CRTRACE.g.lineTo(ev.clientX - r.left, ev.clientY - r.top);
+  CRTRACE.g.stroke();
+});
+document.addEventListener("pointerup", () => { CRTRACE = null; });
 
 /* Les cases a cocher ne redessinent rien : elles montrent ou cachent. Redessiner
    couterait un rendu complet de l'onglet a chaque clic, pour un resultat identique. */
