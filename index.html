@@ -132,7 +132,7 @@
   /* La hauteur est posee EN LIGNE par `friseSVG`, proportionnelle au viewBox : une
      partie sans possession ni score dessine moins de rangees, et une hauteur fixe
      l'aurait etiree verticalement pour remplir la place. Ici, le defaut. */
-  .frise{width:100%;height:300px;display:block}
+  .frise{width:100%;height:300px;display:block;cursor:crosshair}
   .frlab{position:absolute;font:400 10px/1 var(--mono);color:var(--ink-faint);
     transform:translateX(-50%);pointer-events:none;white-space:nowrap}
   /* Le curseur de survol et son infobulle. `pointer-events:none` sur les deux :
@@ -4992,13 +4992,17 @@ function friseSVG(a, moments){
   return `<div class="frwrap"><div class="frbox" data-frise style="--cn:${CN};--ce:${CE}">
       <div class="frgut">${gut}</div><div class="frin">
       <svg viewBox="0 0 ${L} ${H}" class="frise" style="height:${Math.round(H*1.15)}px"
+        data-fn0="${f.n0}" data-fps="${f.ps}" data-fmg="${mg}" data-fl="${L}"
+        data-fduree="${f.duree}"
         preserveAspectRatio="none" role="img"
         aria-label="Joueurs debout dans les deux camps, progression du score, et possession des points">
         ${grille}${filets}
         ${aire(f.eux, CE, ".14")}
         ${aire(f.nous, CN, ".14")}
         ${coins}
-        ${grad}${sc}${poss}${reperes}</svg>
+        ${grad}${sc}${poss}${reperes}
+        <line data-frcur x1="0" y1="0" x2="0" y2="${H}" stroke="#fff"
+          stroke-width="2" stroke-opacity=".85" visibility="hidden"/></svg>
       ${lab}<div class="frcur"></div><div class="frtip"></div></div></div>
     <p class="frleg"><span class="frk" style="background:${CN}"></span>${TN}
       <span class="frk" style="background:${CE}"></span>${TE}
@@ -8837,6 +8841,25 @@ function crCouper(w, t){
       if(q && q[3] != null) c.setAttribute("transform", `rotate(${fr2(-q[3])})`);
     }
   }
+  /* ET LA FRISE SUIT LE CURSEUR, dans l'autre sens : le trait blanc marque sur la
+     courbe l'instant qu'on regarde. Sans lui, on lit le film sans savoir ou l'on est
+     dans la partie — or c'est la frise qui porte le score, l'effectif et la possession,
+     c'est-a-dire tout ce qui donne son sens a ce qu'on voit bouger. */
+  const fc = frCurseur(w);
+  if(fc){
+    const img2 = CARTE.deb + t * CARTE.ps;
+    const tf = (img2 - fc.n0) / fc.ps;
+    const l = fc.s.querySelector("[data-frcur]");
+    if(l){
+      if(tf < 0 || tf > fc.duree){ l.setAttribute("visibility","hidden"); }
+      else {
+        const x = fc.mg + (fc.L - 2 * fc.mg) * tf / Math.max(1, fc.duree);
+        l.setAttribute("x1", x.toFixed(1)); l.setAttribute("x2", x.toFixed(1));
+        l.setAttribute("visibility","visible");
+      }
+    }
+  }
+
   const v = w.querySelector("[data-crtv]");
   if(v){
     /* LE NUMERO D'IMAGE, EN PLUS DU TEMPS. Trajets, morts, vies et POV se referent
@@ -8955,6 +8978,40 @@ document.addEventListener("click", ev => {
       clearInterval(CRJEU); CRJEU = null; b.textContent = "▶"; return; }
     r.value = v; crCouper(w, v);
   }, 200);
+});
+
+/* ---------- la frise et la carte regardent le meme instant ----------
+   ON PASSE PAR LE NUMERO D'IMAGE, JAMAIS PAR LES SECONDES. Les deux echelles n'ont pas
+   la meme origine : la frise part de `spatial.debut`, la carte de `partie_debut`. Sur
+   27 parties sur 43 elles coincident — et sur les seize autres elles different, jusqu'a
+   DOUZE SECONDES. Convertir de l'une a l'autre en secondes ferait donc pointer a cote
+   sans que rien ne le signale, et ce serait invisible sur la majorite des parties : le
+   pire cas de figure. Le numero d'image, lui, est le meme des deux cotes. */
+function frCurseur(w){
+  const s = w.querySelector(".frise"); if(!s || !CARTE) return null;
+  const d = s.dataset;
+  if(d.fn0 == null) return null;
+  return {s, n0:+d.fn0, ps:+d.fps || 5, mg:+d.fmg || 6, L:+d.fl || 1000, duree:+d.fduree || 1};
+}
+
+/* Cliquer sur la frise deplace le curseur, donc le film et le trace avec lui. */
+document.addEventListener("click", ev => {
+  const s = ev.target.closest(".frise"); if(!s) return;
+  /* La frise et la carte sont deux blocs distincts de la meme revue de partie : il n'y
+     a qu'une carte affichee a la fois, on la prend telle quelle. */
+  const w = document.querySelector(".crwrap");
+  if(!w || !CARTE) return;
+  const c = frCurseur(w); if(!c) return;
+  const r = s.getBoundingClientRect();
+  const u = (ev.clientX - r.left) / Math.max(1, r.width);          // 0 a 1 dans le SVG
+  const tf = Math.max(0, Math.min(c.duree,
+    (u * c.L - c.mg) / Math.max(1, c.L - 2 * c.mg) * c.duree));
+  const img = c.n0 + tf * c.ps;                                    // la maille commune
+  const tc = (img - CARTE.deb) / CARTE.ps;                         // et retour au curseur
+  const rg = w.querySelector("[data-crt]"); if(!rg) return;
+  rg.value = Math.max(0, Math.min(+rg.max, tc));
+  crCouper(w, +rg.value);
+  rg.scrollIntoView({block:"nearest", behavior:"smooth"});
 });
 
 /* ---------- avancer image par image ----------
