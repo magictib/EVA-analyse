@@ -461,12 +461,16 @@
      La colonne du site fait 648 px de contenu ; l'image composee en fait 1138 — minimap
      a gauche, les huit bandeaux de vie a droite. Laissee dans la colonne, elle serait
      reduite a 57 %, et la minimap passerait de 520 px a 296 : on aurait ajoute les PV
-     en rendant la carte illisible, ce qui est le contraire du but. `margin-left:50%`
-     puis `translateX(-50%)` recentrent la boite sur le milieu de la colonne sans
-     dependre de la largeur de celle-ci, et le plafond en `vw` empeche la page de
-     defiler horizontalement. */
-  .crfilm{position:relative;width:fit-content;margin-left:50%;
-    transform:translateX(-50%);max-width:min(calc(100vw - 24px),1440px)}
+     en rendant la carte illisible, ce qui est le contraire du but.
+
+     LA LARGEUR EST POSEE EN DUR PAR `crZone`, ET CE N'EST PAS UN DETAIL. Le premier
+     essai combinait `width:fit-content` et `margin-left:50%` : or `fit-content` est
+     PLAFONNE PAR L'ESPACE DISPONIBLE, que la marge de 50 % venait justement de reduire
+     de moitie. Le film se dessinait sur 324 px au lieu de 1138 et les huit bandeaux
+     etaient reduits en bouillie — Thibaud a simplement dit qu'il ne les voyait pas.
+     Aucune ruse de marge ne rattrape ca : il faut donner la largeur, et l'index la
+     connait deja. */
+  .crfilm{position:relative}
   /* LE TRACE DOIT RESSORTIR SUR UNE IMAGE, pas sur un plan. Sur le fond clair et
      uniforme du plan a l'echelle, un trait fin suffit ; sur la minimap filmee, qui est
      sombre, texturee et qui BOUGE, le meme trait se perd. On ne l'epaissit pas — cela
@@ -478,7 +482,7 @@
      la question ne se posait pas ; l'image composee, elle, est plus large que bien des
      ecrans, et sans ce plafond elle depasserait au lieu de se reduire. */
   .crfilm video{image-rendering:pixelated;background:#05070c;display:block;
-    max-width:100%;height:auto}
+    width:100%;height:auto;margin-inline:auto}
   .crfilm canvas[data-crdessin]{position:absolute;inset:0;
     width:100%;height:100%;border-radius:6px}
   /* Le trace occupe EXACTEMENT le sous-rectangle du cadre de la chaine, en pourcentages
@@ -8270,7 +8274,7 @@ function crFilm(a){
   const src = (FILMS.base || "films").replace(/\/$/, "") + "/" + f.f;
   return `<video class="crsvg" data-crvid preload="metadata" playsinline muted
       data-img0="${f.img0}" data-fps="${f.fps}" data-n="${f.n}"
-      style="max-width:min(100%,calc((100vh - 230px) * ${(f.l / f.h).toFixed(4)}));height:auto"
+      style="max-height:calc(100vh - 230px)"
       src="${src}"></video>`;
 }
 
@@ -8315,7 +8319,13 @@ function crZone(a, fond, strat){
   const c = f.c || [0, 0, f.l, f.h];
   const st = `left:${(100 * c[0] / f.l).toFixed(4)}%;top:${(100 * c[1] / f.h).toFixed(4)}%;`
            + `width:${(100 * c[2] / f.l).toFixed(4)}%;height:${(100 * c[3] / f.h).toFixed(4)}%`;
-  return `<div class="crfilm">${crFilm(a)}<div class="crcal" style="${st}">${svg}</div>`
+  /* La boite prend la largeur de l'image, plafonnee a la fenetre, et se recentre sur
+     le milieu de la colonne en retranchant sa demi-largeur. Le `min(...)` est repete
+     plutot que stocke : une variable CSS marcherait, mais elle ne survivrait pas a un
+     conteneur qui redefinit ses propres variables. */
+  const lg = `min(${f.l}px, calc(100vw - 24px))`;
+  return `<div class="crfilm" style="width:${lg};margin-left:calc(50% - ${lg}/2)">`
+       + `${crFilm(a)}<div class="crcal" style="${st}">${svg}</div>`
        + `<canvas data-crdessin></canvas></div>`;
 }
 
