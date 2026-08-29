@@ -457,7 +457,16 @@
      absolu, remplissait TOUT le conteneur : la minimap debordait de son cadre et les
      trajets tombaient a cote. `fit-content` fait que la boite mesure exactement le
      dessin, et les couches absolues se calent alors dessus. */
-  .crfilm{position:relative;width:fit-content;max-width:100%;margin-inline:auto}
+  /* LE FILM SORT DE LA COLONNE, et il le faut depuis qu'il porte les cartes de joueur.
+     La colonne du site fait 648 px de contenu ; l'image composee en fait 1138 — minimap
+     a gauche, les huit bandeaux de vie a droite. Laissee dans la colonne, elle serait
+     reduite a 57 %, et la minimap passerait de 520 px a 296 : on aurait ajoute les PV
+     en rendant la carte illisible, ce qui est le contraire du but. `margin-left:50%`
+     puis `translateX(-50%)` recentrent la boite sur le milieu de la colonne sans
+     dependre de la largeur de celle-ci, et le plafond en `vw` empeche la page de
+     defiler horizontalement. */
+  .crfilm{position:relative;width:fit-content;margin-left:50%;
+    transform:translateX(-50%);max-width:min(calc(100vw - 24px),1440px)}
   /* LE TRACE DOIT RESSORTIR SUR UNE IMAGE, pas sur un plan. Sur le fond clair et
      uniforme du plan a l'echelle, un trait fin suffit ; sur la minimap filmee, qui est
      sombre, texturee et qui BOUGE, le meme trait se perd. On ne l'epaissit pas — cela
@@ -465,7 +474,11 @@
      ombre portee, qui le detache de ce qui passe derriere sans rien cacher. */
   .crfilm .crsvg{background:transparent;
     filter:drop-shadow(0 0 1.5px rgba(0,0,0,.95)) drop-shadow(0 0 3px rgba(0,0,0,.6))}
-  .crfilm video{image-rendering:pixelated;background:#05070c;display:block}
+  /* LA VIDEO SUIT SON CONTENEUR EN LARGEUR. Tant que le film tenait dans la colonne
+     la question ne se posait pas ; l'image composee, elle, est plus large que bien des
+     ecrans, et sans ce plafond elle depasserait au lieu de se reduire. */
+  .crfilm video{image-rendering:pixelated;background:#05070c;display:block;
+    max-width:100%;height:auto}
   .crfilm canvas[data-crdessin]{position:absolute;inset:0;
     width:100%;height:100%;border-radius:6px}
   /* Le trace occupe EXACTEMENT le sous-rectangle du cadre de la chaine, en pourcentages
@@ -8257,7 +8270,7 @@ function crFilm(a){
   const src = (FILMS.base || "films").replace(/\/$/, "") + "/" + f.f;
   return `<video class="crsvg" data-crvid preload="metadata" playsinline muted
       data-img0="${f.img0}" data-fps="${f.fps}" data-n="${f.n}"
-      style="max-width:calc((100vh - 230px) * ${(f.l / f.h).toFixed(4)})"
+      style="max-width:min(100%,calc((100vh - 230px) * ${(f.l / f.h).toFixed(4)}));height:auto"
       src="${src}"></video>`;
 }
 
