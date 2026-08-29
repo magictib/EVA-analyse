@@ -465,10 +465,14 @@
      ombre portee, qui le detache de ce qui passe derriere sans rien cacher. */
   .crfilm .crsvg{background:transparent;
     filter:drop-shadow(0 0 1.5px rgba(0,0,0,.95)) drop-shadow(0 0 3px rgba(0,0,0,.6))}
-  .crfilm video,.crfilm canvas[data-crdessin]{position:absolute;inset:0;
+  .crfilm video{image-rendering:pixelated;background:#05070c;display:block}
+  .crfilm canvas[data-crdessin]{position:absolute;inset:0;
     width:100%;height:100%;border-radius:6px}
-  .crfilm video{image-rendering:pixelated;background:#05070c;
-    border:1px solid var(--rule);object-fit:fill}
+  /* Le trace occupe EXACTEMENT le sous-rectangle du cadre de la chaine, en pourcentages
+     de l'image : il suit donc l'affichage sans qu'aucune taille ne soit recalculee. */
+  .crcal{position:absolute;pointer-events:none}
+  .crcal svg{width:100%;height:100%;max-width:none;max-height:none;
+    display:block;border:0;border-radius:0}
   .crfilm canvas[data-crdessin]{z-index:2;touch-action:none}
   .crfilm.crayon canvas[data-crdessin]{cursor:crosshair}
   .crc{width:26px;height:20px;padding:0;border-radius:4px;border:1px solid var(--rule)}
@@ -8247,8 +8251,9 @@ function crFilm(a){
   const f = filmDe(a);
   if (!f) return "";
   const src = (FILMS.base || "films").replace(/\/$/, "") + "/" + f.f;
-  return `<video data-crvid preload="metadata" playsinline muted
+  return `<video class="crsvg" data-crvid preload="metadata" playsinline muted
       data-img0="${f.img0}" data-fps="${f.fps}" data-n="${f.n}"
+      style="max-width:calc((100vh - 230px) * ${(f.l / f.h).toFixed(4)})"
       src="${src}"></video>`;
 }
 
@@ -8283,8 +8288,18 @@ document.addEventListener("error", ev => {
    reglages existants continuent de s'appliquer sans qu'on y touche. */
 function crZone(a, fond, strat){
   const svg = crSVG(a, fond, strat);
-  if (!(fond === "film" && filmDe(a))) return svg;
-  return `<div class="crfilm">${crFilm(a)}${svg}<canvas data-crdessin></canvas></div>`;
+  const f = filmDe(a);
+  if (!(fond === "film" && f)) return svg;
+  /* C'EST LA VIDEO QUI COMMANDE LA TAILLE, et le trace qui se cale dedans. Le film est
+     filme plus large que le cadre de la chaine — sinon Outlaw perdait 35 px en haut et
+     ses deux spawns avec. Le trace, lui, vit dans le cadre d'origine : on le pose donc
+     dans le sous-rectangle que l'index donne, en pourcentages, pour qu'il suive
+     l'image quelle que soit la taille d'affichage. */
+  const c = f.c || [0, 0, f.l, f.h];
+  const st = `left:${(100 * c[0] / f.l).toFixed(4)}%;top:${(100 * c[1] / f.h).toFixed(4)}%;`
+           + `width:${(100 * c[2] / f.l).toFixed(4)}%;height:${(100 * c[3] / f.h).toFixed(4)}%`;
+  return `<div class="crfilm">${crFilm(a)}<div class="crcal" style="${st}">${svg}</div>`
+       + `<canvas data-crdessin></canvas></div>`;
 }
 
 function crSVG(a, fond, strat){
