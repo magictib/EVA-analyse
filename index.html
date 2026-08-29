@@ -452,8 +452,19 @@
      la taille — il porte deja la contrainte de hauteur d'ecran — et les deux autres
      s'y calent en absolu. Une video qui se dimensionnerait elle-meme decalerait les
      trajets d'autant, sans que rien ne le signale. */
-  .crfilm{position:relative;width:100%;display:flex;justify-content:center}
-  .crfilm .crsvg{background:transparent}
+  /* LE CONTENEUR EPOUSE LE TRACE, il ne prend pas la largeur disponible. En `flex`
+     sur 100 %, le SVG restait centre dans sa max-width tandis que la video, posee en
+     absolu, remplissait TOUT le conteneur : la minimap debordait de son cadre et les
+     trajets tombaient a cote. `fit-content` fait que la boite mesure exactement le
+     dessin, et les couches absolues se calent alors dessus. */
+  .crfilm{position:relative;width:fit-content;max-width:100%;margin-inline:auto}
+  /* LE TRACE DOIT RESSORTIR SUR UNE IMAGE, pas sur un plan. Sur le fond clair et
+     uniforme du plan a l'echelle, un trait fin suffit ; sur la minimap filmee, qui est
+     sombre, texturee et qui BOUGE, le meme trait se perd. On ne l'epaissit pas — cela
+     masquerait les pastilles qu'on veut justement voir dessous — on lui donne une
+     ombre portee, qui le detache de ce qui passe derriere sans rien cacher. */
+  .crfilm .crsvg{background:transparent;
+    filter:drop-shadow(0 0 1.5px rgba(0,0,0,.95)) drop-shadow(0 0 3px rgba(0,0,0,.6))}
   .crfilm video,.crfilm canvas[data-crdessin]{position:absolute;inset:0;
     width:100%;height:100%;border-radius:6px}
   .crfilm video{image-rendering:pixelated;background:#05070c;
@@ -8664,10 +8675,10 @@ function carteRevue(a){
     <div class="crtemps"><label>jusqu'à</label>
       <input type="range" data-crt min="0" max="${duree}" value="0" step="${filmDe(a) ? (1 / ((a.spatial||{}).par_seconde || 5)).toFixed(3) : 1}">
       <b data-crtv>0:00</b>
-      <button data-act="crimg" data-d="-1" title="image précédente">◀|</button>
+      <button data-act="crimg" data-d="-1" title="image précédente">◀ img</button>
       <button data-act="crjouer" title="dérouler la partie">▶</button>
-      <button data-act="crimg" data-d="1" title="image suivante">|▶</button>
-      <select data-crvit title="vitesse de lecture">
+      <button data-act="crimg" data-d="1" title="image suivante">img ▶</button>
+      <select data-crvit title="vitesse de lecture" style="min-width:9.5em">
         <option value="1">×1 — temps réel</option>
         <option value="2">×2</option>
         <option value="4" selected>×4</option>
