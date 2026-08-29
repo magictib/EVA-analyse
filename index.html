@@ -8794,6 +8794,21 @@ function crCouper(w, t){
     const bas = vie ? debutVie(c.slot) : 0;
     e.style.visibility = (c.img == null || (c.img <= img && c.img >= bas))
       ? "" : "hidden";
+    /* SUR LE FILM, UNE VIEILLE CROIX MENT. Le trace est CUMULATIF — une croix apparait
+       a la mort et reste jusqu'a la fin, ce qui est exactement ce qu'on veut d'une
+       carte des lieux de mort. Mais posee sur l'image de l'instant, elle se lit comme
+       ce qui est a l'ecran : Thibaud a vu une croix alors que les huit joueurs avaient
+       leur pastille et qu'aucun bandeau n'etait grise. Verifie : ce n'etait pas une
+       mort fantome, la mort avait bien eu lieu — plus tot.
+
+       Le jeu, lui, n'affiche la croix que TROIS SECONDES. On garde donc la croix, mais
+       au-dela de ces quinze images elle passe en trait fin et translucide : l'histoire
+       de la partie reste lisible, sans se faire passer pour le present. */
+    if (vid && c.img != null) {
+      const vieille = (img - c.img) > 15;
+      e.style.opacity = vieille ? ".38" : "";
+      e.style.strokeWidth = vieille ? "1" : "";
+    }
     /* UNE MORT HORS ZONE JOUABLE EST DOUTEUSE, comme un trajet hors zone. Le masque
        d'arene ne s'appliquait qu'aux traces : une croix posee dans le noir sortait
        en plein contraste et se lisait comme une mesure. */
