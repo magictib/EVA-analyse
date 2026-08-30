@@ -476,6 +476,8 @@
      etaient reduits en bouillie — Thibaud a simplement dit qu'il ne les voyait pas.
      Aucune ruse de marge ne rattrape ca : il faut donner la largeur, et l'index la
      connait deja. */
+  .crdoute{font-size:.72rem;line-height:1.45;color:var(--ink-dim);
+    border-left:2px solid var(--rule-vif);padding-left:9px;margin:8px 0 2px}
   .crfilm{position:relative}
   /* LE TRACE DOIT RESSORTIR SUR UNE IMAGE, pas sur un plan. Sur le fond clair et
      uniforme du plan a l'echelle, un trait fin suffit ; sur la minimap filmee, qui est
@@ -8399,7 +8401,7 @@ function crSVG(a, fond, strat){
      retranche donc l'angle du calage — en degres, et en sens inverse puisque le SVG
      compte les y vers le bas. */
   const capDeg = plan && cal ? cal.theta * 180 / Math.PI : 0;
-  CARTE = {t: tr.map((t,i)=>({i, slot:t.slot,
+  CARTE = {t: tr.map((t,i)=>({i, slot:t.slot, sorte:t.sorte,
              pts: t.points.map(p=>[p[0], X(p[1],p[2]), Y(p[1],p[2]),
                                    (t.caps && t.caps[p[0]] != null)
                                      ? t.caps[p[0]] - capDeg : null])})),
@@ -8532,7 +8534,7 @@ function crSVG(a, fond, strat){
         fill="${coul(s)}" fill-opacity=".28"/></g>
       <circle r="${rp}" fill="${coul(s)}" fill-opacity=".9"
         stroke="#0B0F14" stroke-width="${plan?2.5:1}"/>
-      <text y="${plan?5:2}" text-anchor="middle" font-size="${plan?15:6}"
+      <text data-lettre y="${plan?5:2}" text-anchor="middle" font-size="${plan?15:6}"
         font-weight="700" fill="#0B0F14"
         >${sansTag(noms[s]||"").slice(0,1).toUpperCase()}</text></g>`).join("");
 
@@ -8739,6 +8741,12 @@ function carteRevue(a){
       <s class="crres" data-crecart></s>
       <s class="crres">calage à ${fr2(cal.residu_m)} m près<span data-crhors>${
         dehors ? ` · ${(phors*100).toFixed(1)} % du trajet hors zone` : ""}</span></s></div>` : ""}
+    <p class="note crdoute"><b>Un « ? » à la place de la lettre veut dire que le nom
+      n'est pas sûr.</b> Le marqueur est alors posé sur un cadavre : sa position est
+      observée — quelqu'un est bien mort là — mais son identité est un pari. Mesuré le
+      30/08 contre 75 lectures faites à l'œil et en aveugle : le nom d'un marqueur
+      <b>vivant</b> est juste à <b>79,6 %</b>, celui d'un <b>cadavre</b> à <b>53,8 %</b>,
+      soit à peine mieux que pile ou face.</p>
     <div class="crtemps"><label>jusqu'à</label>
       <input type="range" data-crt min="0" max="${duree}" value="0" step="${filmDe(a) ? (1 / ((a.spatial||{}).par_seconde || 5)).toFixed(3) : 1}">
       <b data-crtv>0:00</b>
@@ -8872,13 +8880,31 @@ function crCouper(w, t){
   for(const e of w.querySelectorAll(".crsvg [data-pos]")){
     const s = +e.dataset.pos;
     const bas = vie ? debutVie(s) : 0;
-    let q = null;
+    let q = null, sorte = null;
     for(const d of CARTE.t){
       if(d.slot !== s) continue;
       for(const p of d.pts)
-        if(p[0] <= img && p[0] >= bas && (!q || p[0] > q[0])) q = p;
+        if(p[0] <= img && p[0] >= bas && (!q || p[0] > q[0])){ q = p; sorte = d.sorte; }
     }
     e.hidden = !q;
+    /* UN NOM SUR UN CADAVRE EST UN PILE OU FACE, ET LA PAGE DOIT LE DIRE. Mesure du
+       30/08 contre l'echantillon scelle de 75 lectures faites A L'OEIL et EN AVEUGLE
+       le 26/08 : le nom porte par un marqueur VIVANT est juste a 79,6 % (49 cas),
+       celui porte par un CADAVRE a 53,8 % (26 cas). Ce n'est pas un hasard
+       d'echantillon, c'est structurel — la pastille d'un cadavre est grisee et
+       immobile, donc son chiffre se lit mal et la piste qui le nomme est courte.
+
+       ON GARDE LE DISQUE ET L'ON CHANGE LA LETTRE, parce que les deux ne valent pas
+       la meme chose : la POSITION est observee — quelqu'un est bien mort la —, c'est
+       l'IDENTITE qui est un pari. Effacer le marqueur perdrait une information vraie ;
+       le laisser tel quel ferait passer un pari pour une lecture. */
+    const lt = e.querySelector("[data-lettre]");
+    if(lt){
+      if(lt.dataset.vrai == null) lt.dataset.vrai = lt.textContent;
+      const doute = sorte === "mort";
+      lt.textContent = doute ? "?" : lt.dataset.vrai;
+      e.setAttribute("opacity", doute ? ".72" : "1");
+    }
     if(q) e.setAttribute("transform", `translate(${fr2(q[1])},${fr2(q[2])})`);
     /* le secteur de regard : `rotate` tourne dans le sens des aiguilles parce que
        le SVG compte les y vers le bas, alors que le cap est mesure y vers le haut —
