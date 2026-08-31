@@ -478,6 +478,9 @@
      connait deja. */
   .crdoute{font-size:.72rem;line-height:1.45;color:var(--ink-dim);
     border-left:2px solid var(--rule-vif);padding-left:9px;margin:8px 0 2px}
+  /* AU FACTEUR 1 CE CONTENEUR NE SE VOIT PAS ; au-dela il porte le defilement
+     horizontal, ce qui evite que la page entiere se mette a glisser. */
+  .crdefile{overflow-x:auto;overflow-y:hidden;max-width:100%}
   .crfilm{position:relative}
   /* LE TRACE DOIT RESSORTIR SUR UNE IMAGE, pas sur un plan. Sur le fond clair et
      uniforme du plan a l'echelle, un trait fin suffit ; sur la minimap filmee, qui est
@@ -8350,10 +8353,14 @@ function crZone(a, fond, strat){
      le milieu de la colonne en retranchant sa demi-largeur. Le `min(...)` est repete
      plutot que stocke : une variable CSS marcherait, mais elle ne survivrait pas a un
      conteneur qui redefinit ses propres variables. */
-  const lg = `min(${f.l}px, calc(100vw - 24px))`;
-  return `<div class="crfilm" style="width:${lg};margin-left:calc(50% - ${lg}/2)">`
+  /* LE ZOOM MULTIPLIE LA LARGEUR DE LA BOITE, et le trace suit tout seul puisqu'il
+     est pose en POURCENTAGES de l'image. Au-dela de ×1 le film deborde de la fenetre :
+     c'est voulu, on le fait defiler dans son propre conteneur plutot que de reduire la
+     carte — l'interet du zoom est justement de depasser la place disponible. */
+  const lg = `calc(min(${f.l}px, calc(100vw - 24px)) * var(--crz, 1))`;
+  return `<div class="crdefile"><div class="crfilm" style="width:${lg};margin-left:calc(50% - ${lg}/2)">`
        + `${crFilm(a)}<div class="crcal" style="${st}">${svg}</div>`
-       + `<canvas data-crdessin></canvas></div>`;
+       + `<canvas data-crdessin></canvas></div></div>`;
 }
 
 function crSVG(a, fond, strat){
@@ -8758,6 +8765,11 @@ function carteRevue(a){
         <option value="2">×2</option>
         <option value="4" selected>×4</option>
         <option value="10">×10</option></select></div>
+    ${filmDe(a) ? `<div class="crstrat">
+      <label>taille</label>
+      <select data-crzoom><option value="1">×1 — au pixel près</option>
+        <option value="2">×2</option><option value="3">×3</option></select>
+      <s class="crres">agrandi au plus proche voisin : rien n'est inventé</s></div>` : ""}
     ${filmDe(a) ? `<div class="crstrat" data-crdesszone>
       <label>dessin</label>
       <button data-act="crcrayon">crayon</button>
@@ -9141,6 +9153,16 @@ document.addEventListener("click", ev => {
    explique un mouvement : une fleche tracee sur l'ouverture doit rester visible pendant
    qu'on deroule la suite, sinon elle disparait a la premiere image suivante et le geste
    ne sert a rien. Le trait reste donc jusqu'a ce qu'on l'efface. */
+/* CHANGER LE ZOOM NE REDESSINE RIEN. Le facteur est une variable CSS posee sur la
+   revue de partie : la boite, la video et le trace en dependent tous les trois, donc
+   ils restent alignes sans qu'aucune coordonnee soit recalculee. Redessiner ferait
+   perdre le dessin du crayon, qui vit sur un canevas. */
+document.addEventListener("change", ev => {
+  const s = ev.target.closest("[data-crzoom]"); if(!s) return;
+  const w = s.closest(".crwrap"); if(!w) return;
+  w.style.setProperty("--crz", s.value);
+});
+
 let CRCOUL = "#ffc400";
 function crCanvas(w){
   const c = w.querySelector("[data-crdessin]"); if(!c) return null;
