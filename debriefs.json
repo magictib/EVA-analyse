@@ -228,6 +228,7 @@
       "Les deux populations séparées, sur les **43 parties du corpus** où l'effectif permet de conclure — un coéquipier qui réapparaît dans les deux secondes fait la différence :",
       "**Vraiment seules** — `25` sorties, `32 %` mortes, survie médiane `32,0 s`. **Têtes de vague** — `10` sorties, `70 %` mortes. **Témoin, les trois debout** — `218` sorties, `27 %` mortes.",
       "Sortir quand personne ne peut vous suivre ne coûte donc presque rien de plus que sortir à quatre. Sortir le premier quand l'adversaire vient de vous effondrer coûte deux fois et demie plus cher. Le sens tient à deux, trois et cinq secondes de seuil.",
+      "Et le surcoût, recalculé avec permutation sur les 43 parties : les sorties vraiment seules coûtent **`−0,9` point** de taux de mort par rapport à toutes les autres (`p = 1,000`), les têtes de vague **`+37,8` points** (`p = 0,022`). C'est ce qui reste quand on sépare les deux populations que l'ancienne définition mélangeait.",
       "Sur cette séance-ci, un seul joueur a assez de cas pour qu'on en dise quelque chose : **CROM, `5` sorties vraiment seules, `4` mortes dans les quinze secondes, survie médiane `7,2 s`** — contre `17,8 s` quand les trois autres sont debout. Les trois autres joueurs sont sous le seuil de cinq cas et ne sont pas comptés."
      ],
      "verdict": "Ce qui coûte n'est pas la solitude, c'est d'être le premier dehors quand l'adversaire est vivant, en place, et tient déjà votre sortie."
