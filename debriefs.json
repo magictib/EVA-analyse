@@ -7,9 +7,51 @@
    "titre": "FXC — neuf manches, et où passe la différence",
    "chapeau": "FXC bat BVS + G4 neuf manches à zéro. Quatre d'entre elles se jouent à moins de dix pour cent. Voici ce que le dépouillage dit de l'écart.",
    "bandeau": [
-    ["Atlantis", 47, false], ["Ceres", 70, false], ["Engine", 98, true],
-    ["Polaris", 97, true], ["Reef Point", 96, true], ["Silva", 53, false],
-    ["The Cliff", 33, false], ["Outlaw", 92, true], ["Polaris", 44, false]
+    [
+     "Atlantis",
+     47,
+     false
+    ],
+    [
+     "Ceres",
+     70,
+     false
+    ],
+    [
+     "Engine",
+     98,
+     true
+    ],
+    [
+     "Polaris",
+     97,
+     true
+    ],
+    [
+     "Reef Point",
+     96,
+     true
+    ],
+    [
+     "Silva",
+     53,
+     false
+    ],
+    [
+     "The Cliff",
+     33,
+     false
+    ],
+    [
+     "Outlaw",
+     92,
+     true
+    ],
+    [
+     "Polaris",
+     44,
+     false
+    ]
    ],
    "bandeau_note": "Pourcentage atteint par BVS + G4 ; FXC finit à 100 % les neuf fois. Encadré : manche perdue au-dessus de 90 %.",
    "sections": [
@@ -26,44 +68,169 @@
       "Le résultat se lit sur l'effectif seconde par seconde : vous passez **`40 %` du temps en infériorité numérique** et `24 %` en supériorité. Le solde est négatif sur les neuf manches, sans exception."
      ],
      "tableau": {
-      "entetes": ["Manche", "Vous", "Surnombre", "Égalité", "Infériorité", "Solde", "Effondr. subis", "Infligés"],
-      "lignes": [
-       ["Atlantis", "47 %", "25 %", "34 %", "41 %", "−15", "4", "1"],
-       ["Ceres", "70 %", "35 %", "30 %", "35 %", "−1", "5", "0"],
-       ["Engine", "98 %", "28 %", "42 %", "30 %", "−2", "2", "0"],
-       ["Polaris", "97 %", "31 %", "21 %", "48 %", "−17", "3", "1"],
-       ["Reef Point", "96 %", "22 %", "39 %", "39 %", "−16", "6", "1"],
-       ["Silva", "53 %", "18 %", "40 %", "42 %", "−24", "7", "3"],
-       ["The Cliff", "33 %", "20 %", "30 %", "50 %", "−30", "5", "1"],
-       ["Outlaw", "92 %", "23 %", "54 %", "23 %", "−1", "5", "3"],
-       ["Polaris", "44 %", "30 %", "13 %", "57 %", "−44", "4", "0"]
+      "entetes": [
+       "Manche",
+       "Vous",
+       "Surnombre",
+       "Égalité",
+       "Infériorité",
+       "Solde",
+       "Effondr. subis",
+       "Infligés"
       ],
-      "fort": [2, 3, 4, 7],
+      "lignes": [
+       [
+        "Atlantis",
+        "47 %",
+        "25 %",
+        "34 %",
+        "41 %",
+        "−15",
+        "4",
+        "1"
+       ],
+       [
+        "Ceres",
+        "70 %",
+        "35 %",
+        "30 %",
+        "35 %",
+        "−1",
+        "5",
+        "0"
+       ],
+       [
+        "Engine",
+        "98 %",
+        "28 %",
+        "42 %",
+        "30 %",
+        "−2",
+        "2",
+        "0"
+       ],
+       [
+        "Polaris",
+        "97 %",
+        "31 %",
+        "21 %",
+        "48 %",
+        "−17",
+        "3",
+        "1"
+       ],
+       [
+        "Reef Point",
+        "96 %",
+        "22 %",
+        "39 %",
+        "39 %",
+        "−16",
+        "6",
+        "1"
+       ],
+       [
+        "Silva",
+        "53 %",
+        "18 %",
+        "40 %",
+        "42 %",
+        "−24",
+        "7",
+        "3"
+       ],
+       [
+        "The Cliff",
+        "33 %",
+        "20 %",
+        "30 %",
+        "50 %",
+        "−30",
+        "5",
+        "1"
+       ],
+       [
+        "Outlaw",
+        "92 %",
+        "23 %",
+        "54 %",
+        "23 %",
+        "−1",
+        "5",
+        "3"
+       ],
+       [
+        "Polaris",
+        "44 %",
+        "30 %",
+        "13 %",
+        "57 %",
+        "−44",
+        "4",
+        "0"
+       ]
+      ],
+      "fort": [
+       2,
+       3,
+       4,
+       7
+      ],
       "legende": "Effectif relevé toutes les secondes à partir des intervalles de vie. Les lignes en relief sont les quatre manches perdues au-dessus de 90 %. Les trois pires soldes — Polaris 2, The Cliff, Silva — donnent 44, 33 et 53 %."
      }
     },
     {
-     "titre": "Sortir du spawn à trois change tout ; sortir seul tue CROM.",
-     "mesure": "122 franchissements de spawn · issue à 15 s",
+     "titre": "Le danger n'est pas de sortir seul. C'est de sortir le premier après un effondrement.",
+     "mesure": "122 franchissements · 16 à zéro coéquipier vivant · issue à 15 s",
      "paras": [
-      "Un trajet de sortie est daté au franchissement de la limite de spawn, pas à la réapparition : rester au spawn ne coûte rien, la décision est d'en sortir. Sur les `122` sorties relevées, l'écart est franc."
+      "Un trajet de sortie est daté au franchissement de la limite de spawn, pas à la réapparition : rester au spawn ne coûte rien, la décision est d'en sortir.",
+      "**Cette section a été refaite le 11/09 après une correction de Thibaud**, et elle dit maintenant le contraire de ce qu'elle disait. « Sortir seul » comptait jusque-là les sorties à *au plus un* coéquipier debout — ce qui mettait dans le même sac sortir quand les trois autres sont morts, et sortir quand l'un d'eux tient déjà la carte. Et surtout : après un effondrement, les quatre réapparaissent ensemble, donc le premier à franchir la ligne n'est pas seul, **il ouvre une vague**."
      ],
      "tableau": {
-      "entetes": ["Coéquipiers debout", "Sorties", "Mortes en 15 s", "Survie médiane"],
-      "lignes": [
-       ["aucun", "16", "56 %", "13,6 s"],
-       ["un", "23", "61 %", "13,4 s"],
-       ["deux", "45", "53 %", "14,2 s"],
-       ["les trois", "37", "32 %", "17,8 s"]
+      "entetes": [
+       "Coéquipiers debout",
+       "Sorties",
+       "Mortes en 15 s",
+       "Survie médiane"
       ],
-      "fort": [3],
-      "legende": "Sortir avec les trois autres debout divise le risque par deux et allonge la vie de quatre secondes."
+      "lignes": [
+       [
+        "aucun",
+        "16",
+        "56 %",
+        "13,6 s"
+       ],
+       [
+        "un",
+        "23",
+        "61 %",
+        "13,4 s"
+       ],
+       [
+        "deux",
+        "45",
+        "53 %",
+        "14,2 s"
+       ],
+       [
+        "les trois",
+        "37",
+        "32 %",
+        "17,8 s"
+       ]
+      ],
+      "fort": [
+       3
+      ],
+      "legende": "La répartition brute, inchangée : sortir avec les trois autres debout reste deux fois moins risqué. C'est la sous-catégorie « seul » qui était mal définie, pas ce tableau."
      },
      "suite": [
-      "Et cette sortie-là n'est pas répartie également. En ne gardant que les sorties à au plus un coéquipier debout : **CROM `14` sorties, `71 %` mortes, survie médiane `8,1 s`** ; Tchernobyl `11` et `64 %` ; Yoruichi `8` et `50 %` ; Lizo `6` et `33 %`, survie médiane `22,0 s`.",
-      "CROM sort seul plus de deux fois plus souvent que Lizo, et y survit deux fois et demie moins longtemps."
+      "Les deux populations séparées, sur les **43 parties du corpus** où l'effectif permet de conclure — un coéquipier qui réapparaît dans les deux secondes fait la différence :",
+      "**Vraiment seules** — `25` sorties, `32 %` mortes, survie médiane `32,0 s`. **Têtes de vague** — `10` sorties, `70 %` mortes. **Témoin, les trois debout** — `218` sorties, `27 %` mortes.",
+      "Sortir quand personne ne peut vous suivre ne coûte donc presque rien de plus que sortir à quatre. Sortir le premier quand l'adversaire vient de vous effondrer coûte deux fois et demie plus cher. Le sens tient à deux, trois et cinq secondes de seuil.",
+      "Sur cette séance-ci, un seul joueur a assez de cas pour qu'on en dise quelque chose : **CROM, `5` sorties vraiment seules, `4` mortes dans les quinze secondes, survie médiane `7,2 s`** — contre `17,8 s` quand les trois autres sont debout. Les trois autres joueurs sont sous le seuil de cinq cas et ne sont pas comptés."
      ],
-     "verdict": "Sur Atlantis et Ceres, les trajets montrent deux couloirs de sortie et deux seulement. CROM prend le sud sur Ceres : ses trois croix y sont groupées."
+     "verdict": "Ce qui coûte n'est pas la solitude, c'est d'être le premier dehors quand l'adversaire est vivant, en place, et tient déjà votre sortie."
     },
     {
      "titre": "ParziRahl ouvre, et il ne lâche pas Yoruichi.",
@@ -73,18 +240,74 @@
       "Mais **ParziRahl** porte le premier kill de la manche `4` fois sur `9` — personne d'autre n'en a plus de deux — et il a tué Yoruichi **`27` fois sur les `75` morts de celui-ci**, soit `36 %`."
      ],
      "tableau": {
-      "entetes": ["Joueur", "Kills", "Morts", "K/D", "Son bourreau"],
-      "lignes": [
-       ["FXCxParziRahl", "90", "53", "1,70", "—"],
-       ["FXCxNoxis", "89", "68", "1,31", "—"],
-       ["FXCxValtor", "69", "57", "1,21", "—"],
-       ["FXCxMimog", "79", "74", "1,07", "—"],
-       ["G4xLizo", "68", "80", "0,85", "ParziRahl 28 %"],
-       ["BVSxTchernobyl", "61", "82", "0,74", "Mimog 34 %"],
-       ["BVSxCROM", "60", "83", "0,72", "Valtor 26 %"],
-       ["G4xYoruichi", "56", "89", "0,63", "ParziRahl 36 %"]
+      "entetes": [
+       "Joueur",
+       "Kills",
+       "Morts",
+       "K/D",
+       "Son bourreau"
       ],
-      "fort": [7],
+      "lignes": [
+       [
+        "FXCxParziRahl",
+        "90",
+        "53",
+        "1,70",
+        "—"
+       ],
+       [
+        "FXCxNoxis",
+        "89",
+        "68",
+        "1,31",
+        "—"
+       ],
+       [
+        "FXCxValtor",
+        "69",
+        "57",
+        "1,21",
+        "—"
+       ],
+       [
+        "FXCxMimog",
+        "79",
+        "74",
+        "1,07",
+        "—"
+       ],
+       [
+        "G4xLizo",
+        "68",
+        "80",
+        "0,85",
+        "ParziRahl 28 %"
+       ],
+       [
+        "BVSxTchernobyl",
+        "61",
+        "82",
+        "0,74",
+        "Mimog 34 %"
+       ],
+       [
+        "BVSxCROM",
+        "60",
+        "83",
+        "0,72",
+        "Valtor 26 %"
+       ],
+       [
+        "G4xYoruichi",
+        "56",
+        "89",
+        "0,63",
+        "ParziRahl 36 %"
+       ]
+      ],
+      "fort": [
+       7
+      ],
       "legende": "Kills et morts lus sur les neuf tableaux de fin — la seule source que le jeu écrit lui-même. Le « bourreau » vient de l'attribution des tueurs par le bandeau."
      }
     },
@@ -95,16 +318,60 @@
       "Le contraste porte sur deux armes. **L'ATLAS fait `23 %` de leurs kills et `7 %` des vôtres** ; le SPECTRE fait `38 %` des vôtres et `17 %` des leurs. Le MP-52 est chez eux et quasiment absent chez vous ; le WARDEN est chez vous et quasiment absent chez eux."
      ],
      "tableau": {
-      "entetes": ["Arme", "FXC", "part", "BVS + G4", "part"],
-      "lignes": [
-       ["SPECTRE", "43", "17 %", "65", "38 %"],
-       ["ATLAS", "59", "23 %", "12", "7 %"],
-       ["STRIKER", "60", "23 %", "36", "21 %"],
-       ["MP-52", "27", "10 %", "4", "2 %"],
-       ["WARDEN", "8", "3 %", "20", "12 %"],
-       ["GRENADE", "20", "8 %", "15", "9 %"]
+      "entetes": [
+       "Arme",
+       "FXC",
+       "part",
+       "BVS + G4",
+       "part"
       ],
-      "fort": [1],
+      "lignes": [
+       [
+        "SPECTRE",
+        "43",
+        "17 %",
+        "65",
+        "38 %"
+       ],
+       [
+        "ATLAS",
+        "59",
+        "23 %",
+        "12",
+        "7 %"
+       ],
+       [
+        "STRIKER",
+        "60",
+        "23 %",
+        "36",
+        "21 %"
+       ],
+       [
+        "MP-52",
+        "27",
+        "10 %",
+        "4",
+        "2 %"
+       ],
+       [
+        "WARDEN",
+        "8",
+        "3 %",
+        "20",
+        "12 %"
+       ],
+       [
+        "GRENADE",
+        "20",
+        "8 %",
+        "15",
+        "9 %"
+       ]
+      ],
+      "fort": [
+       1
+      ],
       "legende": "Icônes d'armes nommées par calque contre les séances déjà nommées, 7 sur 8 ; l'icône restante n'a pas de nom et n'est pas comptée ici. Ces noms sont une déduction, pas un relevé."
      },
      "suite": [
@@ -116,6 +383,10 @@
     {
      "titre": "Le juge est une lecture d'écran, pas un relevé du site",
      "corps": "Thibaud n'a pas joué cette séance : il n'y a aucun accès au tableau EVA. Les neuf tableaux de fin ont été **lus à l'œil sur la vidéo**. Ils se contrôlent mutuellement — kills d'un camp contre morts de l'autre, écart maximal 2 sur 18 colonnes, huit colonnes exactement justes — mais cela valide des totaux par camp, pas l'affectation ligne à ligne."
+    },
+    {
+     "titre": "Les têtes de vague sont dix, pas cent",
+     "corps": "Le `70 %` porte sur `10` sorties du corpus, et `25` pour les vraiment seules. C'est une **piste solide, pas une preuve** : le sens tient à plusieurs seuils, l'ampleur non. Et le seuil de deux secondes n'a pas été lu dans la donnée — on a cherché le creux entre deux paquets, il n'y en a pas, parce que la détection des trajets perd les franchissements rapprochés."
     },
     {
      "titre": "Le biais des sorties seules joue contre cette lecture",
