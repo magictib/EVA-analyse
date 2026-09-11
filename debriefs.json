@@ -365,6 +365,50 @@
      "verdict": "Ce n'est pas que sortir seul soit mauvais en soi. C'est que contre cette équipe-là, ça n'a jamais rien rapporté."
     },
     {
+     "titre": "La consigne qui en sort : quelqu'un, ou personne",
+     "mesure": "235 sorties qui finissent par une mort · vengeance à 5 s",
+     "paras": [
+      "Thibaud, le 11/09 : « il faut sortir au moins à 2 pour avoir un revenge, ou avoir déjà un autre coéquipier en vie en jeu ». La mesure lui donne raison, et elle précise où est la marche."
+     ],
+     "tableau": {
+      "entetes": [
+       "État à la sortie",
+       "Sorties finissant par sa mort",
+       "Vengées",
+       "Taux"
+      ],
+      "lignes": [
+       [
+        "vraiment seul — personne en vie",
+        "14",
+        "0",
+        "0 %"
+       ],
+       [
+        "à deux — un coéquipier revient dans les 2 s",
+        "10",
+        "1",
+        "10 %"
+       ],
+       [
+        "accompagné — un coéquipier déjà en jeu",
+        "211",
+        "22",
+        "10 – 12 %"
+       ]
+      ],
+      "fort": [
+       0
+      ],
+      "legende": "Les deux jeux de données réunis : la séance FXC et les 43 parties du corpus. Vengé = un coéquipier, autre que la victime, tue le tueur dans les cinq secondes."
+     },
+     "suite": [
+      "**Le zéro n'est pas une surprise statistique, c'est une contrainte physique.** Pour venger en cinq secondes il faut être vivant et sur place ; avec une réapparition à `17 s`, un coéquipier mort ne peut pas y arriver. `0` sur `14` ne serait pas décisif à lui seul — on en attendrait `1,4` au hasard — mais le mécanisme, lui, ne laisse pas de place.",
+      "Et la marche est **binaire**. Être deux ne vaut pas mieux qu'être accompagné : `10 %` contre `10 à 12 %`. Ce qui compte n'est pas le nombre, c'est qu'il y ait **quelqu'un** — déjà en jeu, ou qui arrive dans les deux secondes."
+     ],
+     "verdict": "Une mort sur dix est vengée quand quelqu'un est là. Aucune ne l'est quand personne ne l'est."
+    },
+    {
      "titre": "ParziRahl ouvre, et il ne lâche pas Yoruichi.",
      "mesure": "439 frags attribués · 92,5 % d'accord avec les tableaux de fin",
      "paras": [
