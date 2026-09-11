@@ -780,6 +780,9 @@
     border-color:var(--signal);color:#0B0F14;font-weight:700}
   .anaportee-note{flex:1 1 260px;min-width:240px;color:var(--warn,#E9A23B);
     margin:0;font-size:12px;line-height:1.35}
+  /* Une couverture faible se voit AVANT les trajets, pas apres : c'est elle qui
+     decide de ce qu'on a le droit de lire sur la carte. */
+  .mcouv-faible{color:var(--warn,#E9A23B)}
   .mlink{background:none;border:0;padding:0;color:var(--signal);cursor:pointer;
     font-family:var(--ui);font-size:inherit;text-decoration:underline}
   .mcard-top{position:relative;height:84px;background:#0B0F14 center/contain no-repeat;
@@ -6506,6 +6509,54 @@ function drawAnaBrut(){
       portera.</p></div>`;
   };
 
+  /* ---------- CE QUE LA CARTE A REELLEMENT VU ----------
+
+     La carte des trajets etait RETIREE de la page, et le motif etait juste : « la
+     detection perd des joueurs sur les premieres secondes, une ouverture incomplete
+     se lit comme une ouverture ratee ». Un joueur qu'on n'a pas suivi et un joueur
+     qui n'est pas sorti dessinent la meme chose — rien.
+
+     LE REMEDE N'EST PAS DE LA CACHER, C'EST DE LUI FAIRE DIRE CE QU'ELLE A VU. On
+     mesure donc, pour chaque joueur, la part des secondes de la fenetre d'ouverture
+     ou une position est connue. Une carte qui annonce « 8 joueurs suivis 82 % du
+     temps » se lit comme une ouverture ; une qui annonce « 41 % » se lit comme une
+     lecture trouee, et plus personne ne conclut a une ouverture ratee.
+
+     ON COMPTE DES SECONDES DISTINCTES, pas des points : `combler_trajets` en pose
+     plusieurs par seconde sur les tronçons rapieces, et compter les points ferait
+     passer un trajet dense mais court pour une couverture complete. */
+  const couvertureOuverture = (a, secondes) => {
+    /* L'ORIGINE EST `sp.debut`, PAS `sp.partie_debut`. Le second vaut 1 sur les
+       analyses mesurees — c'est le premier instant du decompte, pas la premiere
+       image ou l'on voit quelqu'un. Le prendre pour origine fait regarder AVANT le
+       match : la premiere version de cette mesure annoncait « 0 joueur sur 8 » sur
+       une analyse qui porte 288 trajets et 18 752 points. C'est aussi l'origine
+       qu'emploie le dessin de la carte, et les deux doivent parler de la MEME
+       fenetre — sinon la mention decrit autre chose que ce qu'on voit. */
+    const sp = a.spatial || {}, ps = sp.par_seconde || 5;
+    const d0 = sp.debut, d1 = d0 + secondes * ps;
+    if (d0 == null) return null;
+    const par = new Map();
+    for (const t of (sp.trajets || [])) {
+      if (t.slot == null) continue;
+      let s = par.get(t.slot); if (!s) { s = new Set(); par.set(t.slot, s); }
+      for (const q of (t.points || []))
+        if (q[0] >= d0 && q[0] <= d1) s.add(Math.floor((q[0] - d0) / ps));
+    }
+    for (const [im, slot] of (sp.pov || []).map(x => [x[0], x[1]]))
+      if (im >= d0 && im <= d1 && slot != null) {
+        let s = par.get(slot); if (!s) { s = new Set(); par.set(slot, s); }
+        s.add(Math.floor((im - d0) / ps));
+      }
+    const slots = (a.partie || {}).slots || [...par.keys()];
+    const parts = slots.map(s => (par.get(s) ? par.get(s).size : 0) / secondes);
+    if (!parts.length) return null;
+    const moy = parts.reduce((x, y) => x + y, 0) / parts.length;
+    const pire = Math.min(...parts);
+    return { moy, pire, suivis: parts.filter(p => p > 0.25).length, n: parts.length,
+             secondes };
+  };
+
   const spatiales = lot.filter(a => a.spatial && a.spatial.fond
                                  && Array.isArray(a.spatial.trajets));
   let carte = "";
@@ -6539,6 +6590,18 @@ function drawAnaBrut(){
         </div>
         <canvas class="ccCv" data-i="${i}" width="${sp.largeur}" height="${sp.hauteur}"></canvas>
         <div class="mcleg" data-i="${i}"></div>
+        ${(()=>{ const c=couvertureOuverture(a,30); if(!c) return "";
+          const p=n=>Math.round(n*100);
+          /* LE SEUIL EST DIT, PAS CACHE. Sous deux tiers de couverture moyenne, on
+             ne lit plus une ouverture mais ce qu'on a pu en voir : le ton change. */
+          const faible = c.moy < 0.66;
+          return `<p class="note${faible?" mcouv-faible":""}">
+            <b>Ce que la carte a vu</b> : ${c.suivis} joueur${c.suivis>1?"s":""} sur
+            ${c.n} suivi${c.suivis>1?"s":""} pendant les ${c.secondes} premières
+            secondes, ${p(c.moy)} % du temps en moyenne, ${p(c.pire)} % pour le moins
+            bien suivi.${faible?` <b>Sous les deux tiers, un trajet absent ne veut pas
+            dire qu'un joueur n'est pas sorti</b> — il veut dire qu'on ne l'a pas vu.`
+            :""}</p>`; })()}
         ${blocStrat(a)}
       </div>`;
     }).join("");
@@ -6955,11 +7018,17 @@ function drawAnaBrut(){
     + bloc("Revue", "Une partie, déroulée dans l'ordre où elle s'est jouée.", revue)
     + bloc("Équipe", "Ce que la partie a donné, de notre côté seulement.",
            global + score + progres + parQuoi + revanche + balay)
-    /* La carte des trajets est retiree tant que la detection perd des joueurs
-       sur les premieres secondes : une ouverture incomplete se lit comme une
-       ouverture ratee. Le calcul reste, il suffira de remettre `+ carte`. */
+    /* LA CARTE DES TRAJETS EST REMISE, et la raison de son retrait est traitee, pas
+       ignoree. Elle disait : « la detection perd des joueurs sur les premieres
+       secondes, une ouverture incomplete se lit comme une ouverture ratee ». C'est
+       exact, et c'etait une vraie raison de la cacher tant qu'elle se taisait.
+
+       Elle ne se tait plus : chaque carte annonce desormais COMBIEN de joueurs elle
+       a suivis sur les trente premieres secondes, et quelle part du temps. Sous les
+       deux tiers, elle dit elle-meme qu'un trajet absent ne prouve rien. Le lecteur
+       n'a plus a deviner si le vide est une decision ou un trou de lecture. */
     + bloc("Terrain", "Qui tient la carte, pourquoi on la lâche, et comment on en sort.",
-           terrain + moitie + controle + reprise + debut)
+           terrain + moitie + carte + controle + reprise + debut)
     + bloc("Joueurs", "Le détail individuel, à lire avec le rôle de chacun.",
            fiches + joueurs)
     /* « Duels » etait un abus de langage, et il valait mieux le dire que le
@@ -7042,8 +7111,22 @@ function drawAnaBrut(){
       const fen=+el.querySelector(`.ccFen[data-i="${i}"]`).value;
       const eq=el.querySelector(`.ccEq[data-i="${i}"]`).value;
       const qui=el.querySelector(`.ccQui[data-i="${i}"]`).value;
-      /* Une image par seconde : la fenetre en secondes est un nombre d'images. */
-      const fin=fen?(sp.debut+fen):Infinity;
+      /* LA FENETRE EST EN SECONDES, LES POINTS SONT EN IMAGES — et il y en a CINQ
+         par seconde, pas une. « Une image par seconde » etait vrai quand les trajets
+         etaient sous-echantillonnes ; il ne l'est plus, et le commentaire a survecu
+         au changement. Mesure du 11/09 sur les 52 analyses en ligne, corpus compris :
+         le pas median entre deux points consecutifs vaut 1 image, et `par_seconde`
+         vaut 5,0 partout.
+
+         CE QUE LE DEFAUT COUTAIT, et il explique sans doute le retrait de la carte :
+         « ouverture · 30 s » dessinait 30 IMAGES, soit SIX secondes ; « sortie de
+         spawn · 20 s » en dessinait QUATRE. Une ouverture reduite a son premier
+         sixieme parait forcement trouee, et l'on en concluait que la detection
+         perdait des joueurs.
+
+         On lit donc la cadence DECLAREE par l'analyse plutot que de la supposer. */
+      const psFen = sp.par_seconde || 1;
+      const fin=fen?(sp.debut+fen*psFen):Infinity;
 
       /* Les spawns d'abord, sous les trajets : ils servent de repere, pas de
          donnee a lire. */
