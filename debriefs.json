@@ -295,62 +295,72 @@
     },
     {
      "titre": "Le clutch existe — mais il n'est pas arrivé une seule fois ce soir-là",
-     "mesure": "11 sorties vraiment seules contre FXC · 25 sur le corpus",
+     "mesure": "11 sorties vraiment seules contre FXC · 25 sur le corpus · vengeance à 5 s",
      "paras": [],
      "tableau": {
       "entetes": [
        "Issue d'une sortie vraiment seule",
        "Contre FXC (11)",
-       "Corpus (25)"
+       "Corpus (25)",
+       "Accompagné, corpus (500)"
       ],
       "lignes": [
        [
         "perdu sec — meurt sans tuer, personne ne le venge",
-        "45 %",
-        "20 %"
+        "55 %",
+        "24 %",
+        "23 %"
        ],
        [
-        "perdu vengé — meurt, mais son tueur tombe en 20 s",
-        "9 %",
-        "4 %"
+        "perdu vengé — son tueur tombe dans les 5 s",
+        "0 %",
+        "0 %",
+        "2 %"
        ],
        [
         "troqué — il tue au moins un adversaire, et meurt",
         "0 %",
-        "8 %"
+        "8 %",
+        "7 %"
        ],
        [
         "tenu — survit les 15 s sans tuer",
         "45 %",
-        "40 %"
+        "40 %",
+        "48 %"
        ],
        [
         "rentable — survit ET tue (le clutch)",
         "0 %",
-        "28 %"
+        "28 %",
+        "20 %"
        ],
        [
         "laisse l'équipe en infériorité après sa mort",
         "55 %",
-        "28 %"
+        "28 %",
+        "22 %"
        ],
        [
         "aboutit à une prise de point",
         "9 %",
-        "8 %"
+        "8 %",
+        "9 %"
        ]
       ],
       "fort": [
        0,
+       1,
        4,
        5
       ],
-      "legende": "« Vengé » suit la définition du site : un coéquipier — un autre que la victime — tue le tueur dans les 20 s. « Laisse en infériorité » se lit sur l'effectif une seconde après sa mort, et non sur la supposition qu'il était seul. La prise de point applique la règle du 04/08 : le point bascule de notre côté pendant qu'il est dessus."
+      "legende": "« Vengé » suit la définition de Thibaud, corrigée le 11/09 : un coéquipier — un autre que la victime — tue le tueur dans les CINQ secondes. Le site en disait vingt, alors que les analyses portaient déjà 5,0 ; l'écran avait tort. « Laisse en infériorité » se lit sur l'effectif une seconde après sa mort. La prise de point applique la règle du 04/08 : le point bascule de notre côté pendant qu'il est dessus."
      },
      "suite": [
+      "**« Meurt sans revenge » n'est pas une tendance, c'est une conséquence.** Zéro sortie vraiment seule a été vengée — zéro sur onze contre FXC, zéro sur vingt-cinq sur le corpus. C'est structurel : personne n'est vivant, donc personne ne peut arriver en cinq secondes. Sortir vraiment seul, c'est accepter de mourir sans revanche.",
       "Le clutch que tu décris — sortir seul, tuer, prendre le point — **existe** : sur les 43 parties, `28 %` des sorties vraiment seules finissent avec le joueur vivant et au moins un kill, et LiX y arrive `4` fois sur `7`. **Contre FXC, jamais : zéro sur onze.**",
-      "Et le prix double. Une sortie vraiment seule laisse l'équipe en infériorité `55 %` du temps contre FXC, `28 %` sur le corpus. Elle finit « perdu sec » — mort, sans avoir tué, sans être vengé — `45 %` du temps contre `20 %`.",
-      "Les têtes de vague, elles, ne produisent rien nulle part : `1` sortie rentable sur les `15` relevées, corpus et séance confondus, et la moitié laisse l'équipe en infériorité."
+      "Et le prix double. Une sortie vraiment seule laisse l'équipe en infériorité `55 %` du temps contre FXC, `28 %` sur le corpus, `22 %` quand on sort accompagné. Elle finit « perdu sec » `55 %` du temps contre `23 %` accompagné.",
+      "Les têtes de vague ne produisent rien nulle part : `1` sortie rentable sur les `15` relevées, corpus et séance confondus, et la moitié laisse l'équipe en infériorité."
      ],
      "verdict": "Ce n'est pas que sortir seul soit mauvais en soi. C'est que contre cette équipe-là, ça n'a jamais rien rapporté."
     },
@@ -509,6 +519,10 @@
     {
      "titre": "Les têtes de vague sont dix, pas cent",
      "corps": "Le `70 %` porte sur `10` sorties du corpus, et `25` pour les vraiment seules. C'est une **piste solide, pas une preuve** : le sens tient à plusieurs seuils, l'ampleur non. Et le seuil de deux secondes n'a pas été lu dans la donnée — on a cherché le creux entre deux paquets, il n'y en a pas, parce que la détection des trajets perd les franchissements rapprochés."
+    },
+    {
+     "titre": "La fenêtre de revanche a changé le 11/09, et elle change des chiffres publiés",
+     "corps": "« Vengé » se mesurait à vingt secondes sur le site, à cinq dans les analyses. Thibaud a tranché pour **cinq**, et le site est corrigé. Le taux de revanche de l'équipe passe donc de `37 %` à `16 %` sur les 43 parties, et de `25 %` à `8 %` sur cette séance. Ce n'est pas une dégradation : c'est le même fait, mesuré avec la bonne règle. Venger à vingt secondes n'est pas venger, c'est tuer plus tard quelqu'un qui avait tué un coéquipier."
     },
     {
      "titre": "Le biais des sorties seules joue contre cette lecture",

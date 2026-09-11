@@ -5385,9 +5385,24 @@ function echanges(lot){
 }
 
 /* Revenge : le tueur d'un des notres tombe-t-il par la main d'un des notres ?
-   Fenetre de 20 s, et on ne compte que les morts dont le tueur est connu — sinon
-   on ferait passer une lecture manquante pour une impunite. */
-function revenge(lot, fenetre=20){
+   On ne compte que les morts dont le tueur est CONNU — sinon on ferait passer une
+   lecture manquante pour une impunite.
+
+   LA FENETRE EST DE CINQ SECONDES, ET LE SITE DISAIT VINGT. Thibaud, le 11/09/2026 :
+   « venge c'est dans les 5 s ». Les analyses le portaient d'ailleurs deja —
+   `duels._fenetre_revanche` vaut 5,0 depuis `objectif_duels` — donc la chaine et
+   l'ecran se contredisaient sans que rien ne le signale, et c'est l'ecran qui avait
+   tort.
+
+   CE QUE LA CORRECTION COUTE, mesure sur les analyses en ligne :
+
+       corpus, 43 parties    426/1147 = 37 %   ->   183/1147 = 16 %
+       seance FXC du 10/09    64/ 260 = 25 %   ->    22/ 260 =  8 %
+
+   Ce n'est pas une degradation : c'est le meme fait, mesure avec la bonne regle.
+   Venger a vingt secondes n'est pas venger — c'est tuer plus tard quelqu'un qui
+   avait tue un coequipier. */
+function revenge(lot, fenetre=5){
   let vengees=0, exam=0;
   const impunis=new Map();
   for(const a of lot){
@@ -6498,7 +6513,7 @@ function drawAnaBrut(){
          morts, c'est y gagner ; l'inverse, c'est y perdre.<br>
          <b>Morts seul chez eux</b> — mourir dans la moitié adverse sans qu'aucun coéquipier
          n'y soit relevé au même instant. <b>Impunies</b> : celles qu'aucun coéquipier n'a
-         vengées dans les vingt secondes. Les deux ensemble décrivent le joueur qui avance
+         vengées dans les cinq secondes. Les deux ensemble décrivent le joueur qui avance
          trop loin sans soutien.
          ${terr.length<lot.length?`<br>Calculé sur ${terr.length} partie${terr.length>1?"s":""} sur ${lot.length}.`:""}</p>`;
   }
