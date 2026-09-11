@@ -767,6 +767,19 @@
   .mcard{border:1px solid var(--rule);background:var(--panel);overflow:hidden}
   .mcard-photo{background-size:cover!important;height:104px!important}
   .mtri{margin:10px 0 6px}
+  /* La bascule de portee : deux onglets au-dessus de l'Analyse. Elle reprend le
+     dessin des onglets de la barre du haut plutot que d'en inventer un autre —
+     c'est la meme idee, elle doit se lire pareil. La note qui l'accompagne est
+     en ton d'alerte : « ces chiffres ne comptent pas » est ce qu'on doit voir
+     avant de lire les chiffres, pas apres. */
+  .anaportee{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0 2px}
+  .anaportee button{background:var(--panel);border:1px solid var(--rule);
+    color:var(--ink);font-family:var(--ui);font-size:13px;padding:6px 12px;
+    cursor:pointer}
+  .anaportee button[aria-selected="true"]{background:var(--signal);
+    border-color:var(--signal);color:#0B0F14;font-weight:700}
+  .anaportee-note{flex:1 1 260px;min-width:240px;color:var(--warn,#E9A23B);
+    margin:0;font-size:12px;line-height:1.35}
   .mlink{background:none;border:0;padding:0;color:var(--signal);cursor:pointer;
     font-family:var(--ui);font-size:inherit;text-decoration:underline}
   .mcard-top{position:relative;height:84px;background:#0B0F14 center/contain no-repeat;
@@ -3853,11 +3866,53 @@ function publieAnalyse(d){
    revenge de 0 % et « pas d'attribution disponible » ne veulent pas dire la meme
    chose, et confondre les deux serait le genre de faux aplomb qu'on evite ici. */
 
-/* Les analyses rattachees aux parties retenues par le tri. */
+/* ---------- LA PORTEE D'UNE ANALYSE : la notre, ou une autre ----------
+
+   Thibaud, le 11/09/2026 : « il faudrait un onglet dans analyse pour avoir les
+   analyses des matchs 100% BVS et un onglet pour analyser n'importe quel autre
+   match et ou les stats n'iront pas dans les stats de nos joueurs ».
+
+   LE BESOIN VIENT D'UN CAS REEL : une seance FXC contre un melange BVS + G4,
+   filmee le 10/09, que Thibaud n'a pas jouee. On veut la lire — par manche et en
+   cumul — sans qu'elle pese d'un gramme sur les moyennes des joueurs.
+
+   LA SEPARATION EXISTAIT DEJA, SANS QU'ON L'AIT VOULUE, et c'est elle qu'on rend
+   explicite plutot que d'en inventer une seconde : `analysesRetenues()` croise les
+   analyses avec `LOT`, donc avec `MATCHS`. Une analyse dont la partie n'est PAS
+   enregistree dans l'onglet Matchs n'entre donc dans aucun agregat — ni les fiches
+   joueurs, ni le terrain, ni les duels. Il suffit de ne jamais enregistrer le match
+   pour que ses chiffres restent dehors.
+
+   MAIS SE FIER A UNE ABSENCE NE SUFFIT PAS. Un match colle par megarde, ou un
+   import futur, remettrait la seance dans le lot sans que rien ne le signale — le
+   genre de fuite que ce projet paie cher. On DECLARE donc la portee dans l'analyse
+   elle-meme, et les deux barrieres tiennent ensemble : pas de ligne dans `matchs`,
+   ET un champ qui dit « celle-ci n'est pas de nous ».
+
+   L'absence de champ vaut « nous » : les 43 analyses publiees n'en portent pas, et
+   rien ne doit changer pour elles. */
+const porteeDe = a => (((a||{}).partie||{}).portee === "autre" ? "autre" : "nous");
+
+/* Les analyses rattachees aux parties retenues par le tri — LES NOTRES SEULES. */
 function analysesRetenues(){
   const cles=new Set(LOT.map(m=>`${m.dt||""} ${m.h||""}`));
-  return ANALYSES.filter(a=>cles.has(cleAna(a)));
+  return ANALYSES.filter(a=>cles.has(cleAna(a)) && porteeDe(a)==="nous");
 }
+
+/* Les autres : celles qu'on regarde sans qu'elles comptent. Elles ne passent PAS
+   par `LOT` — c'est tout l'interet — donc le tri de l'onglet Matchs ne s'y
+   applique pas, et elles ont leur propre selecteur de seance. */
+function analysesAutres(){
+  const t=ANALYSES.filter(a=>porteeDe(a)==="autre");
+  return FSEANCE ? t.filter(a=>seanceDe(a)===FSEANCE) : t;
+}
+
+/* La seance d'une analyse : sa date, qui suffit a distinguer deux soirees. */
+const seanceDe = a => String(((a||{}).partie||{}).dt || "");
+
+let FSEANCE = "";
+let VUEANA = (()=>{ try{ return localStorage.getItem("eva-vue-ana")||"nous"; }
+                    catch(e){ return "nous"; } })();
 
 /* Notre camp se lit sur le TAG des pseudos, pas sur la position des cartes.
    La position paraissait sure — nos quatre cartes etaient les quatre dernieres —
@@ -5898,7 +5953,13 @@ function drawAna(){
 function drawAnaBrut(){
   const el=$("#ana");
   LOT=filtre();                                  /* meme sous-ensemble que Matchs */
-  const lot=analysesRetenues();
+  /* DEUX PORTEES, UN SEUL AFFICHAGE. Tout ce qui suit travaille sur `lot` et rien
+     d'autre : il suffit donc de changer le lot pour que la page entiere parle de
+     l'autre camp. On ne duplique pas six cents lignes de rendu — on change ce
+     qu'elles regardent. */
+  const autres=ANALYSES.filter(a=>porteeDe(a)==="autre");
+  if(!autres.length) VUEANA="nous";              /* pas d'onglet vide */
+  const lot=(VUEANA==="autre") ? analysesAutres() : analysesRetenues();
   const fr=n=>String(n);
 
   const importe=`<details class="mform"><summary>Importer une analyse</summary>
@@ -5924,9 +5985,21 @@ function drawAnaBrut(){
     return;
   }
   if(!lot.length){
-    el.innerHTML=importe+`<p class="lead">${ANALYSES.length} analyse(s) enregistrée(s), mais
+    /* LA BARRE DE PORTEE DOIT SURVIVRE AU LOT VIDE. Sans elle, basculer sur un
+       onglet sans resultat enfermait le lecteur : plus de bouton pour revenir.
+       On la recalcule donc ici plutot que de sortir les mains vides. */
+    const barre = ANALYSES.some(a=>porteeDe(a)==="autre") ? `<div class="anaportee"
+      role="tablist">
+      <button role="tab" data-portee="nous" aria-selected="${VUEANA!=="autre"}"
+        >Nos matchs</button>
+      <button role="tab" data-portee="autre" aria-selected="${VUEANA==="autre"}"
+        >Autres matchs (${ANALYSES.filter(a=>porteeDe(a)==="autre").length})</button>
+      </div>` : "";
+    el.innerHTML=(EDITION?importe:"")+barre+(VUEANA==="autre"
+      ? `<p class="lead">Aucune analyse d'une autre équipe pour cette séance.</p>`
+      : `<p class="lead">${ANALYSES.length} analyse(s) enregistrée(s), mais
       aucune ne correspond au tri en cours ni à une partie enregistrée. Vérifie que la date et
-      l'heure du fichier correspondent bien à une partie de l'onglet Matchs.</p>`;
+      l'heure du fichier correspondent bien à une partie de l'onglet Matchs.</p>`);
     return;
   }
 
@@ -5936,7 +6009,12 @@ function drawAnaBrut(){
   /* Les ecarts au score se lisent sur les PARTIES, pas sur les analyses :
      ils existent des qu'un match est colle, meme sans depouillement video.
      `LOT` est le lot filtre — sans tri, c'est tout l'historique. */
-  const ecarts=ecartsScore(LOT);
+  /* EN PORTEE « AUTRE », `LOT` PARLE DE NOS MATCHS ET NON DE CEUX-CI. Le laisser
+     passer afficherait les ecarts au score de NOTRE saison sous les analyses d'une
+     seance qui n'est pas la notre — un chiffre juste, au mauvais endroit, donc faux.
+     Ces seances n'ont pas de ligne dans `matchs` : il n'y a rien a montrer, et on
+     ne montre rien. */
+  const ecarts=ecartsScore(VUEANA==="autre" ? [] : LOT);
   const emp=emprise(lot);
   const dv=dernierVivant(lot), sout=soutien(lot), cx=creux(lot);
 
@@ -6843,7 +6921,34 @@ function drawAnaBrut(){
        l'attribution des tueurs n'étant faite que sur ${lotAttrib.length} partie(s)
        sur ${lot.length}, ils donneraient une image partielle sans le dire.</p>`;
 
-  el.innerHTML = (EDITION?importe:"") + barreDeTri()
+  /* ---------- LA BARRE DE PORTEE ----------
+     Elle ne s'affiche que s'il y a quelque chose a montrer dans l'autre onglet :
+     un onglet vide est une promesse non tenue. */
+  const barrePortee = autres.length ? `<div class="anaportee" role="tablist">
+      <button role="tab" data-portee="nous" aria-selected="${VUEANA!=="autre"}"
+        >Nos matchs</button>
+      <button role="tab" data-portee="autre" aria-selected="${VUEANA==="autre"}"
+        >Autres matchs (${autres.length})</button>
+      ${VUEANA==="autre" ? `<span class="note anaportee-note">Ces analyses
+        <b>ne comptent dans aucune statistique de nos joueurs</b> : elles n'ont pas
+        de partie enregistrée dans l'onglet Matchs, et leur portée est déclarée
+        « autre ».</span>` : ""}
+    </div>` : "";
+
+  /* LE TRI DE L'ONGLET MATCHS NE S'APPLIQUE PAS AUX AUTRES SEANCES — il filtre
+     `MATCHS`, ou elles ne figurent pas. On leur donne leur propre selecteur, bati
+     sur les analyses elles-memes. */
+  const seancesAutres=[...new Set(autres.map(seanceDe).filter(Boolean))].sort().reverse();
+  const triPortee = (VUEANA==="autre")
+    ? `<div class="mfg mtri"><label>Séance</label><select data-seance>
+         <option value="">toutes (${autres.length})</option>
+         ${seancesAutres.map(s=>`<option value="${s}"${s===FSEANCE?" selected":""}>${
+           String(s).split("-").reverse().join("/")} · ${
+           autres.filter(a=>seanceDe(a)===s).length} manche(s)</option>`).join("")}
+       </select></div>`
+    : barreDeTri();
+
+  el.innerHTML = (EDITION?importe:"") + barrePortee + triPortee
     /* Quatre sujets, dans l'ordre ou l'on s'interroge apres une partie : ce que
        l'equipe a produit, ce qui s'est passe sur le terrain, ce que chacun peut
        corriger, et ce que l'adversaire nous a impose. */
@@ -12172,6 +12277,12 @@ $(".strat").addEventListener("click",e=>{
 $("#mapbar").addEventListener("click",e=>{
   const b=e.target.closest("button[data-act]"); if(b) onTool(b); });
 $("#ana").addEventListener("click",e=>{
+  /* La bascule de portee. Elle se retient d'une visite a l'autre : on revient
+     presque toujours sur ce qu'on regardait, et le contraire est agacant. */
+  const p=e.target.closest("button[data-portee]");
+  if(p){ VUEANA=p.dataset.portee; AREVUE=""; FSEANCE="";
+         try{ localStorage.setItem("eva-vue-ana", VUEANA); }catch(err){}
+         if(typeof drawAna==="function") drawAna(); return; }
   const b=e.target.closest("button[data-act]"); if(b) onTool(b); });
 $("#mat").addEventListener("click",e=>{
   const b=e.target.closest("button[data-act]"); if(b) onTool(b); });
@@ -12185,6 +12296,11 @@ function surTri(e){
      QUE l'Analyse : l'onglet Matchs ne connait pas cette notion. */
   const r=e.target.closest("select[data-rev]");
   if(r){ AREVUE=r.value; if(typeof drawAna==="function") drawAna(); return; }
+  /* Le selecteur de seance des AUTRES analyses. Il ne touche pas au tri partage :
+     ces seances n'ont pas de match enregistre, donc rien a filtrer cote Matchs. */
+  const sc=e.target.closest("select[data-seance]");
+  if(sc){ FSEANCE=sc.value; AREVUE="";
+          if(typeof drawAna==="function") drawAna(); return; }
   const s=e.target.closest("select[data-flt]"); if(!s) return;
   const f=s.dataset.flt;
   if(f==="carte") FCARTE=s.value;
