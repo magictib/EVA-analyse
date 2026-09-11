@@ -600,7 +600,7 @@
     font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
     padding:9px 4px;transition:background .12s,color .12s;
   }
-  .seg button[aria-pressed=true]{background:var(--signal);color:#0B0F14;font-weight:700}
+  .seg button[aria-pressed=true]{background:var(--signal);color:var(--bg);font-weight:700}
   .seg button:focus-visible{outline:2px solid var(--cold);outline-offset:-2px}
 
   section{padding:18px 0 0}
@@ -777,12 +777,65 @@
     color:var(--ink);font-family:var(--ui);font-size:13px;padding:6px 12px;
     cursor:pointer}
   .anaportee button[aria-selected="true"]{background:var(--signal);
-    border-color:var(--signal);color:#0B0F14;font-weight:700}
-  .anaportee-note{flex:1 1 260px;min-width:240px;color:var(--warn,#E9A23B);
+    border-color:var(--signal);color:var(--bg);font-weight:700}
+  .anaportee-note{flex:1 1 260px;min-width:240px;color:var(--signal);
     margin:0;font-size:12px;line-height:1.35}
   /* Une couverture faible se voit AVANT les trajets, pas apres : c'est elle qui
      decide de ce qu'on a le droit de lire sur la carte. */
-  .mcouv-faible{color:var(--warn,#E9A23B)}
+  .mcouv-faible{color:var(--signal)}
+
+  /* ---------- LE DEBRIEF ----------
+     Un texte suivi au milieu de tableaux : il lui faut une LARGEUR DE LECTURE, sans
+     quoi l'œil perd la ligne. Les tableaux, eux, debordent cette colonne — ce sont
+     des pieces a consulter, pas a lire. */
+  .dbf{max-width:none}
+  .dbf > *, .dbfSec > :not(.dbfTw){max-width:68ch}
+  .dbfTitre{font-size:20px; margin:2px 0 8px; line-height:1.2}
+  .dbfChapeau{font-size:16px; color:var(--ink); margin:0 0 18px}
+  .dbfSec{margin:26px 0 0}
+  .dbfSec h5{font-size:17px; margin:0 0 4px; line-height:1.25}
+  .dbfMesure{font-family:var(--ui); font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--ink-faint); margin:0 0 12px}
+  .dbf p{margin:0 0 12px; line-height:1.6}
+  .dbfNum{font-variant-numeric:tabular-nums; font-weight:600; white-space:nowrap}
+  /* Le verdict d'une section : la seule chose qu'on doit retenir si l'on ne lit
+     que les gras. Un filet, pas une carte — ce n'est pas un objet separe. */
+  .dbfVerdict{border-left:3px solid var(--signal); padding-left:14px;
+    font-weight:600; font-size:16px; margin:16px 0}
+  .dbfTw{overflow-x:auto; margin:16px 0 14px}
+  .dbfTw table{border-collapse:collapse; width:100%; min-width:460px}
+  .dbfTw th,.dbfTw td{padding:6px 14px 6px 0; text-align:right;
+    border-bottom:1px solid var(--rule); font-variant-numeric:tabular-nums;
+    white-space:nowrap}
+  .dbfTw .dbfG{text-align:left; white-space:normal}
+  .dbfTw thead th{font-family:var(--ui); font-size:10.5px; letter-spacing:.07em;
+    text-transform:uppercase; color:var(--ink-faint); border-bottom:1px solid var(--ink)}
+  .dbfTw tr.dbfFort td{font-weight:700}
+  .dbfTw caption{caption-side:bottom; text-align:left; font-family:var(--ui);
+    font-size:11.5px; color:var(--ink-faint); padding-top:8px; line-height:1.5;
+    max-width:70ch}
+  /* Le bandeau des neuf manches : une barre par manche, hauteur = pourcentage. */
+  .dbfStrip{display:grid; grid-template-columns:repeat(9,1fr); gap:5px; margin:14px 0 6px;
+    max-width:640px}
+  .dbfStrip figure{margin:0; display:flex; flex-direction:column; gap:5px}
+  .dbfBar{height:92px; background:var(--panel-2); position:relative; overflow:hidden;
+    border-bottom:3px solid var(--signal)}
+  .dbfBar i{position:absolute; left:0; right:0; bottom:0; background:var(--signal);
+    opacity:.55; display:block}
+  .dbfBar b{position:absolute; top:4px; left:0; right:0; text-align:center;
+    font-family:var(--ui); font-size:12px; font-variant-numeric:tabular-nums}
+  .dbfStrip .serre .dbfBar{outline:2px solid var(--signal); outline-offset:-2px}
+  .dbfStrip figcaption{font-family:var(--ui); font-size:10px; text-align:center;
+    color:var(--ink-faint); line-height:1.25}
+  /* Les reserves sont dans le corps du debrief, pas en note de bas de page : elles
+     decident de ce qu'on a le droit de conclure. */
+  .dbfReserves{border-left:3px solid var(--cold); padding:14px 0 2px 16px;
+    margin:26px 0 0}
+  .dbfReserves h5{margin:0 0 10px; font-size:15px; color:var(--cold)}
+  .dbfReserves p{font-size:14.5px; color:var(--ink-dim)}
+  .dbfSocle{font-family:var(--ui); font-size:11.5px; color:var(--ink-faint);
+    border-top:1px solid var(--rule); padding-top:12px; margin-top:24px; line-height:1.65}
+  @media (max-width:700px){ .dbfStrip{grid-template-columns:repeat(3,1fr)} }
   .mlink{background:none;border:0;padding:0;color:var(--signal);cursor:pointer;
     font-family:var(--ui);font-size:inherit;text-decoration:underline}
   .mcard-top{position:relative;height:84px;background:#0B0F14 center/contain no-repeat;
@@ -1002,7 +1055,7 @@
   .shp{display:flex;gap:1px;background:var(--rule);border:1px solid var(--rule)}
   .shp button{background:var(--panel);border:0;color:var(--ink-dim);cursor:pointer;
     font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:6px 10px}
-  .shp button[aria-pressed=true]{background:var(--signal);color:#0B0F14;font-weight:700}
+  .shp button[aria-pressed=true]{background:var(--signal);color:var(--bg);font-weight:700}
   .sw i{width:20px;height:20px;display:block;cursor:pointer;border:2px solid transparent}
   .sw i[data-on=true]{border-color:var(--ink)}
   .spd{margin:10px 0 0}
@@ -1020,7 +1073,7 @@
   .proster{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:12px}
   .proster button{background:var(--panel-2);border:1px solid var(--rule);color:var(--ink-dim);
     cursor:pointer;font-family:var(--mono);font-size:11px;padding:7px 2px}
-  .proster button[aria-pressed=true]{color:#0B0F14;font-weight:700}
+  .proster button[aria-pressed=true]{color:var(--bg);font-weight:700}
   .proster button.o[aria-pressed=true]{background:var(--signal);border-color:var(--signal)}
   .proster button.b[aria-pressed=true]{background:var(--cold);border-color:var(--cold)}
 
@@ -7011,7 +7064,14 @@ function drawAnaBrut(){
        </select></div>`
     : barreDeTri();
 
+  /* LE DEBRIEF PASSE EN PREMIER, et c'est l'ordre qui compte : on ouvre sur ce que
+     la seance veut dire, puis on donne les tableaux qui le soutiennent. L'inverse
+     oblige a lire six blocs avant de savoir ce qu'on cherche. */
+  const debrief = debriefHTML(debriefDuLot(lot));
+
   el.innerHTML = (EDITION?importe:"") + barrePortee + triPortee
+    + (debrief ? bloc("Lecture", "Ce que cette séance dit, et ce qu'elle ne dit pas.",
+                      debrief) : "")
     /* Quatre sujets, dans l'ordre ou l'on s'interroge apres une partie : ce que
        l'equipe a produit, ce qui s'est passe sur le terrain, ce que chacun peut
        corriger, et ce que l'adversaire nous a impose. */
@@ -8475,6 +8535,89 @@ fetch("films.json", {cache: "no-cache"})
     }
   })
   .catch(() => {});
+
+/* ---------- LE DEBRIEF D'UNE SEANCE ----------
+
+   LES BLOCS DE CET ONGLET MESURENT ; ILS NE CONCLUENT PAS. Une seance depouillee
+   sans lecture reste un tas de tableaux justes que personne ne relit. Le debrief
+   est cette lecture — ce que les chiffres veulent dire, et ce qu'ils ne prouvent
+   pas.
+
+   IL VIT EN DONNEE, PAS DANS LE CODE. `debriefs.json` voyage avec la page, comme
+   `films.json` : la prochaine seance aura le sien sans qu'on touche a index.html.
+   Le meme fetch, le meme redessin a l'arrivee, pour la meme raison — l'index
+   arrive apres le premier rendu.
+
+   LE MARQUAGE EST MINUSCULE ET LE HTML EST ECHAPPE. Un fichier de donnees ne doit
+   pas pouvoir injecter du balisage : `echappe` passe d'abord, et seuls **gras** et
+   `chiffre` sont ensuite rendus. Deux regles, pas un moteur de rendu. */
+let DEBRIEFS = null;
+fetch("debriefs.json", {cache: "no-cache"})
+  .then(r => r.ok ? r.json() : null)
+  .then(d => {
+    DEBRIEFS = d;
+    if (d && d.debriefs && Object.keys(d.debriefs).length
+        && typeof drawAna === "function" && document.querySelector("#ana")) {
+      try { drawAna(); } catch (e) {}
+    }
+  })
+  .catch(() => {});
+
+/* Le debrief du lot affiche — et SEULEMENT si le lot ne parle que d'une seance.
+   Deux soirees melangees n'ont pas de lecture commune, et en afficher une serait
+   rapporter a l'une ce qui a ete mesure sur les deux. */
+function debriefDuLot(lot){
+  if (!DEBRIEFS || !DEBRIEFS.debriefs || !lot || !lot.length) return null;
+  const jours = [...new Set(lot.map(a => String((a.partie || {}).dt || "")))];
+  return jours.length === 1 ? (DEBRIEFS.debriefs[jours[0]] || null) : null;
+}
+
+const echappe = s => String(s == null ? "" : s)
+  .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;");
+/* `**gras**` puis `` `chiffre` ``. L'ordre compte : on echappe AVANT, sinon un
+   fichier de donnees pourrait poser du balisage. */
+const marque = s => echappe(s)
+  .replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>")
+  .replace(/`([^`]+)`/g, '<span class="dbfNum">$1</span>');
+
+function debriefHTML(d){
+  if (!d) return "";
+  const para = t => `<p>${marque(t)}</p>`;
+  const tableau = t => !t ? "" : `<div class="dbfTw"><table>
+      <thead><tr>${t.entetes.map((e, i) =>
+        `<th${i ? "" : ' class="dbfG"'}>${echappe(e)}</th>`).join("")}</tr></thead>
+      <tbody>${t.lignes.map((l, k) =>
+        `<tr${(t.fort || []).indexOf(k) >= 0 ? ' class="dbfFort"' : ""}>${
+          l.map((c, i) => `<td${i ? "" : ' class="dbfG"'}>${echappe(c)}</td>`).join("")
+        }</tr>`).join("")}</tbody>
+      ${t.legende ? `<caption>${marque(t.legende)}</caption>` : ""}
+    </table></div>`;
+  const bandeau = !d.bandeau ? "" : `<div class="dbfStrip">${
+      d.bandeau.map(([carte, pct, serre]) => `<figure${serre ? ' class="serre"' : ""}>
+        <div class="dbfBar"><b>${pct}</b><i style="height:${pct}%"></i></div>
+        <figcaption>${echappe(carte)}</figcaption></figure>`).join("")
+    }</div>${d.bandeau_note ? `<p class="note">${marque(d.bandeau_note)}</p>` : ""}`;
+
+  return `<div class="dbf">
+    <h4 class="dbfTitre">${echappe(d.titre || "Lecture de la séance")}</h4>
+    ${d.chapeau ? `<p class="dbfChapeau">${marque(d.chapeau)}</p>` : ""}
+    ${bandeau}
+    ${(d.sections || []).map(s => `<section class="dbfSec">
+      <h5>${echappe(s.titre)}</h5>
+      ${s.mesure ? `<p class="dbfMesure">${echappe(s.mesure)}</p>` : ""}
+      ${(s.paras || []).map(para).join("")}
+      ${s.verdict ? `<p class="dbfVerdict">${marque(s.verdict)}</p>` : ""}
+      ${tableau(s.tableau)}
+      ${(s.suite || []).map(para).join("")}
+    </section>`).join("")}
+    ${(d.reserves || []).length ? `<div class="dbfReserves">
+      <h5>Ce que cette lecture ne prouve pas</h5>
+      ${d.reserves.map(r => `<p><b>${echappe(r.titre)}.</b> ${marque(r.corps)}</p>`).join("")}
+    </div>` : ""}
+    ${d.socle ? `<p class="dbfSocle">${marque(d.socle)}</p>` : ""}
+  </div>`;
+}
 
 function filmDe(a){
   const p = (a && a.partie) || {};
